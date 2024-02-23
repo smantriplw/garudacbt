@@ -1,7 +1,148 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\102\101\123\x45\x50\101\x54\110") or exit("\x4e\x6f\x20\x64\x69\x72\x65\143\164\x20\163\143\x72\x69\160\164\40\x61\x63\x63\145\163\163\40\141\x6c\x6c\157\167\x65\144"); class Guruview extends CI_Controller { public function __construct() { goto nyfzN; GU0Aw: $this->form_validation->set_error_delimiters('', ''); goto eo23C; Zr7Hx: $this->load->model("\115\x61\163\x74\145\x72\137\x6d\x6f\144\x65\154", "\x6d\x61\163\x74\x65\x72"); goto HKOWv; vAZGp: $this->load->library("\165\160\154\157\141\x64"); goto R_0we; R_0we: $this->load->library(["\x64\x61\164\x61\x74\x61\x62\154\x65\x73", "\x66\x6f\x72\x6d\137\166\141\x6c\151\144\141\164\151\157\x6e"]); goto GU0Aw; hgE6U: redirect("\141\x75\x74\x68"); goto KMVoj; eo23C: $this->load->model("\104\x61\x73\150\142\x6f\x61\x72\x64\x5f\x6d\157\x64\145\x6c", "\144\141\163\x68\142\x6f\141\162\144"); goto Zr7Hx; nyfzN: parent::__construct(); goto g921B; g921B: if ($this->ion_auth->logged_in()) { goto tjf0d; } goto hgE6U; KMVoj: tjf0d: goto vAZGp; HKOWv: } public function output_json($data, $encode = true) { goto YpwdK; jSE2T: $data = json_encode($data); goto DhJw6; dvzPg: $this->output->set_content_type("\x61\160\160\154\151\143\x61\x74\x69\157\x6e\x2f\x6a\163\157\156")->set_output($data); goto FEGZt; DhJw6: oJkhq: goto dvzPg; YpwdK: if (!$encode) { goto oJkhq; } goto jSE2T; FEGZt: } public function index() { goto OFRiV; AWHMB: uwpmW: goto psURo; tf3W7: $this->load->view("\155\x65\155\142\145\162\x73\x2f\147\165\162\165\x2f\x70\162\157\x66\x69\154\145"); goto Sgtd2; zEKzo: $user = $this->ion_auth->user()->row(); goto R1PcW; TWj5H: $data["\x69\x6e\160\165\x74\x5f\x70\x72\157\146\151\x6c\145"] = json_decode(json_encode($inputsProfile), FALSE); goto ULyTp; p3Rrd: $inputsProfile = [["\x6c\x61\142\x65\154" => "\x4e\141\x6d\141\x20\114\x65\156\147\x6b\141\160", "\156\141\155\145" => "\156\x61\155\x61\x5f\x67\165\162\x75", "\166\x61\x6c\x75\145" => $guru->nama_guru, "\x69\x63\x6f\x6e" => "\x66\141\x72\40\146\141\x2d\165\x73\x65\162", "\x74\x79\160\x65" => "\164\145\170\x74"], ["\x6c\x61\x62\x65\x6c" => "\x45\155\141\151\x6c", "\156\141\155\145" => "\x65\x6d\141\x69\154", "\166\141\154\165\x65" => $guru->email, "\x69\143\157\156" => "\x66\141\x72\x20\146\x61\55\x65\156\x76\x65\154\x6f\x70\x65", "\x74\x79\160\x65" => "\164\145\x78\164"], ["\x6c\141\142\145\154" => "\x4e\111\x50\40\57\40\116\125\120\124\x4b", "\x6e\141\155\145" => "\x6e\x69\160", "\166\x61\154\165\145" => $guru->nip, "\x69\143\157\x6e" => "\x66\141\x72\40\146\x61\55\x69\144\x2d\x63\141\162\144", "\x74\x79\x70\145" => "\164\x65\170\x74"], ["\154\x61\x62\x65\154" => "\x4a\x65\156\151\163\40\113\145\154\x61\155\151\x6e", "\156\x61\155\145" => "\152\x65\156\x69\x73\x5f\153\145\154\141\155\x69\x6e", "\x76\141\x6c\x75\145" => $guru->jenis_kelamin, "\x69\x63\x6f\x6e" => "\146\141\x73\40\146\x61\55\166\x65\156\165\163\55\155\141\x72\163", "\164\171\x70\145" => "\x74\145\170\164"], ["\x6c\141\142\x65\x6c" => "\x4e\x6f\56\x20\110\141\156\x64\x70\x68\157\156\x65", "\x6e\x61\x6d\x65" => "\x6e\157\137\150\x70", "\x76\x61\154\x75\145" => $guru->no_hp, "\151\143\x6f\156" => "\x66\x61\40\x66\141\x2d\x70\x68\x6f\x6e\x65", "\164\171\160\145" => "\x6e\165\x6d\142\x65\x72"], ["\154\141\142\x65\154" => "\x41\x67\x61\x6d\x61", "\156\141\x6d\x65" => "\141\147\141\x6d\141", "\x76\141\154\165\x65" => $guru->agama, "\151\143\157\156" => "\x66\x61\x72\40\146\141\55\165\163\x65\x72", "\164\x79\160\145" => "\x74\145\x78\164"]]; goto hKLLj; VhFG0: $data["\163\155\x74"] = $this->dashboard->getSemester(); goto P8wiI; oFmSO: if (!($user == null)) { goto uwpmW; } goto c_7wE; Sgtd2: $this->load->view("\155\x65\x6d\142\145\x72\163\x2f\147\x75\162\x75\57\164\x65\x6d\160\x6c\x61\x74\145\163\57\146\157\157\164\145\x72"); goto njd4G; nnUcT: $this->load->view("\155\145\155\x62\x65\162\163\x2f\x67\x75\x72\x75\x2f\164\145\155\160\x6c\x61\164\x65\x73\57\150\145\x61\144\x65\x72", $data); goto tf3W7; ULyTp: $data["\x69\156\160\165\164\x5f\141\x6c\x61\155\141\x74"] = json_decode(json_encode($inputsAlamat), FALSE); goto nnUcT; Mrwcd: $data["\x74\160"] = $this->dashboard->getTahun(); goto p7YkV; p7YkV: $data["\x74\160\x5f\141\x63\164\x69\x76\145"] = $tp; goto VhFG0; OFRiV: $tp = $this->master->getTahunActive(); goto PCCxZ; c_7wE: redirect("\x61\165\164\x68"); goto AWHMB; R1PcW: $guru = $this->dashboard->getDetailGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto oFmSO; P8wiI: $data["\x73\x6d\164\x5f\x61\143\164\x69\166\x65"] = $smt; goto muH2W; psURo: $data = ["\x75\x73\x65\162" => $user, "\x6a\165\144\165\154" => "\120\162\x6f\x66\x69\x6c\x65", "\163\165\x62\152\x75\x64\x75\154" => "\x50\x72\157\x66\151\154\145\x20\123\x61\x79\x61", "\163\x65\x74\x74\151\156\147" => $this->dashboard->getSetting()]; goto Mrwcd; PCCxZ: $smt = $this->master->getSemesterActive(); goto zEKzo; muH2W: $data["\147\x75\x72\165"] = $guru; goto p3Rrd; hKLLj: $inputsAlamat = [["\154\141\x62\x65\154" => "\x4e\111\x4b", "\156\141\x6d\145" => "\x6e\157\x5f\x6b\164\x70", "\166\141\154\165\145" => $guru->no_ktp, "\x69\143\x6f\x6e" => "\x66\141\x72\40\x66\x61\x2d\151\144\x2d\x63\141\162\x64", "\164\171\x70\x65" => "\x6e\165\x6d\142\145\162"], ["\154\141\142\x65\154" => "\x54\145\155\x70\141\x74\x20\114\x61\150\x69\162", "\156\x61\155\x65" => "\x74\145\155\x70\141\164\137\x6c\141\150\x69\162", "\166\141\154\x75\145" => $guru->tempat_lahir, "\151\x63\x6f\x6e" => "\146\141\x20\x66\141\55\155\x61\160\55\x6d\x61\162\153\145\x72", "\164\171\x70\x65" => "\164\x65\x78\x74"], ["\x6c\x61\142\145\x6c" => "\x54\147\x6c\56\40\x4c\x61\150\x69\162", "\x6e\141\155\x65" => "\x74\x67\154\x5f\x6c\x61\150\151\162", "\166\141\x6c\x75\145" => $guru->tgl_lahir, "\x69\143\157\x6e" => "\x66\141\40\146\141\x2d\143\x61\154\x65\x6e\x64\x61\162", "\164\171\x70\145" => "\x74\145\170\x74"], ["\x6c\141\x62\145\x6c" => "\101\154\141\x6d\x61\164", "\156\141\155\145" => "\x61\154\141\155\141\164\x5f\152\141\x6c\x61\156", "\166\141\x6c\x75\x65" => $guru->alamat_jalan, "\x69\x63\157\x6e" => "\146\x61\40\146\141\x2d\x6d\x61\160\x2d\155\141\x72\x6b\x65\162", "\x74\x79\160\x65" => "\x74\x65\170\164"], ["\x6c\141\142\145\x6c" => "\113\145\x63\x61\x6d\141\x74\141\x6e", "\x6e\x61\155\x65" => "\x6b\145\x63\x61\155\x61\164\x61\156", "\166\141\154\165\145" => $guru->kecamatan, "\151\143\x6f\156" => "\x66\141\40\x66\x61\x2d\155\x61\160\x2d\x6d\141\162\x6b\145\162", "\x74\171\x70\x65" => "\164\x65\170\164"], ["\x6c\x61\142\145\154" => "\x4b\157\164\141\57\x4b\x61\142\56", "\156\x61\155\x65" => "\x6b\x61\x62\165\160\141\x74\145\x6e", "\166\x61\154\165\145" => $guru->kabupaten, "\151\x63\157\x6e" => "\146\141\x20\x66\x61\x2d\x6d\141\x70\x2d\x6d\141\x72\x6b\x65\x72", "\x74\x79\160\x65" => "\x74\145\x78\x74"], ["\x6c\141\x62\x65\154" => "\120\162\x6f\166\151\x6e\x73\151", "\156\141\x6d\x65" => "\160\162\157\x76\151\156\x73\x69", "\166\x61\154\x75\145" => $guru->provinsi, "\x69\x63\x6f\156" => "\x66\141\40\x66\141\x2d\x6d\x61\160\55\x6d\x61\162\153\x65\x72", "\164\171\x70\145" => "\x74\145\170\164"], ["\154\x61\x62\x65\x6c" => "\x4b\157\x64\145\40\x50\x6f\163", "\x6e\141\155\x65" => "\153\157\144\145\137\x70\157\x73", "\x76\x61\x6c\x75\145" => $guru->kode_pos, "\x69\143\x6f\x6e" => "\146\141\x20\146\x61\x2d\x65\x6e\166\x65\x6c\x6f\160\145", "\x74\171\160\x65" => "\x6e\x75\155\x62\145\162"]]; goto TWj5H; njd4G: } public function save() { goto lhzfA; PWHvS: if ($action) { goto w5469; } goto WLe7R; SSchh: $agama = $this->input->post("\141\147\141\155\x61", true); goto zdzGX; oDyj3: v4Fsl: goto SDRM4; yioXN: $data = ["\163\164\141\164\x75\x73" => false, "\x65\x72\162\157\x72\163" => ["\x6e\x69\160" => form_error("\156\x69\x70"), "\x6e\x61\x6d\141\x5f\x67\x75\162\165" => form_error("\156\x61\155\141\137\x67\x75\x72\x75")]]; goto OBKfy; y1u4q: $kecamatan = $this->input->post("\x6b\x65\143\141\x6d\141\x74\141\156", true); goto glhO5; OBKfy: $this->output_json($data); goto oDyj3; pZDs3: w5469: goto nzoF3; o0LDi: $dbdata = $this->master->getGuruById($id_guru, $tp->id_tp, $smt->id_smt); goto koUTA; zdzGX: $no_ktp = $this->input->post("\x6e\x6f\x5f\x6b\164\x70", true); goto jGI1o; sc2or: goto v4Fsl; goto ShV4R; WLe7R: $this->output_json(["\x73\x74\x61\164\x75\163" => false]); goto p0kML; ShV4R: KOTdb: goto yioXN; vv1a0: $nip = $this->input->post("\156\151\160", true); goto FHmVd; glhO5: $kabupaten = $this->input->post("\x6b\x61\142\165\160\141\x74\145\x6e", true); goto LXr6M; q7U1W: MYPAN: goto sc2or; nzoF3: $this->output_json(["\163\164\x61\x74\165\x73" => true]); goto q7U1W; jGI1o: $tempat_lahir = $this->input->post("\x74\145\x6d\x70\x61\164\137\x6c\x61\150\151\162", true); goto IB3EQ; PniUQ: $kode_pos = $this->input->post("\x6b\x6f\144\145\137\x70\x6f\163", true); goto qMFSU; LXr6M: $provinsi = $this->input->post("\x70\x72\157\x76\151\x6e\163\151", true); goto PniUQ; p0kML: goto MYPAN; goto pZDs3; Hfw3u: if ($this->form_validation->run() == FALSE) { goto KOTdb; } goto iNT3N; bb1wF: $no_hp = $this->input->post("\156\157\137\150\x70", true); goto SSchh; j7vpV: $this->form_validation->set_rules("\156\141\x6d\x61\x5f\147\x75\162\165", "\x4e\141\x6d\141\40\107\x75\162\x75", "\x72\x65\161\165\x69\x72\x65\144\x7c\164\x72\x69\x6d\x7c\155\151\x6e\x5f\x6c\145\x6e\x67\164\150\133\x31\135\174\x6d\x61\170\x5f\154\145\x6e\147\x74\150\133\x35\60\x5d"); goto Hfw3u; ix7bg: $smt = $this->master->getSemesterActive(); goto o0LDi; b4RJf: $this->form_validation->set_rules("\156\x69\x70", "\x4e\x49\120", "\162\x65\x71\165\151\162\145\x64\174\x74\x72\151\155\x7c\155\x69\x6e\137\x6c\x65\x6e\147\x74\x68\x5b\70\135\x7c\155\141\x78\x5f\x6c\x65\156\x67\164\x68\133\63\x30\135" . $u_nip); goto j7vpV; IB3EQ: $tgl_lahir = $this->input->post("\164\147\x6c\137\x6c\141\x68\151\x72", true); goto oe8u1; iNT3N: $input = ["\x6e\151\160" => $nip, "\x6e\x61\x6d\x61\137\147\165\162\x75" => $nama_guru, "\145\x6d\141\151\154" => $email, "\152\145\x6e\151\x73\137\153\145\x6c\x61\155\151\156" => $jenis_kelamin, "\x6e\x6f\x5f\x68\160" => $no_hp, "\x61\147\x61\x6d\x61" => $agama, "\156\157\137\153\x74\160" => $no_ktp, "\x74\145\x6d\160\x61\x74\137\x6c\141\150\151\x72" => $tempat_lahir, "\164\147\154\137\x6c\141\x68\x69\x72" => $this->strContains($tgl_lahir, "\x30\60\x30\60\55") ? null : $tgl_lahir, "\x61\x6c\x61\x6d\x61\x74\137\152\x61\154\x61\156" => $alamat_jalan, "\x6b\x65\143\x61\155\x61\x74\x61\156" => $kecamatan, "\153\x61\x62\x75\160\x61\164\x65\156" => $kabupaten, "\160\x72\x6f\x76\151\x6e\163\151" => $provinsi, "\x6b\x6f\144\145\x5f\160\x6f\163" => $kode_pos]; goto HngQU; lhzfA: $id_guru = $this->input->post("\x69\x64\x5f\147\x75\x72\x75", true); goto vv1a0; HngQU: $action = $this->master->update("\155\141\163\164\x65\x72\x5f\147\x75\162\165", $input, "\151\144\x5f\x67\x75\x72\165", $id_guru); goto PWHvS; FHmVd: $nama_guru = $this->input->post("\156\x61\x6d\x61\137\x67\x75\x72\165", true); goto MH5x5; AeI5Y: $jenis_kelamin = $this->input->post("\152\x65\156\151\x73\x5f\x6b\x65\154\x61\155\x69\156", true); goto bb1wF; MH5x5: $email = $this->input->post("\x65\x6d\141\151\154", true); goto AeI5Y; oe8u1: $alamat_jalan = $this->input->post("\x61\x6c\x61\155\141\164\137\152\141\x6c\x61\156", true); goto y1u4q; qMFSU: $tp = $this->master->getTahunActive(); goto ix7bg; koUTA: $u_nip = $dbdata->nip === $nip ? '' : "\174\151\x73\x5f\x75\156\151\161\165\x65\133\155\141\163\164\x65\x72\137\x67\165\162\x75\56\x6e\151\160\x5d"; goto b4RJf; SDRM4: } function strContains($string, $val) { return strpos($string, $val) !== false; } function uploadFile($id_guru) { goto tVfIZ; wvIu_: wshOy: goto r6RNF; ThWRl: if (isset($_FILES["\146\157\x74\x6f"]["\156\141\155\x65"])) { goto Ylbw1; } goto zcIYk; zcIYk: $data["\x73\x72\143"] = ''; goto IRjdB; jcZb2: $this->upload->initialize($config); goto hfO_L; dqd7X: PxFJP: goto JeJyT; a6CgQ: $config["\x66\x69\x6c\x65\137\x6e\x61\x6d\x65"] = $guru->nip; goto jcZb2; JeJyT: $this->output_json($data); goto LxFO0; Hkm6X: $this->db->set("\x66\x6f\164\x6f", "\165\160\154\x6f\x61\144\163\x2f\160\162\157\x66\151\x6c\145\163\x2f" . $result["\x66\151\154\145\137\x6e\x61\155\145"]); goto kx1nm; eG2UK: $data["\x73\x74\141\x74\x75\163"] = false; goto N2CoO; QEUhX: $data["\146\151\154\x65\156\x61\155\x65"] = pathinfo($result["\146\151\154\145\137\156\x61\x6d\x65"], PATHINFO_FILENAME); goto D7BqA; OJDYz: $config["\x75\x70\x6c\x6f\141\x64\137\x70\141\x74\x68"] = "\56\57\165\x70\154\157\x61\144\x73\57\x70\x72\157\146\x69\154\x65\163\57"; goto n_6aE; Q3r8b: yPIav: goto eG2UK; j93T3: Ylbw1: goto OJDYz; D7BqA: $data["\x73\x74\x61\164\x75\163"] = true; goto Hkm6X; HkpIJ: $data["\163\x72\143"] = base_url() . "\x75\x70\154\x6f\141\x64\163\57\x70\x72\x6f\x66\x69\x6c\x65\x73\x2f" . $result["\146\151\x6c\145\x5f\x6e\141\x6d\145"]; goto QEUhX; NS5Et: $config["\x6f\166\x65\x72\x77\162\151\x74\145"] = true; goto a6CgQ; kx1nm: $this->db->where("\x69\x64\x5f\x67\165\x72\x75", $id_guru); goto xf3kr; r6RNF: $data["\x74\171\x70\145"] = $_FILES["\x66\x6f\x74\157"]["\x74\171\x70\145"]; goto ZIIp9; hfO_L: if (!$this->upload->do_upload("\x66\157\x74\157")) { goto yPIav; } goto Q4CWu; tVfIZ: $guru = $this->master->getGuruById($id_guru); goto ThWRl; n_6aE: $config["\141\x6c\154\x6f\167\145\x64\137\164\171\x70\x65\x73"] = "\147\151\146\x7c\x6a\x70\x67\174\x70\156\x67\x7c\x6a\x70\x65\147\x7c\x4a\120\x45\x47\x7c\112\x50\x47\174\120\x4e\107\174\107\x49\106"; goto NS5Et; IRjdB: goto PxFJP; goto j93T3; xf3kr: $this->db->update("\x6d\141\x73\x74\x65\162\x5f\x67\165\162\165"); goto pLdkN; ZIIp9: $data["\163\151\x7a\145"] = $_FILES["\x66\x6f\164\x6f"]["\x73\151\x7a\145"]; goto dqd7X; Q4CWu: $result = $this->upload->data(); goto HkpIJ; pLdkN: goto wshOy; goto Q3r8b; N2CoO: $data["\x73\162\x63"] = $this->upload->display_errors(); goto wvIu_; LxFO0: } function deleteFile($id_guru) { goto BsE80; YN4mf: F_DBM: goto xiWJA; j6B5F: echo "\x46\x69\154\145\40\x44\145\x6c\x65\164\x65\40\123\165\x63\143\145\x73\163\x66\165\154\x6c\x79"; goto EmwiE; gANja: $file_name = str_replace(base_url(), '', $src); goto U3joG; quu5J: $this->db->set("\x66\157\164\157", ''); goto f95Kh; EmwiE: Zoyt5: goto YN4mf; f95Kh: $this->db->where("\x69\144\x5f\147\165\x72\165", $id_guru); goto Jldm6; Jldm6: $this->db->update("\155\x61\x73\x74\145\x72\x5f\x67\x75\x72\165"); goto j6B5F; aurzI: if (!unlink($file_name)) { goto Zoyt5; } goto quu5J; U3joG: if (!($file_name != "\165\x73\x65\162\56\152\x70\147")) { goto F_DBM; } goto aurzI; BsE80: $src = $this->input->get("\x73\x72\x63"); goto gANja; xiWJA: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Guruview extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->ion_auth->logged_in()) {
+            goto tjf0d;
+        }
+        redirect("auth");
+        tjf0d:
+        $this->load->library("upload");
+        $this->load->library(["datatables", "form_validation"]);
+        $this->form_validation->set_error_delimiters('', '');
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Master_model", "master");
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto oJkhq;
+        }
+        $data = json_encode($data);
+        oJkhq:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $user = $this->ion_auth->user()->row();
+        $guru = $this->dashboard->getDetailGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        if (!($user == null)) {
+            goto uwpmW;
+        }
+        redirect("auth");
+        uwpmW:
+        $data = ["user" => $user, "judul" => "Profile", "subjudul" => "Profile Saya", "setting" => $this->dashboard->getSetting()];
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $data["guru"] = $guru;
+        $inputsProfile = [["label" => "Nama Lengkap", "name" => "nama_guru", "value" => $guru->nama_guru, "icon" => "far fa-user", "type" => "text"], ["label" => "Email", "name" => "email", "value" => $guru->email, "icon" => "far fa-envelope", "type" => "text"], ["label" => "NIP / NUPTK", "name" => "nip", "value" => $guru->nip, "icon" => "far fa-id-card", "type" => "text"], ["label" => "Jenis Kelamin", "name" => "jenis_kelamin", "value" => $guru->jenis_kelamin, "icon" => "fas fa-venus-mars", "type" => "text"], ["label" => "No. Handphone", "name" => "no_hp", "value" => $guru->no_hp, "icon" => "fa fa-phone", "type" => "number"], ["label" => "Agama", "name" => "agama", "value" => $guru->agama, "icon" => "far fa-user", "type" => "text"]];
+        $inputsAlamat = [["label" => "NIK", "name" => "no_ktp", "value" => $guru->no_ktp, "icon" => "far fa-id-card", "type" => "number"], ["label" => "Tempat Lahir", "name" => "tempat_lahir", "value" => $guru->tempat_lahir, "icon" => "fa fa-map-marker", "type" => "text"], ["label" => "Tgl. Lahir", "name" => "tgl_lahir", "value" => $guru->tgl_lahir, "icon" => "fa fa-calendar", "type" => "text"], ["label" => "Alamat", "name" => "alamat_jalan", "value" => $guru->alamat_jalan, "icon" => "fa fa-map-marker", "type" => "text"], ["label" => "Kecamatan", "name" => "kecamatan", "value" => $guru->kecamatan, "icon" => "fa fa-map-marker", "type" => "text"], ["label" => "Kota/Kab.", "name" => "kabupaten", "value" => $guru->kabupaten, "icon" => "fa fa-map-marker", "type" => "text"], ["label" => "Provinsi", "name" => "provinsi", "value" => $guru->provinsi, "icon" => "fa fa-map-marker", "type" => "text"], ["label" => "Kode Pos", "name" => "kode_pos", "value" => $guru->kode_pos, "icon" => "fa fa-envelope", "type" => "number"]];
+        $data["input_profile"] = json_decode(json_encode($inputsProfile), FALSE);
+        $data["input_alamat"] = json_decode(json_encode($inputsAlamat), FALSE);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("members/guru/profile");
+        $this->load->view("members/guru/templates/footer");
+    }
+    public function save()
+    {
+        $id_guru = $this->input->post("id_guru", true);
+        $nip = $this->input->post("nip", true);
+        $nama_guru = $this->input->post("nama_guru", true);
+        $email = $this->input->post("email", true);
+        $jenis_kelamin = $this->input->post("jenis_kelamin", true);
+        $no_hp = $this->input->post("no_hp", true);
+        $agama = $this->input->post("agama", true);
+        $no_ktp = $this->input->post("no_ktp", true);
+        $tempat_lahir = $this->input->post("tempat_lahir", true);
+        $tgl_lahir = $this->input->post("tgl_lahir", true);
+        $alamat_jalan = $this->input->post("alamat_jalan", true);
+        $kecamatan = $this->input->post("kecamatan", true);
+        $kabupaten = $this->input->post("kabupaten", true);
+        $provinsi = $this->input->post("provinsi", true);
+        $kode_pos = $this->input->post("kode_pos", true);
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $dbdata = $this->master->getGuruById($id_guru, $tp->id_tp, $smt->id_smt);
+        $u_nip = $dbdata->nip === $nip ? '' : "|is_unique[master_guru.nip]";
+        $this->form_validation->set_rules("nip", "NIP", "required|trim|min_length[8]|max_length[30]" . $u_nip);
+        $this->form_validation->set_rules("nama_guru", "Nama Guru", "required|trim|min_length[1]|max_length[50]");
+        if ($this->form_validation->run() == FALSE) {
+            $data = ["status" => false, "errors" => ["nip" => form_error("nip"), "nama_guru" => form_error("nama_guru")]];
+            $this->output_json($data);
+            goto oDyj3;
+        }
+        $input = ["nip" => $nip, "nama_guru" => $nama_guru, "email" => $email, "jenis_kelamin" => $jenis_kelamin, "no_hp" => $no_hp, "agama" => $agama, "no_ktp" => $no_ktp, "tempat_lahir" => $tempat_lahir, "tgl_lahir" => $this->strContains($tgl_lahir, "0000-") ? null : $tgl_lahir, "alamat_jalan" => $alamat_jalan, "kecamatan" => $kecamatan, "kabupaten" => $kabupaten, "provinsi" => $provinsi, "kode_pos" => $kode_pos];
+        $action = $this->master->update("master_guru", $input, "id_guru", $id_guru);
+        if ($action) {
+            $this->output_json(["status" => true]);
+            goto q7U1W;
+        }
+        $this->output_json(["status" => false]);
+        q7U1W:
+        oDyj3:
+    }
+    function strContains($string, $val)
+    {
+        return strpos($string, $val) !== false;
+    }
+    function uploadFile($id_guru)
+    {
+        $guru = $this->master->getGuruById($id_guru);
+        if (isset($_FILES["foto"]["name"])) {
+            $config["upload_path"] = "./uploads/profiles/";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["overwrite"] = true;
+            $config["file_name"] = $guru->nip;
+            $this->upload->initialize($config);
+            if (!$this->upload->do_upload("foto")) {
+                $data["status"] = false;
+                $data["src"] = $this->upload->display_errors();
+                goto wvIu_;
+            }
+            $result = $this->upload->data();
+            $data["src"] = base_url() . "uploads/profiles/" . $result["file_name"];
+            $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
+            $data["status"] = true;
+            $this->db->set("foto", "uploads/profiles/" . $result["file_name"]);
+            $this->db->where("id_guru", $id_guru);
+            $this->db->update("master_guru");
+            wvIu_:
+            $data["type"] = $_FILES["foto"]["type"];
+            $data["size"] = $_FILES["foto"]["size"];
+            goto dqd7X;
+        }
+        $data["src"] = '';
+        dqd7X:
+        $this->output_json($data);
+    }
+    function deleteFile($id_guru)
+    {
+        $src = $this->input->get("src");
+        $file_name = str_replace(base_url(), '', $src);
+        if (!($file_name != "user.jpg")) {
+            goto F_DBM;
+        }
+        if (!unlink($file_name)) {
+            goto Zoyt5;
+        }
+        $this->db->set("foto", '');
+        $this->db->where("id_guru", $id_guru);
+        $this->db->update("master_guru");
+        echo "File Delete Successfully";
+        Zoyt5:
+        F_DBM:
+    }
+}

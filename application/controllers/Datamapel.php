@@ -1,7 +1,335 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\x42\x41\x53\x45\x50\101\x54\x48") or exit("\116\157\x20\144\x69\162\145\x63\x74\40\x73\x63\162\x69\x70\164\40\x61\143\x63\145\x73\163\40\x61\x6c\x6c\157\167\x65\144"); use PhpOffice\PhpSpreadsheet\Spreadsheet; use PhpOffice\PhpSpreadsheet\Writer\Xlsx; use PhpOffice\PhpSpreadsheet\Writer\Xls; use PhpOffice\PhpSpreadsheet\Writer\Csv; class Datamapel extends CI_Controller { public function __construct() { goto K2T9w; k2Euy: goto pcJLH; goto lTC8V; ljtLD: if ($this->ion_auth->is_admin()) { goto xJ9sT; } goto U0BlO; kDgvK: $this->load->model("\104\162\157\160\x64\157\167\x6e\x5f\x6d\x6f\144\x65\x6c", "\144\162\157\160\x64\157\167\x6e"); goto rHYMI; K2T9w: parent::__construct(); goto fn0lx; QQyGx: $this->load->model("\x44\141\163\x68\x62\157\x61\x72\144\137\x6d\x6f\x64\x65\154", "\x64\141\x73\150\142\157\141\162\x64"); goto kDgvK; of6Ax: xJ9sT: goto k2Euy; T_WCk: pcJLH: goto UiD0_; esMPq: $this->load->model("\x4d\x61\163\x74\x65\x72\137\x6d\x6f\x64\145\154", "\x6d\141\163\x74\145\162"); goto QQyGx; UiD0_: $this->load->dbforge(); goto Hs973; U0BlO: show_error("\110\141\x6e\171\x61\40\101\x64\x6d\x69\156\x69\163\x74\x72\141\164\x6f\x72\x20\x79\141\156\147\x20\x64\x69\142\145\162\x69\40\x68\x61\153\x20\x75\156\x74\165\153\x20\x6d\145\156\147\141\x6b\x73\145\x73\40\150\141\154\141\x6d\x61\156\40\x69\156\x69\x2c\x20\x3c\x61\40\150\x72\x65\146\75\x22" . base_url("\144\141\163\x68\142\157\141\x72\144") . "\42\x3e\x4b\x65\155\x62\141\154\x69\40\153\x65\40\x6d\x65\156\x75\40\141\167\x61\x6c\x3c\x2f\x61\x3e", 403, "\x41\153\163\x65\163\40\x54\x65\162\154\x61\x72\x61\156\x67"); goto of6Ax; fn0lx: if (!$this->ion_auth->logged_in()) { goto syZcW; } goto ljtLD; Hs973: $this->load->library(["\144\141\164\x61\x74\x61\x62\x6c\145\163", "\x66\157\162\x6d\137\x76\141\x6c\151\144\141\164\x69\x6f\x6e"]); goto esMPq; lTC8V: syZcW: goto tMUlS; rHYMI: $this->form_validation->set_error_delimiters('', ''); goto e6U8x; tMUlS: redirect("\x61\x75\164\x68"); goto T_WCk; e6U8x: } public function output_json($data, $encode = true) { goto yu2js; YSIxn: $data = json_encode($data); goto hEX2Q; yu2js: if (!$encode) { goto Ail9s; } goto YSIxn; Uxw7p: $this->output->set_content_type("\141\x70\160\154\x69\x63\x61\164\151\157\156\x2f\152\x73\x6f\x6e")->set_output($data); goto JXQZw; hEX2Q: Ail9s: goto Uxw7p; JXQZw: } private function updateUrutanTampil() { goto awXFD; ypeQb: $insert = []; goto mKz6b; awXFD: $mapels = $this->db->select("\x2a")->from("\x6d\141\163\x74\145\162\137\x6d\141\x70\145\x6c")->get()->result(); goto ypeQb; MV9Wz: JDZrU: goto hF6wm; hF6wm: if (!(count($insert) > 0)) { goto HEya9; } goto KeqzR; mKz6b: foreach ($mapels as $mapel) { $insert = ["\x69\144\137\155\x61\160\145\x6c" => $mapel->id_mapel, "\156\141\x6d\x61\x5f\x6d\141\x70\x65\154" => $mapel->id_mapel, "\153\x6f\144\145" => $mapel->id_mapel, "\153\x65\154\x6f\x6d\160\157\153" => $mapel->id_mapel, "\x62\x6f\142\x6f\x74\x5f\160" => $mapel->id_mapel, "\x62\157\x62\157\164\x5f\x6b" => $mapel->id_mapel, "\x6a\145\x6e\152\x61\x6e\147" => $mapel->id_mapel, "\165\x72\165\x74\x61\156" => $mapel->id_mapel, "\165\x72\x75\164\141\156\x5f\164\141\155\x70\x69\x6c" => $mapel->id_mapel, "\163\x74\x61\x74\x75\163" => $mapel->id_mapel, "\144\145\x6c\x65\164\x61\142\x6c\145" => $mapel->id_mapel]; TRwcr: } goto MV9Wz; Jnt4t: HEya9: goto tgEsL; KeqzR: $this->db->update_batch("\x6d\x61\163\164\x65\162\137\x6d\141\160\145\154", $insert); goto Jnt4t; tgEsL: } public function index() { goto DD3k2; O88Kj: fDH4d: goto NM7fA; y4VZ9: $data["\x6b\x61\164\145\147\157\x72\x69"] = ["\127\101\112\x49\x42", "\120\x41\x49\x20\50\113\145\x6d\x65\156\141\x67\51", "\120\x45\115\111\x4e\x41\x54\x41\116\40\101\113\101\104\x45\115\x49\x4b", "\101\x4b\x41\104\105\x4d\x49\113\x20\113\105\112\125\x52\125\101\116", "\114\111\116\124\101\x53\x20\x4d\111\116\x41\x54", "\x4d\x55\x4c\x4f\x4b"]; goto Zs39F; X6Z9q: $data["\163\x6d\164"] = $this->dashboard->getSemester(); goto Ey22Y; GQKYZ: $data["\x73\164\141\x74\165\163"] = ["\116\x6f\156\x61\x6b\164\x69\x66", "\x41\x6b\164\x69\146"]; goto Fk43W; Ey22Y: $data["\x73\155\x74\x5f\x61\x63\164\x69\166\145"] = $this->dashboard->getSemesterActive(); goto y4VZ9; NM7fA: $user = $this->ion_auth->user()->row(); goto ySjca; HwqJN: $data["\x74\x70"] = $this->dashboard->getTahun(); goto kppAD; J2e0F: $data["\x6b\x65\154\157\x6d\160\157\x6b"] = $this->dropdown->getDataKelompokMapel(); goto GQKYZ; Fk43W: $data["\x6d\141\160\x65\154\x5f\156\157\x6e\x5f\x61\153\164\x69\x66"] = $this->master->getAllMapelNonAktif($setting->jenjang); goto okzto; Zs39F: $data["\153\x65\154\157\x6d\x70\x6f\x6b\137\x6d\141\x70\145\154"] = $this->master->getDataKelompokMapel(); goto vU1Hu; WlasN: $this->load->view("\137\164\145\x6d\x70\154\141\x74\145\x73\x2f\144\x61\163\150\142\x6f\x61\x72\x64\57\137\146\x6f\x6f\x74\x65\162"); goto sytw5; Z0uV0: $fields = array("\165\162\x75\164\141\156\137\164\x61\155\x70\x69\x6c" => array("\x74\x79\x70\x65" => "\151\156\164\x28\63\51", "\x61\146\164\x65\x72" => "\165\x72\165\x74\x61\x6e")); goto zgzCv; okzto: $this->load->view("\137\164\145\x6d\x70\x6c\141\x74\x65\x73\57\144\x61\163\150\142\x6f\x61\162\x64\57\x5f\x68\x65\141\144\x65\162", $data); goto zUOpB; kppAD: $data["\164\160\137\141\x63\x74\151\166\x65"] = $this->dashboard->getTahunActive(); goto X6Z9q; zUOpB: $this->load->view("\x6d\x61\x73\164\145\x72\x2f\155\141\160\x65\x6c\57\144\x61\164\x61"); goto WlasN; vU1Hu: $data["\163\x75\x62\x5f\153\x65\x6c\157\x6d\160\157\x6b\x5f\155\x61\160\145\x6c"] = $this->master->getDataSubKelompokMapel(); goto J2e0F; DD3k2: if ($this->db->field_exists("\x75\x72\x75\x74\x61\156\x5f\164\x61\x6d\x70\x69\154", "\x6d\x61\x73\x74\145\162\x5f\155\x61\x70\x65\x6c")) { goto fDH4d; } goto Z0uV0; ySjca: $setting = $this->dashboard->getSetting(); goto MfzkD; MfzkD: $data = ["\165\x73\x65\162" => $user, "\152\x75\144\x75\x6c" => "\115\141\164\x61\x20\x50\x65\154\x61\152\141\162\141\156", "\163\165\142\x6a\165\x64\165\x6c" => "\x44\x61\146\164\x61\162\x20\x4d\141\164\x61\40\120\145\x6c\x61\152\141\162\x61\x6e", "\x70\162\x6f\146\151\x6c\x65" => $this->dashboard->getProfileAdmin($user->id), "\x73\x65\x74\164\x69\x6e\x67" => $setting]; goto HwqJN; zgzCv: $this->dbforge->add_column("\155\x61\163\x74\x65\162\x5f\155\141\160\145\x6c", $fields); goto O88Kj; sytw5: } public function addKelompokMapel() { goto reUvP; BoQy3: gYdRq: goto WBie4; hBBSX: $insert = ["\156\141\155\x61\x5f\x6b\145\154\x5f\155\x61\x70\x65\154" => $this->input->post("\x6e\141\x6d\x61\x5f\x6b\145\x6c\x5f\x6d\x61\160\145\154", true), "\x6b\157\x64\x65\137\153\145\x6c\137\155\141\x70\145\x6c" => $this->input->post("\153\x6f\144\x65\x5f\153\x65\x6c\137\155\x61\x70\x65\154", true), "\x6b\141\164\x65\x67\157\x72\151" => $this->input->post("\x6b\141\x74\145\147\157\162\151", true), "\151\144\137\x70\x61\x72\145\x6e\164" => $this->input->post("\151\144\x5f\160\x61\x72\145\x6e\164", true)]; goto NPNRo; WBie4: $this->db->where("\x69\144\x5f\153\145\x6c\x5f\x6d\x61\160\145\154", $id); goto GRjdt; rRbpi: $data = $this->master->create("\155\141\163\164\x65\162\137\x6b\x65\154\157\155\160\157\x6b\137\x6d\141\x70\145\x6c", $insert); goto S_ijs; w6F2_: hrago: goto sawpt; reUvP: $id = $this->input->post("\x69\144\137\153\x65\x6c\x5f\x6d\141\x70\x65\154"); goto hBBSX; GRjdt: $data = $this->db->update("\155\x61\x73\x74\x65\162\137\x6b\x65\154\x6f\155\160\x6f\153\137\x6d\x61\x70\145\x6c", $insert); goto w6F2_; S_ijs: goto hrago; goto BoQy3; NPNRo: if ($id != null) { goto gYdRq; } goto rRbpi; sawpt: $this->output->set_content_type("\x61\160\160\x6c\x69\143\141\x74\151\157\x6e\x2f\152\163\157\x6e")->set_output($data); goto ceMZL; ceMZL: } public function hapusKelompok() { goto wPkJt; m79dJ: if (count($messages) > 0) { goto Lffw7; } goto evRP3; fcbnx: array_push($messages, "\115\x61\164\141\40\120\x65\x6c\141\152\141\162\x61\156"); goto jjXDi; oFjpU: $kode = $this->input->post("\x6b\x6f\x64\x65"); goto xyj3H; e3VfI: $this->output_json(["\x73\164\141\x74\x75\x73" => false, "\155\x65\x73\163\141\147\145" => "\x4b\145\x6c\x6f\x6d\x70\157\153\40\x4d\141\160\145\x6c\x20\x64\151\x67\x75\156\x61\153\141\156\40\x64\151\40" . count($messages) . "\x20\x74\x61\x62\145\154\x3a\74\x62\x72\76" . implode("\74\142\162\76", $messages)]); goto T2jTt; lv95y: $this->output_json(["\163\164\x61\x74\165\x73" => true, "\155\x65\x73\x73\x61\147\x65" => "\142\145\x72\150\x61\x73\151\x6c"]); goto eUMQG; xAGP1: goto fsLHT; goto V4X22; ehImB: if (!($nums > 0)) { goto RknOL; } goto Ln91r; wPkJt: $id = $this->input->post("\151\144\x5f\153\x65\x6c"); goto oFjpU; Ue2bJ: $numm = $this->db->count_all_results("\155\x61\x73\x74\x65\162\x5f\x6d\141\x70\145\x6c"); goto ZWSF1; evRP3: if (!$this->master->delete("\155\x61\163\x74\x65\162\137\x6b\x65\x6c\157\x6d\160\157\x6b\137\x6d\141\160\145\154", $id, "\x69\x64\137\x6b\145\x6c\x5f\x6d\141\x70\x65\154")) { goto Mlsrv; } goto lv95y; pT3oo: $messages = []; goto P1Qy2; T2jTt: fsLHT: goto Sy9ap; NNzwZ: $nums = $this->db->count_all_results("\x6d\x61\x73\164\145\162\137\x6b\145\154\x6f\155\x70\x6f\153\x5f\x6d\x61\160\145\x6c"); goto ehImB; P1Qy2: $this->db->where_in("\153\x65\x6c\157\x6d\160\157\153", $kode); goto Ue2bJ; xyj3H: $id_parent = $this->input->post("\x69\144\x5f\x70\x61\x72\x65\156\164"); goto pT3oo; eUMQG: Mlsrv: goto xAGP1; jjXDi: UwIXe: goto heJdW; Wv343: RknOL: goto m79dJ; Ln91r: array_push($messages, "\123\165\x62\x20\113\145\x6c\157\x6d\160\157\x6b"); goto Wv343; ZWSF1: if (!($numm > 0)) { goto UwIXe; } goto fcbnx; heJdW: $this->db->where_in("\x69\144\x5f\x70\141\162\x65\x6e\164", $id); goto NNzwZ; V4X22: Lffw7: goto e3VfI; Sy9ap: } public function create() { goto y31o6; y31o6: $setting = $this->dashboard->getSetting(); goto LQlMD; Nc92T: $this->output->set_content_type("\x61\160\160\154\151\x63\x61\x74\x69\157\x6e\x2f\x6a\x73\x6f\x6e")->set_output($data); goto ZP4kY; LQlMD: $insert = ["\156\141\155\x61\x5f\x6d\141\160\x65\x6c" => $this->input->post("\156\x61\x6d\141\x5f\155\141\x70\145\x6c", true), "\153\x6f\144\x65" => $this->input->post("\x6b\x6f\x64\145\x5f\x6d\x61\160\145\154", true), "\x6b\145\154\157\155\160\157\153" => $this->input->post("\153\145\x6c\x6f\x6d\x70\157\153", true), "\x75\162\165\x74\x61\x6e\x5f\x74\141\155\160\151\x6c" => $this->input->post("\x75\162\x75\x74\x61\156\137\164\141\x6d\160\x69\x6c", true), "\152\x65\x6e\x6a\x61\156\x67" => $setting->jenjang]; goto B0tJS; B0tJS: $data = $this->master->create("\155\x61\x73\164\145\162\137\155\x61\160\145\x6c", $insert); goto Nc92T; ZP4kY: } public function getDataKelompok() { goto Zu0hw; AIg6j: $this->datatables->where("\x69\x64\x5f\x70\141\x72\145\156\x74", "\60"); goto lmf9I; kStgm: $this->datatables->from("\x6d\141\x73\x74\145\162\137\x6b\145\154\157\x6d\x70\x6f\x6b\x5f\155\x61\x70\x65\x6c"); goto AIg6j; lmf9I: $this->db->order_by("\153\x6f\x64\x65\137\x6b\145\154\x5f\x6d\x61\160\145\154"); goto ere3n; ere3n: echo $this->datatables->generate(); goto LmEmx; Zu0hw: $this->datatables->select("\x2a"); goto kStgm; LmEmx: } public function getDataSubKelompok() { goto vsRN1; c9ECo: $this->db->order_by("\153\157\x64\145\x5f\x6b\x65\x6c\137\155\x61\x70\x65\154"); goto o7TOx; vsRN1: $this->datatables->select("\52"); goto wrf2g; zFt3j: $this->datatables->where("\151\144\x5f\160\x61\162\145\x6e\164\40\74\76\40\60"); goto c9ECo; wrf2g: $this->datatables->from("\x6d\141\163\x74\x65\x72\137\x6b\145\154\x6f\x6d\160\157\x6b\x5f\155\141\x70\x65\154"); goto zFt3j; o7TOx: echo $this->datatables->generate(); goto hqRWC; hqRWC: } public function read() { goto WpBSY; HmW1J: $this->datatables->from("\155\x61\163\164\145\162\137\x6d\141\160\145\x6c"); goto zjk6x; zjk6x: $this->db->order_by("\x6b\x65\x6c\157\x6d\x70\x6f\153"); goto mSzO8; ZerZG: $this->datatables->select("\151\144\137\155\x61\160\x65\x6c\54\x20\165\x72\x75\164\141\x6e\137\x74\x61\155\x70\x69\x6c\x2c\40\156\141\155\x61\137\x6d\141\160\x65\x6c\54\40\153\x6f\144\145\x2c\x20\x6b\x65\x6c\x6f\x6d\x70\x6f\x6b\54\40\144\145\x6c\x65\x74\141\142\x6c\x65\x2c\x20\x73\x74\x61\164\x75\x73"); goto HmW1J; WpBSY: $setting = $this->dashboard->getSetting(); goto ZerZG; mSzO8: $this->db->order_by("\165\x72\165\164\x61\156\x5f\164\x61\155\x70\151\154"); goto zirfZ; zirfZ: echo $this->datatables->generate(); goto i40lP; i40lP: } public function update() { $data = $this->master->updateMapel(); $this->output->set_content_type("\x61\160\x70\x6c\x69\143\141\x74\151\x6f\x6e\57\x6a\163\157\x6e")->set_output($data); } public function aktifkan($id) { goto ELjJa; lQaDY: $update = $this->db->update("\155\x61\163\x74\145\x72\x5f\x6d\141\160\x65\154"); goto ui6Nd; ELjJa: $this->db->set("\163\x74\x61\164\x75\x73", "\61"); goto RjVrX; RjVrX: $this->db->where("\151\144\137\155\141\160\145\x6c", $id); goto lQaDY; ui6Nd: $this->output_json($update); goto bQ8xa; bQ8xa: } public function delete() { goto gMxkL; sXwNK: $tabless = $this->db->list_tables(); goto uxP0j; gMxkL: $chk = $this->input->post("\x63\150\145\x63\153\145\x64", true); goto HW63d; DXNKD: C0uG1: goto mhhVj; IIxj_: goto tGtsE; goto ZFi2Q; qUeTj: if (count($messages) > 0) { goto EI20L; } goto P05CH; dnauJ: $messages = []; goto GFPQs; bXrjY: EI20L: goto P5mfp; uxP0j: foreach ($tabless as $table) { goto xht35; gAeSg: foreach ($fields as $field) { goto Xlrfa; Xlrfa: if (!($field->name == "\x69\144\137\155\x61\160\145\154" || $field->name == "\155\141\x70\x65\x6c\137\151\x64")) { goto G6JkK; } goto DKeqP; YNpK7: G6JkK: goto XxtJp; XxtJp: BqUQB: goto XgLmc; DKeqP: array_push($tables, $table); goto YNpK7; XgLmc: } goto mxyqD; mxyqD: hpWHP: goto rT2Jq; xht35: $fields = $this->db->field_data($table); goto gAeSg; rT2Jq: l0Dn0: goto ajPhK; ajPhK: } goto DXNKD; yWhCD: UBZTK: goto GrC_9; A6B0r: tGtsE: goto cf3kD; ZFi2Q: eVg7W: goto SEFET; NDpZ0: $this->output_json(["\163\x74\141\164\x75\x73" => true, "\x74\x6f\x74\141\x6c" => count($chk)]); goto yWhCD; SEFET: $this->output_json(["\163\164\141\x74\x75\163" => false, "\x74\x6f\164\141\x6c" => "\124\x69\x64\141\x6b\x20\141\x64\x61\x20\144\141\x74\x61\x20\x79\x61\156\x67\x20\x64\x69\160\x69\154\151\150\41"]); goto A6B0r; P5mfp: $this->output_json(["\x73\x74\x61\x74\165\x73" => false, "\x74\157\x74\141\154" => "\x4d\x61\x70\x65\154\40\x64\x69\x67\x75\156\141\x6b\141\156\x20\x64\x69\40" . count($messages) . "\x20\164\x61\x62\145\x6c\x3a\x3c\142\x72\76" . implode("\74\x62\x72\x3e", $messages)]); goto d__MT; GFPQs: $tables = []; goto sXwNK; d__MT: iH0oW: goto IIxj_; mhhVj: foreach ($tables as $table) { goto d_x0D; d_x0D: if (!($table != "\x6d\x61\163\x74\145\162\x5f\x6d\x61\x70\x65\154")) { goto a2i9u; } goto Qsn05; wraH2: a2i9u: goto dOD28; Qsn05: if ($table == "\x63\x62\x74\x5f\163\x6f\141\154") { goto rlgNH; } goto IEFi3; KUl2c: if (!($num > 0)) { goto s5o2v; } goto MEYCF; MEYCF: array_push($messages, $table); goto h1jMH; fvQot: rlgNH: goto iOEVl; dOD28: Ri3Uu: goto nM4Y4; aq_ii: $num = $this->db->count_all_results($table); goto o8xHk; o8xHk: IGlAB: goto KUl2c; acyjk: $num = $this->db->count_all_results($table); goto zLl1C; zLl1C: goto IGlAB; goto fvQot; iOEVl: $this->db->where_in("\155\141\160\145\154\x5f\151\x64", $chk); goto aq_ii; h1jMH: s5o2v: goto wraH2; IEFi3: $this->db->where_in("\x69\144\x5f\x6d\x61\x70\x65\x6c", $chk); goto acyjk; nM4Y4: } goto vq7rJ; GrC_9: goto iH0oW; goto bXrjY; HW63d: if (!$chk) { goto eVg7W; } goto dnauJ; P05CH: if (!$this->master->delete("\155\x61\163\164\x65\162\x5f\x6d\x61\160\145\x6c", $chk, "\151\x64\x5f\155\x61\160\x65\154")) { goto UBZTK; } goto NDpZ0; vq7rJ: jNQCF: goto qUeTj; cf3kD: } public function import($import_data = null) { goto dHifP; dASsr: $this->load->view("\x5f\164\145\x6d\x70\154\141\164\x65\163\57\144\x61\x73\150\x62\157\x61\162\x64\57\137\146\157\x6f\x74\x65\x72"); goto YGudm; QBKCq: LARk8: goto UCCRg; jNBc6: $this->load->view("\137\x74\x65\x6d\x70\x6c\141\x74\x65\163\x2f\144\141\x73\x68\142\x6f\141\x72\144\57\137\150\x65\x61\x64\145\x72", $data); goto vcRoR; ASs1V: $data = ["\165\163\145\162" => $user, "\x6a\x75\x64\165\154" => "\x4d\141\164\141\40\120\x65\154\141\x6a\141\x72\141\156", "\163\x75\x62\152\x75\144\165\154" => "\x49\155\x70\x6f\x72\164\40\115\x61\x74\x61\40\120\145\154\141\x6a\x61\162\x61\156", "\x70\162\x6f\x66\x69\x6c\145" => $this->dashboard->getProfileAdmin($user->id), "\163\145\164\164\151\156\147" => $this->dashboard->getSetting()]; goto fJyXA; vcRoR: $this->load->view("\x6d\141\163\164\x65\x72\57\x6d\141\x70\x65\154\x2f\x69\155\160\157\x72\164"); goto dASsr; dEW6Z: $data["\x73\x6d\x74\x5f\141\143\164\x69\x76\x65"] = $this->dashboard->getSemesterActive(); goto jNBc6; UCCRg: $data["\164\x70"] = $this->dashboard->getTahun(); goto nbhXz; fJyXA: if (!($import_data != null)) { goto LARk8; } goto J1i49; dHifP: $user = $this->ion_auth->user()->row(); goto ASs1V; Y0H0x: $data["\x73\x6d\x74"] = $this->dashboard->getSemester(); goto dEW6Z; J1i49: $data["\151\155\x70\157\x72\164"] = $import_data; goto QBKCq; nbhXz: $data["\164\x70\137\141\x63\164\151\x76\x65"] = $this->dashboard->getTahunActive(); goto Y0H0x; YGudm: } public function previewExcel() { goto UGLjv; lDPSb: s5Ed0: goto eiwxF; W5KF6: unlink($file); goto lXrLl; OpXfm: EZNIT: goto W5KF6; hyfr8: $config["\x61\x6c\154\x6f\167\x65\144\x5f\x74\x79\160\145\x73"] = "\x78\x6c\x73\x7c\170\x6c\x73\x78\174\x63\x73\166"; goto XvHkE; UGLjv: $config["\165\160\154\157\x61\144\x5f\x70\141\164\150"] = "\x2e\57\x75\160\x6c\x6f\141\x64\163\57\151\155\x70\x6f\x72\164\x2f"; goto hyfr8; O8YR4: P6QQi: goto MC2j5; R1hF4: $data[] = ["\156\x61\155\141" => $sheetData[$i][1], "\x6b\157\144\145" => $sheetData[$i][2]]; goto O8YR4; rM6WQ: echo $error; goto D1jjL; CsQ7F: RjQNd: goto ZOCuz; mzbwy: $i = 1; goto xELGP; KYKvb: if (!($i < count($sheetData))) { goto EZNIT; } goto C8WCJ; lXrLl: echo json_encode($data); goto osaH9; cPNVX: $error = $this->upload->display_errors(); goto rM6WQ; D1jjL: die; goto CsQ7F; s6G0I: $i++; goto tg_5_; V42hP: $config["\x65\156\143\162\x79\160\x74\137\x6e\141\155\145"] = true; goto Abm1u; CJo7R: $file = $this->upload->data("\146\165\x6c\x6c\x5f\x70\141\164\150"); goto xAfHw; cAJuS: zLe3o: goto lDPSb; eiwxF: $spreadsheet = $reader->load($file); goto vV09I; a96k3: OsP42: goto cPNVX; osaH9: goto RjQNd; goto a96k3; vV09I: $sheetData = $spreadsheet->getActiveSheet()->toArray(); goto LQ5uY; tg_5_: goto C4Z_o; goto OpXfm; NyaMv: switch ($ext) { case "\x2e\x78\x6c\163\170": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx(); goto s5Ed0; case "\x2e\170\x6c\163": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls(); goto s5Ed0; case "\x2e\143\x73\x76": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv(); goto s5Ed0; default: echo "\x75\156\153\x6e\157\x77\156\x20\146\151\x6c\145\40\x65\x78\164"; die; } goto cAJuS; LQ5uY: $data = []; goto mzbwy; w6NXx: if (!$this->upload->do_upload("\165\x70\x6c\157\141\x64\x5f\146\x69\x6c\x65")) { goto OsP42; } goto CJo7R; xAfHw: $ext = $this->upload->data("\146\x69\x6c\x65\x5f\145\170\164"); goto NyaMv; XvHkE: $config["\x6d\x61\x78\137\x73\x69\x7a\x65"] = 2048; goto V42hP; Abm1u: $this->load->library("\x75\160\x6c\157\141\x64", $config); goto w6NXx; MC2j5: MWw1h: goto s6G0I; C8WCJ: if (!($sheetData[$i][1] != null)) { goto P6QQi; } goto R1hF4; xELGP: C4Z_o: goto KYKvb; ZOCuz: } public function previewWord() { goto dKJft; exD7P: $dom->preserveWhiteSpace = false; goto xsLVb; lexB3: gCoJ5: goto xtdd8; pOSMA: $error = $this->upload->display_errors(); goto bIGhQ; aoRps: $this->load->library("\x75\x70\154\157\x61\144", $config); goto CxWmy; c5t_C: $dom->loadHTML($text); goto Vp3Dw; gs3wv: $config["\x65\x6e\x63\162\x79\x70\164\x5f\156\x61\155\145"] = true; goto aoRps; NQATt: $rows = $tables->item(0)->getElementsByTagName("\x74\x72"); goto Okkeh; bjd6Z: $i++; goto AmEnI; axgJv: u00WQ: goto jKIv5; Vp3Dw: $data = []; goto exD7P; pMs6B: unlink($file); goto GT7Ef; KaN1e: $cols = $rows[$i]->getElementsByTagName("\x74\x64"); goto XD6u9; XD6u9: $data[] = ["\x6e\x61\x6d\141" => $cols->item(1)->nodeValue, "\x6b\157\x64\x65" => $cols->item(2)->nodeValue]; goto eww53; eMvZE: try { $htmlWriter->save("\x2e\57\x75\x70\x6c\x6f\x61\x64\163\57\x74\145\155\x70\x2f\x64\157\x63\x2e\150\x74\155\x6c"); } catch (\PhpOffice\PhpWord\Exception\Exception $e) { } goto pMs6B; SLvST: echo json_encode($data); goto C581t; CxWmy: if (!$this->upload->do_upload("\165\x70\154\x6f\141\x64\137\x66\x69\x6c\145")) { goto Q6QDr; } goto mFKw5; GT7Ef: $text = file_get_contents("\x2e\57\x75\x70\x6c\157\141\144\163\57\164\145\x6d\x70\57\x64\x6f\143\56\150\164\x6d\x6c"); goto q1gCK; jKIv5: if (!($i < $rows->count())) { goto Q8lvI; } goto KaN1e; q1gCK: $dom = new DOMDocument(); goto c5t_C; AXexp: $htmlWriter = new \PhpOffice\PhpWord\Writer\HTML($phpWord); goto eMvZE; EPnNN: Q6QDr: goto pOSMA; mFKw5: $file = $this->upload->data("\x66\165\154\x6c\137\160\141\164\150"); goto ysBZT; ysBZT: $phpWord = \PhpOffice\PhpWord\IOFactory::load($file); goto AXexp; AmEnI: goto u00WQ; goto z1cp0; A9Kyh: $config["\x61\154\154\157\167\145\144\137\x74\171\160\145\163"] = "\x64\x6f\143\x78"; goto FQtYT; z1cp0: Q8lvI: goto SLvST; eww53: mE000: goto bjd6Z; Okkeh: $i = 1; goto axgJv; FQtYT: $config["\x6d\141\170\137\x73\151\172\x65"] = 2048; goto gs3wv; CbYM2: die; goto lexB3; dKJft: $config["\x75\160\154\157\141\x64\x5f\x70\x61\x74\150"] = "\56\x2f\165\160\x6c\157\x61\x64\x73\x2f\x69\x6d\160\x6f\162\x74\x2f"; goto A9Kyh; bIGhQ: echo $error; goto CbYM2; C581t: goto gCoJ5; goto EPnNN; xsLVb: $tables = $dom->getElementsByTagName("\x74\141\142\x6c\145"); goto NQATt; xtdd8: } public function do_import() { goto D1BvY; ITFsL: NoGsz: goto wcZPB; wcZPB: $save = $this->master->create("\x6d\x61\163\164\145\x72\x5f\155\x61\160\145\x6c", $mapel, true); goto A6IV5; D1BvY: $data = json_decode($this->input->post("\155\x61\160\x65\x6c", true)); goto Bwc31; Bwc31: $mapel = []; goto vIIQN; vIIQN: foreach ($data as $j) { $mapel[] = ["\156\141\155\141\x5f\155\141\x70\x65\154" => $j->nama, "\153\x6f\144\x65" => $j->kode]; vI1yE: } goto ITFsL; A6IV5: $this->output->set_content_type("\141\x70\x70\x6c\x69\143\141\164\x69\x6f\156\57\152\x73\x6f\x6e")->set_output($save); goto TysEk; TysEk: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+class Datamapel extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto T_WCk;
+        }
+        if ($this->ion_auth->is_admin()) {
+            goto xJ9sT;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        xJ9sT:
+        T_WCk:
+        $this->load->dbforge();
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto Ail9s;
+        }
+        $data = json_encode($data);
+        Ail9s:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    private function updateUrutanTampil()
+    {
+        $mapels = $this->db->select("*")->from("master_mapel")->get()->result();
+        $insert = [];
+        foreach ($mapels as $mapel) {
+            $insert = ["id_mapel" => $mapel->id_mapel, "nama_mapel" => $mapel->id_mapel, "kode" => $mapel->id_mapel, "kelompok" => $mapel->id_mapel, "bobot_p" => $mapel->id_mapel, "bobot_k" => $mapel->id_mapel, "jenjang" => $mapel->id_mapel, "urutan" => $mapel->id_mapel, "urutan_tampil" => $mapel->id_mapel, "status" => $mapel->id_mapel, "deletable" => $mapel->id_mapel];
+        }
+        if (!(count($insert) > 0)) {
+            goto HEya9;
+        }
+        $this->db->update_batch("master_mapel", $insert);
+        HEya9:
+    }
+    public function index()
+    {
+        if ($this->db->field_exists("urutan_tampil", "master_mapel")) {
+            goto fDH4d;
+        }
+        $fields = array("urutan_tampil" => array("type" => "int(3)", "after" => "urutan"));
+        $this->dbforge->add_column("master_mapel", $fields);
+        fDH4d:
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Mata Pelajaran", "subjudul" => "Daftar Mata Pelajaran", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $setting];
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $this->dashboard->getTahunActive();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $this->dashboard->getSemesterActive();
+        $data["kategori"] = ["WAJIB", "PAI (Kemenag)", "PEMINATAN AKADEMIK", "AKADEMIK KEJURUAN", "LINTAS MINAT", "MULOK"];
+        $data["kelompok_mapel"] = $this->master->getDataKelompokMapel();
+        $data["sub_kelompok_mapel"] = $this->master->getDataSubKelompokMapel();
+        $data["kelompok"] = $this->dropdown->getDataKelompokMapel();
+        $data["status"] = ["Nonaktif", "Aktif"];
+        $data["mapel_non_aktif"] = $this->master->getAllMapelNonAktif($setting->jenjang);
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("master/mapel/data");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function addKelompokMapel()
+    {
+        $id = $this->input->post("id_kel_mapel");
+        $insert = ["nama_kel_mapel" => $this->input->post("nama_kel_mapel", true), "kode_kel_mapel" => $this->input->post("kode_kel_mapel", true), "kategori" => $this->input->post("kategori", true), "id_parent" => $this->input->post("id_parent", true)];
+        if ($id != null) {
+            $this->db->where("id_kel_mapel", $id);
+            $data = $this->db->update("master_kelompok_mapel", $insert);
+            goto w6F2_;
+        }
+        $data = $this->master->create("master_kelompok_mapel", $insert);
+        w6F2_:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function hapusKelompok()
+    {
+        $id = $this->input->post("id_kel");
+        $kode = $this->input->post("kode");
+        $id_parent = $this->input->post("id_parent");
+        $messages = [];
+        $this->db->where_in("kelompok", $kode);
+        $numm = $this->db->count_all_results("master_mapel");
+        if (!($numm > 0)) {
+            goto UwIXe;
+        }
+        array_push($messages, "Mata Pelajaran");
+        UwIXe:
+        $this->db->where_in("id_parent", $id);
+        $nums = $this->db->count_all_results("master_kelompok_mapel");
+        if (!($nums > 0)) {
+            goto RknOL;
+        }
+        array_push($messages, "Sub Kelompok");
+        RknOL:
+        if (count($messages) > 0) {
+            $this->output_json(["status" => false, "message" => "Kelompok Mapel digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
+            goto T2jTt;
+        }
+        if (!$this->master->delete("master_kelompok_mapel", $id, "id_kel_mapel")) {
+            goto Mlsrv;
+        }
+        $this->output_json(["status" => true, "message" => "berhasil"]);
+        Mlsrv:
+        T2jTt:
+    }
+    public function create()
+    {
+        $setting = $this->dashboard->getSetting();
+        $insert = ["nama_mapel" => $this->input->post("nama_mapel", true), "kode" => $this->input->post("kode_mapel", true), "kelompok" => $this->input->post("kelompok", true), "urutan_tampil" => $this->input->post("urutan_tampil", true), "jenjang" => $setting->jenjang];
+        $data = $this->master->create("master_mapel", $insert);
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function getDataKelompok()
+    {
+        $this->datatables->select("*");
+        $this->datatables->from("master_kelompok_mapel");
+        $this->datatables->where("id_parent", "0");
+        $this->db->order_by("kode_kel_mapel");
+        echo $this->datatables->generate();
+    }
+    public function getDataSubKelompok()
+    {
+        $this->datatables->select("*");
+        $this->datatables->from("master_kelompok_mapel");
+        $this->datatables->where("id_parent <> 0");
+        $this->db->order_by("kode_kel_mapel");
+        echo $this->datatables->generate();
+    }
+    public function read()
+    {
+        $setting = $this->dashboard->getSetting();
+        $this->datatables->select("id_mapel, urutan_tampil, nama_mapel, kode, kelompok, deletable, status");
+        $this->datatables->from("master_mapel");
+        $this->db->order_by("kelompok");
+        $this->db->order_by("urutan_tampil");
+        echo $this->datatables->generate();
+    }
+    public function update()
+    {
+        $data = $this->master->updateMapel();
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function aktifkan($id)
+    {
+        $this->db->set("status", "1");
+        $this->db->where("id_mapel", $id);
+        $update = $this->db->update("master_mapel");
+        $this->output_json($update);
+    }
+    public function delete()
+    {
+        $chk = $this->input->post("checked", true);
+        if (!$chk) {
+            $this->output_json(["status" => false, "total" => "Tidak ada data yang dipilih!"]);
+            goto A6B0r;
+        }
+        $messages = [];
+        $tables = [];
+        $tabless = $this->db->list_tables();
+        foreach ($tabless as $table) {
+            $fields = $this->db->field_data($table);
+            foreach ($fields as $field) {
+                if (!($field->name == "id_mapel" || $field->name == "mapel_id")) {
+                    goto G6JkK;
+                }
+                array_push($tables, $table);
+                G6JkK:
+            }
+        }
+        foreach ($tables as $table) {
+            if (!($table != "master_mapel")) {
+                goto a2i9u;
+            }
+            if ($table == "cbt_soal") {
+                $this->db->where_in("mapel_id", $chk);
+                $num = $this->db->count_all_results($table);
+                goto o8xHk;
+            }
+            $this->db->where_in("id_mapel", $chk);
+            $num = $this->db->count_all_results($table);
+            o8xHk:
+            if (!($num > 0)) {
+                goto s5o2v;
+            }
+            array_push($messages, $table);
+            s5o2v:
+            a2i9u:
+        }
+        if (count($messages) > 0) {
+            $this->output_json(["status" => false, "total" => "Mapel digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
+            goto d__MT;
+        }
+        if (!$this->master->delete("master_mapel", $chk, "id_mapel")) {
+            goto UBZTK;
+        }
+        $this->output_json(["status" => true, "total" => count($chk)]);
+        UBZTK:
+        d__MT:
+        A6B0r:
+    }
+    public function import($import_data = null)
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Mata Pelajaran", "subjudul" => "Import Mata Pelajaran", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
+        if (!($import_data != null)) {
+            goto LARk8;
+        }
+        $data["import"] = $import_data;
+        LARk8:
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $this->dashboard->getTahunActive();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $this->dashboard->getSemesterActive();
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("master/mapel/import");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function previewExcel()
+    {
+        $config["upload_path"] = "./uploads/import/";
+        $config["allowed_types"] = "xls|xlsx|csv";
+        $config["max_size"] = 2048;
+        $config["encrypt_name"] = true;
+        $this->load->library("upload", $config);
+        if (!$this->upload->do_upload("upload_file")) {
+            $error = $this->upload->display_errors();
+            echo $error;
+            die;
+        }
+        $file = $this->upload->data("full_path");
+        $ext = $this->upload->data("file_ext");
+        switch ($ext) {
+            case ".xlsx":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                goto s5Ed0;
+            case ".xls":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                goto s5Ed0;
+            case ".csv":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                goto s5Ed0;
+            default:
+                echo "unknown file ext";
+                die;
+        }
+        s5Ed0:
+        $spreadsheet = $reader->load($file);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $data = [];
+        $i = 1;
+        C4Z_o:
+        if (!($i < count($sheetData))) {
+            unlink($file);
+            echo json_encode($data);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        if (!($sheetData[$i][1] != null)) {
+            goto P6QQi;
+        }
+        $data[] = ["nama" => $sheetData[$i][1], "kode" => $sheetData[$i][2]];
+        P6QQi:
+        $i++;
+        goto C4Z_o;
+    }
+    public function previewWord()
+    {
+        $config["upload_path"] = "./uploads/import/";
+        $config["allowed_types"] = "docx";
+        $config["max_size"] = 2048;
+        $config["encrypt_name"] = true;
+        $this->load->library("upload", $config);
+        if (!$this->upload->do_upload("upload_file")) {
+            $error = $this->upload->display_errors();
+            echo $error;
+            die;
+        }
+        $file = $this->upload->data("full_path");
+        $phpWord = \PhpOffice\PhpWord\IOFactory::load($file);
+        $htmlWriter = new \PhpOffice\PhpWord\Writer\HTML($phpWord);
+        try {
+            $htmlWriter->save("./uploads/temp/doc.html");
+        } catch (\PhpOffice\PhpWord\Exception\Exception $e) {
+        }
+        unlink($file);
+        $text = file_get_contents("./uploads/temp/doc.html");
+        $dom = new DOMDocument();
+        $dom->loadHTML($text);
+        $data = [];
+        $dom->preserveWhiteSpace = false;
+        $tables = $dom->getElementsByTagName("table");
+        $rows = $tables->item(0)->getElementsByTagName("tr");
+        $i = 1;
+        u00WQ:
+        if (!($i < $rows->count())) {
+            echo json_encode($data);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        $cols = $rows[$i]->getElementsByTagName("td");
+        $data[] = ["nama" => $cols->item(1)->nodeValue, "kode" => $cols->item(2)->nodeValue];
+        $i++;
+        goto u00WQ;
+    }
+    public function do_import()
+    {
+        $data = json_decode($this->input->post("mapel", true));
+        $mapel = [];
+        foreach ($data as $j) {
+            $mapel[] = ["nama_mapel" => $j->nama, "kode" => $j->kode];
+        }
+        $save = $this->master->create("master_mapel", $mapel, true);
+        $this->output->set_content_type("application/json")->set_output($save);
+    }
+}

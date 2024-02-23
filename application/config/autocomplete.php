@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @property CI_DB_query_builder|CI_DB_postgre_driver $db              This is the platform-independent base Active Record implementation class.
  * @property CI_DB_forge $dbforge                 Database Utility Class
@@ -65,15 +66,12 @@ class CI_Controller
     {
     }
 }
-
 class CI_Model extends CI_Controller
 {
 }
-
 class MY_Controller extends CI_Controller
 {
 }
-
 class MX_Controller extends CI_Controller
 {
 }

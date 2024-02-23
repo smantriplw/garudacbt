@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html lang="en">
@@ -91,9 +92,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong>
-        seconds. <?php echo (ENVIRONMENT === 'development') ? 'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?>
+        seconds. <?php 
+echo "";
+?>
     </p>
 </div>
 
 </body>
 </html>
+

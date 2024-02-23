@@ -1,7 +1,38 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Install_model extends CI_Model { function install_success() { return $this->check_installer(); } function check_installer() { goto g7BNQ; oYCWS: return "\62"; goto Op49L; YKEIQ: uYf4v: goto kqmii; GErQ2: if (!$this->dbutil->database_exists($database)) { goto zz876; } goto tJXMD; SktQe: zz876: goto zXGOv; dRDfF: if ($CI->db->get("\x73\x65\x74\164\x69\x6e\147")->row()) { goto XXo4t; } goto UJijY; MHqhl: $CI->load->database(); goto DVNcj; tJXMD: $CI =& get_instance(); goto MHqhl; Pvh8X: $this->load->dbutil(); goto JuqMI; y6p1H: goto tTD1G; goto LdmQD; HIi3B: XXo4t: goto jtU1g; RE8vv: $database = $db["\144\145\x66\141\x75\x6c\x74"]["\144\141\164\141\142\141\x73\x65"]; goto Pvh8X; Op49L: goto fFfmt; goto YKEIQ; lrC31: goto ZrutC; goto HIi3B; jtU1g: return "\60"; goto GH7qx; JuqMI: if ($database == '') { goto q_3pL; } goto GErQ2; UJijY: return "\64"; goto lrC31; LxyAy: tTD1G: goto QR2_f; zXGOv: return "\x35"; goto d2Tny; QR2_f: fFfmt: goto FoDsv; kZzDl: return "\63"; goto y6p1H; FoDsv: goto GXObv; goto SktQe; g7BNQ: include APPPATH . "\143\157\x6e\146\151\x67\57\144\x61\164\x61\x62\141\163\x65\56\x70\x68\x70"; goto RE8vv; GH7qx: ZrutC: goto LxyAy; kqmii: if ($CI->db->get("\165\x73\145\x72\163")->row()) { goto f_9sF; } goto kZzDl; LdmQD: f_9sF: goto dRDfF; ntmSm: return "\x31"; goto TcoF6; v0CbX: goto lkHNc; goto uovxD; uovxD: q_3pL: goto ntmSm; DVNcj: if ($CI->db->table_exists("\x75\x73\145\162\x73")) { goto uYf4v; } goto oYCWS; d2Tny: GXObv: goto v0CbX; TcoF6: lkHNc: goto rfx5J; rfx5J: } }
+class Install_model extends CI_Model
+{
+    function install_success()
+    {
+        return $this->check_installer();
+    }
+    function check_installer()
+    {
+        include "APPPATHconfig/database.php";
+        $database = $db["default"]["database"];
+        $this->load->dbutil();
+        if ($database == '') {
+            return "1";
+        }
+        if (!$this->dbutil->database_exists($database)) {
+            return "5";
+        }
+        $CI =& get_instance();
+        $CI->load->database();
+        if ($CI->db->table_exists("users")) {
+            if ($CI->db->get("users")->row()) {
+                if ($CI->db->get("setting")->row()) {
+                    return "0";
+                }
+                return "4";
+            }
+            return "3";
+        }
+        return "2";
+    }
+}

@@ -1,7 +1,126 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Cbtsesisiswa extends CI_Controller { public function __construct() { goto rrV1u; VVVep: show_error("\110\141\156\x79\141\40\101\144\x6d\151\x6e\x69\163\164\x72\141\164\157\162\40\x79\141\x6e\147\x20\144\151\x62\x65\162\151\x20\150\141\x6b\40\165\156\164\165\153\x20\155\x65\x6e\147\x61\153\x73\145\163\x20\x68\141\154\x61\155\x61\x6e\40\151\x6e\151\x2c\40\x3c\141\x20\150\162\145\x66\x3d\42" . base_url("\x64\141\163\150\142\x6f\x61\x72\144") . "\42\x3e\113\145\155\x62\x61\x6c\151\x20\153\145\40\x6d\145\156\x75\x20\x61\167\141\x6c\x3c\57\141\76", 403, "\x41\x6b\x73\145\163\40\124\145\x72\x6c\141\x72\x61\x6e\147"); goto C1JjQ; APwAV: $this->load->library(["\x64\x61\164\141\x74\141\142\154\x65\163", "\x66\x6f\162\x6d\137\166\141\154\151\x64\x61\164\151\x6f\156"]); goto HB_il; ThQuS: $this->load->model("\113\x65\x6c\x61\163\137\x6d\x6f\x64\145\154", "\153\145\x6c\x61\x73"); goto w8WwG; w8WwG: $this->form_validation->set_error_delimiters('', ''); goto jCLGD; su5u2: goto kyMkw; goto uD2RV; rrV1u: parent::__construct(); goto LWDqK; V11PE: if ($this->ion_auth->is_admin()) { goto o6x1h; } goto VVVep; iKSih: $this->load->model("\103\x62\164\137\155\x6f\144\x65\x6c", "\x63\x62\164"); goto NbG5v; GTExc: kyMkw: goto APwAV; oxXSU: $this->load->model("\104\141\163\x68\x62\x6f\x61\x72\x64\137\x6d\x6f\x64\x65\154", "\x64\x61\x73\x68\142\157\x61\x72\x64"); goto iKSih; HB_il: $this->load->model("\115\141\x73\x74\x65\162\x5f\155\157\144\x65\154", "\155\x61\163\x74\145\162"); goto oxXSU; uD2RV: imqFC: goto S5gTm; C1JjQ: o6x1h: goto su5u2; S5gTm: redirect("\x61\x75\164\150"); goto GTExc; NbG5v: $this->load->model("\104\162\157\x70\x64\x6f\167\156\x5f\155\157\144\145\x6c", "\x64\162\x6f\160\x64\x6f\167\x6e"); goto ThQuS; LWDqK: if (!$this->ion_auth->logged_in()) { goto imqFC; } goto V11PE; jCLGD: } public function output_json($data, $encode = true) { goto E1Yj3; E1Yj3: if (!$encode) { goto CkzTR; } goto uBvQF; kw7KM: CkzTR: goto q5BfG; uBvQF: $data = json_encode($data); goto kw7KM; q5BfG: $this->output->set_content_type("\141\160\160\154\151\143\x61\x74\151\x6f\x6e\57\152\x73\x6f\x6e")->set_output($data); goto dPY1K; dPY1K: } public function index() { goto j2H38; YKL4r: $this->load->view("\137\164\145\155\160\154\141\164\145\163\57\x64\x61\163\150\x62\157\x61\x72\x64\57\x5f\146\x6f\157\x74\145\162"); goto Bo8EO; uDgaz: $data["\x6b\145\154\x61\x73\x5f\x73\145\x6c\x65\143\164\x65\144"] = $kelas_selected; goto wgJ09; vl00_: $siswas = []; goto lk2Mj; pqGlE: $kls = $this->input->get("\153\x6c\x73", true); goto DOPvI; THzXf: Q8HH8: goto RS3H8; lk2Mj: if (!($kelas_selected != "\x30")) { goto Q8HH8; } goto urIyO; WZpvR: $smt = $this->dashboard->getSemesterActive(); goto Gh6zW; mm318: $this->load->view("\x63\142\x74\57\163\x65\163\x69\163\151\163\x77\x61\57\144\x61\164\x61"); goto YKL4r; wgJ09: $this->load->view("\x5f\x74\145\155\x70\154\141\164\145\163\x2f\x64\141\x73\x68\142\x6f\x61\162\x64\x2f\137\x68\145\x61\x64\145\x72", $data); goto mm318; Gh6zW: $user = $this->ion_auth->user()->row(); goto hUQEB; hUQEB: $data = ["\165\x73\145\162" => $user, "\152\165\144\x75\x6c" => "\101\x74\x75\162\40\x52\165\x61\156\147\40\x64\141\156\x20\123\145\x73\151\40\123\151\x73\x77\x61", "\x73\165\142\x6a\x75\144\165\x6c" => "\x52\x75\141\156\x67\x20\144\x61\x6e\x20\123\145\163\x69\x20\123\151\163\167\141", "\163\145\x74\x74\151\156\x67" => $this->dashboard->getSetting(), "\x6b\145\x6c\141\x73" => $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt), "\162\x75\141\x6e\147\137\153\x65\x6c\x61\163" => $this->cbt->getKelasList($tp->id_tp, $smt->id_smt), "\x73\145\x73\x69" => $this->dropdown->getAllSesi(), "\x72\165\x61\x6e\x67" => $this->cbt->getAllRuang(), "\164\x70" => $this->dashboard->getTahun(), "\x74\160\137\x61\x63\164\x69\166\x65" => $tp, "\163\155\164" => $this->dashboard->getSemester(), "\163\x6d\x74\x5f\x61\143\164\151\166\145" => $smt, "\160\162\157\x66\x69\x6c\x65" => $this->dashboard->getProfileAdmin($user->id)]; goto pqGlE; urIyO: $siswas = $this->cbt->getRuangSesiSiswa($kls, $tp->id_tp, $smt->id_smt); goto THzXf; RS3H8: $data["\x73\151\163\x77\x61\x73"] = $siswas; goto uDgaz; DOPvI: $kelas_selected = $kls != null ? $kls : "\x30"; goto vl00_; j2H38: $tp = $this->dashboard->getTahunActive(); goto WZpvR; Bo8EO: } public function getAllRuang() { $this->output_json($this->cbt->getAllRuang()); } public function getAllSesi() { $this->output_json($this->dropdown->getAllSesi()); } public function add() { goto JFGr9; SyqJ3: $data["\163\x74\x61\x74\x75\163"] = $insert; goto hNi4P; OYvI0: $this->master->create("\143\x62\x74\x5f\x73\145\x73\151", $insert, false); goto SyqJ3; hNi4P: $this->output_json($data); goto kS6Ud; JFGr9: $insert = ["\156\x61\x6d\141\x5f\163\145\x73\x69" => $this->input->post("\156\x61\x6d\x61\137\163\x65\163\151", true), "\x6b\157\144\x65\137\x73\x65\163\x69" => $this->input->post("\153\x6f\x64\x65\x5f\163\x65\x73\x69", true), "\167\141\x6b\164\165\x5f\x6d\x75\x6c\141\x69" => $this->input->post("\167\x61\x6b\164\165\x5f\x6d\x75\154\x61\x69", true), "\x77\x61\x6b\x74\165\x5f\141\153\x68\x69\162" => $this->input->post("\x77\x61\x6b\164\x75\137\141\153\x68\x69\x72", true)]; goto OYvI0; kS6Ud: } public function update() { $data = $this->cbt->updateSesi(); $this->output->set_content_type("\x61\160\160\x6c\151\x63\141\x74\151\157\156\57\152\163\157\156")->set_output($data); } public function delete() { goto GFWva; TzUkC: if (!$chk) { goto EqrPW; } goto I20wH; fnWbn: yHQnO: goto pFEub; rQ9KK: goto yHQnO; goto vVHdH; GFWva: $chk = $this->input->post("\143\x68\x65\143\x6b\x65\x64", true); goto TzUkC; G43o0: $this->output_json(["\x73\164\x61\164\165\163" => false]); goto fnWbn; y35bV: KgWSR: goto rQ9KK; VOfJm: $this->output_json(["\163\x74\141\164\165\163" => true, "\164\x6f\x74\x61\x6c" => count($chk)]); goto y35bV; vVHdH: EqrPW: goto G43o0; I20wH: if (!$this->master->delete("\x63\142\164\137\163\x65\x73\151", $chk, "\x69\144\137\163\145\163\x69")) { goto KgWSR; } goto VOfJm; pFEub: } public function editsesisiswa() { goto mG23p; SSXKw: gQCKx: goto j95pp; SYcLy: $smt = $this->dashboard->getSemesterActive(); goto kZHI1; mG23p: $rs = $this->input->post("\162\x75\x61\156\x67\x2d\163\x65\x73\x69", true); goto yLA1H; j95pp: $data["\163\164\x61\164\x75\x73"] = $update; goto yXD32; yLA1H: $tp = $this->dashboard->getTahunActive(); goto SYcLy; yXD32: $this->output_json($data); goto jeE7c; KOvLw: foreach ($rs as $id => $klss) { goto fWoMD; fWoMD: foreach ($klss as $idkls => $kls) { goto vK75F; lWiQX: $update = $this->db->replace("\x63\x62\x74\x5f\163\145\x73\151\x5f\x73\x69\163\167\x61", $data); goto IgwyB; vK75F: $data = ["\163\151\x73\x77\141\x5f\151\144" => $id, "\x6b\145\154\x61\163\137\151\144" => $idkls, "\x72\165\141\x6e\147\137\x69\x64" => $kls["\x72\x75\x61\156\x67"], "\x73\x65\x73\151\x5f\151\x64" => $kls["\163\145\x73\151"], "\x74\160\x5f\x69\144" => $tp->id_tp, "\x73\x6d\164\137\x69\x64" => $smt->id_smt]; goto lWiQX; IgwyB: v0R3x: goto bO6kF; bO6kF: } goto f3u56; YmxQ3: dyCOh: goto A2kMl; f3u56: hicDu: goto YmxQ3; A2kMl: } goto SSXKw; kZHI1: $update = false; goto KOvLw; jeE7c: } public function editsesikelas() { goto cgHNm; Vs6BO: $smt = $this->dashboard->getSemesterActive(); goto d8MNe; LCnm_: $this->output_json($data); goto r0QRk; cgHNm: $input = json_decode($this->input->post("\x6b\145\154\x61\163\137\x73\x65\x73\x69", true)); goto he1as; QZm0G: $data["\x73\x74\x61\x74\165\x73"] = $update; goto LCnm_; d8MNe: foreach ($input as $d) { goto n3FXI; vn0x6: foreach ($siswas as $siswa) { goto I277g; pki1V: $this->db->replace("\x63\142\x74\137\163\145\163\x69\x5f\163\x69\163\167\x61", $data); goto XDNdt; XDNdt: e7uJL: goto duDPD; I277g: $data = ["\x73\151\x73\x77\x61\137\x69\x64" => $siswa->id_siswa, "\153\x65\154\141\x73\x5f\151\144" => $siswa->id_kelas, "\162\x75\141\x6e\147\137\x69\x64" => $d->ruang_id, "\163\145\x73\x69\x5f\x69\144" => $d->sesi_id, "\x74\160\x5f\x69\144" => $tp->id_tp, "\163\155\x74\137\x69\144" => $smt->id_smt]; goto pki1V; duDPD: } goto PoVFz; onNMH: $data = ["\151\x64\137\153\145\x6c\141\x73\x5f\x72\x75\x61\x6e\x67" => $d->kelas_id . $tp->id_tp . $smt->id_smt, "\151\144\x5f\x6b\145\154\141\x73" => $d->kelas_id, "\x69\x64\x5f\162\x75\x61\x6e\147" => $d->ruang_id, "\x69\144\137\163\x65\x73\151" => $d->sesi_id, "\151\x64\137\x74\160" => $tp->id_tp, "\151\x64\137\x73\x6d\x74" => $smt->id_smt, "\163\x65\x74\137\x73\x69\163\x77\141" => $d->set_siswa]; goto iRj7x; iRj7x: $update = $this->db->replace("\143\142\164\137\x6b\145\x6c\141\163\x5f\x72\x75\x61\x6e\147", $data); goto UCSWo; PoVFz: yd3at: goto onNMH; UCSWo: RqvNw: goto YmMWu; n3FXI: $siswas = $this->kelas->getKelasSiswa($d->kelas_id, $tp->id_tp, $smt->id_smt); goto vn0x6; YmMWu: } goto KZNZn; he1as: $tp = $this->dashboard->getTahunActive(); goto Vs6BO; KZNZn: DSegK: goto QZm0G; r0QRk: } }
+class Cbtsesisiswa extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto GTExc;
+        }
+        if ($this->ion_auth->is_admin()) {
+            goto o6x1h;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        o6x1h:
+        GTExc:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Cbt_model", "cbt");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->load->model("Kelas_model", "kelas");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto CkzTR;
+        }
+        $data = json_encode($data);
+        CkzTR:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Atur Ruang dan Sesi Siswa", "subjudul" => "Ruang dan Sesi Siswa", "setting" => $this->dashboard->getSetting(), "kelas" => $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt), "ruang_kelas" => $this->cbt->getKelasList($tp->id_tp, $smt->id_smt), "sesi" => $this->dropdown->getAllSesi(), "ruang" => $this->cbt->getAllRuang(), "tp" => $this->dashboard->getTahun(), "tp_active" => $tp, "smt" => $this->dashboard->getSemester(), "smt_active" => $smt, "profile" => $this->dashboard->getProfileAdmin($user->id)];
+        $kls = $this->input->get("kls", true);
+        $kelas_selected = $kls != null ? $kls : "0";
+        $siswas = [];
+        if (!($kelas_selected != "0")) {
+            goto Q8HH8;
+        }
+        $siswas = $this->cbt->getRuangSesiSiswa($kls, $tp->id_tp, $smt->id_smt);
+        Q8HH8:
+        $data["siswas"] = $siswas;
+        $data["kelas_selected"] = $kelas_selected;
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("cbt/sesisiswa/data");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function getAllRuang()
+    {
+        $this->output_json($this->cbt->getAllRuang());
+    }
+    public function getAllSesi()
+    {
+        $this->output_json($this->dropdown->getAllSesi());
+    }
+    public function add()
+    {
+        $insert = ["nama_sesi" => $this->input->post("nama_sesi", true), "kode_sesi" => $this->input->post("kode_sesi", true), "waktu_mulai" => $this->input->post("waktu_mulai", true), "waktu_akhir" => $this->input->post("waktu_akhir", true)];
+        $this->master->create("cbt_sesi", $insert, false);
+        $data["status"] = $insert;
+        $this->output_json($data);
+    }
+    public function update()
+    {
+        $data = $this->cbt->updateSesi();
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function delete()
+    {
+        $chk = $this->input->post("checked", true);
+        if (!$chk) {
+            $this->output_json(["status" => false]);
+            goto fnWbn;
+        }
+        if (!$this->master->delete("cbt_sesi", $chk, "id_sesi")) {
+            goto KgWSR;
+        }
+        $this->output_json(["status" => true, "total" => count($chk)]);
+        KgWSR:
+        fnWbn:
+    }
+    public function editsesisiswa()
+    {
+        $rs = $this->input->post("ruang-sesi", true);
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $update = false;
+        foreach ($rs as $id => $klss) {
+            foreach ($klss as $idkls => $kls) {
+                $data = ["siswa_id" => $id, "kelas_id" => $idkls, "ruang_id" => $kls["ruang"], "sesi_id" => $kls["sesi"], "tp_id" => $tp->id_tp, "smt_id" => $smt->id_smt];
+                $update = $this->db->replace("cbt_sesi_siswa", $data);
+            }
+        }
+        $data["status"] = $update;
+        $this->output_json($data);
+    }
+    public function editsesikelas()
+    {
+        $input = json_decode($this->input->post("kelas_sesi", true));
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        foreach ($input as $d) {
+            $siswas = $this->kelas->getKelasSiswa($d->kelas_id, $tp->id_tp, $smt->id_smt);
+            foreach ($siswas as $siswa) {
+                $data = ["siswa_id" => $siswa->id_siswa, "kelas_id" => $siswa->id_kelas, "ruang_id" => $d->ruang_id, "sesi_id" => $d->sesi_id, "tp_id" => $tp->id_tp, "smt_id" => $smt->id_smt];
+                $this->db->replace("cbt_sesi_siswa", $data);
+            }
+            $data = ["id_kelas_ruang" => $d->kelas_id . $tp->id_tp . $smt->id_smt, "id_kelas" => $d->kelas_id, "id_ruang" => $d->ruang_id, "id_sesi" => $d->sesi_id, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "set_siswa" => $d->set_siswa];
+            $update = $this->db->replace("cbt_kelas_ruang", $data);
+        }
+        $data["status"] = $update;
+        $this->output_json($data);
+    }
+}

@@ -1,25 +1,26 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: AbangAzmi
  * Date: 02/01/2023
  * Time: 19.25
  */
-
-class Db_manager {
+class Db_manager
+{
     var $connections = array();
     var $CI;
-
-    function __construct() {
+    function __construct()
+    {
         $this->CI =& get_instance();
     }
-
-    function get_connection() {
-        include APPPATH . 'config/database.php';
+    function get_connection()
+    {
+        include "APPPATHconfig/database.php";
         $db_name = $db['default']['database'];
         // connection exists? return it
         if ($db_name == '') {
-            die();
+            die;
         } else {
             if (isset($this->connections[$db_name])) {
                 return $this->connections[$db_name];

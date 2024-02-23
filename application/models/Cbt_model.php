@@ -1,7 +1,1877 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Cbt_model extends CI_Model { public function get_where($table, $pk, $id, $join = null, $order = null) { goto HyRT8; irjRK: FAII1: goto Be0JP; m2qc0: foreach ($order as $field => $sort) { $this->db->order_by($field, $sort); Z96mi: } goto N5gbN; Be0JP: if (!($order !== null)) { goto jT2Mu; } goto m2qc0; umIIc: foreach ($join as $table => $field) { $this->db->join($table, $field); fdP1v: } goto sWBbG; PEZnl: return $query; goto Lbxfc; sWBbG: KcpGQ: goto irjRK; XJ00d: jT2Mu: goto MVXjk; MVXjk: $query = $this->db->get(); goto PEZnl; N5gbN: QL0GN: goto XJ00d; IkYV1: if (!($join !== null)) { goto FAII1; } goto umIIc; jR0Qs: $this->db->from($table); goto dgY7S; dgY7S: $this->db->where($pk, $id); goto IkYV1; HyRT8: $this->db->select("\x2a"); goto jR0Qs; Lbxfc: } public function saveLog($id_siswa, $id_jadwal, $type, $desc) { goto euooF; Dg7Hu: goto UKg3m; goto tquRi; O5fg4: return $this->insertLog($id_siswa, $id_jadwal, $type, $desc, $agent, $os, $ip); goto Dg7Hu; E13BC: if ($this->agent->is_mobile()) { goto hiDLS; } goto SSxyS; euooF: if ($this->agent->is_browser()) { goto DCl2h; } goto E13BC; wvztp: UKg3m: goto LT3V0; d8T1c: if ($agent == "\165\x6e\153\x6e\x6f\167\156") { goto MQz1h; } goto yIBur; yIBur: $os = $this->agent->platform(); goto f4mr1; PU3ro: goto dS9nn; goto bZ9Vj; f4mr1: $ip = $this->input->ip_address(); goto O5fg4; HhlzW: goto dS9nn; goto yqTKV; SSxyS: $agent = "\165\156\153\156\157\167\156"; goto PU3ro; yqTKV: hiDLS: goto Em8fJ; MvFnK: return "\145\x72\162\157\162"; goto wvztp; pdQGp: $agent = $this->agent->browser() . "\x20" . $this->agent->version(); goto HhlzW; bZ9Vj: DCl2h: goto pdQGp; tquRi: MQz1h: goto MvFnK; Em8fJ: $agent = $this->agent->mobile(); goto lENXq; lENXq: dS9nn: goto d8T1c; LT3V0: } private function insertLog($id_siswa, $id_jadwal, $type, $desc, $agent, $os, $ip) { goto tS229; gLhJc: $this->db->set("\154\157\x67\137\144\145\163\x63", $desc); goto kr_Yn; lR50v: $data = array("\151\x64\x5f\x6c\x6f\147" => $id_siswa . "\x30" . $id_jadwal . $type, "\x69\144\x5f\x73\151\163\x77\141" => $id_siswa, "\x69\x64\x5f\152\141\144\x77\141\154" => $id_jadwal, "\x6c\157\147\137\x74\171\x70\x65" => $type, "\x6c\x6f\147\x5f\144\x65\x73\x63" => $desc, "\141\x64\x64\x72\x65\x73\163" => $ip, "\x61\147\145\x6e\x74" => $agent, "\144\x65\x76\x69\143\145" => $os); goto ozAV9; z9O6w: $insert = $this->db->update("\154\157\x67\137\165\x6a\151\141\156"); goto BTGMa; X5NOu: if ($log != null) { goto vM0Tp; } goto lR50v; kr_Yn: $this->db->where("\151\x64\137\154\x6f\x67", $id_siswa . "\x30" . $id_jadwal . $type); goto z9O6w; ozAV9: $insert = $this->db->insert("\x6c\x6f\147\x5f\x75\x6a\151\x61\x6e", $data); goto eYqHU; MFg1W: vM0Tp: goto re4Kv; BTGMa: NBIEc: goto y5Ca_; tS229: $log = $this->db->where("\151\x64\137\154\157\147", $id_siswa . "\x30" . $id_jadwal . $type)->get("\154\157\147\x5f\x75\152\151\x61\156")->row(); goto X5NOu; re4Kv: $this->db->set("\154\x6f\x67\x5f\164\171\160\x65", $type); goto gLhJc; y5Ca_: return $insert; goto QHeIE; eYqHU: goto NBIEc; goto MFg1W; QHeIE: } public function getDataSiswa($username, $id_tp, $id_smt) { goto vn2y1; vtEKC: $query = $this->db->get()->row(); goto jLrr2; Lwvty: $this->db->from("\155\141\163\x74\145\162\137\163\151\163\167\141\40\141"); goto CuRve; jLrr2: return $query; goto ulqti; vn2y1: $this->db->select("\141\56\151\144\x5f\163\151\163\167\x61\x2c\x20\141\x2e\156\151\x73\x6e\54\40\x61\x2e\156\x69\x73\54\40\x61\x2e\156\x61\155\141\54\x20\x61\56\x6a\x65\156\151\x73\x5f\x6b\145\x6c\141\155\151\156\x2c\x20\141\x2e\x75\163\x65\x72\x6e\141\155\x65\x2c\40\x61\56\160\x61\x73\x73\167\x6f\x72\x64\x2c\x20\141\56\x61\x67\x61\x6d\x61\x2c\x20\141\56\146\157\x74\x6f\x2c" . "\x20\142\56\x69\144\137\153\145\154\141\x73\137\163\151\x73\x77\x61\x2c\x20\142\56\151\x64\137\x74\160\54\x20\x62\56\151\144\x5f\163\155\x74\54\x20\x62\56\x69\144\x5f\x73\151\x73\x77\x61\54\40\x62\x2e\151\x64\137\x6b\x65\154\x61\x73\x2c" . "\x20\143\x2e\156\x61\155\x61\137\153\x65\154\141\163\54\x20\x63\x2e\153\x6f\x64\145\x5f\x6b\x65\154\x61\x73\x2c\x20\x63\56\x6c\x65\166\x65\x6c\x5f\151\144\54\x20" . "\x20\x64\56\x6b\x65\154\141\163\x5f\151\144\x2c\x20\144\56\x72\x75\141\156\x67\x5f\151\144\x2c\40\x64\x2e\x73\x65\163\x69\x5f\151\144"); goto Lwvty; AOwBO: $this->db->join("\143\142\x74\x5f\163\145\163\x69\137\163\151\x73\x77\141\x20\144", "\141\x2e\151\144\x5f\x73\151\163\x77\141\x3d\x64\56\163\x69\x73\167\x61\137\x69\x64", "\x6c\x65\x66\164"); goto GQs0B; CuRve: $this->db->join("\153\145\154\141\x73\x5f\x73\x69\163\x77\141\40\x62", "\x61\x2e\151\144\x5f\163\151\x73\x77\141\x3d\142\x2e\151\144\137\163\x69\x73\167\x61\40\101\116\104\x20\x62\x2e\x69\x64\x5f\164\x70\x3d" . $id_tp . "\40\x41\116\x44\40\142\56\151\144\137\x73\155\164\75" . $id_smt, "\154\145\146\164"); goto qBKE_; GQs0B: $this->db->where("\x75\163\x65\x72\156\141\155\x65", $username); goto vtEKC; qBKE_: $this->db->join("\155\x61\163\164\x65\162\137\x6b\x65\154\141\163\40\143", "\x62\56\151\144\x5f\x6b\145\154\x61\163\75\143\x2e\x69\144\137\153\x65\x6c\141\x73\40\x41\116\104\40\x63\56\x69\x64\x5f\x74\160\x3d" . $id_tp . "\40\101\116\104\40\143\56\151\x64\137\163\x6d\x74\x3d" . $id_smt, "\154\145\146\164"); goto AOwBO; ulqti: } public function getDataSiswaById($id_tp, $id_smt, $idSiswa) { goto Pcno3; Pcno3: $this->db->select("\x62\x2e\x69\x64\x5f\x73\x69\163\x77\141\x2c\x20\142\56\x6e\x61\x6d\x61\x2c\x20\x62\56\152\145\x6e\151\163\137\x6b\x65\154\141\155\x69\x6e\x2c\40\x62\x2e\156\151\x73\x2c\40\142\x2e\156\x69\163\x6e\54\40\142\56\165\x73\x65\162\x6e\141\155\x65\x2c\40\142\x2e\160\x61\163\163\x77\x6f\x72\x64\54" . "\x20\142\56\146\157\x74\157\x2c\x20\x63\x2e\x73\x65\163\151\137\x69\x64\54\x20\144\56\x6b\157\x64\145\x5f\162\x75\141\156\x67\x2c\40\145\x2e\153\157\x64\x65\137\x73\x65\x73\151\54\x20\x66\56\x6e\141\155\x61\x5f\153\x65\x6c\141\163\x2c\x20\147\56\x6e\157\x6d\x6f\162\137\x70\145\x73\x65\x72\x74\141\x2c" . "\40\x68\56\x73\145\x74\x5f\163\x69\x73\x77\141\54\x20\151\x2e\x6b\157\144\145\137\x72\x75\141\x6e\147\40\x61\163\x20\162\x75\141\x6e\147\x5f\153\145\154\141\163\54\40\x6a\56\x6b\157\x64\x65\137\163\x65\x73\x69\x20\x61\x73\40\x73\145\x73\151\137\153\x65\154\x61\x73"); goto y7fIN; QE8PA: $this->db->where("\141\56\x69\144\x5f\x74\160", $id_tp); goto L4SKw; gPEmQ: $this->db->join("\155\x61\x73\164\145\x72\137\x73\151\x73\167\141\x20\x62", "\142\x2e\151\144\137\163\x69\163\167\x61\x3d\141\x2e\x69\x64\x5f\x73\151\163\x77\x61", "\x6c\x65\146\164"); goto ZWPq2; l0Cjv: $this->db->join("\x63\x62\164\137\x73\x65\163\151\40\x6a", "\x6a\x2e\151\x64\137\x73\x65\x73\151\75\x68\x2e\x69\x64\x5f\x73\x65\163\x69", "\154\x65\146\164"); goto QE8PA; U5FAM: $this->db->join("\x63\142\x74\x5f\x6e\x6f\155\157\162\137\x70\145\163\145\162\164\141\40\147", "\x67\x2e\151\x64\137\x73\151\163\167\x61\x3d\x61\56\x69\144\x5f\x73\x69\x73\167\141\x20\101\x4e\104\x20\x67\56\151\144\137\164\x70\75" . $id_tp, "\x6c\x65\146\x74"); goto wNo7a; NoN76: $this->db->join("\143\142\x74\x5f\x72\x75\141\x6e\147\x20\x69", "\x69\56\151\x64\x5f\162\165\141\x6e\147\75\150\56\x69\144\137\x72\x75\141\156\147", "\154\x65\146\x74"); goto l0Cjv; KNb33: return $this->db->get()->row(); goto knxJJ; dIFmA: $this->db->join("\x6d\x61\x73\x74\145\x72\137\x6b\x65\154\141\x73\40\146", "\x66\56\x69\144\x5f\x6b\145\154\x61\x73\75\x61\x2e\x69\144\x5f\153\x65\x6c\x61\x73", "\x6c\x65\x66\164"); goto U5FAM; CLMGI: $this->db->where("\141\56\151\144\137\163\151\163\x77\141", $idSiswa); goto KNb33; y7fIN: $this->db->from("\153\x65\154\x61\x73\137\x73\x69\163\x77\x61\40\x61"); goto gPEmQ; ZWPq2: $this->db->join("\143\x62\x74\x5f\163\145\x73\x69\x5f\163\151\163\x77\141\40\x63", "\143\56\163\151\163\x77\x61\x5f\151\x64\75\141\x2e\x69\144\137\163\151\163\167\x61", "\154\145\146\164"); goto IV08e; IV08e: $this->db->join("\143\142\x74\137\x72\x75\141\156\x67\40\144", "\144\56\x69\x64\137\x72\165\141\156\x67\75\143\x2e\x72\165\141\x6e\x67\x5f\x69\144", "\154\x65\146\164"); goto WPJ4V; L4SKw: $this->db->where("\141\x2e\x69\144\137\x73\155\164", $id_smt); goto CLMGI; wNo7a: $this->db->join("\x63\142\x74\137\153\145\x6c\x61\x73\137\162\x75\141\x6e\x67\40\x68", "\150\x2e\151\x64\137\153\x65\x6c\141\x73\x3d\141\x2e\151\x64\x5f\x6b\x65\154\141\x73", "\x6c\145\146\164"); goto NoN76; WPJ4V: $this->db->join("\143\142\x74\137\163\145\163\151\40\x65", "\145\x2e\151\x64\x5f\163\145\x73\151\x3d\143\56\163\x65\163\151\x5f\x69\144", "\154\x65\x66\x74"); goto dIFmA; knxJJ: } public function getWaktuSesiById($id_sesi) { goto XXDuu; IOLMi: $result = $this->db->get("\x63\142\x74\137\163\x65\x73\x69")->row(); goto SDta5; XXDuu: $this->db->select("\52"); goto IKa0j; IKa0j: $this->db->where("\151\x64\137\163\x65\163\151", $id_sesi); goto IOLMi; SDta5: return $result; goto W8QvN; W8QvN: } public function getAllRuang() { goto BMkoh; cWE76: $result = $this->db->get("\x63\142\x74\x5f\x72\x75\x61\156\x67")->result(); goto Ao3cU; VnDZt: bSBZi: goto D68Fz; D68Fz: UK2nS: goto DCHBK; BMkoh: $this->db->select("\x69\144\137\162\165\141\x6e\147\54\40\156\141\155\x61\137\162\165\x61\156\x67\x2c\x20\153\157\144\x65\x5f\x72\165\141\x6e\147"); goto cWE76; AABkX: if (!$result) { goto UK2nS; } goto WqTti; DCHBK: return $ret; goto gtZZD; WqTti: foreach ($result as $key => $row) { $ret[$row->id_ruang] = $row->kode_ruang; vyWHe: } goto VnDZt; Ao3cU: $ret = []; goto AABkX; gtZZD: } public function getKelasByLevel($level, $arrKelas) { goto wWFGD; wWFGD: $this->db->select("\151\x64\x5f\x6b\145\154\141\x73\x2c\x20\153\157\x64\145\x5f\x6b\145\x6c\141\163"); goto enGv_; enGv_: $this->db->where("\154\x65\x76\145\154\137\151\144", $level); goto W3koD; Opq60: return $result; goto u7SgZ; RTU11: $result = $this->db->get("\155\x61\x73\164\145\162\x5f\153\x65\154\141\x73")->result(); goto Opq60; W3koD: $this->db->where_in("\x69\x64\x5f\x6b\145\x6c\x61\163", $arrKelas); goto RTU11; u7SgZ: } public function getAllJurusan() { goto kpISg; dQ1qj: if (!$result) { goto ICc0t; } goto VjLjc; miR9e: ICc0t: goto KPENO; kpISg: $result = $this->db->get("\x6d\x61\163\164\x65\x72\137\x6a\x75\162\x75\163\x61\x6e")->result(); goto dQ1qj; KPENO: return $ret; goto W2VeT; VjLjc: foreach ($result as $key => $row) { $ret[$row->id_jurusan] = $row->kode_jurusan; xwAnO: } goto aJm44; aJm44: onLGf: goto miR9e; W2VeT: } public function getPengawas($id_pengawas) { goto A7Jqq; A7Jqq: $this->db->select("\x69\144\137\x70\145\156\147\141\x77\x61\x73\x2c\40\151\x64\x5f\152\x61\144\x77\x61\x6c\x2c\x20\x69\144\x5f\164\x70\x2c\40\x69\144\x5f\x73\155\164\x2c\40\x69\144\x5f\162\x75\x61\x6e\x67\x2c\x20\151\144\137\x73\145\163\151\54\40\151\144\x5f\147\x75\162\165"); goto hKGPB; Igha_: return $this->db->get()->row(); goto tJ7_G; eVwnO: $this->db->where("\x69\x64\137\160\145\156\147\141\167\x61\x73", $id_pengawas); goto Igha_; hKGPB: $this->db->from("\143\x62\x74\x5f\160\145\x6e\147\141\x77\141\x73"); goto eVwnO; tJ7_G: } public function getPengawasByGuru($tp, $smt, $id_guru) { goto bMHiG; eaH54: $this->db->like("\141\x2e\x69\144\137\x67\165\x72\x75", $id_guru); goto hQ_1a; bMHiG: $this->db->select("\x61\56\151\144\x5f\x70\x65\156\x67\x61\167\x61\x73\x2c\x20\x61\56\151\144\x5f\152\x61\144\167\141\154\x2c\x20\x61\x2e\151\x64\137\x74\160\x2c\x20\x61\x2e\x69\x64\x5f\x73\x6d\164\x2c\x20\x61\x2e\x69\x64\x5f\x72\x75\141\x6e\147\54\x20\x61\x2e\151\144\137\163\145\x73\151\54\x20\x61\x2e\x69\x64\137\147\165\x72\165\x2c" . "\40\x62\56\151\x64\x5f\x6a\x61\144\x77\x61\154\54\x20\142\x2e\x74\x67\154\x5f\155\165\x6c\x61\151\54\x20\x62\x2e\164\x67\x6c\x5f\x73\145\x6c\145\163\141\x69\x2c\40\x63\56\142\x61\x6e\x6b\x5f\153\x6f\x64\145\x2c\x20\x64\56\x6b\157\x64\x65\137\152\x65\156\x69\163"); goto AcuTz; A6niZ: $this->db->where("\141\x2e\x69\144\x5f\164\160", $tp); goto YI5wW; YI5wW: $this->db->where("\141\x2e\151\x64\x5f\163\x6d\x74", $smt); goto eaH54; MeFHj: $this->db->join("\x63\142\x74\x5f\152\x65\x6e\x69\163\40\x64", "\144\56\x69\144\x5f\152\x65\x6e\x69\x73\x3d\x62\x2e\x69\x64\137\152\x65\156\151\163", "\x6c\145\146\164"); goto BBkqF; AcuTz: $this->db->from("\x63\142\x74\137\160\145\156\147\141\167\141\163\40\x61"); goto A6niZ; UFt9b: $this->db->join("\x63\142\164\x5f\142\141\x6e\x6b\x5f\163\157\x61\154\40\x63", "\142\56\x69\x64\137\142\141\x6e\x6b\75\143\56\151\x64\137\142\x61\x6e\153"); goto MeFHj; hQ_1a: $this->db->join("\143\142\x74\137\x6a\141\x64\167\141\154\x20\142", "\142\x2e\151\x64\x5f\x6a\x61\144\167\141\154\x3d\x61\x2e\x69\x64\x5f\x6a\141\144\167\x61\x6c"); goto UFt9b; BBkqF: return $this->db->get()->result(); goto A7Rj9; A7Rj9: } public function getPengawasByJadwal($tp, $smt, $id_jadwal, $sesi = null, $ruang = null) { goto MUoUL; qhWwL: $this->db->where("\151\144\137\x6a\x61\x64\167\141\154", $id_jadwal); goto v3u23; v3u23: if (!($sesi != null)) { goto mU254; } goto hTraN; ez_GB: if (!($ruang != null)) { goto B80Yg; } goto KwUfx; omQd4: return $result; goto SE_m7; hTraN: $this->db->where("\151\x64\137\163\145\x73\151", $sesi); goto k7_5V; lu98V: B80Yg: goto dtbkK; gmdj6: $this->db->where("\x69\x64\x5f\164\160", $tp); goto Qij3b; KwUfx: $this->db->where("\151\144\x5f\162\x75\141\x6e\147", $ruang); goto lu98V; MUoUL: $this->db->select("\x69\x64\x5f\x70\x65\x6e\x67\141\167\141\x73\x2c\x20\x69\x64\x5f\x67\x75\x72\165"); goto q4csb; dtbkK: $result = $this->db->get()->result(); goto omQd4; q4csb: $this->db->from("\143\x62\164\x5f\x70\x65\156\x67\141\167\141\163"); goto gmdj6; Qij3b: $this->db->where("\x69\x64\x5f\x73\155\x74", $smt); goto qhWwL; k7_5V: mU254: goto ez_GB; SE_m7: } public function getAllPengawas($tp, $smt, $ruang = null, $sesi = null) { goto g7UWZ; BccZ0: if (!($ruang != null)) { goto DBXms; } goto OnU4I; sK0F2: if (!($sesi != null)) { goto YGZ7I; } goto KGZX1; IlVm0: YGZ7I: goto OOljB; vffdN: DBXms: goto sK0F2; OOljB: $result = $this->db->get()->result(); goto g3QXO; n3JPD: dyktk: goto RXOoe; g7UWZ: $this->db->select("\151\144\x5f\x70\145\156\147\x61\x77\141\x73\x2c\x20\x69\144\137\152\x61\x64\x77\141\x6c\54\40\151\144\137\162\x75\x61\x6e\147\x2c\x20\151\144\137\163\145\163\151\54\x20\x69\144\x5f\147\165\162\165"); goto nCa6p; qNjPR: Me6nU: goto n3JPD; cVZfs: $this->db->where("\x69\144\137\164\x70", $tp); goto VbdPk; VbdPk: $this->db->where("\151\x64\x5f\x73\155\164", $smt); goto BccZ0; wZ5dt: if (!$result) { goto dyktk; } goto je899; nCa6p: $this->db->from("\x63\142\x74\137\x70\145\x6e\147\x61\167\x61\163"); goto cVZfs; OnU4I: $this->db->where("\151\x64\x5f\x72\x75\141\156\x67", $ruang); goto vffdN; RXOoe: return $ret; goto tFsPA; g3QXO: $ret = []; goto wZ5dt; KGZX1: $this->db->where("\x69\144\137\163\x65\163\x69", $sesi); goto IlVm0; je899: foreach ($result as $key => $row) { $ret[$row->id_jadwal][$row->id_ruang][$row->id_sesi] = $row; XH3CR: } goto qNjPR; tFsPA: } public function getDistinctRuang($tp, $smt, $arrKelas) { goto J5oHH; jlhqr: $result = $this->db->get()->result(); goto tYlDY; p7sRH: $this->db->join("\143\142\164\137\x73\145\x73\151\40\143", "\143\56\151\144\x5f\163\x65\x73\151\x3d\141\x2e\163\x65\x73\151\x5f\151\x64"); goto Ywi42; J5oHH: $this->db->distinct("\141\x2e\162\165\x61\x6e\x67\x5f\151\x64"); goto YyAey; Ywi42: if (!(count($arrKelas) > 0)) { goto r0MHh; } goto IXs37; tIYkX: $this->db->join("\143\x62\x74\x5f\x72\x75\141\156\x67\x20\x62", "\142\x2e\151\144\137\162\165\141\156\147\x3d\x61\56\x72\x75\141\156\147\x5f\151\x64"); goto p7sRH; KRmEW: V2EpU: goto l7TPd; J4v8p: foreach ($result as $key => $row) { $ret[$row->ruang_id][$row->sesi_id] = $row; jfjFJ: } goto KRmEW; l7TPd: azkjT: goto J9fxG; YyAey: $this->db->select("\141\56\x72\x75\141\156\x67\x5f\x69\x64\54\x20\x61\56\x73\x65\x73\x69\137\151\x64\54\x20\x62\x2e\x6b\157\x64\145\137\162\165\x61\x6e\x67\54\40\x62\x2e\x6e\141\x6d\x61\x5f\162\x75\x61\156\x67\x2c\40\143\x2e\153\157\x64\x65\x5f\163\x65\163\151\x2c\40\x63\x2e\x6e\x61\155\141\137\163\145\163\151"); goto FwLJX; tYlDY: $ret = []; goto t1jys; ayudk: $this->db->order_by("\142\56\x6e\141\155\141\137\162\x75\x61\156\x67", "\101\x53\x43"); goto C02_3; FwLJX: $this->db->from("\x63\x62\x74\x5f\163\145\163\151\x5f\x73\x69\x73\x77\x61\x20\141"); goto tIYkX; t1jys: if (!$result) { goto azkjT; } goto J4v8p; J9fxG: return $ret; goto o5gS0; vHTb0: r0MHh: goto ayudk; C02_3: $this->db->order_by("\143\56\156\x61\x6d\x61\137\163\x65\x73\151", "\x41\x53\103"); goto jlhqr; IXs37: $this->db->where_in("\x6b\145\x6c\141\x73\137\x69\144", $arrKelas); goto vHTb0; o5gS0: } public function getKelasUjian($kelas_id) { goto oEW6t; XMOah: xAXO0: goto jPprh; jEP_D: $this->db->where("\153\x65\154\141\163\137\x69\144", $kelas_id); goto ubNyJ; kVSgs: $this->db->from("\143\142\x74\x5f\x73\145\x73\151\x5f\163\151\163\167\x61"); goto jEP_D; ubNyJ: $result = $this->db->get()->result(); goto DuIxM; DuIxM: $ret = []; goto ZVxdy; ZVxdy: if (!$result) { goto xAXO0; } goto KOrGw; oEW6t: $this->db->select("\153\x65\154\141\163\x5f\x69\144\x2c\x20\x72\165\141\x6e\147\137\x69\x64\x2c\40\163\x65\163\x69\x5f\151\144"); goto kVSgs; eFXg_: OMuN7: goto XMOah; KOrGw: foreach ($result as $key => $row) { $ret[$row->ruang_id][$row->sesi_id][] = $row->kelas_id; VKr6P: } goto eFXg_; jPprh: return $ret; goto BtF0T; BtF0T: } public function getDistinctKelasLevel($tp, $smt, $arrLevel) { goto qKiir; nixVu: $this->db->where_in("\154\x65\166\x65\154\137\151\x64", $arrLevel); goto YL1_L; mH1z1: $this->db->from("\x6d\x61\x73\164\145\162\137\153\145\x6c\x61\x73"); goto ctwkj; qKiir: $this->db->select("\x69\x64\137\x6b\x65\154\x61\x73\x2c\40\x6c\x65\166\x65\x6c\x5f\x69\144"); goto mj83O; b1E20: return $result; goto kwY5D; ctwkj: $this->db->where("\151\144\x5f\164\160", $tp); goto YFHuS; YFHuS: $this->db->where("\151\x64\137\x73\x6d\x74", $smt); goto nixVu; mj83O: $this->db->distinct(); goto mH1z1; YL1_L: $result = $this->db->get()->result(); goto b1E20; kwY5D: } public function getAllJenisUjian() { goto yg9es; gNHdH: if (!$result) { goto PKz2s; } goto YQ1lw; K069b: $ret[''] = "\112\x65\x6e\151\163\x20\x50\x65\x6e\x69\x6c\141\x69\x61\x6e\x20\72"; goto gNHdH; um0o5: $result = $this->db->get("\143\x62\164\x5f\x6a\145\156\151\x73")->result(); goto K069b; yg9es: $this->db->select("\x69\x64\137\x6a\145\156\x69\163\x2c\x20\156\x61\x6d\141\137\152\145\x6e\x69\163\54\40\x6b\x6f\x64\x65\x5f\x6a\145\156\x69\x73"); goto um0o5; qsk3u: ufr6t: goto HUP7S; HUP7S: PKz2s: goto Zggyq; Zggyq: return $ret; goto BhQbg; YQ1lw: foreach ($result as $key => $row) { $ret[$row->id_jenis] = $row->kode_jenis; zhYZa: } goto qsk3u; BhQbg: } public function getAllJenisUjianByArrJenis($arrJenis) { goto aISpa; PpsU1: return $ret; goto KmLxe; MDMS8: foreach ($result as $key => $row) { $ret[$row->id_jenis] = $row->kode_jenis; bsurw: } goto IniqO; IniqO: oi6dU: goto BE8TV; aISpa: $this->db->where_in("\151\x64\x5f\152\145\x6e\151\163", $arrJenis); goto fF_sH; fF_sH: $result = $this->db->get("\x63\x62\164\137\152\145\x6e\x69\163")->result(); goto D3DV3; UyQbf: if (!$result) { goto zWv0e; } goto MDMS8; D3DV3: $ret[''] = "\112\x65\x6e\x69\x73\x20\x50\x65\156\151\154\141\151\x61\x6e\x20\x3a"; goto UyQbf; BE8TV: zWv0e: goto PpsU1; KmLxe: } public function getPengawasHariIni($tgl) { goto mX8n3; cankN: return $this->db->get()->result(); goto ziAAw; A4yX7: $this->db->join("\143\x62\x74\x5f\160\145\156\147\141\x77\141\x73\40\142", "\142\x2e\151\144\x5f\x6a\x61\x64\167\141\154\x3d\x61\56\151\144\x5f\152\141\x64\167\x61\154"); goto SL6oW; SL6oW: $this->db->where("\x73\x74\x61\164\x75\x73", "\x31"); goto cankN; mX8n3: $this->db->from("\x63\142\164\137\x6a\x61\x64\167\x61\154\40\x61"); goto dpIAV; dpIAV: $this->db->where("\141\56\x74\x67\x6c\137\x6d\x75\154\141\x69\x20\x3c\x3d\x20\47{$tgl}\x27\40\101\116\x44\40\141\x2e\x74\x67\154\137\x73\145\154\145\x73\x61\x69\40\x3e\x3d\40\47{$tgl}\x27"); goto A4yX7; ziAAw: } public function getJadwalGuru($tp, $smt, $guru) { goto QQ8Vb; ENOlG: $this->db->from("\x63\142\164\137\152\x61\144\x77\141\154\x20\141"); goto sl2ch; QQ8Vb: $this->db->select("\141\x2e\151\144\x5f\152\x61\144\x77\x61\154\x2c\x20\x61\56\x74\147\154\137\x6d\x75\154\x61\151\x2c\x20\142\x2e\142\x61\156\x6b\137\153\x6f\x64\x65\54\x20\x62\56\x62\141\156\x6b\137\153\x65\154\x61\163"); goto ENOlG; sl2ch: $this->db->join("\x63\x62\x74\137\x62\x61\156\x6b\x5f\x73\x6f\141\x6c\40\142", "\x62\x2e\151\144\137\142\x61\x6e\x6b\x3d\x61\56\x69\144\x5f\x62\x61\156\153\x20\x41\x4e\104\x20\142\x2e\x62\x61\x6e\x6b\137\147\x75\162\x75\137\151\x64\x3d" . $guru); goto NsVU4; NsVU4: $this->db->where("\x61\x2e\151\144\137\164\160", $tp); goto yheeO; yheeO: $this->db->where("\141\x2e\151\144\137\x73\155\164", $smt); goto G43zD; G43zD: return $this->db->get()->result(); goto QElTY; QElTY: } public function getJadwalKelas($tp, $smt) { goto U4wmT; rHVaY: $this->db->where("\x61\x2e\x69\144\x5f\163\155\164", $smt); goto vjZNB; X2WaV: $this->db->join("\143\142\164\137\142\141\x6e\153\137\x73\x6f\141\x6c\40\142", "\142\56\x69\144\137\x62\141\156\x6b\x3d\x61\x2e\x69\144\x5f\x62\141\156\x6b"); goto i7N4l; vjZNB: return $this->db->get()->result(); goto h6I1L; xhryw: $this->db->from("\143\142\164\x5f\152\x61\x64\167\141\154\40\x61"); goto X2WaV; i7N4l: $this->db->where("\x61\56\x69\144\137\164\160", $tp); goto rHVaY; U4wmT: $this->db->select("\x61\56\151\x64\x5f\x6a\141\144\x77\141\154\x2c\40\x61\x2e\x74\147\x6c\137\x6d\x75\154\141\x69\54\40\142\56\x62\x61\x6e\153\137\153\x6f\144\145\x2c\40\142\56\142\141\156\x6b\137\x6b\145\x6c\x61\163"); goto xhryw; h6I1L: } public function getJadwalByJenis($jenis, $level, $dari, $sampai) { goto R19mK; XJa8w: return $result; goto G1EX8; r1Zit: iDfE8: goto iqmYa; QniQX: $this->db->where("\141\x2e\164\x67\154\x5f\155\165\x6c\141\151\40\74\x3d", $sampai); goto hT9iS; eSuM3: $result = $this->db->get()->result(); goto XJa8w; R19mK: $this->db->select("\x61\x2e\x69\144\137\152\x61\144\x77\x61\154\x2c\x20\141\x2e\x69\144\x5f\x62\141\156\153\x2c\x20\141\x2e\151\x64\137\x6a\x65\156\x69\x73\x2c\x20\x61\x2e\x74\x67\154\137\x6d\165\x6c\x61\151\x2c\40\x61\56\164\147\154\137\163\145\x6c\145\163\x61\151\x2c\x20\141\x2e\152\141\x6d\137\153\x65\x2c" . "\40\143\x2e\x62\x61\156\x6b\x5f\x6b\x6f\x64\x65\x2c\40\143\56\x62\141\x6e\153\137\154\x65\166\x65\154\54\x20\x63\56\x62\141\x6e\153\x5f\x6b\145\154\x61\163\x2c\x20\142\56\x6b\157\144\x65\x5f\152\x65\x6e\151\x73\x2c\x20\x62\x2e\x6e\x61\x6d\x61\137\152\145\x6e\151\163\54\x20\144\x2e\x6b\x6f\x64\145\x2c\x20\x64\56\x6e\141\x6d\x61\x5f\155\x61\x70\145\154"); goto GiCer; Gz8eB: ZaJ9S: goto FHdGF; iqmYa: if (!($dari != null)) { goto ZaJ9S; } goto aCWDG; ZuLLb: if (!($level != "\x30")) { goto iDfE8; } goto znc6N; znc6N: $this->db->where("\143\56\142\141\156\x6b\x5f\154\x65\x76\x65\154", $level); goto r1Zit; fNpTL: $this->db->where("\141\x2e\151\x64\x5f\152\145\x6e\x69\163", $jenis); goto ZuLLb; Aik_X: $this->db->join("\x63\x62\164\x5f\142\141\156\x6b\137\x73\x6f\141\x6c\x20\143", "\143\x2e\151\x64\137\x62\x61\x6e\x6b\75\x61\56\151\144\x5f\x62\141\156\153"); goto H_49l; MILvp: $this->db->order_by("\141\x2e\x74\x67\x6c\x5f\155\165\154\x61\x69", "\x41\x53\x43"); goto usGPN; usGPN: $this->db->order_by("\x61\56\152\141\155\137\x6b\145", "\101\x53\103"); goto eSuM3; W0la8: $this->db->join("\143\x62\x74\x5f\152\x65\x6e\151\163\x20\x62", "\x62\56\x69\144\137\152\145\156\x69\x73\x3d\x61\x2e\x69\144\137\152\x65\x6e\x69\x73"); goto Aik_X; hT9iS: vEYid: goto MILvp; H_49l: $this->db->join("\155\x61\163\164\145\162\137\155\141\160\145\154\x20\x64", "\x64\56\151\144\x5f\155\141\x70\x65\154\x3d\143\x2e\x62\x61\156\153\137\155\141\160\145\x6c\x5f\151\144"); goto fNpTL; GiCer: $this->db->from("\x63\142\164\137\x6a\x61\144\167\x61\x6c\x20\x61"); goto W0la8; FHdGF: if (!($sampai != null)) { goto vEYid; } goto QniQX; aCWDG: $this->db->where("\141\56\x74\147\x6c\137\155\165\154\x61\151\40\76\x3d", $dari); goto Gz8eB; G1EX8: } public function getAllJadwalByJenis($jenis, $tp, $smt) { goto HEXEj; kaZzq: return $ret; goto s9fYu; JgA1F: $this->db->from("\x63\142\164\x5f\152\x61\x64\x77\141\x6c\40\x61"); goto RZctV; fDkD2: $result = $this->db->get()->result(); goto CXpee; hQYo8: Af_sw: goto T3UPr; zA4K6: $this->db->order_by("\x61\56\164\x67\x6c\x5f\155\x75\x6c\141\x69", "\101\123\x43"); goto Irll2; T3UPr: lUFBe: goto kaZzq; RZctV: $this->db->join("\143\142\164\137\x6a\x65\x6e\151\x73\40\142", "\142\x2e\151\144\137\x6a\x65\x6e\151\x73\75\141\x2e\x69\x64\x5f\x6a\x65\x6e\x69\163"); goto hiWPx; hNgPc: $this->db->join("\155\x61\163\x74\x65\x72\x5f\155\141\x70\145\154\x20\144", "\x64\x2e\151\x64\x5f\x6d\141\160\145\154\x3d\143\x2e\142\141\x6e\153\137\x6d\141\160\145\154\137\151\144"); goto UxnUI; UxnUI: if (!($jenis != null)) { goto uviaE; } goto LnIP3; UQjWT: $this->db->where("\141\x2e\x69\144\x5f\x74\x70", $tp); goto p0aRE; hiWPx: $this->db->join("\x63\x62\x74\x5f\142\x61\156\x6b\x5f\x73\157\x61\x6c\40\x63", "\x63\56\x69\144\x5f\x62\141\x6e\x6b\75\141\56\x69\144\137\142\141\156\153"); goto hNgPc; yuMqB: $this->db->order_by("\x63\56\x62\141\x6e\x6b\x5f\154\145\x76\145\x6c", "\x41\123\103"); goto fDkD2; CIXpo: if (!$result) { goto lUFBe; } goto ThZOP; p0aRE: $this->db->where("\141\56\151\x64\x5f\x73\x6d\164", $smt); goto zA4K6; QlL_Y: uviaE: goto UQjWT; ThZOP: foreach ($result as $key => $row) { $ret[$row->tgl_mulai][$row->id_mapel][] = $row; dDwLl: } goto hQYo8; HEXEj: $this->db->select("\x61\56\x69\x64\137\x6a\141\144\167\141\x6c\x2c\x20\x61\56\151\x64\137\152\145\156\151\163\x2c\40\x61\56\164\x67\x6c\x5f\155\165\x6c\141\x69\x2c\x20" . "\143\56\142\141\156\153\137\x6b\157\x64\145\54\40\143\56\x62\x61\x6e\153\x5f\154\145\166\145\x6c\54\40\143\56\x62\141\x6e\x6b\137\x6b\145\154\141\163\x2c\40\142\x2e\x6b\157\x64\x65\137\x6a\x65\156\x69\x73\x2c\40\142\56\156\141\155\x61\x5f\152\145\x6e\x69\163\x2c\40\144\x2e\x69\144\137\x6d\x61\160\145\x6c\x2c\x20\144\56\x6b\157\144\x65\54\x20\144\56\x6e\x61\155\x61\x5f\x6d\x61\x70\145\x6c"); goto JgA1F; Irll2: $this->db->order_by("\141\56\x6a\x61\x6d\x5f\x6b\x65", "\x41\123\103"); goto yuMqB; LnIP3: $this->db->where("\141\x2e\151\144\x5f\x6a\x65\156\x69\x73", $jenis); goto QlL_Y; CXpee: $ret = []; goto CIXpo; s9fYu: } public function getAllBankSoal($guru = null) { goto QFumy; kj54g: rvYur: goto jiyNi; FoZZq: $this->db->where("\142\x61\x6e\x6b\137\x67\x75\162\x75\137\x69\x64", $guru); goto nVLkW; fIbkA: $result = $this->db->get("\143\x62\164\x5f\142\141\x6e\153\137\x73\157\141\x6c")->result(); goto lRTho; owZJl: Yphfc: goto kj54g; TJ52Q: if (!($guru !== null)) { goto x8H6K; } goto FoZZq; QFumy: $this->db->select("\x69\x64\x5f\x62\141\156\153\x2c\40\142\x61\x6e\153\x5f\x6b\157\x64\145"); goto TJ52Q; VVamR: if (!$result) { goto rvYur; } goto Wx393; jiyNi: return $ret; goto I_kKy; lRTho: $ret["\60"] = "\120\x69\154\151\150\40\102\141\156\x6b\x20\x53\157\x61\x6c\x20\72"; goto VVamR; Wx393: foreach ($result as $key => $row) { $ret[$row->id_bank] = $row->bank_kode; YIpKN: } goto owZJl; nVLkW: x8H6K: goto fIbkA; I_kKy: } public function getAllBankSoalByTp($id_tp, $id_smt, $guru = null) { goto gGR00; HQ_8h: return $ret; goto HSiax; SlcW6: $this->db->where("\x73\164\141\x74\165\x73", "\61"); goto yv0GS; v42cQ: foreach ($result as $key => $row) { $ret[$row->id_bank] = $row; kPYAL: } goto Ugugt; Bd1pZ: if (!$result) { goto r_XnU; } goto v42cQ; E5K6Z: IrdLs: goto eheCg; eheCg: $result = $this->db->get("\143\142\164\x5f\x62\x61\x6e\x6b\x5f\163\x6f\x61\x6c")->result(); goto FxYvi; Ugugt: YFCmq: goto abfbF; gGR00: $this->db->select("\151\x64\137\142\x61\x6e\153\54\x20\x62\x61\x6e\x6b\137\153\x6f\x64\x65\x2c\x20\x62\x61\x6e\x6b\x5f\155\x61\x70\145\154\x5f\151\144\54\x20\x74\x61\155\x70\x69\x6c\137\160\x67\54\40\164\141\x6d\x70\151\154\137\153\157\x6d\x70\154\x65\x6b\163\54\x20\164\x61\155\160\151\x6c\x5f\152\x6f\x64\x6f\150\x6b\141\156\54\x20\164\141\x6d\160\x69\154\137\151\163\151\x61\156\54\40\164\141\x6d\x70\151\154\x5f\x65\x73\x61\x69"); goto xdXcp; yv0GS: $this->db->where("\x73\x74\x61\x74\x75\163\x5f\163\157\141\x6c", "\61"); goto hqjkU; FxYvi: $ret = []; goto Bd1pZ; sqoYu: $this->db->where("\x62\141\x6e\x6b\137\147\165\x72\165\x5f\x69\144", $guru); goto E5K6Z; abfbF: r_XnU: goto HQ_8h; N6YxQ: $this->db->where("\151\144\137\x73\155\x74", $id_smt); goto SlcW6; hqjkU: if (!($guru !== null)) { goto IrdLs; } goto sqoYu; xdXcp: $this->db->where("\x69\x64\137\x74\160", $id_tp); goto N6YxQ; HSiax: } public function getAllBankSoalByMapel($id_tp, $id_smt, $mapel) { goto PnfAC; b_SLk: $this->db->where("\x69\144\137\x73\x6d\x74", $id_smt); goto AGaxx; Zni5w: if (!$result) { goto W2blw; } goto ExJbH; AGaxx: $this->db->where("\x62\x61\156\153\x5f\155\141\x70\x65\x6c\137\151\144", $mapel); goto y99uU; oCyJL: $result = $this->db->get()->result(); goto U5iOD; KW371: $this->db->where("\x69\x64\x5f\x74\x70", $id_tp); goto b_SLk; ExJbH: foreach ($result as $key => $row) { $ret[$row->id_bank] = $row; PXfhd: } goto qhcXh; qhcXh: xl92b: goto fmG9F; rM4vR: return $ret; goto oCtb2; B0t6c: $this->db->from("\x63\142\x74\x5f\142\141\x6e\x6b\137\x73\157\x61\x6c"); goto KW371; fmG9F: W2blw: goto rM4vR; y99uU: $this->db->where("\x73\164\x61\164\165\x73", "\x31"); goto oCyJL; U5iOD: $ret = []; goto Zni5w; PnfAC: $this->db->select("\151\144\x5f\x62\141\x6e\153\54\40\x62\x61\156\x6b\x5f\153\157\144\145\x2c\40\x62\141\x6e\x6b\x5f\155\x61\160\x65\154\x5f\151\x64\x2c\40\x74\141\x6d\160\151\154\x5f\x70\147\54\40\164\x61\x6d\x70\x69\x6c\137\153\x6f\x6d\160\154\145\153\x73\x2c\40\x74\x61\x6d\160\151\x6c\x5f\x6a\157\x64\x6f\150\x6b\141\156\54\x20\164\141\x6d\160\151\154\x5f\151\163\151\141\x6e\54\40\164\x61\x6d\160\151\x6c\137\145\x73\141\151\54\40\163\164\x61\x74\165\163"); goto B0t6c; oCtb2: } public function getJumlahJenisSoal($id_bank) { goto N_W9d; mR_af: if (!$result) { goto dIE5i; } goto a89w1; cpdTT: Y1R8e: goto PO_YS; SBYZ9: $this->db->from("\143\x62\x74\x5f\x73\157\x61\x6c"); goto XeCr3; PO_YS: dIE5i: goto osZim; rEef1: $this->db->where("\164\141\x6d\x70\151\154\x6b\x61\156", "\x31"); goto ucnOs; j3PGB: $ret = []; goto mR_af; a89w1: foreach ($result as $row) { $ret[$row->jenis][] = $row; Umgz3: } goto cpdTT; ucnOs: $result = $this->db->get()->result(); goto j3PGB; XeCr3: $this->db->where("\142\x61\156\153\137\x69\x64", $id_bank); goto rEef1; N_W9d: $this->db->select("\151\x64\x5f\x73\x6f\141\x6c\54\x20\x6a\x65\156\151\x73"); goto SBYZ9; osZim: return $ret; goto DCYhZ; DCYhZ: } public function getJenis() { goto V5Nl1; V5Nl1: $this->datatables->select("\52"); goto HE91h; HE91h: $this->datatables->from("\143\142\164\x5f\x6a\145\156\151\x73"); goto yolQP; yolQP: return $this->datatables->generate(); goto BvZcz; BvZcz: } public function getJenisById($id) { goto bWKKq; bWKKq: $this->db->select("\151\144\x5f\152\145\156\x69\163\x2c\40\x6e\x61\155\x61\137\152\145\x6e\151\163\x2c\40\153\x6f\144\145\x5f\x6a\x65\156\x69\163"); goto onrRE; zfRer: $this->db->where(["\x69\x64\x5f\152\145\x6e\151\x73" => $id]); goto frWrW; onrRE: $this->db->from("\143\142\x74\137\152\145\x6e\151\163"); goto zfRer; frWrW: return $this->db->get()->row(); goto hTrIC; hTrIC: } function updateJenis() { goto iHIGB; ozsrc: $this->db->set("\x6e\x61\x6d\x61\137\152\x65\156\x69\x73", $name); goto GQHgk; SGJqu: $this->db->where("\x69\144\x5f\152\x65\x6e\151\x73", $id); goto lhERp; GQHgk: $this->db->set("\x6b\x6f\x64\145\x5f\152\x65\x6e\x69\x73", $kode); goto SGJqu; lhERp: return $this->db->update("\143\142\164\x5f\x6a\145\156\x69\163"); goto msD_G; ziLPv: $name = $this->input->post("\x6e\141\x6d\141\137\152\145\156\151\163", true); goto z8aXm; z8aXm: $kode = $this->input->post("\x6b\157\x64\x65\x5f\152\x65\x6e\x69\163", true); goto ozsrc; iHIGB: $id = $this->input->post("\x69\144\137\152\145\156\151\163"); goto ziLPv; msD_G: } public function getRuang() { goto lmvci; lmvci: $this->datatables->select("\52\x2c\40\x28\123\105\x4c\x45\103\x54\x20\x43\x4f\x55\x4e\x54\x28\x69\144\137\163\x65\163\x69\x29\x20\106\x52\x4f\x4d\x20\x63\x62\164\137\163\145\163\151\x29\40\x41\123\x20\152\x75\x6d\x5f\x73\x65\163\x69"); goto Q9E9c; uxoUa: return $this->datatables->generate(); goto WroE8; Q9E9c: $this->datatables->from("\143\x62\x74\x5f\162\x75\141\156\x67"); goto uxoUa; WroE8: } public function getRuangById($id) { goto l0d74; l0d74: $this->db->select("\151\144\137\x72\165\141\156\147\x2c\40\x6e\x61\155\x61\x5f\162\165\x61\156\147\x2c\x20\153\x6f\144\x65\x5f\x72\x75\141\x6e\x67"); goto mdq_B; hR25X: $this->db->where(["\151\144\x5f\162\x75\x61\156\147" => $id]); goto jHJCw; jHJCw: return $this->db->get()->row(); goto PcqX2; mdq_B: $this->db->from("\x63\x62\x74\137\162\165\x61\x6e\x67"); goto hR25X; PcqX2: } public function getRuangSesi($tp, $smt) { goto wDrH7; LKAeZ: $this->db->order_by("\x62\56\156\x61\x6d\141\x5f\x72\165\141\x6e\147", "\x41\x53\103"); goto tEzSK; IexX_: $this->db->join("\143\x62\164\x5f\163\x65\163\x69\40\143", "\x63\x2e\x69\x64\x5f\x73\x65\163\x69\75\x61\x2e\163\145\x73\151\x5f\151\144"); goto S9eY3; Xz7D2: return $ret; goto KcdSf; ItwED: foreach ($result as $row) { $ret[$row->sesi_id][$row->ruang_id][$row->kelas_id] = $row->nama_kelas; o107c: } goto iHkg9; wDrH7: $this->db->select("\x61\x2e\x73\151\x73\167\141\x5f\151\x64\54\x20\x61\x2e\163\145\x73\x69\x5f\151\x64\x2c\40\141\x2e\162\x75\x61\156\x67\137\x69\x64\x2c\40\x61\x2e\x6b\x65\154\141\163\x5f\x69\144\54\40" . "\142\x2e\156\141\155\x61\x5f\x72\x75\141\156\147\54\x20\142\x2e\x6b\x6f\x64\145\137\x72\165\x61\x6e\147\54\40\x63\56\x6e\x61\x6d\141\137\x73\145\163\151\54\x20\x63\x2e\153\157\144\x65\x5f\x73\145\163\151\54\40\x64\x2e\156\x61\155\x61\x5f\x6b\145\154\x61\x73"); goto GpCZv; XR14t: $result = $this->db->get()->result(); goto lOMAd; GKlp5: if (!$result) { goto DcNO_; } goto ItwED; sGTcr: $this->db->join("\143\x62\164\x5f\162\165\141\x6e\147\40\x62", "\142\x2e\151\x64\137\x72\x75\x61\156\147\75\141\x2e\x72\x75\x61\x6e\147\x5f\151\x64"); goto IexX_; lOMAd: $ret = []; goto GKlp5; tEzSK: $this->db->order_by("\143\56\156\x61\155\141\x5f\163\145\163\151", "\x41\x53\x43"); goto XR14t; GpCZv: $this->db->from("\x63\142\164\x5f\163\145\163\x69\137\x73\151\x73\x77\x61\x20\x61"); goto sGTcr; UctKO: DcNO_: goto Xz7D2; iHkg9: XsrAp: goto UctKO; S9eY3: $this->db->join("\x6d\x61\163\164\145\162\137\x6b\x65\x6c\x61\x73\x20\x64", "\144\56\x69\x64\137\153\x65\x6c\x61\163\x3d\141\x2e\x6b\145\x6c\141\x73\x5f\x69\x64"); goto LKAeZ; KcdSf: } function updateRuang() { goto o2H_J; DVJ1o: $kode = $this->input->post("\x6b\157\144\145\x5f\x72\165\x61\x6e\147", true); goto FsWqe; MsS9r: $this->db->set("\153\157\x64\145\137\162\x75\x61\156\x67", $kode); goto LT2As; LT2As: $this->db->where("\x69\144\137\x72\x75\141\156\147", $id); goto wLfuU; o2H_J: $id = $this->input->post("\151\x64\137\x72\165\141\156\x67"); goto WGukM; wLfuU: return $this->db->update("\143\x62\164\137\x72\x75\141\156\147"); goto Pytmj; FsWqe: $this->db->set("\156\x61\x6d\141\x5f\162\x75\x61\x6e\x67", $name); goto MsS9r; WGukM: $name = $this->input->post("\156\x61\155\141\x5f\x72\165\141\x6e\147", true); goto DVJ1o; Pytmj: } public function getSesi() { goto C4fF5; C4fF5: $this->datatables->select("\x2a"); goto yUyPh; yUyPh: $this->datatables->from("\x63\x62\x74\137\x73\145\163\151\x20\x63"); goto v54v6; v54v6: return $this->datatables->generate(); goto ArcQq; ArcQq: } public function getAllKodeSesi() { goto wWMmm; mfDIi: foreach ($result as $row) { $ret[$row->kode_sesi] = $row; tUKGH: } goto mwO0x; M0s6G: $result = $this->db->get()->result(); goto jat2l; KnXBd: $this->db->from("\x63\142\164\137\163\145\163\x69"); goto M0s6G; fJRnA: return $ret; goto w0n_L; uGhgj: if (!$result) { goto uRH2P; } goto mfDIi; mwO0x: kYlX6: goto J7Imp; jat2l: $ret = []; goto uGhgj; J7Imp: uRH2P: goto fJRnA; wWMmm: $this->db->select("\151\x64\137\163\x65\x73\151\54\x20\x6e\x61\x6d\x61\x5f\163\x65\x73\151\x2c\40\x6b\157\144\x65\x5f\x73\x65\163\151\54\40\167\141\x6b\x74\x75\137\x6d\165\154\x61\x69\54\40\167\141\x6b\164\x75\x5f\x61\153\x68\151\162"); goto KnXBd; w0n_L: } public function getSesiById($id) { goto q_3s5; wZ1YB: $this->db->where(["\151\144\137\x73\x65\163\x69" => $id]); goto iC37o; X2jy0: $this->db->from("\143\x62\164\137\163\x65\x73\151"); goto wZ1YB; q_3s5: $this->db->select("\x69\144\x5f\x73\x65\x73\151\x2c\x20\x6e\x61\155\x61\137\x73\145\x73\151\x2c\x20\x6b\x6f\x64\x65\x5f\163\x65\x73\x69\54\x20\x77\141\153\x74\165\x5f\155\165\154\x61\151\x2c\x20\x77\141\x6b\x74\x75\137\141\153\150\151\x72"); goto X2jy0; iC37o: return $this->db->get()->row(); goto bifw5; bifw5: } public function getSesiBySiswa($siswa_id) { goto bLNn0; bLNn0: $this->db->where("\163\151\x73\167\x61\137\x69\x64", $siswa_id); goto f0dd_; cMxI6: return $query; goto exkM3; f0dd_: $query = $this->db->get("\x73\x69\x73\167\141\x5f\163\145\x73\x69")->result(); goto cMxI6; exkM3: } function updateSesi() { goto UnwZT; Hakzm: $akhir = $this->input->post("\x77\141\153\x74\165\x5f\x61\153\x68\151\x72", true); goto BE6w5; h6aG9: $this->db->set("\167\141\153\x74\165\x5f\x6d\165\154\141\151", $mulai); goto ZS2gi; ZS2gi: $this->db->set("\167\141\x6b\164\x75\137\x61\x6b\x68\x69\x72", $akhir); goto fihDO; I8ms1: $kode = $this->input->post("\153\157\144\x65\137\x73\x65\163\x69", true); goto feXGX; feXGX: $mulai = $this->input->post("\x77\141\x6b\164\165\137\x6d\165\154\x61\151", true); goto Hakzm; fihDO: $this->db->set("\141\x6b\164\x69\146", 1); goto Qdkoy; UnwZT: $id = $this->input->post("\x69\x64\x5f\163\145\163\151"); goto yfybh; yfybh: $name = $this->input->post("\x6e\x61\x6d\x61\137\163\145\x73\151", true); goto I8ms1; Qdkoy: $this->db->where("\151\144\x5f\x73\145\x73\x69", $id); goto N0Tc0; BE6w5: $this->db->set("\x6e\x61\155\x61\x5f\x73\145\x73\151", $name); goto Yqzqz; N0Tc0: return $this->db->update("\x63\142\x74\x5f\163\x65\x73\151"); goto Tvrk3; Yqzqz: $this->db->set("\x6b\x6f\x64\145\x5f\163\x65\x73\151", $kode); goto h6aG9; Tvrk3: } public function getSiswaCbtInfo($id_siswa, $id_tp, $id_smt) { goto eN6T1; rWJ4s: $this->db->where("\x61\56\x69\144\x5f\x74\x70", $id_tp); goto aluxG; eN6T1: $this->db->select("\141\56\151\144\x5f\x6b\x65\x6c\141\x73\x5f\163\x69\x73\167\141\54\40\x61\x2e\x69\x64\137\164\160\54\40\141\56\151\x64\x5f\163\x6d\x74\x2c\40\x61\56\151\x64\x5f\163\151\163\x77\141\54\40\141\56\151\144\137\153\x65\154\141\x73\54" . "\40\142\x2e\x73\151\x73\167\x61\137\151\144\54\40\142\56\153\145\154\141\x73\x5f\151\x64\x2c\40\142\x2e\x72\x75\x61\156\x67\137\x69\x64\54\40\x62\x2e\x73\x65\163\x69\137\x69\x64\x2c" . "\40\x72\153\56\151\144\137\162\165\141\x6e\147\x2c\x20\x72\x6b\x2e\x6e\141\x6d\x61\x5f\x72\165\141\156\147\54\40\x72\153\56\153\x6f\144\x65\x5f\x72\165\141\x6e\x67\54" . "\40\163\x6b\x2e\x69\x64\x5f\163\x65\163\x69\54\40\x73\x6b\x2e\x6e\x61\x6d\x61\x5f\x73\x65\163\151\x2c\x20\x73\153\56\153\x6f\x64\x65\137\163\145\x73\151\x2c\x20\x73\x6b\56\167\141\153\x74\165\137\155\165\x6c\x61\x69\54\x20\x73\153\x2e\x77\x61\x6b\x74\x75\x5f\141\153\x68\x69\x72"); goto XJtrk; E0DX5: return $this->db->get()->row(); goto Qx6zh; aluxG: $this->db->where("\141\56\151\144\x5f\x73\x6d\164", $id_smt); goto E0DX5; vL3io: $this->db->join("\143\142\x74\x5f\x73\x65\x73\151\137\163\x69\163\x77\x61\x20\x62", "\x61\56\151\144\x5f\x73\151\163\x77\x61\x3d\x62\56\x73\x69\163\167\141\137\x69\144", "\x6c\x65\146\164"); goto lrQzo; lrQzo: $this->db->join("\x63\x62\164\137\162\165\141\156\x67\x20\162\x6b", "\142\x2e\162\165\141\156\147\x5f\151\x64\x3d\162\x6b\x2e\x69\x64\x5f\x72\x75\141\x6e\x67", "\154\x65\x66\164"); goto S6xsd; XJtrk: $this->db->from("\x6b\x65\154\141\x73\137\x73\151\x73\167\x61\x20\x61"); goto vL3io; S6xsd: $this->db->join("\143\142\164\137\x73\x65\x73\151\40\163\153", "\142\x2e\163\145\163\151\x5f\x69\x64\x3d\163\153\56\151\144\137\163\x65\163\x69", "\154\x65\x66\164"); goto dKe5s; dKe5s: $this->db->where("\141\56\151\x64\x5f\163\151\x73\x77\x61", $id_siswa); goto rWJ4s; Qx6zh: } public function getRuangSesiSiswa($id_kelas, $id_tp, $id_smt) { goto txfOy; SeIQE: $this->db->join("\142\x75\x6b\x75\x5f\151\156\144\x75\x6b\x20\x69", "\x69\x2e\x69\x64\137\163\x69\x73\167\x61\x3d\x61\56\x69\144\137\x73\x69\163\167\x61\40\101\x4e\x44\40\75\151\x2e\163\164\x61\164\165\163\75\61"); goto qfHd9; txfOy: $this->db->select("\141\56\151\144\x5f\163\x69\163\x77\141\54\x20\x61\56\x69\144\137\153\x65\154\x61\163\x2c" . "\40\142\56\x6e\x61\x6d\x61\54\40\x62\56\x6e\x69\163\x2c\40\x62\x2e\165\x73\145\x72\x6e\141\x6d\145\x2c" . "\x20\143\x2e\x6e\x61\x6d\x61\137\153\x65\154\x61\x73\x2c\40\x63\56\x6b\x6f\x64\x65\x5f\153\x65\x6c\x61\163\x2c" . "\x20\145\x2e\x73\x65\163\x69\x5f\151\x64\54\x20\x65\56\162\x75\x61\x6e\x67\137\151\x64\x2c" . "\x20\162\153\56\x69\x64\137\x72\165\x61\x6e\x67\54\x20\162\153\56\x6b\x6f\144\145\x5f\162\165\141\x6e\147\54" . "\x20\163\x6b\x2e\x69\x64\x5f\x73\x65\x73\x69\x2c\40\163\153\56\x6b\x6f\x64\x65\137\163\145\x73\151"); goto Yz3Vu; I1Hnl: $this->db->join("\143\x62\x74\137\163\145\x73\151\137\x73\151\163\x77\x61\x20\145", "\141\x2e\x69\x64\137\x73\151\163\167\141\x3d\x65\56\163\x69\163\167\141\137\151\144", "\x6c\x65\x66\x74"); goto fqlNv; KsslP: $this->db->join("\x63\x62\164\x5f\163\145\163\x69\40\163\153", "\x65\56\163\145\x73\151\x5f\151\x64\x3d\163\153\56\151\x64\137\163\145\x73\151", "\154\145\146\x74"); goto SeIQE; fqlNv: $this->db->join("\143\x62\x74\137\x72\165\x61\156\147\40\162\153", "\145\56\162\x75\x61\156\147\137\151\x64\x3d\162\x6b\x2e\151\x64\137\162\165\x61\156\x67", "\154\x65\x66\x74"); goto KsslP; Yz3Vu: $this->db->from("\153\145\x6c\x61\x73\x5f\x73\x69\x73\167\141\x20\x61"); goto pfLqa; fX7CD: $this->db->join("\x6d\x61\163\x74\145\162\137\x6b\145\x6c\141\163\40\x63", "\141\x2e\x69\x64\137\153\145\154\141\x73\x3d\143\56\151\144\137\x6b\145\154\x61\163", "\x6c\x65\x66\164"); goto I1Hnl; BB1c0: $this->db->where("\x61\x2e\151\x64\x5f\x73\155\164", $id_smt); goto O90tV; pfLqa: $this->db->join("\155\x61\x73\164\145\162\x5f\x73\x69\163\x77\x61\x20\x62", "\x61\56\x69\144\137\163\151\x73\x77\x61\x3d\x62\56\x69\144\x5f\163\x69\x73\167\x61", "\x6c\145\146\x74"); goto fX7CD; l9TjA: return $this->db->get()->result(); goto zymDz; qfHd9: $this->db->where("\141\56\151\x64\137\153\x65\154\x61\x73", $id_kelas); goto kA1SX; O90tV: $this->db->order_by("\x62\56\x6e\141\155\141", "\101\x53\x43"); goto l9TjA; kA1SX: $this->db->where("\141\56\151\144\137\164\160", $id_tp); goto BB1c0; zymDz: } public function getSiswaByKelas($id_tp, $id_smt, $id_kelas) { goto tee2c; OKYTF: $this->db->join("\143\142\164\x5f\163\x65\163\151\40\145", "\145\56\151\144\137\163\145\x73\151\75\x63\56\163\x65\x73\x69\x5f\151\144", "\x6c\145\146\x74"); goto iT_3z; mZaZE: $this->db->where("\141\56\151\144\137\153\145\154\141\163", $id_kelas); goto HEPL2; tee2c: $this->db->select("\x62\x2e\x69\x64\137\x73\x69\163\x77\x61\54\x20\x62\56\156\x61\155\141\x2c\x20\x62\x2e\156\151\163\x2c\x20\x62\56\156\151\163\x6e\x2c\40\142\56\165\x73\x65\x72\x6e\141\155\x65\54\40\x62\x2e\x70\141\x73\x73\167\157\162\x64\x2c" . "\x20\142\x2e\x66\157\164\157\x2c\x20\144\56\x6b\x6f\144\145\137\162\165\x61\156\x67\x2c\x20\x65\56\x6b\157\144\x65\x5f\163\145\x73\151\x2c\40\146\x2e\156\141\155\x61\x5f\x6b\145\x6c\x61\163\x2c\40\x66\56\x6b\157\x64\x65\137\153\x65\154\141\163\54\x20\x67\56\156\157\x6d\157\x72\x5f\x70\x65\x73\145\162\x74\x61"); goto jf_4P; xKJ4O: $this->db->order_by("\x62\x2e\x6e\x61\155\x61", "\x41\123\x43"); goto YBA4Y; Hcf9P: $this->db->where("\x61\x2e\151\144\137\163\151\163\x77\x61\x20\151\x73\x20\116\x4f\x54\40\x4e\125\114\x4c", NULL, FALSE); goto TfzEi; mxTqj: $this->db->join("\x62\165\153\165\137\151\x6e\144\x75\153\40\x69", "\x69\56\x69\x64\x5f\x73\151\163\167\141\75\x61\x2e\151\x64\137\x73\151\x73\167\141\x20\x41\116\104\x20\x3d\x69\56\163\x74\141\164\x75\x73\75\61"); goto uhr4M; p2UJx: $this->db->where("\x63\56\x73\151\163\167\141\x5f\x69\x64\40\x69\163\40\116\117\x54\40\116\x55\114\x4c", NULL, FALSE); goto EINWg; hqvLZ: $this->db->where("\141\x2e\151\144\x5f\163\x6d\x74", $id_smt); goto Hcf9P; AE1Gk: $this->db->join("\x63\142\164\137\162\165\141\x6e\x67\40\144", "\144\56\151\144\x5f\162\165\141\x6e\x67\x3d\143\x2e\x72\x75\141\x6e\x67\137\151\144", "\x6c\145\x66\164"); goto OKYTF; iT_3z: $this->db->join("\155\x61\163\x74\145\162\x5f\x6b\x65\x6c\141\x73\x20\x66", "\x66\56\151\x64\137\153\145\154\141\x73\75\x61\56\151\144\137\153\145\x6c\x61\163", "\x6c\x65\x66\x74"); goto QsF_X; UXEk6: $this->db->join("\155\x61\163\164\x65\162\x5f\163\x69\x73\x77\x61\40\x62", "\142\56\151\144\137\x73\151\x73\167\x61\75\x61\56\x69\x64\137\x73\x69\x73\167\x61", "\x6c\145\146\164"); goto doKkI; LNAhn: memfs: goto xKJ4O; YBA4Y: return $this->db->get()->result(); goto Q4Tl5; TfzEi: $this->db->where("\x62\x2e\151\144\137\163\151\163\167\141\x20\x69\x73\40\x4e\117\x54\x20\116\x55\114\114", NULL, FALSE); goto p2UJx; zqpuc: $this->db->where("\x67\x2e\x69\x64\137\163\151\163\x77\x61\x20\151\x73\40\x4e\117\124\40\116\x55\114\114", NULL, FALSE); goto Pl8DB; ppYk9: $this->db->where_in("\141\56\x69\x64\x5f\153\145\154\x61\163", $id_kelas); goto LNAhn; EINWg: $this->db->where("\146\56\x73\151\163\x77\141\x5f\x69\144\40\x69\163\x20\x4e\117\x54\x20\x4e\125\114\114", NULL, FALSE); goto zqpuc; jf_4P: $this->db->from("\x6b\x65\154\x61\x73\137\x73\x69\x73\167\x61\40\x61"); goto UXEk6; uhr4M: $this->db->where("\x61\56\151\144\x5f\x74\160", $id_tp); goto hqvLZ; HEPL2: goto memfs; goto qntqG; Pl8DB: if (is_array($id_kelas)) { goto F6l21; } goto mZaZE; qntqG: F6l21: goto ppYk9; QsF_X: $this->db->join("\143\142\164\x5f\156\157\x6d\157\162\137\160\145\163\x65\162\x74\x61\40\x67", "\147\x2e\151\x64\x5f\163\x69\163\167\x61\x3d\x61\x2e\x69\144\137\163\x69\x73\167\141\x20\x41\x4e\104\x20\147\56\x69\144\137\164\x70\75" . $id_tp, "\154\x65\146\164"); goto mxTqj; doKkI: $this->db->join("\143\142\x74\137\x73\145\x73\151\x5f\x73\151\163\x77\x61\x20\x63", "\x63\56\163\x69\163\x77\x61\137\151\x64\75\x61\x2e\x69\144\137\163\x69\163\x77\141", "\154\x65\x66\164"); goto AE1Gk; Q4Tl5: } public function getSiswaById($id_tp, $id_smt, $idSiswa) { goto b31RV; b31RV: $this->db->select("\142\56\x69\144\137\x73\151\x73\167\141\54\x20\142\56\x6e\141\x6d\141\54\x20\142\56\156\x69\x73\54\40\142\x2e\156\151\163\156\54\40\142\56\165\x73\x65\162\156\141\x6d\x65\x2c\x20\x62\x2e\160\x61\163\x73\x77\x6f\162\x64\x2c" . "\x20\x62\56\146\157\164\157\54\40\144\56\x6b\157\x64\145\x5f\162\165\x61\x6e\x67\54\x20\x65\x2e\x6b\x6f\144\145\137\163\145\163\x69\54\x20\x66\56\x6e\x61\155\141\137\x6b\145\154\x61\x73\x2c\x20\x66\56\153\x6f\x64\145\x5f\x6b\x65\x6c\x61\163\x2c\40\147\56\x6e\157\155\157\x72\137\x70\x65\x73\x65\x72\x74\x61\54" . "\x20\x68\56\163\x65\x74\x5f\x73\x69\x73\x77\141\x2c\x20\x69\x2e\x6b\x6f\144\x65\137\x72\x75\x61\x6e\147\40\x61\x73\40\x72\x75\141\x6e\147\x5f\153\145\154\x61\163\54\x20\152\x2e\x6b\157\144\145\137\163\145\x73\151\40\x61\163\x20\x73\145\x73\151\x5f\x6b\145\x6c\x61\x73"); goto nqXeg; iln8z: $this->db->where("\x61\x2e\151\x64\137\163\x6d\x74", $id_smt); goto bJBg6; bJBg6: $this->db->where("\x61\56\151\144\137\x73\151\x73\x77\x61", $idSiswa); goto R5irL; fj7yz: $this->db->join("\143\x62\164\x5f\x6b\145\x6c\x61\163\137\162\165\141\156\147\40\x68", "\x68\56\x69\x64\137\153\145\x6c\141\x73\x3d\141\x2e\x69\x64\137\153\x65\154\141\163", "\x6c\x65\x66\x74"); goto JXE21; hKR_E: $this->db->join("\x6d\x61\163\x74\x65\x72\137\x6b\145\x6c\141\x73\40\x66", "\146\x2e\151\x64\x5f\153\x65\154\141\163\75\141\56\x69\144\137\x6b\x65\154\141\x73", "\154\x65\146\x74"); goto LYhm3; LXq1l: $this->db->where("\x61\56\x69\144\x5f\164\160", $id_tp); goto iln8z; R5irL: return $this->db->get()->row(); goto tNngZ; aobkz: $this->db->join("\x6d\x61\x73\x74\145\162\x5f\x73\151\x73\167\141\40\x62", "\x62\x2e\x69\144\x5f\x73\151\x73\167\x61\75\141\x2e\151\x64\137\x73\151\163\167\x61", "\154\145\x66\164"); goto it4Eb; vl5Lp: $this->db->join("\x63\142\164\x5f\x73\x65\x73\151\x20\x6a", "\x6a\x2e\x69\144\137\163\x65\x73\151\x3d\x68\56\x69\x64\137\x73\x65\163\151", "\154\145\x66\x74"); goto LXq1l; nqXeg: $this->db->from("\x6b\x65\x6c\141\163\x5f\163\151\163\x77\x61\x20\x61"); goto aobkz; it4Eb: $this->db->join("\143\142\164\x5f\x73\145\x73\151\x5f\x73\x69\x73\167\x61\40\x63", "\x63\56\x73\151\x73\x77\x61\137\151\x64\x3d\x61\x2e\151\144\137\x73\151\163\x77\x61", "\x6c\145\x66\x74"); goto VMWu2; zEzXI: $this->db->join("\x63\142\164\137\x73\145\x73\x69\40\145", "\x65\56\x69\x64\137\163\x65\163\151\x3d\143\56\x73\x65\x73\151\137\x69\144", "\154\x65\146\164"); goto hKR_E; LYhm3: $this->db->join("\x63\142\x74\x5f\156\x6f\155\x6f\162\x5f\x70\145\x73\145\162\164\x61\x20\x67", "\x67\56\151\x64\137\163\151\163\167\141\x3d\x61\x2e\151\x64\x5f\163\151\x73\x77\x61\x20\101\x4e\104\40\147\x2e\x69\144\x5f\164\160\x3d" . $id_tp, "\x6c\145\x66\x74"); goto fj7yz; VMWu2: $this->db->join("\143\x62\x74\137\x72\165\x61\x6e\147\x20\144", "\144\56\x69\x64\137\162\x75\141\156\147\x3d\x63\56\x72\x75\x61\156\147\137\151\x64", "\x6c\145\146\x74"); goto zEzXI; JXE21: $this->db->join("\143\x62\164\x5f\x72\x75\141\x6e\x67\40\x69", "\x69\x2e\151\144\137\x72\165\x61\x6e\x67\x3d\x68\56\x69\x64\x5f\162\x75\x61\156\147", "\154\145\146\x74"); goto vl5Lp; tNngZ: } public function getAllPesertaByRuang($id_tp, $id_smt) { goto mN_Pr; lE7tT: $this->db->order_by("\142\x2e\156\x61\x6d\x61"); goto KvEIo; mN_Pr: $this->db->select("\x62\x2e\151\x64\137\163\x69\163\167\x61\x2c\40\x62\x2e\x6e\141\155\x61\x2c\40\x62\x2e\156\151\x73\54\40\x62\56\156\x69\x73\156\x2c\40\x62\x2e\165\x73\x65\162\156\x61\155\x65\x2c\x20\x62\x2e\x70\141\x73\163\x77\x6f\162\144\54\40\142\x2e\146\157\164\x6f\54\40\x66\56\154\x65\166\145\154\x5f\x69\x64\54" . "\40\146\56\x6e\x61\x6d\141\137\x6b\x65\x6c\x61\163\x2c\40\146\x2e\x6b\157\x64\x65\137\153\x65\x6c\x61\163\54" . "\40\x64\56\x6e\141\x6d\x61\137\162\x75\x61\x6e\x67\54\x20\x64\x2e\x6b\157\x64\145\x5f\162\165\141\x6e\147\54" . "\x20\x65\x2e\x6b\157\144\x65\137\163\x65\163\x69\x2c\x20\x65\56\156\x61\x6d\141\137\163\x65\163\151\x2c" . "\40\x67\x2e\x6e\x6f\x6d\157\x72\x5f\x70\145\x73\145\x72\164\x61"); goto E1zY5; cYMR6: $this->db->join("\x6b\145\x6c\x61\163\137\x73\151\163\167\141\x20\143", "\x63\x2e\x69\x64\x5f\163\151\163\167\141\x3d\142\x2e\151\144\137\163\x69\163\x77\x61\40\101\x4e\x44\x20\x63\56\x69\x64\137\164\160\75" . $id_tp . "\40\101\x4e\x44\40\143\56\x69\144\x5f\x73\155\164\75" . $id_smt . ''); goto i3HnZ; ZAJlY: $this->db->join("\143\x62\x74\137\162\x75\x61\156\147\x20\144", "\144\x2e\x69\144\x5f\x72\165\141\x6e\147\x3d\141\56\x72\165\141\x6e\147\x5f\151\144", "\154\x65\146\x74"); goto VrSja; zF7fc: $this->db->order_by("\146\56\x6c\145\166\145\x6c\137\151\144"); goto TEBy5; Lrv0u: $ret = []; goto jZZ_j; i3HnZ: $this->db->join("\155\x61\163\164\145\x72\x5f\153\145\154\x61\163\40\x66", "\x66\x2e\151\x64\x5f\153\x65\x6c\x61\163\x3d\143\56\151\x64\x5f\x6b\145\x6c\x61\x73"); goto EQ0s6; hrk0g: ukLOm: goto KE2iN; jZZ_j: foreach ($result as $row) { $ret[$row->kode_ruang][$row->kode_sesi][] = $row; P7vO5: } goto hrk0g; EQ0s6: $this->db->join("\x62\165\x6b\x75\x5f\151\x6e\144\165\x6b\x20\151", "\151\56\151\144\137\163\x69\x73\167\x61\75\x62\56\x69\x64\137\x73\151\163\167\x61\40\x41\116\x44\40\75\151\56\163\x74\x61\164\165\163\x3d\61"); goto pyaeY; TEBy5: $this->db->order_by("\146\56\x6b\x6f\x64\x65\x5f\x6b\x65\154\x61\163"); goto lE7tT; pyaeY: $this->db->order_by("\x64\56\x6b\x6f\x64\x65\x5f\162\165\141\x6e\x67"); goto vMaoJ; KvEIo: $result = $this->db->get()->result(); goto Lrv0u; vMaoJ: $this->db->order_by("\x65\56\x6b\x6f\x64\x65\x5f\x73\x65\x73\151"); goto zF7fc; VrSja: $this->db->join("\x63\142\164\137\156\157\x6d\157\162\137\160\x65\163\145\x72\164\x61\40\x67", "\147\x2e\x69\x64\x5f\163\151\163\167\141\75\x61\56\163\x69\x73\167\141\137\x69\x64\x20\x41\116\x44\x20\147\x2e\151\x64\137\x74\x70\75" . $id_tp, "\154\145\x66\164"); goto dRID8; iOgSr: $this->db->join("\x6d\x61\163\164\145\162\137\x73\151\163\167\x61\40\142", "\142\x2e\x69\x64\x5f\x73\151\x73\167\141\x3d\141\x2e\163\151\x73\167\x61\x5f\151\144", "\x6c\x65\146\164"); goto ZAJlY; KE2iN: return $ret; goto Gibtg; E1zY5: $this->db->from("\143\142\x74\137\163\x65\163\x69\137\x73\x69\163\x77\x61\x20\x61"); goto iOgSr; dRID8: $this->db->join("\x63\x62\x74\137\163\145\x73\x69\40\x65", "\x65\56\x69\x64\137\163\145\163\151\x3d\141\x2e\x73\145\x73\x69\x5f\x69\x64", "\154\145\146\x74"); goto cYMR6; Gibtg: } public function getAllPesertaByKelas($id_tp, $id_smt) { goto w8JBr; U_QlE: $this->db->order_by("\142\x2e\156\x61\x6d\x61"); goto G8SDj; G8SDj: $result = $this->db->get()->result(); goto o1CPa; Ha1Pk: $this->db->join("\143\142\x74\x5f\x6e\x6f\x6d\157\x72\x5f\160\145\163\145\x72\x74\x61\40\147", "\147\56\151\144\x5f\163\x69\163\x77\141\x3d\141\56\163\151\163\167\141\137\x69\144\x20\x41\x4e\x44\x20\x67\x2e\x69\144\137\x74\160\x3d" . $id_tp, "\x6c\145\146\x74"); goto Xe7zT; RtiNA: $this->db->join("\x6d\141\x73\x74\x65\162\x5f\153\x65\154\x61\163\40\146", "\x66\56\151\x64\137\x6b\x65\x6c\x61\163\75\x63\x2e\151\144\x5f\x6b\145\154\141\163"); goto ZOFDI; PGUWN: $this->db->join("\155\x61\x73\164\145\162\x5f\x73\x69\163\x77\141\40\x62", "\142\x2e\151\x64\x5f\x73\x69\x73\167\x61\x3d\x61\x2e\163\151\x73\167\141\137\x69\x64", "\x6c\145\x66\164"); goto zGL8Z; w8JBr: $this->db->select("\x62\56\151\x64\137\163\x69\163\x77\141\54\x20\x62\56\156\141\x6d\x61\x2c\x20\x62\56\156\x69\x73\54\40\x62\x2e\x6e\x69\x73\156\54\40\142\x2e\x75\x73\x65\162\156\141\x6d\x65\54\x20\142\56\x70\141\x73\x73\x77\157\x72\144\54\40\x62\56\146\157\x74\157\x2c" . "\x20\146\x2e\x6e\x61\x6d\x61\x5f\x6b\145\x6c\x61\x73\54\40\x66\56\x6b\157\144\x65\x5f\153\x65\154\141\163\x2c" . "\x20\144\56\156\x61\x6d\141\137\162\165\141\156\x67\54\40\144\x2e\153\x6f\x64\145\137\162\x75\141\x6e\x67\x2c" . "\40\145\x2e\153\x6f\144\145\x5f\x73\145\163\151\x2c\40\x65\x2e\156\141\155\x61\x5f\163\145\163\151\54" . "\x20\147\x2e\156\157\x6d\157\x72\x5f\160\x65\x73\145\162\x74\141"); goto Hbcyp; YnwaA: $this->db->join("\153\145\154\x61\163\x5f\x73\x69\x73\x77\141\x20\143", "\143\x2e\151\144\x5f\x73\x69\x73\167\141\75\142\x2e\x69\x64\137\163\151\x73\167\x61\x20\101\116\104\x20\x63\56\151\x64\137\x74\160\x3d" . $id_tp . "\40\x41\116\x44\x20\x63\x2e\151\x64\x5f\163\155\164\75" . $id_smt . ''); goto RtiNA; jQM0O: $this->db->order_by("\146\x2e\153\157\144\145\137\x6b\x65\x6c\x61\163"); goto U_QlE; zGL8Z: $this->db->join("\x63\142\x74\137\162\x75\141\x6e\x67\x20\x64", "\x64\x2e\151\144\137\162\165\141\156\147\75\x61\x2e\x72\165\x61\156\x67\137\x69\144", "\x6c\145\x66\x74"); goto Ha1Pk; FxoLw: return $ret; goto vWPbD; ZOFDI: $this->db->join("\x62\165\x6b\x75\137\151\156\144\165\x6b\40\x69", "\151\x2e\151\x64\x5f\x73\151\x73\x77\141\75\x62\x2e\x69\x64\x5f\x73\151\163\x77\x61\x20\x41\x4e\x44\40\75\151\x2e\x73\x74\x61\164\x75\x73\x3d\x31"); goto nI9GW; Xe7zT: $this->db->join("\x63\142\164\x5f\163\145\x73\x69\x20\145", "\x65\x2e\x69\x64\x5f\163\x65\163\151\x3d\141\56\x73\145\x73\x69\x5f\x69\x64", "\x6c\x65\x66\x74"); goto YnwaA; WARzT: foreach ($result as $row) { $ret[$row->kode_kelas][] = $row; KWsPn: } goto DyO6Q; nI9GW: $this->db->order_by("\146\x2e\x6c\145\166\x65\x6c\x5f\x69\x64"); goto jQM0O; DyO6Q: B8kzL: goto FxoLw; o1CPa: $ret = []; goto WARzT; Hbcyp: $this->db->from("\x63\x62\x74\x5f\163\x65\x73\x69\137\x73\151\x73\167\141\40\141"); goto PGUWN; vWPbD: } public function getSiswaByRuang($id_tp, $id_smt, $id_ruang, $sesi, $level = null) { goto KG62P; PeIQE: $this->db->join("\143\x62\164\x5f\x72\x75\x61\156\147\x20\144", "\144\x2e\x69\144\137\x72\165\x61\156\x67\75\x61\56\x72\165\141\156\147\137\x69\x64", "\x6c\145\x66\x74"); goto pXeee; Juh7q: return $this->db->get()->result(); goto sYUUF; Bnp2p: $this->db->where("\x61\x2e\163\145\163\x69\137\x69\x64", $sesi); goto R0Ln4; x7UUl: $this->db->join("\155\141\x73\x74\x65\162\137\x6b\145\154\x61\x73\40\x66", "\146\56\x69\x64\137\x6b\x65\x6c\x61\x73\x3d\x63\56\x69\144\137\153\x65\x6c\141\x73" . "\x20\x41\116\104\40\146\56\154\x65\x76\x65\154\x5f\x69\144\75" . $level . ''); goto MY6SI; R0Ln4: $this->db->order_by("\x62\56\x6e\x61\x6d\x61"); goto Juh7q; H52jU: FhH2p: goto EUBx6; fuZzl: $this->db->where("\x61\56\162\165\141\156\x67\137\151\144", $id_ruang); goto Bnp2p; qkLg_: if ($level === null) { goto FhH2p; } goto x7UUl; gLYRb: $this->db->join("\155\x61\163\x74\x65\x72\137\x73\151\x73\x77\141\x20\142", "\142\56\x69\x64\137\x73\151\163\x77\141\x3d\141\56\163\x69\x73\x77\141\x5f\x69\x64", "\x6c\x65\146\164"); goto PeIQE; VPFvW: $this->db->join("\x63\142\x74\137\x73\145\x73\151\40\145", "\145\56\151\144\x5f\x73\x65\163\x69\x3d\141\56\163\x65\163\151\x5f\151\x64", "\x6c\x65\x66\x74"); goto tVGL0; CKsc6: $this->db->join("\142\165\153\x75\137\x69\156\144\x75\153\40\x69", "\x69\x2e\x69\x64\137\163\x69\x73\167\x61\75\x62\x2e\x69\x64\x5f\x73\151\x73\x77\141\40\x41\116\x44\x20\75\151\56\163\x74\141\x74\x75\x73\x3d\x31"); goto fuZzl; pXeee: $this->db->join("\x63\142\164\137\156\x6f\x6d\157\162\x5f\x70\x65\163\x65\162\164\x61\40\147", "\147\56\x69\x64\x5f\163\x69\163\x77\x61\x3d\141\x2e\163\x69\x73\167\x61\137\x69\144\40\x41\116\104\40\x67\56\151\144\137\164\x70\75" . $id_tp, "\x6c\145\x66\164"); goto VPFvW; KG62P: $this->db->select("\141\56\162\165\141\x6e\147\137\x69\x64\x2c\40\141\x2e\x73\x65\163\151\x5f\151\x64\x2c\x20\x62\56\x69\144\x5f\x73\151\163\167\x61\54\x20\x62\x2e\156\141\x6d\141\x2c\x20\142\56\x6e\x69\x73\54\x20\x62\56\156\x69\x73\x6e\54\40\x62\x2e\165\x73\x65\162\x6e\141\x6d\145\x2c\x20\142\x2e\x70\141\x73\163\x77\x6f\162\144\x2c\40\x62\56\x66\x6f\x74\x6f\54" . "\40\x66\56\151\144\137\x6b\145\x6c\x61\163\54\40\x66\x2e\156\141\x6d\141\x5f\x6b\145\x6c\x61\163\x2c\40\x66\56\x6b\157\144\x65\x5f\x6b\145\154\x61\163\54" . "\40\144\x2e\156\141\x6d\141\x5f\x72\x75\141\156\147\x2c\40\x64\56\153\x6f\x64\145\x5f\x72\x75\x61\156\x67\x2c" . "\40\145\56\153\157\x64\145\137\x73\x65\163\151\x2c\x20\145\56\156\141\155\x61\137\163\145\x73\151\54" . "\x20\x67\56\x6e\157\155\157\162\137\160\x65\163\x65\x72\164\x61"); goto Ld4T7; MY6SI: goto hoEQ2; goto H52jU; A2ECF: hoEQ2: goto CKsc6; EUBx6: $this->db->join("\x6d\x61\x73\164\x65\x72\137\x6b\x65\154\x61\163\40\146", "\x66\56\151\x64\x5f\153\x65\154\x61\x73\x3d\x63\56\151\x64\137\153\145\154\x61\x73"); goto A2ECF; tVGL0: $this->db->join("\153\145\154\141\163\137\163\x69\163\167\141\x20\x63", "\x63\x2e\x69\x64\137\x73\x69\x73\167\x61\x3d\x62\56\151\x64\137\163\151\x73\x77\x61\40\101\116\104\x20\143\56\151\x64\137\x74\160\x3d" . $id_tp . "\40\101\x4e\104\40\143\56\x69\x64\x5f\x73\x6d\x74\x3d" . $id_smt . ''); goto qkLg_; Ld4T7: $this->db->from("\143\142\x74\x5f\163\145\163\x69\137\163\x69\x73\167\x61\x20\141"); goto gLYRb; sYUUF: } public function getRuangSiswaByKelas($id_tp, $id_smt, $kelas, $sesi) { goto AhU9z; WgbtT: $this->db->join("\x63\x62\164\137\x6e\157\155\157\x72\137\x70\x65\163\x65\162\164\141\40\147", "\147\56\x69\x64\137\x73\151\x73\167\x61\x3d\x61\56\x73\151\x73\x77\141\137\151\144\40\x41\x4e\x44\x20\147\56\151\x64\x5f\164\160\x3d" . $id_tp, "\x6c\x65\x66\x74"); goto AdbNK; IRamb: $this->db->join("\x63\142\x74\137\162\165\141\156\147\40\x64", "\144\56\x69\144\x5f\162\165\141\x6e\147\75\141\56\x72\x75\x61\x6e\x67\137\x69\x64", "\x6c\145\146\x74"); goto WgbtT; nIdcg: $this->db->where_in("\141\56\x6b\145\154\x61\x73\137\x69\x64", $kelas); goto DoqNE; E8Bm7: return $this->db->get()->result(); goto qBdPi; v_Lx1: $this->db->join("\155\x61\x73\x74\145\x72\137\163\151\163\x77\x61\x20\x62", "\142\56\151\144\x5f\163\151\x73\167\x61\x3d\x61\x2e\163\x69\163\x77\x61\x5f\151\x64", "\x6c\x65\146\164"); goto IRamb; WzXaI: $this->db->join("\153\x65\154\141\x73\x5f\x73\x69\x73\x77\x61\x20\143", "\x63\56\151\x64\x5f\x73\x69\x73\x77\141\75\142\56\x69\x64\x5f\163\x69\x73\x77\x61\x20\101\116\104\40\143\x2e\151\144\137\x74\x70\75" . $id_tp . "\x20\x41\116\x44\40\143\x2e\x69\144\x5f\163\x6d\x74\x3d" . $id_smt . ''); goto gDQGc; gDQGc: $this->db->join("\155\141\x73\x74\145\x72\x5f\153\x65\154\141\163\x20\146", "\146\x2e\x69\144\x5f\x6b\145\154\x61\x73\75\x63\x2e\151\x64\x5f\x6b\x65\154\141\163"); goto aiDeS; noiI1: P5m5A: goto lpicW; DoqNE: if (!($sesi != null)) { goto P5m5A; } goto fP2OI; lpicW: $this->db->order_by("\142\56\156\x61\x6d\141"); goto E8Bm7; aiDeS: $this->db->join("\x62\165\x6b\165\137\151\x6e\x64\x75\153\40\x69", "\151\56\151\144\137\x73\x69\163\167\x61\x3d\142\56\151\x64\137\x73\x69\x73\167\141\40\101\116\104\40\x3d\151\x2e\163\x74\141\164\165\163\75\61"); goto nIdcg; AhU9z: $this->db->select("\x62\56\x69\144\x5f\x73\x69\x73\x77\141\x2c\40\142\x2e\x6e\141\x6d\141\x2c\40\x62\x2e\x6e\x69\163\x2c\40\142\56\156\x69\163\156\54\40\142\56\x75\x73\x65\162\x6e\x61\x6d\145\54\40\142\x2e\160\x61\x73\163\x77\x6f\162\x64\54\40\x62\56\x66\157\164\x6f\54" . "\x20\x66\x2e\156\x61\x6d\x61\137\153\145\154\141\x73\x2c\x20\146\x2e\153\157\144\x65\137\153\x65\x6c\x61\x73\54" . "\40\x64\56\156\141\x6d\141\137\162\x75\141\156\147\54\40\x64\56\x6b\x6f\x64\x65\x5f\x72\x75\x61\156\147\x2c" . "\x20\x65\56\153\x6f\x64\145\137\x73\145\x73\x69\54\40\145\56\x6e\x61\155\x61\137\163\145\163\x69\54" . "\40\147\56\156\157\x6d\x6f\x72\137\x70\x65\x73\145\x72\164\141"); goto VvqId; fP2OI: $this->db->where("\141\56\x73\145\163\151\x5f\x69\x64", $sesi); goto noiI1; VvqId: $this->db->from("\x63\142\x74\x5f\163\145\163\x69\x5f\x73\x69\x73\x77\141\40\x61"); goto v_Lx1; AdbNK: $this->db->join("\143\x62\164\x5f\x73\x65\163\x69\40\145", "\x65\x2e\151\144\x5f\163\x65\163\151\x3d\141\x2e\x73\145\163\151\137\151\144", "\154\145\146\x74"); goto WzXaI; qBdPi: } public function getSiswaByKelasArray($id_tp, $id_smt, $arr_kelas) { goto YXyVM; S1Ri2: $this->db->order_by("\146\56\153\157\x64\145\137\x6b\x65\154\x61\x73", "\101\x53\x43"); goto aE_vf; YXyVM: $this->db->select("\x61\56\151\x64\x5f\163\x69\163\x77\x61\54\40\x61\56\151\x64\137\153\145\x6c\141\163\54" . "\x20\x62\56\156\x61\x6d\x61\54\40\x62\56\x6e\151\163\54\x20\142\56\156\151\163\156\54\x20\x62\x2e\165\163\x65\x72\x6e\141\155\145\54\40\142\56\x70\x61\x73\163\167\x6f\162\144\54" . "\40\146\x2e\156\x61\155\x61\x5f\153\x65\x6c\x61\x73\54\40\x66\x2e\153\x6f\x64\145\137\153\145\x6c\x61\x73\54\x20\154\56\154\145\x76\x65\x6c\x2c\x20\x67\x2e\156\157\155\157\162\x5f\x70\145\x73\145\162\164\141"); goto uepzf; H04EI: fBVtU: goto rUuIW; MsynG: $this->db->order_by("\x6c\x2e\x6c\x65\166\145\x6c", "\x41\123\103"); goto S1Ri2; ybkKk: return $this->db->get()->result(); goto iq90U; XFKop: $this->db->join("\155\x61\x73\x74\145\162\137\x73\x69\x73\x77\141\x20\x62", "\142\x2e\x69\144\137\x73\151\163\x77\141\75\x61\x2e\x69\x64\x5f\x73\x69\163\167\141"); goto x2mdK; vcUj6: $this->db->join("\143\142\164\137\x6e\157\155\157\162\x5f\160\x65\x73\145\x72\x74\141\x20\147", "\x67\56\151\x64\x5f\163\x69\x73\167\141\x3d\x61\x2e\151\x64\137\x73\x69\163\x77\x61\40\101\116\104\40\147\56\x69\144\x5f\164\160\x3d" . $id_tp, "\x6c\x65\146\x74"); goto EjjSJ; NZ5hu: $this->db->where_in("\x61\x2e\x69\x64\x5f\153\145\x6c\x61\x73", $arr_kelas); goto H04EI; l9iDe: $this->db->where("\141\x2e\x69\x64\x5f\163\x6d\164", $id_smt); goto MsynG; XG18V: if (in_array("\123\x65\x6d\x75\141", $arr_kelas)) { goto fBVtU; } goto NZ5hu; uHHEr: $this->db->join("\154\x65\x76\x65\x6c\137\153\x65\x6c\141\163\40\154", "\x6c\56\151\144\x5f\x6c\x65\x76\145\x6c\x3d\x66\56\154\145\166\145\154\137\151\x64"); goto vcUj6; EjjSJ: $this->db->join("\x62\x75\x6b\165\x5f\x69\156\144\165\x6b\40\151", "\x69\x2e\151\x64\x5f\x73\x69\x73\x77\141\75\x61\x2e\151\x64\x5f\x73\x69\163\x77\141\40\x41\116\104\40\x3d\151\56\x73\164\x61\x74\x75\163\x3d\61"); goto XG18V; rUuIW: $this->db->where("\141\56\151\x64\137\x74\x70", $id_tp); goto l9iDe; uepzf: $this->db->from("\153\x65\x6c\141\x73\x5f\163\151\x73\167\x61\x20\141"); goto XFKop; x2mdK: $this->db->join("\x6d\x61\x73\x74\145\x72\137\153\x65\x6c\x61\163\x20\x66", "\x66\56\151\x64\137\153\145\154\141\x73\75\x61\56\151\x64\x5f\x6b\x65\x6c\x61\163"); goto uHHEr; aE_vf: $this->db->order_by("\142\x2e\156\141\x6d\141", "\101\x53\103"); goto ybkKk; iq90U: } public function getKelasList($tp, $smt) { goto F_VVs; PkJdC: $this->db->where("\x61\56\151\144\137\163\x6d\x74", $smt); goto z5_2s; yTwZ3: $this->db->join("\x6c\x65\166\145\x6c\x5f\153\x65\154\x61\163\40\x64", "\x64\x2e\x69\x64\137\154\x65\x76\x65\154\75\141\x2e\x6c\x65\166\145\154\x5f\x69\144", "\x6c\145\x66\x74"); goto P9cko; C1LOM: return $query->result(); goto yzoUE; F_VVs: $this->db->select("\141\x2e\x69\x64\137\153\145\x6c\x61\x73\x2c\x20\x61\56\x6e\x61\x6d\x61\x5f\153\145\x6c\x61\163\x2c\40\141\x2e\x6b\157\144\145\x5f\153\x65\154\141\163\54\x20\143\56\x6e\141\155\x61\x5f\x6a\x75\x72\165\x73\x61\x6e\54\40\142\x2e\151\x64\x5f\x72\x75\x61\x6e\x67\54\x20\x62\x2e\x69\144\137\163\x65\163\x69\54\40\x62\x2e\163\145\x74\x5f\163\x69\x73\167\x61"); goto QEMfA; Y74Mc: $this->db->join("\x6d\141\x73\x74\145\162\x5f\x6a\x75\162\x75\x73\141\x6e\40\x63", "\x63\56\151\144\x5f\152\x75\x72\x75\x73\x61\x6e\75\141\x2e\x6a\165\162\165\163\x61\156\x5f\x69\144", "\154\x65\x66\x74"); goto yTwZ3; QEMfA: $this->db->from("\155\x61\163\x74\145\162\137\x6b\145\154\x61\163\x20\x61"); goto I1rvw; z5_2s: $this->db->order_by("\141\x2e\x6c\145\166\x65\x6c\x5f\151\144", "\x41\123\103"); goto pcSQx; P9cko: $this->db->where("\141\56\x69\144\x5f\x74\x70", $tp); goto PkJdC; Zs4Pt: $query = $this->db->get(); goto C1LOM; pcSQx: $this->db->order_by("\141\x2e\156\x61\155\x61\137\x6b\145\154\141\163", "\101\123\x43"); goto Zs4Pt; I1rvw: $this->db->join("\143\142\164\137\x6b\x65\x6c\x61\x73\137\162\165\x61\x6e\x67\40\x62", "\141\x2e\x69\x64\x5f\x6b\145\154\x61\163\x3d\x62\56\x69\144\137\153\x65\x6c\x61\163", "\x6c\145\146\164"); goto Y74Mc; yzoUE: } public function getKelas($tp = null, $smt = null) { goto hVpK7; mpoy2: $this->db->join("\154\145\166\x65\x6c\x5f\153\145\154\141\x73\40\x62", "\x62\56\151\x64\x5f\154\x65\166\x65\154\75\141\56\154\145\166\145\154\137\x69\x64", "\x6c\x65\146\164"); goto ZPDym; YTYHu: MNbkL: goto XabaA; hVpK7: $this->db->select("\x61\x2e\151\x64\137\153\145\x6c\141\x73\x2c\x20\141\x2e\156\x61\155\x61\137\x6b\x65\154\141\163\54\40\x61\56\153\157\144\145\137\x6b\x65\x6c\x61\163\54\x20\x62\56\154\x65\166\x65\x6c"); goto UWLeo; XabaA: if (!($smt != null)) { goto KIkAX; } goto oMca6; UWLeo: $this->db->from("\155\x61\x73\164\x65\162\137\153\x65\154\141\x73\40\141"); goto mpoy2; APu_Y: $this->db->where("\141\x2e\151\144\137\x74\160", $tp); goto YTYHu; hY2ET: $this->db->order_by("\x61\56\x6e\141\x6d\141\137\153\145\154\141\x73", "\101\x53\103"); goto ABiwv; oMca6: $this->db->where("\141\x2e\151\144\137\163\155\164", $smt); goto NmjZJ; ZPDym: if (!($tp != null)) { goto MNbkL; } goto APu_Y; ABiwv: return $this->db->get()->result(); goto ubuci; NmjZJ: KIkAX: goto hY2ET; ubuci: } public function getDataTableBank($guru = null) { goto gtVF3; aV23H: $this->datatables->join("\143\x62\x74\137\x6a\145\x6e\151\x73\x20\145", "\145\56\151\144\x5f\152\x65\x6e\151\x73\75\141\x2e\x62\141\x6e\x6b\x5f\152\x65\156\151\163\x5f\151\x64", "\154\x65\x66\x74"); goto f8ekt; Az10H: vvb4j: goto TeQTk; fQGW8: $this->datatables->join("\155\x61\x73\164\x65\162\137\147\165\x72\165\x20\x63", "\143\x2e\151\144\x5f\147\165\x72\165\75\x61\56\142\141\156\x6b\137\x67\165\x72\x75\137\x69\x64", "\x6c\145\146\164"); goto qf7z3; gtVF3: $this->datatables->select("\x61\x2e\x69\144\x5f\x62\141\156\153\54\40\x61\x2e\x62\141\x6e\x6b\x5f\x6b\157\x64\x65\54\x20\141\x2e\x62\x61\156\x6b\137\x6c\x65\x76\x65\x6c\x2c\40\x61\56\x74\141\155\x70\x69\154\x5f\x70\x67\54\x20\141\56\164\x61\x6d\x70\x69\x6c\137\145\x73\x61\x69\x2c\x20\141\56\163\164\x61\164\165\x73\x2c\40\x62\56\x6e\141\x6d\141\x5f\155\x61\160\145\x6c\54\x20\143\x2e\x6e\141\x6d\141\137\147\165\162\x75"); goto QL8G9; qf7z3: $this->datatables->join("\155\x61\163\x74\x65\x72\137\152\165\x72\x75\163\141\x6e\x20\x64", "\144\56\151\x64\137\x6a\165\162\165\x73\x61\156\x3d\141\x2e\x62\141\156\x6b\137\152\x75\x72\x75\x73\x61\156\x5f\151\144", "\x6c\x65\146\164"); goto aV23H; MaRUd: $this->datatables->join("\x6d\x61\x73\164\x65\162\137\155\x61\160\x65\154\40\x62", "\142\56\151\x64\137\155\141\x70\145\154\75\x61\56\x62\141\156\153\x5f\155\141\160\145\x6c\x5f\151\x64", "\154\x65\x66\164"); goto fQGW8; f8ekt: if (!($guru !== null)) { goto vvb4j; } goto TooNE; TeQTk: return $this->datatables->generate(); goto KT2KT; TooNE: $this->datatables->where("\x61\x2e\x62\141\156\153\x5f\147\165\x72\x75\x5f\x69\x64", $guru); goto Az10H; QL8G9: $this->datatables->from("\x63\x62\x74\137\142\x61\x6e\153\x5f\163\157\141\154\x20\x61"); goto MaRUd; KT2KT: } public function getDataBank($guru = null, $mapel = null, $level = null) { goto elNQ3; Nf9a1: ds6iJ: goto fJ1kn; alCw5: T98Ks: goto cfv1J; itNzp: $this->db->join("\155\x61\x73\164\145\x72\x5f\155\x61\x70\x65\x6c\40\x62", "\x62\x2e\151\144\x5f\155\x61\x70\x65\x6c\75\141\x2e\142\141\156\x6b\137\x6d\141\160\145\154\x5f\151\x64", "\x6c\x65\x66\164"); goto w4qzp; iX28w: return $ret; goto Mp4bT; MPNx8: $this->db->where("\141\56\142\141\x6e\153\x5f\155\x61\x70\x65\x6c\137\x69\144", $mapel); goto Nf9a1; NBEh4: $ret = []; goto T1WRg; Wzbvg: $this->db->where("\x61\x2e\142\x61\x6e\x6b\x5f\154\x65\x76\x65\x6c", $level); goto sZv0m; HNc3K: $this->db->where("\x61\x2e\142\x61\156\x6b\137\147\165\162\165\x5f\x69\144", $guru); goto alCw5; OXXgZ: $result = $this->db->get()->result(); goto NBEh4; LRuh0: $this->db->order_by("\141\56\142\x61\x6e\153\x5f\x6c\x65\166\145\154", "\x41\123\x43"); goto OXXgZ; ItpHT: if (!($guru !== null)) { goto T98Ks; } goto HNc3K; w4qzp: $this->db->join("\x6d\141\163\164\145\x72\x5f\x67\165\162\x75\x20\x63", "\143\56\x69\x64\x5f\147\165\x72\165\75\x61\x2e\142\x61\x6e\x6b\x5f\147\165\162\165\137\151\x64", "\154\x65\146\x74"); goto ItpHT; elNQ3: $this->db->select("\141\56\151\144\x5f\142\x61\x6e\x6b\x2c\40\141\56\x69\x64\x5f\164\160\54\40\x61\56\x69\x64\137\163\155\164\x2c\x20\141\56\x62\x61\x6e\153\137\153\157\x64\x65\x2c\x20\x61\56\x62\x61\x6e\x6b\x5f\154\x65\x76\x65\x6c\54\40\x61\x2e\142\x61\156\153\137\x6b\x65\154\x61\x73\x2c\x20\x61\x2e\144\141\x74\145\x2c\x20\141\56\x73\164\141\x74\165\x73\x2c" . "\x20\141\x2e\164\x61\x6d\x70\x69\154\x5f\x70\147\54\40\141\x2e\164\141\155\160\x69\154\137\153\x6f\x6d\160\x6c\145\x6b\163\x2c\x20\x61\x2e\x74\x61\155\160\151\154\137\152\157\x64\x6f\x68\x6b\141\156\x2c\x20\x61\x2e\x74\141\155\x70\151\x6c\x5f\151\163\x69\141\156\x2c\40\141\56\x74\x61\155\160\151\x6c\x5f\145\x73\x61\x69\x2c\x20\x61\56\x62\x61\x6e\x6b\137\x67\165\x72\x75\137\x69\x64\x2c" . "\40\142\x2e\x6e\141\155\x61\x5f\155\141\x70\145\154\x2c\x20\143\x2e\151\x64\x5f\147\165\162\x75\54\40\143\56\x6e\141\x6d\141\x5f\147\x75\162\x75\x2c" . "\40\50\x53\105\114\x45\x43\124\x20\x43\x4f\x55\x4e\x54\x28\151\144\137\163\157\x61\154\51\x20\106\122\117\x4d\40\143\142\x74\x5f\x73\x6f\x61\154\40\127\x48\x45\x52\x45\40\143\x62\x74\x5f\163\x6f\x61\x6c\x2e\x62\x61\x6e\x6b\x5f\151\144\40\75\40\141\x2e\x69\x64\137\142\141\x6e\x6b\51\40\101\x53\40\164\x6f\x74\x61\x6c\x5f\163\157\x61\154\54" . "\40\x28\123\105\114\x45\x43\x54\x20\x43\x4f\x55\x4e\x54\50\151\x64\x5f\152\x61\144\167\x61\154\x29\40\x46\122\117\115\x20\143\x62\x74\x5f\152\x61\144\x77\141\154\x20\x57\110\x45\x52\x45\40\x63\x62\164\137\152\141\x64\167\141\x6c\x2e\x69\144\x5f\142\141\x6e\153\x20\x3d\x20\x61\56\x69\x64\137\x62\141\x6e\x6b\40\x41\116\x44\40\143\x62\x74\137\152\x61\x64\167\x61\154\56\x73\164\141\164\x75\163\75\x22\x31\x22\x29\x20\101\x53\x20\x64\x69\147\x75\156\141\x6b\141\156"); goto w6GJL; sZv0m: zDBgE: goto LRuh0; cfv1J: if (!($mapel !== null)) { goto ds6iJ; } goto MPNx8; fJ1kn: if (!($level !== null)) { goto zDBgE; } goto Wzbvg; T1WRg: foreach ($result as $row) { $ret[$row->id_tp][$row->id_smt][] = $row; wMWKo: } goto zQFZB; zQFZB: nXZJC: goto iX28w; w6GJL: $this->db->from("\x63\x62\x74\x5f\142\141\156\153\x5f\x73\157\x61\x6c\x20\x61"); goto itNzp; Mp4bT: } public function getDataBankById($id) { goto RTc7E; sF842: $this->db->where("\x61\56\x69\x64\137\142\x61\156\153", $id); goto KjXqS; taIKp: $this->db->join("\x6d\x61\x73\164\x65\x72\x5f\155\141\160\x65\154\x20\142", "\142\x2e\151\144\x5f\x6d\x61\x70\x65\154\x3d\x61\56\x62\x61\x6e\153\x5f\x6d\141\160\145\x6c\137\151\x64", "\x6c\x65\x66\x74"); goto to3QK; KjXqS: return $this->db->get()->row(); goto Qx7jT; to3QK: $this->db->join("\x6d\141\x73\x74\145\x72\137\x67\165\162\165\40\143", "\x63\x2e\151\x64\x5f\147\x75\x72\165\x3d\141\x2e\142\x61\x6e\153\x5f\x67\165\162\165\x5f\151\144", "\154\x65\x66\164"); goto vTlb8; sDuRA: $this->db->from("\x63\142\164\x5f\x62\141\x6e\x6b\x5f\x73\157\141\x6c\x20\x61"); goto taIKp; RTc7E: $this->db->select("\141\56\52\54\x20\142\x2e\x6e\141\155\141\137\x6d\x61\x70\x65\x6c\54\40\x62\56\153\x6f\144\x65\x2c\40\143\56\156\141\x6d\x61\137\147\x75\162\x75\x2c\x20\x64\x2e\156\141\155\x61\x5f\x6a\x75\x72\x75\163\x61\x6e\54\40\144\x2e\x6b\157\144\145\137\152\165\162\x75\163\x61\x6e\x2c" . "\x20\50\x53\105\x4c\x45\103\124\x20\103\x4f\125\x4e\124\x28\x69\144\137\152\x61\x64\x77\141\154\x29\x20\x46\122\x4f\115\x20\143\142\x74\137\152\141\144\x77\x61\154\x20\127\x48\105\122\105\40\143\142\x74\x5f\x6a\x61\x64\167\141\154\x2e\151\144\137\x62\141\156\x6b\40\x3d\40\141\x2e\151\144\137\x62\x61\x6e\153\40\x41\x4e\x44\40\143\142\164\x5f\152\x61\x64\167\x61\154\x2e\163\x74\x61\164\x75\163\75\42\x31\x22\x29\x20\x41\x53\40\x64\x69\147\x75\156\x61\x6b\x61\x6e"); goto sDuRA; vTlb8: $this->db->join("\x6d\x61\163\x74\x65\x72\x5f\152\x75\162\165\163\x61\156\40\x64", "\144\x2e\151\144\x5f\152\165\162\x75\x73\141\156\x3d\141\56\142\141\x6e\x6b\x5f\152\x75\162\165\163\x61\x6e\x5f\151\144", "\154\x65\146\164"); goto sF842; Qx7jT: } public function getTotalSoal($id_bank, $jenis = null) { goto hXSEn; dx_8V: if (!($jenis != null)) { goto ZNL2x; } goto YzNCt; YzNCt: $this->db->where("\x6a\x65\x6e\151\x73", $jenis); goto AdGmr; rXK4M: return $this->db->get("\143\142\164\137\x73\x6f\141\154")->num_rows(); goto kC95W; hXSEn: $this->db->where("\142\x61\156\x6b\x5f\151\144", $id_bank); goto dx_8V; AdGmr: ZNL2x: goto rXK4M; kC95W: } public function getNomorSoalById($id_soal) { goto yqxf_; yqxf_: $this->db->select("\156\157\x6d\157\162\x5f\x73\157\141\154\54\x20\152\x65\156\x69\x73\54\x20\x62\141\x6e\153\x5f\151\144"); goto bFSQT; Yr4Qz: return $this->db->get("\143\142\164\137\x73\157\141\x6c")->row(); goto KQRZ4; bFSQT: $this->db->where("\x69\x64\x5f\163\157\141\x6c", $id_soal); goto Yr4Qz; KQRZ4: } public function getFileSoalById($id_soal) { goto NxKo4; cgAkf: return $this->db->get("\x63\142\164\x5f\163\157\141\154")->row(); goto sMY3Z; NxKo4: $this->db->select("\x66\x69\154\x65"); goto jeQCL; jeQCL: $this->db->where("\x69\144\x5f\x73\157\x61\x6c", $id_soal); goto cgAkf; sMY3Z: } public function getSoalByBank($id_bank) { goto RcugB; ZSaED: $this->db->where("\142\141\x6e\x6b\x5f\x69\x64", $id_bank); goto hJzer; Ypbj_: $result = $this->db->get()->result(); goto EX_iV; RcugB: $this->db->select("\151\144\137\x73\157\141\x6c\54\40\x62\141\x6e\153\x5f\151\x64\54\40\x6d\141\160\145\x6c\x5f\x69\x64\54\40\152\145\x6e\x69\x73\x2c\x20\x6e\x6f\x6d\157\x72\137\163\157\x61\154\x2c\x20\x73\157\141\x6c\54\x20\x6f\160\x73\x69\x5f\x61\54\40\x6f\160\x73\151\x5f\142\x2c\x20\157\160\163\151\137\143\x2c\x20\157\x70\163\151\137\144\54\x20\x6f\160\163\x69\x5f\145\x2c\40\x6a\141\x77\x61\142\x61\156"); goto lMu6M; EX_iV: $ret = []; goto WhUwq; hJzer: $this->db->order_by("\x6a\145\156\151\x73"); goto weKOq; WhUwq: foreach ($result as $row) { $ret[$row->jenis][$row->nomor_soal] = $row; D2KeD: } goto LM6LO; LM6LO: scgZv: goto jJVlV; jJVlV: return $ret; goto Axfdu; lMu6M: $this->db->from("\143\142\164\137\163\157\141\154"); goto ZSaED; weKOq: $this->db->order_by("\156\x6f\x6d\157\x72\137\163\x6f\x61\154"); goto Ypbj_; Axfdu: } public function getAllSoalByBank($id_bank, $jenis = null) { goto mwu0v; mwu0v: $this->db->select("\151\144\x5f\163\157\x61\154\54\x20\x62\141\156\x6b\137\x69\144\x2c\x20\155\141\x70\x65\154\x5f\x69\x64\x2c\40\152\x65\x6e\x69\x73\54\40\x6e\157\x6d\157\x72\x5f\163\157\141\154\x2c\x20\163\x6f\x61\x6c\54\x20\x6f\160\x73\151\137\141\x2c\x20\x6f\x70\163\151\x5f\x62\x2c\x20\x6f\160\163\x69\x5f\x63\x2c\x20\x6f\x70\163\x69\137\144\x2c\40\x6f\160\x73\x69\x5f\145\54\x20\152\141\167\141\x62\x61\x6e\54\40\164\141\155\x70\151\x6c\153\141\x6e"); goto gwR1f; WYtHI: $this->db->where("\x6a\x65\x6e\x69\163", $jenis); goto pe2_U; uprBc: if (!($jenis != null)) { goto sJdEs; } goto WYtHI; gwR1f: $this->db->where("\x62\x61\156\x6b\137\x69\144", $id_bank); goto uprBc; pe2_U: sJdEs: goto GGPut; GGPut: return $this->db->get("\x63\142\x74\137\163\157\141\154")->result(); goto c_HYG; c_HYG: } public function getSoalByNomor($id_bank, $nomor, $jenis) { goto xmHqp; PXafo: $this->db->where("\x62\141\156\x6b\x5f\x69\144", $id_bank); goto JtyDU; JtyDU: $this->db->where("\x6e\x6f\155\x6f\162\137\x73\x6f\x61\x6c", $nomor); goto I1RQm; I1RQm: $this->db->where("\x6a\145\156\x69\163", $jenis); goto CmpUy; CmpUy: return $this->db->get("\143\x62\164\137\x73\157\141\154")->row(); goto qhLZa; xmHqp: $this->db->select("\x2a"); goto PXafo; qhLZa: } public function getNomorSoalByBankJenis($id_bank, $jenis) { goto DYR_V; zK8oY: $this->db->where("\152\145\x6e\151\163", $jenis); goto Nngth; SFh6p: return $ret; goto aZyiQ; MzD2N: $this->db->where("\x62\141\156\x6b\x5f\x69\x64", $id_bank); goto zK8oY; Nngth: $result = $this->db->get("\x63\x62\164\137\163\157\x61\x6c")->result(); goto DLhra; aREYw: foreach ($result as $key => $row) { $ret[$row->nomor_soal] = $row; YiyXZ: } goto IGZcC; IGZcC: TOQiT: goto SFh6p; DLhra: $ret = []; goto aREYw; DYR_V: $this->db->select("\x69\x64\x5f\163\x6f\x61\154\x2c\x20\152\x65\156\x69\x73\x2c\x20\156\x6f\x6d\157\162\137\x73\157\x61\x6c"); goto MzD2N; aZyiQ: } public function getNomorSoalByBank($id_bank, $jenis = null) { goto GVjf7; Jwcri: $this->db->where("\x74\141\x6d\x70\x69\154\153\141\156", "\x31"); goto bds3x; WmPFW: $result = $this->db->get("\143\x62\x74\x5f\x73\157\x61\154")->result(); goto jCZLA; GVjf7: $this->db->select("\151\144\x5f\x73\157\x61\x6c\x2c\x20\152\x65\156\x69\x73\54\x20\x6e\157\x6d\157\x72\x5f\x73\157\x61\154\54\x20\x6a\x61\x77\x61\142\x61\156"); goto eVQke; jCZLA: $ret = []; goto NMbnm; NMbnm: foreach ($result as $key => $row) { $ret[$row->id_soal] = $row; k2WXR: } goto F_kY1; bds3x: if (!($jenis != null)) { goto znhyj; } goto UJOmX; UJOmX: $this->db->where("\x6a\x65\x6e\151\x73", $jenis); goto beTr8; eVQke: $this->db->where("\142\x61\156\x6b\x5f\151\144", $id_bank); goto Jwcri; beTr8: znhyj: goto WmPFW; F_kY1: TeEvG: goto Fn0qk; Fn0qk: return $ret; goto U4EEb; U4EEb: } public function getNomorSoalByArrIdBank($arr_id_bank, $jenis = null) { goto yDMDe; ylNlt: cdbQu: goto FmwsP; XdoI9: $this->db->where_in("\142\141\156\153\137\151\144", $arr_id_bank); goto qR21t; VxOf1: $this->db->where("\152\145\156\151\x73", $jenis); goto ylNlt; qR21t: if (!($jenis != null)) { goto cdbQu; } goto VxOf1; FmwsP: return $this->db->get("\x63\142\164\137\x73\x6f\141\x6c")->result(); goto qXHgT; yDMDe: $this->db->select("\x69\144\x5f\x73\157\x61\x6c\x2c\40\x6a\145\x6e\151\x73\x2c\40\x6e\x6f\155\x6f\x72\x5f\163\157\141\154\x2c\40\x6a\x61\167\x61\142\141\x6e"); goto XdoI9; qXHgT: } public function cekSoalAda($id_bank, $jenis) { goto AidMP; AidMP: $this->db->select("\151\144\x5f\163\x6f\141\154\54\40\142\141\156\153\x5f\151\x64\54\40\152\145\156\151\x73\54\x20\156\x6f\155\157\162\x5f\x73\157\x61\x6c"); goto dVQLh; J6Jix: return $this->db->get("\143\142\164\137\163\x6f\x61\154")->result(); goto jo58V; zX5jJ: $this->db->where("\152\145\x6e\x69\163", $jenis); goto J6Jix; dVQLh: $this->db->where("\x62\141\x6e\x6b\x5f\151\x64", $id_bank); goto zX5jJ; jo58V: } public function cekSoalKomplit($id_bank, $jenjang) { goto HtcyL; lXFIk: if (!($jenjang == "\x33")) { goto LeZPP; } goto FirKT; XC5zV: LeZPP: goto xVu08; HtcyL: $this->db->select("\151\144\x5f\x73\157\x61\154\54\x20\142\141\156\153\137\x69\144\54\40\x6a\x65\x6e\x69\x73\x2c\40\156\157\x6d\x6f\162\x5f\163\157\x61\154"); goto MkeFw; MkeFw: $this->db->where("\142\141\156\153\137\x69\144", $id_bank)->where("\x73\157\141\x6c\40\x4e\117\124\x20\116\125\114\114")->or_where("\157\x70\163\151\x5f\141\x20\x4e\x4f\124\x20\x4e\125\114\114")->or_where("\x6f\x70\163\151\x5f\142\40\x4e\x4f\x54\40\116\125\114\x4c")->or_where("\157\160\163\x69\137\143\x20\x4e\117\x54\40\116\x55\114\x4c")->or_where("\x6f\x70\163\151\137\x64\x20\x4e\x4f\x54\x20\116\x55\x4c\x4c")->or_where("\x6a\x61\167\141\x62\x61\156\x20\116\x4f\124\40\116\x55\x4c\x4c"); goto lXFIk; FirKT: $this->db->or_where("\x6f\x70\x73\x69\137\145\40\116\x4f\124\40\x4e\125\114\114"); goto XC5zV; xVu08: return $this->db->get("\143\142\164\x5f\x73\157\141\154")->result(); goto pSanh; pSanh: } public function cekSoalBelumKomplit($jenis, $opsi_ganda) { goto MIDPU; arXsA: $this->db->where("\x6f\160\163\x69\x5f\141\x20\111\x53\40\x4e\125\114\x4c")->or_where("\x6f\x70\x73\151\x5f\x61\x20\75\42\42"); goto ht_gT; ym1_5: $this->db->where("\163\157\141\154\x20\111\x53\x20\116\x55\114\x4c")->or_where("\163\x6f\141\154\40\x3d\x22\42"); goto AVQqj; iGzvy: foreach ($result as $key => $row) { $ret[$row->bank_id][] = $row; G_i_z: } goto gE2mO; cDJc9: B90zj: goto P1tKh; MIDPU: $this->db->select("\x69\x64\137\163\x6f\x61\x6c\x2c\x20\142\x61\x6e\153\x5f\x69\144\x2c\40\x6a\x65\x6e\x69\x73\54\x20\156\x6f\155\x6f\x72\137\163\157\141\154\x2c\x20\155\141\160\145\x6c\x5f\x69\x64"); goto UNBvh; dlEWn: if (!($opsi_ganda == "\x34")) { goto WH0KZ; } goto XQ9RB; LxH0q: $result = $this->db->get()->result(); goto iGzvy; P1tKh: em3J9: goto A8SHH; TPcHA: $ret = []; goto LxH0q; XQ9RB: $this->db->where("\x6f\160\x73\151\x5f\144\x20\111\123\x20\116\125\114\x4c")->or_where("\x6f\x70\x73\151\x5f\x64\40\75\x22\42"); goto RktSO; gE2mO: mnWNe: goto vVM8o; ktwM6: if (!($opsi_ganda == "\x35")) { goto B90zj; } goto Jj6V9; Jj6V9: $this->db->where("\157\160\163\151\x5f\144\x20\x49\123\x20\x4e\125\114\x4c")->or_where("\157\160\x73\x69\137\144\x20\x3d\42\x22"); goto MSxO6; RktSO: WH0KZ: goto ktwM6; MSxO6: $this->db->where("\157\160\163\x69\x5f\145\x20\x49\x53\40\116\125\114\114")->or_where("\x6f\x70\163\x69\137\x65\40\x3d\x22\42"); goto cDJc9; ht_gT: $this->db->where("\157\x70\x73\151\137\142\x20\x49\123\40\x4e\x55\114\x4c")->or_where("\x6f\160\x73\x69\137\x62\40\x3d\42\42"); goto zyrkz; AVQqj: if (!($jenis == "\61")) { goto em3J9; } goto arXsA; A8SHH: if (!($jenis == "\x32")) { goto Wc15J; } goto jfB0o; XzVK_: $this->db->where("\152\x65\x6e\151\163", $jenis); goto ym1_5; jfB0o: $this->db->where("\x6f\160\163\151\137\141\x20\x49\x53\40\116\125\x4c\114")->or_where("\157\160\x73\x69\137\x61\x20\75\42\x22"); goto HOVto; zyrkz: $this->db->where("\x6f\160\163\151\137\x63\x20\111\123\x20\x4e\125\114\x4c")->or_where("\x6f\x70\163\x69\x5f\143\40\x3d\x22\42"); goto dlEWn; UNBvh: $this->db->from("\143\142\164\137\163\x6f\x61\154"); goto XzVK_; HOVto: Wc15J: goto yKvHM; vVM8o: return $ret; goto zLS7L; yKvHM: $this->db->where("\152\x61\x77\141\142\x61\156\x20\x49\123\40\116\125\114\114")->or_where("\x6a\141\167\141\x62\x61\156\40\75\x22\x22"); goto TPcHA; zLS7L: } public function getNomorSoalTerbesar($id_bank, $jenis) { goto oNSGQ; d0tLs: $this->db->where("\x62\141\156\153\x5f\151\x64", $id_bank)->where("\x6a\145\x6e\151\x73", $jenis); goto Y7w8f; kDMKg: return $this->db->get("\x63\142\164\137\163\x6f\141\x6c")->row(); goto WMWlO; Y7w8f: $this->db->order_by("\156\x6f\155\157\x72\x5f\163\157\x61\x6c", "\x44\105\x53\x43"); goto kDMKg; oNSGQ: $this->db->select("\156\x6f\x6d\157\x72\x5f\x73\157\x61\x6c"); goto d0tLs; WMWlO: } public function dummy($jenjang) { $data = array("\x69\x64\x5f\x62\x61\x6e\x6b" => '', "\x62\141\156\153\137\x6a\x65\156\151\163\x5f\x69\x64" => '', "\142\141\x6e\153\137\x6b\157\x64\x65" => '', "\x62\x61\156\x6b\137\x6d\141\x70\145\x6c\x5f\151\x64" => '', "\x62\141\156\153\137\x6c\x65\x76\x65\154" => '', "\142\x61\x6e\153\137\x6b\x65\x6c\x61\x73" => serialize([]), "\x62\x61\x6e\153\137\x67\165\x72\165\137\x69\144" => '', "\x6a\155\x6c\137\163\x6f\141\154" => "\x30", "\142\x6f\x62\157\x74\x5f\x70\147" => "\60", "\164\x61\155\160\151\x6c\137\x70\x67" => "\x30", "\157\x70\163\x69" => $jenjang == "\x31" ? "\x33" : ($jenjang == "\x32" ? "\x34" : ($jenjang == "\x33" ? "\65" : '')), "\152\x6d\x6c\x5f\x6b\x6f\x6d\x70\154\x65\153\163" => "\x30", "\x74\141\x6d\160\x69\x6c\x5f\x6b\157\x6d\160\154\145\153\163" => "\x30", "\x62\x6f\142\x6f\x74\137\x6b\x6f\x6d\160\x6c\x65\153\163" => "\x30", "\152\155\154\x5f\x6a\x6f\144\157\150\x6b\x61\x6e" => "\60", "\164\x61\x6d\x70\151\x6c\x5f\152\x6f\144\x6f\x68\x6b\x61\x6e" => "\x30", "\x62\157\142\x6f\x74\x5f\152\157\x64\157\x68\153\x61\x6e" => "\60", "\x6a\x6d\x6c\x5f\x69\x73\151\141\x6e" => "\x30", "\164\141\x6d\160\151\154\x5f\x69\x73\x69\x61\x6e" => "\60", "\x62\x6f\142\x6f\x74\137\x69\x73\151\x61\156" => "\x30", "\152\x6d\154\137\145\163\x61\x69" => "\60", "\x62\157\x62\157\x74\x5f\145\163\x61\x69" => "\60", "\x74\x61\x6d\x70\x69\154\137\x65\x73\141\151" => "\60", "\153\153\x6d" => '', "\x73\157\141\x6c\x5f\x61\147\x61\155\x61" => "\55", "\x73\x74\141\164\x75\x73" => "\x31"); return $data; } public function saveBankSoal($tp, $smt) { goto hlEdg; BXpSp: n3tvB: goto BL9a0; ohvcF: $i = 0; goto B1kn_; xkbN5: $this->db->where("\x69\144\x5f\x62\x61\156\153", $id); goto jIajK; RnlKl: goto kC5hR; goto Cztpx; nYMGb: $kelas[] = ["\x6b\x65\154\x61\163\137\x69\144" => $this->input->post("\153\x65\154\141\163\x5b" . $i . "\135", true)]; goto kESQs; qgd1s: $kelas = []; goto ohvcF; B1kn_: kC5hR: goto GfkKW; jIajK: return $this->db->update("\x63\142\164\x5f\x62\x61\156\153\137\163\x6f\141\154", $data); goto a2Xs2; TkNnP: $jumlah = serialize($kelas); goto OVR4M; D98FI: if (!$id) { goto n3tvB; } goto xkbN5; kESQs: hzH_j: goto ujbhM; OVR4M: $data = array("\x69\144\137\164\160" => $tp, "\151\144\x5f\163\155\x74" => $smt, "\x62\x61\156\153\137\153\x6f\x64\145" => strip_tags($this->input->post("\153\157\144\x65", TRUE)), "\142\x61\156\x6b\x5f\x6a\145\x6e\151\x73\x5f\x69\x64" => strip_tags($this->input->post("\152\x65\x6e\x69\x73", TRUE)), "\x62\x61\156\153\137\x6d\x61\x70\145\x6c\137\x69\x64" => strip_tags($this->input->post("\155\141\160\145\x6c", TRUE)), "\142\141\156\x6b\x5f\153\x65\154\141\x73" => $jumlah, "\x62\x61\x6e\153\x5f\154\x65\166\x65\154" => $this->input->post("\154\145\x76\x65\x6c", TRUE), "\x62\x61\156\x6b\137\x67\x75\x72\165\x5f\151\x64" => strip_tags($this->input->post("\147\165\162\x75", TRUE)), "\x6a\x6d\154\137\163\157\x61\x6c" => strip_tags($this->input->post("\164\x61\155\x70\x69\x6c\137\160\147", TRUE)), "\x74\x61\155\x70\x69\154\137\x70\147" => strip_tags($this->input->post("\x74\141\155\160\x69\154\x5f\x70\147", TRUE)), "\142\x6f\142\157\164\x5f\160\147" => strip_tags($this->input->post("\142\157\x62\157\164\137\x70\147", TRUE)), "\157\160\x73\x69" => strip_tags($this->input->post("\157\160\x73\151", TRUE)), "\x6a\155\x6c\x5f\153\157\155\x70\x6c\145\153\x73" => strip_tags($this->input->post("\x74\x61\155\160\x69\x6c\x5f\153\157\x6d\x70\x6c\145\x6b\x73", TRUE)), "\164\141\x6d\x70\x69\154\x5f\x6b\157\155\160\x6c\x65\x6b\x73" => strip_tags($this->input->post("\x74\141\155\160\151\154\x5f\153\x6f\x6d\x70\154\145\153\163", TRUE)), "\142\x6f\142\x6f\164\137\153\157\155\x70\x6c\x65\x6b\x73" => strip_tags($this->input->post("\142\157\142\157\164\x5f\153\x6f\155\x70\154\145\153\163", TRUE)), "\152\x6d\x6c\x5f\x6a\x6f\144\x6f\x68\x6b\141\156" => strip_tags($this->input->post("\x74\x61\155\160\151\154\137\x6a\x6f\x64\x6f\x68\153\x61\x6e", TRUE)), "\164\x61\x6d\x70\151\x6c\x5f\x6a\157\x64\x6f\x68\x6b\141\x6e" => strip_tags($this->input->post("\164\141\155\x70\151\x6c\x5f\152\x6f\x64\157\150\x6b\141\x6e", TRUE)), "\142\157\142\x6f\164\x5f\152\x6f\144\157\x68\153\x61\x6e" => strip_tags($this->input->post("\142\x6f\142\157\164\137\x6a\157\x64\157\x68\x6b\x61\156", TRUE)), "\152\x6d\154\x5f\151\x73\x69\x61\x6e" => strip_tags($this->input->post("\164\141\x6d\160\x69\154\x5f\151\163\151\141\x6e", TRUE)), "\x74\x61\x6d\160\x69\x6c\x5f\151\x73\x69\141\156" => strip_tags($this->input->post("\164\x61\x6d\160\x69\154\x5f\151\163\151\x61\156", TRUE)), "\142\x6f\142\x6f\164\137\x69\163\x69\x61\x6e" => strip_tags($this->input->post("\142\x6f\142\x6f\164\137\x69\163\151\141\156", TRUE)), "\x6a\x6d\154\x5f\x65\163\141\x69" => strip_tags($this->input->post("\x62\x6f\142\x6f\164\x5f\145\x73\x61\151", TRUE)), "\x62\x6f\142\x6f\164\137\145\163\x61\x69" => strip_tags($this->input->post("\x62\157\x62\157\x74\137\x65\x73\141\x69", TRUE)), "\x74\x61\155\x70\151\154\137\x65\x73\x61\x69" => strip_tags($this->input->post("\164\141\155\x70\x69\154\x5f\x65\163\x61\x69", TRUE)), "\x73\164\141\x74\x75\x73" => strip_tags($this->input->post("\163\164\x61\164\165\163", TRUE)), "\163\157\x61\x6c\x5f\141\147\141\155\141" => strip_tags($this->input->post("\163\x6f\141\154\137\x61\147\x61\x6d\x61", TRUE))); goto D98FI; BL9a0: $this->db->insert("\x63\x62\164\137\142\x61\x6e\x6b\137\x73\157\x61\154", $data); goto unHay; ujbhM: $i++; goto RnlKl; GfkKW: if (!($i <= $rows)) { goto lAz3Y; } goto nYMGb; hlEdg: $id = $this->input->post("\x69\144\137\142\141\x6e\153", true); goto dH5Qe; a2Xs2: goto L70Ff; goto BXpSp; CKV9y: L70Ff: goto w1dOV; EztGG: return $insert_id; goto CKV9y; dH5Qe: $rows = count($this->input->post("\153\145\154\141\163", true)); goto qgd1s; unHay: $insert_id = $this->db->insert_id(); goto EztGG; Cztpx: lAz3Y: goto TkNnP; w1dOV: } public function dummyJadwal() { $data = array("\151\x64\137\142\x61\156\x6b" => '', "\x69\x64\137\x6a\x61\x64\x77\141\x6c" => '', "\151\144\x5f\152\x65\156\151\163" => '', "\x74\147\x6c\x5f\x6d\165\x6c\x61\x69" => '', "\x74\147\x6c\x5f\x73\x65\154\x65\x73\x61\x69" => '', "\144\165\x72\141\x73\x69\137\165\x6a\151\x61\x6e" => '', "\142\141\x6e\x6b\137\x6b\145\x6c\x61\x73" => serialize([]), "\x61\x63\x61\153\x5f\x73\157\141\154" => '', "\x61\x63\x61\153\x5f\157\160\163\x69" => '', "\150\141\x73\x69\x6c\137\164\141\155\x70\151\x6c" => '', "\x74\157\153\145\x6e" => '', "\x73\x74\x61\x74\x75\163" => '', "\x75\x6c\x61\156\x67" => '', "\152\x61\x72\141\x6b" => '', "\162\x65\163\145\x74\137\154\157\147\151\156" => ''); return $data; } public function getDistinctJenisJadwal($tp, $smt) { goto gEhmZ; vGfuK: $this->db->distinct(); goto qx9bl; bAsAk: return $result; goto f_7vC; wJa5O: $this->db->where("\x69\144\137\x74\160", $tp); goto bMDCS; c6jwz: $result = $this->db->get()->result(); goto bAsAk; gEhmZ: $this->db->select("\x69\144\137\x6a\145\x6e\151\163"); goto vGfuK; qx9bl: $this->db->from("\x63\142\x74\137\152\141\x64\167\141\154"); goto wJa5O; bMDCS: $this->db->where("\151\x64\137\x73\x6d\164", $smt); goto c6jwz; f_7vC: } public function getDataJadwal($tp, $smt, $guru = null, $rekap = null) { goto rw9vS; w12Ft: $this->db->join("\155\x61\163\x74\145\162\137\155\141\x70\145\x6c\40\144", "\144\56\x69\144\137\155\141\160\145\154\75\142\x2e\x62\x61\x6e\x6b\x5f\155\141\x70\145\x6c\137\151\144", "\x6c\x65\146\164"); goto hUz6E; mWeae: $this->db->join("\x6d\x61\x73\164\145\x72\x5f\x73\155\164\40\146", "\141\56\151\144\x5f\x73\x6d\164\x3d\x66\56\151\144\137\x73\155\164"); goto n7HHI; v1aPB: $this->db->join("\x63\142\164\x5f\x6a\x65\156\x69\163\x20\143", "\143\56\151\x64\137\152\x65\156\x69\163\x3d\141\x2e\151\144\x5f\152\145\x6e\x69\x73", "\154\x65\146\164"); goto w12Ft; xG5Y_: $this->db->where("\x61\x2e\x72\x65\x6b\141\160", $rekap); goto Vpo1_; hUz6E: $this->db->join("\155\141\163\164\145\x72\x5f\x74\160\40\145", "\141\56\x69\x64\x5f\164\x70\75\x65\x2e\x69\x64\137\x74\x70"); goto mWeae; vtEOa: $this->db->where("\x62\56\x62\141\156\153\x5f\x67\165\162\x75\137\x69\144", $guru); goto UN1Ge; DSAQm: if (!($rekap !== null)) { goto yYTag; } goto xG5Y_; Vpo1_: yYTag: goto MYuYu; n7HHI: $this->db->join("\154\145\x76\145\154\x5f\x6b\x65\x6c\141\x73\x20\x67", "\142\x2e\142\x61\x6e\153\x5f\x6c\145\166\x65\x6c\75\147\56\x69\144\137\x6c\145\x76\x65\154"); goto WZwpS; efIsm: $this->db->join("\143\x62\164\x5f\142\141\156\x6b\137\x73\x6f\141\x6c\40\x62", "\142\56\151\x64\137\142\141\156\x6b\75\x61\56\151\144\137\x62\141\156\153", "\x6c\145\x66\x74"); goto v1aPB; YsdVN: $query = $this->db->get()->result(); goto z_xGP; J1rul: $this->db->from("\143\x62\164\x5f\152\x61\144\x77\x61\x6c\x20\141"); goto efIsm; H6vdt: $this->db->order_by("\142\56\142\141\156\153\137\x6c\145\166\145\154", "\x41\x53\x43"); goto YsdVN; UN1Ge: D8Ffl: goto DSAQm; MYuYu: $this->db->order_by("\x61\56\164\147\x6c\x5f\x6d\x75\x6c\x61\151", "\x44\x45\x53\103"); goto H6vdt; z_xGP: return $query; goto YMSsP; rw9vS: $this->db->select("\x61\x2e\151\x64\x5f\x6a\141\144\x77\x61\x6c\x2c\x20\141\x2e\x69\144\137\x74\160\54\40\x61\x2e\151\144\137\x73\155\164\54\x20\x61\56\151\144\137\x62\141\x6e\x6b\x2c\x20\x61\56\x69\144\x5f\152\x65\x6e\x69\163\x2c\x20\x61\x2e\164\x67\154\x5f\x6d\x75\x6c\x61\151\x2c" . "\40\141\56\x74\147\x6c\x5f\x73\145\154\x65\163\x61\x69\x2c\40\141\x2e\x73\164\141\164\x75\x73\54\40\x61\56\165\154\141\x6e\x67\x2c\40\141\x2e\x72\145\163\x65\164\x5f\x6c\x6f\147\151\156\x2c\40\x61\x2e\162\145\x6b\x61\160\x2c\40\141\x2e\x6a\141\x6d\x5f\x6b\x65\54" . "\40\x65\x2e\x69\144\137\164\160\54\x20\x65\56\x74\141\x68\165\x6e\x2c\x20\146\x2e\x69\144\x5f\x73\155\164\54\x20\146\x2e\x6e\x61\x6d\x61\137\x73\x6d\164\x2c\40\x67\56\154\145\x76\145\x6c\x2c\x20\142\x2e\142\141\156\153\x5f\x6b\x6f\144\x65\54\40\x62\56\x62\141\x6e\x6b\x5f\154\x65\x76\x65\x6c\x2c\x20\x62\56\x62\x61\x6e\x6b\x5f\x6b\145\154\x61\x73\54" . "\x20\x63\x2e\153\x6f\144\x65\137\152\145\156\x69\x73\x2c\x20\x64\56\153\157\x64\145\54\x20\144\x2e\156\141\x6d\141\137\155\x61\x70\x65\154\x2c" . "\x20\142\56\164\141\155\x70\x69\154\x5f\x70\x67\x2c\x20\x62\56\x74\x61\x6d\160\151\x6c\137\x6b\157\155\x70\x6c\145\x6b\x73\x2c\x20\x62\56\x74\141\155\160\151\x6c\x5f\152\x6f\144\157\x68\x6b\x61\156\54\x20\142\x2e\164\x61\155\x70\x69\154\x5f\x69\x73\x69\141\156\x2c\x20\142\56\x74\141\x6d\x70\x69\x6c\x5f\145\x73\141\x69\54\40\142\56\x62\x61\156\153\137\147\x75\x72\165\x5f\151\x64\x2c" . "\40\50\x53\105\114\105\103\124\x20\103\117\125\x4e\x54\x28\x69\144\137\x73\157\x61\x6c\x29\x20\x46\x52\117\115\x20\x63\142\164\137\x73\x6f\141\x6c\x20\x57\x48\105\x52\x45\40\143\x62\164\x5f\163\157\x61\x6c\x2e\142\141\x6e\153\137\151\144\40\75\40\x61\x2e\x69\x64\x5f\142\141\156\153\x29\x20\101\x53\40\164\157\164\x61\154\x5f\x73\157\141\x6c"); goto J1rul; WZwpS: if (!($guru !== null)) { goto D8Ffl; } goto vtEOa; YMSsP: } public function getAllDataJadwal($guru = null, $mapel = null, $level = null) { goto gITdR; ZwwhS: $query = $this->db->get()->result(); goto O3djy; Pm0wH: if (!($level !== null)) { goto W5ak4; } goto HKW0T; ykO5o: foreach ($query as $key => $row) { $ret["\74\x62\x3e" . $row->kode_jenis . "\x3c\57\142\x3e\40\x20" . $row->tahun . "\x20\x73\155\164\40" . $row->nama_smt][$row->level][] = $row; HM3kj: } goto y0JOS; FvHF3: return $ret; goto e40BS; Fz6Th: $this->db->from("\x63\x62\164\x5f\x6a\x61\144\167\141\154\x20\141"); goto Tr3Ek; R2jW3: $this->db->order_by("\141\56\x69\x64\x5f\x73\x6d\164", "\x44\105\123\103"); goto ZwwhS; xI99I: d72gD: goto Pm0wH; Tr3Ek: $this->db->join("\x63\x62\x74\137\x62\141\x6e\x6b\137\x73\157\141\x6c\40\x62", "\x62\x2e\x69\144\x5f\x62\141\156\153\75\x61\x2e\151\144\137\x62\141\156\x6b"); goto GnQP1; tMq3K: if (!($guru !== null)) { goto jWtJ0; } goto NYy1G; DTUKk: $this->db->join("\155\x61\163\x74\145\x72\x5f\x6d\x61\x70\145\154\x20\x64", "\x64\x2e\x69\144\x5f\155\x61\160\145\x6c\75\x62\x2e\142\141\156\x6b\x5f\155\x61\160\x65\154\137\151\x64", "\154\145\146\x74"); goto VR7PF; y0JOS: uEH8s: goto FvHF3; O3djy: $ret = []; goto ykO5o; NYy1G: $this->db->where("\142\56\142\141\x6e\153\x5f\147\165\162\x75\x5f\151\144", $guru); goto xE1u9; PWDoN: $this->db->where("\142\56\142\x61\x6e\153\x5f\155\141\160\x65\154\137\x69\144", $mapel); goto xI99I; TG9XY: W5ak4: goto IYi2J; rlLOI: $this->db->order_by("\141\56\x69\144\137\x74\x70", "\x44\105\123\103"); goto R2jW3; iONqD: $this->db->join("\154\145\x76\x65\x6c\137\153\145\154\x61\x73\x20\x67", "\x62\56\142\141\x6e\x6b\x5f\154\x65\166\145\x6c\x3d\x67\x2e\151\x64\x5f\x6c\x65\166\x65\154"); goto tMq3K; b8cfM: if (!($mapel !== null)) { goto d72gD; } goto PWDoN; gITdR: $this->db->select("\141\56\151\x64\137\152\141\144\x77\x61\154\x2c\40\141\x2e\x74\x67\x6c\137\155\x75\154\141\x69\54\40\x61\56\164\147\x6c\137\163\145\x6c\x65\x73\141\x69\54\x20\141\56\163\x74\141\164\165\163\x2c\x20\141\x2e\144\x75\162\x61\163\x69\x5f\165\x6a\151\141\x6e\54\x20\141\x2e\141\143\x61\153\x5f\x73\157\141\154\x2c" . "\x20\141\x2e\x61\143\x61\153\x5f\157\160\163\x69\x2c\x20\141\56\x69\144\x5f\x62\141\156\x6b\54\x20\141\56\151\x64\137\152\145\x6e\x69\163\54\x20\x61\56\x68\x61\x73\x69\154\137\x74\141\x6d\160\151\154\x2c\40\141\x2e\x73\164\141\164\x75\x73\x2c\x20\x61\x2e\x75\x6c\141\156\147\x2c\40\141\x2e\162\145\163\145\x74\137\154\157\147\x69\x6e\x2c\40\141\56\x72\145\153\141\x70\54" . "\40\x61\56\x6a\x61\x6d\137\x6b\x65\54\x20\141\56\x74\157\153\x65\x6e\54\40\x65\56\x74\x61\x68\x75\156\54\40\146\x2e\x6e\x61\x6d\x61\x5f\x73\x6d\164\54\x20\x67\x2e\154\145\166\x65\154\x2c\x20\x62\x2e\142\141\x6e\153\x5f\x6b\x6f\144\x65\54\40\142\x2e\142\x61\x6e\x6b\137\x6c\x65\166\145\154\x2c\40\x62\x2e\142\141\x6e\x6b\137\153\145\154\x61\163\x2c\x20\x63\x2e\x6b\x6f\144\x65\x5f\x6a\x65\156\151\x73\54\x20\144\x2e\x6b\157\x64\x65\x2c\x20\x64\x2e\x6e\x61\155\141\137\x6d\141\x70\145\x6c\54" . "\40\x62\x2e\164\x61\155\x70\x69\x6c\137\x70\147\54\x20\x62\56\164\x61\155\x70\151\x6c\x5f\153\x6f\155\160\154\x65\x6b\x73\54\x20\x62\56\x74\141\x6d\x70\x69\154\137\152\157\x64\x6f\x68\153\141\156\54\40\x62\x2e\x74\x61\x6d\x70\x69\154\x5f\x69\163\151\x61\156\x2c\x20\x62\56\164\141\155\160\151\154\x5f\x65\x73\141\x69\x2c\x20\x62\x2e\142\141\156\153\137\x67\x75\162\165\137\x69\144\x2c" . "\x20\x28\x53\105\114\105\x43\x54\x20\x43\117\x55\x4e\x54\x28\x69\144\x5f\163\x6f\141\x6c\x29\x20\106\x52\x4f\115\x20\x63\142\164\x5f\163\x6f\x61\154\40\127\110\105\122\x45\40\143\142\164\137\163\157\141\154\56\x62\141\x6e\153\x5f\x69\x64\x20\75\40\141\56\151\144\137\x62\x61\156\153\x29\x20\101\x53\40\164\x6f\164\x61\x6c\137\163\x6f\x61\154"); goto Fz6Th; HKW0T: $this->db->where("\142\x2e\x62\141\x6e\153\137\154\x65\x76\145\x6c", $level); goto TG9XY; xE1u9: jWtJ0: goto b8cfM; VR7PF: $this->db->join("\x6d\x61\x73\164\x65\162\x5f\164\x70\40\145", "\x61\56\151\x64\137\164\x70\x3d\x65\56\151\144\x5f\x74\x70"); goto cOUKS; cOUKS: $this->db->join("\x6d\141\x73\x74\145\162\137\x73\x6d\x74\x20\146", "\x61\x2e\x69\144\x5f\x73\155\164\75\x66\x2e\x69\x64\x5f\163\x6d\164"); goto iONqD; GnQP1: $this->db->join("\143\142\164\x5f\152\x65\156\151\163\x20\x63", "\143\56\x69\144\137\152\x65\156\151\x73\75\141\56\151\144\x5f\x6a\x65\156\x69\x73", "\154\145\x66\x74"); goto DTUKk; IYi2J: $this->db->order_by("\142\x2e\x62\x61\x6e\x6b\x5f\154\x65\x76\145\x6c", "\101\x53\x43"); goto rlLOI; e40BS: } public function getJadwalTerpakai($id_jadwal = null) { goto WrQt0; ltdtY: DNGA1: goto OyJrH; Or0Jr: $result = $this->db->get()->result(); goto XTmFZ; kRxsx: foreach ($result as $key => $row) { $ret[$row->id_jadwal][$row->id_siswa] = $row; W5JgH: } goto ltdtY; XTmFZ: $ret = []; goto kRxsx; WrQt0: $this->db->select("\x69\144\x5f\x62\141\156\x6b\x2c\151\x64\x5f\x6a\141\144\167\141\154\x2c\151\x64\137\x73\151\163\167\x61"); goto SA5UD; ZVxyY: if (!($id_jadwal != null)) { goto x9hdM; } goto qtuyw; OyJrH: return $ret; goto xNyMa; SA5UD: $this->db->from("\143\x62\164\x5f\163\x6f\x61\154\137\163\x69\x73\x77\x61"); goto ZVxyY; qtuyw: $this->db->where("\151\x64\x5f\152\x61\144\167\x61\154", $id_jadwal); goto nvqCl; nvqCl: x9hdM: goto Or0Jr; xNyMa: } public function getBankTerpakai($id_banks = null) { goto PbIdr; N_4sz: $ret = []; goto zxXSF; zXdkR: $result = $this->db->get()->result(); goto N_4sz; qCFbh: if (!($id_banks != null)) { goto sWG8D; } goto LbNxs; uNBvb: return $ret; goto b1LoP; zxXSF: foreach ($result as $key => $row) { $ret[$row->id_bank][$row->id_siswa] = $row; L8YkP: } goto oMVuq; Yce8s: $this->db->from("\143\x62\164\137\163\x6f\x61\x6c\x5f\x73\x69\163\x77\141"); goto qCFbh; PbIdr: $this->db->select("\151\144\x5f\142\141\x6e\x6b\54\151\144\x5f\x73\x6f\x61\x6c\54\x69\144\137\163\x69\163\167\x61"); goto Yce8s; i8Ley: sWG8D: goto zXdkR; oMVuq: PQVFc: goto uNBvb; LbNxs: $this->db->where_in("\151\144\x5f\x62\141\156\x6b", $id_banks); goto i8Ley; b1LoP: } public function getCountBankTerpakai($id_bank = null) { goto UoA6D; aQQeF: if (!($id_bank != null)) { goto scLQV; } goto BBeSA; dsFB9: $result = $this->db->get()->result(); goto Fg_ay; ex3eW: scLQV: goto tYUmq; UoA6D: $this->db->select("\151\144\x5f\x62\141\156\x6b\54\x43\117\125\x4e\124\x28\151\144\x5f\x73\x69\x73\x77\x61\x29\x20\141\x73\x20\x73\x69\x73\x77\141"); goto XfGwC; tYUmq: $this->db->group_by("\x69\x64\x5f\142\x61\156\153"); goto dsFB9; XfGwC: $this->db->from("\x63\142\164\x5f\x73\157\x61\154\x5f\163\x69\163\x77\141"); goto aQQeF; Fg_ay: return $result; goto rxnJP; BBeSA: $this->db->where("\151\x64\x5f\x62\141\x6e\153", $id_bank); goto ex3eW; rxnJP: } public function getRekapByJadwalKelas($jadwal, $guru = null) { goto vKxmZ; sDzzI: return $result; goto MM53p; vKxmZ: $this->db->from("\143\142\x74\x5f\x72\x65\153\x61\160"); goto iCeh3; d8vMR: $result = $this->db->get()->row(); goto sDzzI; LQsnJ: if (!($guru !== null)) { goto uzfKN; } goto l2rbx; KFapc: uzfKN: goto d8vMR; l2rbx: $this->db->where("\151\144\x5f\x67\165\x72\x75", $guru); goto KFapc; iCeh3: $this->db->where("\x69\x64\x5f\x6a\141\x64\x77\141\154", $jadwal); goto LQsnJ; MM53p: } public function getRekapJadwal($guru = null) { goto uZoTs; uZoTs: $this->db->select("\x2a"); goto Zdkqz; HwktP: $this->db->where("\151\x64\137\147\165\162\x75", $guru); goto ff3VD; Zdkqz: $this->db->from("\x63\x62\164\137\162\x65\153\x61\160"); goto r4YC9; ff3VD: zdDUH: goto VbTQL; VbTQL: $this->db->order_by("\164\147\154\137\155\x75\154\x61\151", "\x44\105\123\103"); goto xUqId; r4YC9: if (!($guru !== null)) { goto zdDUH; } goto HwktP; xUqId: $query = $this->db->get(); goto r7tyr; r7tyr: return $query->result(); goto sTpv3; sTpv3: } public function getAllRekapByJenis($tp, $smt, $jenis, $level, $mapel, $jadwal = null, $guru = null) { goto XOvek; i0fvG: $this->db->where("\151\x64\137\x67\165\x72\x75", $guru); goto RPEIj; pcQv4: NQb7A: goto qv4MK; RPEIj: s3LtG: goto N6ine; kCih1: $this->db->where("\x73\155\164", $smt); goto uFh4c; ZtnCq: $this->db->where("\x62\x61\156\153\x5f\154\145\x76\x65\x6c", $level); goto dcRYz; N6ine: $this->db->where("\x74\x70", $tp); goto kCih1; XOvek: $this->db->from("\143\142\164\137\x72\145\153\141\160"); goto jtF9n; HWuZY: if (!($guru != null)) { goto s3LtG; } goto i0fvG; RBEqh: Kkr31: goto HWuZY; UglK3: return $result; goto xQ_yR; gtNFY: $result = $this->db->get()->result(); goto UglK3; uFh4c: $this->db->where("\x6b\x6f\x64\145\137\x6a\x65\156\151\x73", $jenis); goto ZtnCq; h6zRE: $this->db->where("\x69\x64\137\x6a\x61\144\x77\141\154", $jadwal); goto RBEqh; fRpcl: $this->db->where("\151\144\137\x6d\141\x70\x65\x6c", $mapel); goto pcQv4; dcRYz: $this->db->order_by("\151\144\x5f\x6d\x61\x70\145\x6c", "\x41\123\x43"); goto gtNFY; jtF9n: if (!($mapel != "\60")) { goto NQb7A; } goto fRpcl; qv4MK: if (!($jadwal != null)) { goto Kkr31; } goto h6zRE; xQ_yR: } public function getAllNilaiRekapByJenis($tp, $smt, $kode_jenis, $id_kelas, $id_mapel, $id_jadwal = null, $id_guru = null) { goto uoG2y; nfS_1: $this->db->join("\x63\142\x74\x5f\156\157\155\x6f\162\x5f\160\145\163\x65\x72\x74\141\40\142", "\142\56\x69\144\x5f\x73\151\x73\x77\x61\x3d\x61\56\151\x64\137\163\x69\x73\167\141\x20\101\116\x44\40\x62\x2e\x69\x64\x5f\164\x70\x3d\141\56\151\144\137\x74\x70", "\154\x65\146\x74"); goto DjnWH; oSRA4: return $result; goto eWbr8; CGtfC: if (!($id_jadwal != null)) { goto Mlldg; } goto qgKQc; qgKQc: $this->db->where("\x61\x2e\151\144\137\152\x61\x64\x77\141\x6c", $id_jadwal); goto Uze4P; DjnWH: $this->db->join("\x6d\141\163\x74\145\x72\x5f\x73\x69\163\167\x61\x20\x63", "\x63\x2e\x69\x64\x5f\163\151\x73\167\141\75\x61\x2e\x69\144\137\163\151\163\167\141", "\154\145\146\164"); goto xc6yU; c8Mwx: $this->db->where("\141\56\163\x6d\164", $smt); goto wjZ4E; BzPFR: $this->db->where("\141\56\x69\x64\x5f\x6b\x65\x6c\x61\x73", $id_kelas); goto AUisE; uoG2y: $this->db->select("\x61\56\52\54\40\142\56\x6e\157\155\157\162\x5f\160\x65\x73\x65\162\164\141\54\x20\143\56\x6e\x61\155\x61"); goto r4yau; EXp5M: gD7W2: goto CGtfC; QZmj5: $result = $this->db->get()->result(); goto oSRA4; K29yv: $this->db->order_by("\143\x2e\156\x61\x6d\x61", "\x41\x53\103"); goto QZmj5; wjZ4E: $this->db->where("\x61\56\x6b\x6f\144\145\x5f\152\x65\156\151\163", $kode_jenis); goto K29yv; lk0iO: npruc: goto BzPFR; JM7Zr: $this->db->where("\141\56\151\144\x5f\x67\165\162\x75", $id_guru); goto lk0iO; bYoVW: if (!($id_guru != null)) { goto npruc; } goto JM7Zr; njpJX: $this->db->where("\x61\56\x69\x64\137\155\141\x70\145\154", $id_mapel); goto EXp5M; r4yau: $this->db->from("\143\x62\x74\x5f\162\x65\153\141\x70\x5f\x6e\x69\154\141\x69\40\141"); goto nfS_1; t5uL2: if (!($id_mapel != "\60")) { goto gD7W2; } goto njpJX; xc6yU: $this->db->join("\142\x75\x6b\165\x5f\x69\x6e\144\165\x6b\40\x69", "\151\x2e\x69\x64\x5f\x73\x69\163\167\141\x3d\x61\56\151\144\137\163\151\x73\167\x61\x20\x41\x4e\x44\40\x3d\151\56\x73\x74\141\x74\x75\x73\x3d\61"); goto t5uL2; AUisE: $this->db->where("\x61\x2e\x74\x70", $tp); goto c8Mwx; Uze4P: Mlldg: goto bYoVW; eWbr8: } public function getAllRekap($guru = null) { goto gp9zc; kK8y5: $this->db->from("\143\142\x74\x5f\x72\x65\x6b\x61\x70"); goto DLCVG; dd8g9: $ret = []; goto NVMwf; DLCVG: if (!($guru != null)) { goto qQ69x; } goto wSN5F; Ja33g: qQ69x: goto vcIlW; sMdz4: return $ret; goto a2YPh; vcIlW: $result = $this->db->get()->result(); goto dd8g9; NVMwf: foreach ($result as $key => $row) { $ret[$row->id_jadwal] = $row; kjhvr: } goto z2D7x; gp9zc: $this->db->select("\x69\x64\x5f\162\145\x6b\141\160\x2c\40\x69\x64\x5f\x74\x70\x2c\x20\x74\160\x2c\40\x69\144\x5f\163\155\164\x2c\40\x73\155\x74\x2c\x20\x69\144\x5f\152\141\x64\x77\141\154\x2c\40\x69\x64\x5f\152\145\156\x69\x73\x2c\40\x6b\x6f\144\x65\x5f\x6a\x65\x6e\x69\163\54\x20\151\x64\137\x62\x61\156\153\x2c\x20\x62\x61\156\153\x5f\x6b\145\154\141\163\54\40\156\141\x6d\x61\137\153\145\x6c\x61\163\x2c\40\142\x61\x6e\153\137\x6b\157\144\x65\x2c\40\x62\x61\x6e\x6b\137\154\145\166\x65\154\x2c\40\x69\144\x5f\x6d\x61\160\x65\x6c\54\40\156\141\155\x61\x5f\155\x61\160\145\x6c\x2c\x20\x6b\x6f\x64\x65\54\x20\x74\147\x6c\137\x6d\165\154\x61\151\54\x20\164\147\154\137\x73\145\x6c\145\x73\x61\151\x2c\x20\x69\144\x5f\147\x75\162\165\x2c\x20\x6e\141\x6d\x61\x5f\x67\165\162\165"); goto kK8y5; z2D7x: KdkxJ: goto sMdz4; wSN5F: $this->db->where("\151\144\137\x67\x75\162\165", $guru); goto Ja33g; a2YPh: } public function getJadwalById($id_jadwal, $sesi = null) { goto h7ip8; t7qhP: $this->db->join("\143\142\164\x5f\x6a\x65\x6e\151\163\x20\143", "\143\x2e\151\144\x5f\x6a\x65\156\x69\x73\x3d\141\56\x69\144\x5f\x6a\145\x6e\151\x73", "\154\x65\x66\164"); goto sd2wS; rQ1Gf: return $query; goto nA2X2; RtbrB: $this->db->join("\x6d\x61\163\x74\145\x72\x5f\x67\165\162\165\40\x66", "\146\x2e\151\144\137\147\x75\x72\x75\75\142\56\x62\x61\x6e\153\x5f\147\x75\x72\165\137\151\144", "\154\x65\146\x74"); goto ovq0D; CFc7X: $query = $this->db->get()->row(); goto rQ1Gf; OGDKf: $this->db->join("\x63\x62\164\137\x62\141\x6e\x6b\137\163\x6f\x61\x6c\x20\x62", "\142\x2e\151\144\137\x62\x61\156\153\x3d\141\56\x69\x64\137\x62\x61\156\x6b", "\x6c\145\x66\x74"); goto t7qhP; h7ip8: $this->db->select("\141\56\52\x2c\40\x62\x2e\x6f\x70\163\x69\54\x20\142\x2e\x62\141\156\153\137\x6b\x6f\144\145\54\x20\142\x2e\142\141\156\153\137\x6c\145\x76\145\154\54\x20\x62\x2e\x62\141\156\x6b\x5f\153\x65\154\141\163\x2c" . "\40\x62\x2e\x74\141\155\160\x69\154\137\160\147\54\x20\142\x2e\164\x61\155\160\x69\x6c\x5f\x6b\x6f\155\x70\x6c\145\x6b\x73\54\40\142\x2e\x74\x61\x6d\160\x69\154\137\x6a\157\144\x6f\x68\153\x61\x6e\54\x20\142\56\x74\141\x6d\x70\x69\x6c\137\x69\x73\151\x61\x6e\54\x20\142\56\x74\141\x6d\x70\x69\154\137\145\163\141\x69\54" . "\40\x62\x2e\x62\x6f\x62\x6f\164\x5f\x70\x67\x2c\x20\142\56\x62\x6f\142\157\x74\x5f\x6b\157\155\x70\154\x65\153\163\x2c\x20\x62\x2e\x62\x6f\142\x6f\164\x5f\x6a\x6f\x64\157\x68\x6b\141\x6e\x2c\x20\x62\x2e\142\x6f\142\157\x74\137\x69\x73\x69\141\x6e\x2c\x20\142\56\142\157\x62\157\x74\x5f\145\x73\141\x69\x2c" . "\40\142\56\151\144\137\142\141\156\x6b\x2c\40\x62\x2e\x62\x61\156\x6b\137\147\x75\162\x75\x5f\x69\144\x2c\40\143\x2e\x6b\157\x64\145\137\152\x65\x6e\x69\x73\54\40\143\x2e\156\141\155\141\x5f\152\145\x6e\x69\163\x2c" . "\40\x64\x2e\x69\144\137\155\141\x70\145\x6c\x2c\40\x64\x2e\x6b\x6f\x64\x65\54\x20\144\x2e\156\x61\x6d\141\137\155\141\160\x65\154\x2c\x20\x66\x2e\151\x64\137\147\x75\162\x75\54\x20\x66\x2e\156\x61\x6d\x61\x5f\x67\x75\x72\165"); goto v1OXJ; csV_T: AQ07J: goto RtbrB; ovq0D: $this->db->where("\141\x2e\x69\x64\x5f\152\x61\x64\167\x61\154", $id_jadwal); goto CFc7X; rQlaL: if (!($sesi != null)) { goto AQ07J; } goto Wv5vj; v1OXJ: $this->db->from("\x63\142\x74\x5f\152\x61\144\x77\141\154\40\141"); goto OGDKf; Wv5vj: $this->db->join("\143\x62\164\137\x73\x65\x73\151\40\x65", "\x65\x2e\x69\144\x5f\163\145\163\151\75" . $sesi, "\x6c\145\146\164"); goto csV_T; sd2wS: $this->db->join("\155\x61\163\x74\145\x72\137\x6d\x61\160\145\x6c\40\144", "\144\x2e\x69\144\x5f\155\x61\160\x65\x6c\x3d\142\x2e\x62\x61\156\x6b\137\x6d\x61\x70\145\x6c\137\151\x64", "\154\x65\x66\164"); goto rQlaL; nA2X2: } public function getJadwalByIdBank($id_bank) { goto SbRNw; WOAm9: $this->db->where("\141\56\151\x64\x5f\142\x61\x6e\153", $id_bank); goto qgFso; zsMsO: $this->db->join("\x63\142\x74\x5f\x62\141\x6e\153\x5f\x73\157\141\154\40\x62", "\x62\56\151\144\137\x62\141\x6e\153\x3d\141\56\151\144\x5f\x62\x61\156\153", "\154\x65\146\164"); goto L6Zuo; qgFso: $query = $this->db->get()->row(); goto uR7If; uR7If: return $query; goto YuX_N; zJ7IZ: $this->db->join("\x6d\141\163\x74\145\162\x5f\x67\x75\x72\165\x20\x66", "\146\x2e\151\144\137\x67\x75\x72\165\75\x62\56\142\x61\156\x6b\137\x67\165\162\x75\137\151\144", "\x6c\x65\x66\164"); goto WOAm9; ZRbKV: $this->db->from("\143\142\164\137\152\x61\x64\x77\141\154\x20\141"); goto zsMsO; SbRNw: $this->db->select("\141\x2e\52\54\40\142\56\157\160\163\151\54\40\x62\56\142\x61\156\153\137\x6b\157\x64\145\54\40\x62\x2e\x62\141\156\x6b\137\154\x65\x76\145\x6c\54\x20\x62\56\142\141\x6e\153\137\x6b\x65\154\141\163\x2c" . "\x20\142\56\x74\x61\x6d\160\x69\x6c\137\160\147\x2c\40\142\56\164\x61\x6d\x70\x69\x6c\x5f\153\x6f\x6d\160\x6c\145\x6b\x73\x2c\x20\142\x2e\x74\x61\155\160\x69\154\x5f\152\157\144\157\150\153\x61\x6e\54\x20\142\x2e\x74\x61\x6d\x70\x69\154\137\151\x73\x69\x61\x6e\54\40\142\56\164\141\x6d\x70\151\154\x5f\x65\x73\141\151\54" . "\x20\x62\56\x62\x6f\142\157\x74\137\x70\147\54\x20\142\x2e\142\x6f\142\x6f\x74\137\153\x6f\x6d\x70\x6c\145\x6b\x73\x2c\40\142\56\x62\157\142\x6f\164\x5f\x6a\x6f\144\x6f\150\153\x61\156\x2c\x20\x62\x2e\x62\x6f\142\157\x74\137\151\163\151\x61\x6e\54\40\x62\56\142\157\x62\157\x74\137\145\163\141\151\54" . "\x20\x62\56\x69\x64\137\x62\x61\x6e\x6b\54\40\142\56\142\x61\156\153\x5f\x67\x75\162\x75\137\x69\x64\54\x20\x63\x2e\153\157\144\145\x5f\x6a\x65\x6e\x69\x73\x2c\40\143\x2e\x6e\x61\x6d\141\x5f\152\x65\x6e\151\163\x2c" . "\x20\144\x2e\151\144\137\155\141\160\x65\154\x2c\x20\144\56\x6b\x6f\144\x65\54\40\x64\x2e\156\x61\x6d\141\137\155\x61\160\x65\154\x2c\x20\146\x2e\151\x64\137\147\165\x72\165\x2c\x20\x66\x2e\x6e\x61\155\141\137\147\x75\x72\x75"); goto ZRbKV; FZEzM: $this->db->join("\x6d\x61\163\164\145\x72\x5f\155\x61\160\145\154\x20\x64", "\x64\x2e\151\144\137\155\x61\x70\145\x6c\x3d\142\56\142\x61\x6e\153\x5f\155\x61\160\x65\154\x5f\151\144", "\154\145\146\164"); goto zJ7IZ; L6Zuo: $this->db->join("\143\x62\164\x5f\152\145\156\151\163\x20\x63", "\x63\x2e\x69\x64\x5f\152\x65\156\x69\163\75\141\56\151\x64\x5f\152\x65\156\151\163", "\154\x65\146\164"); goto FZEzM; YuX_N: } public function getAllJadwal($tp, $smt, $id_guru = null) { goto ovn4w; URQrr: $this->db->where("\142\56\151\144\137\164\x70", $tp); goto GQimS; GQimS: $this->db->where("\142\x2e\x69\x64\137\x73\155\x74", $smt); goto c9igt; ovn4w: $this->db->select("\141\56\x62\x61\156\153\x5f\x6b\x6f\144\x65\54\40\x61\56\x62\141\156\x6b\137\153\x65\x6c\x61\x73\54\40\x62\56\x69\x64\137\152\141\144\167\x61\x6c"); goto g9g7Y; E3380: $this->db->where("\141\56\142\x61\x6e\153\137\147\165\162\x75\137\x69\x64", $id_guru); goto ohEsd; ohEsd: Mz2IC: goto URQrr; brkWI: $this->db->join("\143\x62\x74\137\x6a\141\x64\x77\141\154\40\x62", "\x62\56\x69\144\x5f\x62\141\x6e\x6b\x3d\x61\56\x69\x64\137\142\141\x6e\153"); goto AF3_X; g9g7Y: $this->db->from("\143\x62\164\137\142\x61\156\x6b\137\163\x6f\x61\154\40\x61"); goto brkWI; c9igt: return $this->db->get()->result(); goto n_rJR; AF3_X: if (!($id_guru != null)) { goto Mz2IC; } goto E3380; n_rJR: } public function getJadwalByArrId($arr_id_jadwal, $sesi = null) { goto bHrLv; MMNon: $this->db->from("\x63\x62\164\137\152\x61\x64\167\141\154\40\x61"); goto i7lQH; bHrLv: $this->db->select("\x61\56\x2a\x2c\x20\x62\56\x6f\160\163\x69\54\40\x62\x2e\142\141\x6e\x6b\137\153\x6f\x64\145\x2c\x20\142\x2e\142\141\156\153\x5f\x6c\x65\166\145\154\54\x20\x62\56\x62\x61\x6e\x6b\x5f\153\145\x6c\x61\163\x2c" . "\x20\x62\x2e\164\x61\x6d\x70\151\154\137\160\x67\54\x20\142\56\164\x61\x6d\x70\151\x6c\137\x6b\x6f\155\160\154\145\x6b\163\x2c\40\x62\56\x74\x61\x6d\x70\151\154\137\x6a\157\x64\x6f\150\153\x61\x6e\54\40\142\56\164\x61\x6d\160\151\154\x5f\151\x73\x69\x61\156\x2c\x20\142\x2e\x74\x61\x6d\160\x69\x6c\x5f\x65\163\141\151\x2c" . "\40\142\x2e\142\x6f\142\x6f\164\137\x70\x67\x2c\x20\142\56\x62\x6f\x62\157\164\x5f\153\x6f\x6d\x70\154\145\x6b\x73\54\x20\x62\56\x62\x6f\142\157\x74\137\152\157\x64\x6f\150\153\x61\x6e\x2c\40\x62\56\142\157\142\x6f\164\137\151\163\x69\141\156\54\x20\142\x2e\142\x6f\142\x6f\x74\x5f\145\163\x61\x69\x2c" . "\40\142\56\x69\x64\137\x62\141\156\153\54\40\142\56\x62\x61\156\x6b\137\x67\165\162\165\137\151\x64\x2c\x20\143\x2e\x6b\157\x64\x65\137\152\145\x6e\x69\163\54\40\143\56\156\x61\x6d\x61\137\152\x65\156\151\x73\x2c" . "\x20\x64\x2e\151\x64\x5f\155\x61\160\x65\154\54\x20\x64\56\x6b\157\x64\x65\x2c\40\144\56\x6e\x61\155\141\x5f\155\141\x70\x65\154\x2c\x20\146\x2e\151\144\137\147\x75\x72\x75\54\40\x66\x2e\156\141\x6d\x61\x5f\x67\x75\x72\165"); goto MMNon; nGWwZ: $this->db->join("\155\141\163\164\x65\x72\137\x6d\x61\x70\x65\154\40\x64", "\144\56\151\x64\x5f\x6d\141\x70\145\154\x3d\142\56\x62\141\x6e\x6b\137\155\x61\160\x65\x6c\137\151\x64", "\154\145\x66\164"); goto yRFLN; KBSSR: $this->db->where_in("\x61\x2e\x69\x64\137\152\x61\144\167\141\x6c", $arr_id_jadwal); goto R7CJW; gjhaS: SVDMN: goto EKUCo; yRFLN: if (!($sesi != null)) { goto SVDMN; } goto n6xxx; i7lQH: $this->db->join("\x63\142\164\x5f\x62\141\x6e\153\x5f\163\157\141\154\x20\142", "\x62\56\151\x64\137\x62\x61\156\x6b\75\141\x2e\x69\144\137\142\x61\156\x6b", "\x6c\145\x66\x74"); goto tjbKs; tjbKs: $this->db->join("\143\142\x74\x5f\152\145\156\151\x73\x20\143", "\143\x2e\x69\x64\x5f\152\x65\156\151\163\75\x61\56\151\x64\x5f\x6a\x65\x6e\x69\163", "\x6c\x65\146\x74"); goto nGWwZ; EKUCo: $this->db->join("\x6d\141\163\x74\x65\162\137\x67\x75\162\165\x20\x66", "\146\56\151\x64\x5f\x67\165\x72\165\x3d\142\56\x62\x61\x6e\x6b\137\147\165\x72\165\137\151\x64", "\x6c\145\x66\x74"); goto KBSSR; n6xxx: $this->db->join("\143\142\164\137\x73\145\163\151\40\145", "\145\56\151\x64\x5f\x73\x65\163\151\75" . $sesi, "\x6c\x65\x66\x74"); goto gjhaS; L7bfv: return $query; goto DqQtc; R7CJW: $query = $this->db->get()->result(); goto L7bfv; DqQtc: } public function cekJadwalBankSoal($id_bank) { goto b1b71; cxELW: return $query; goto JV0RS; k2LS7: $this->db->where("\x69\144\137\142\141\x6e\x6b", $id_bank); goto MepAk; aZGdw: Bbb4H: goto RxsUw; fnRRs: $this->db->where_in("\151\x64\x5f\142\x61\x6e\153", $id_bank); goto aZGdw; MepAk: goto Bbb4H; goto p06TV; b1b71: $this->db->select("\151\144\x5f\x62\x61\x6e\153"); goto LUmw6; p06TV: jyIMg: goto fnRRs; RxsUw: $query = $this->db->get()->num_rows(); goto cxELW; LUmw6: $this->db->from("\x63\142\x74\137\152\141\144\x77\x61\154"); goto WvM0z; WvM0z: if (is_array($id_bank)) { goto jyIMg; } goto k2LS7; JV0RS: } public function cekJadwalSudahMulai($id_jadwal) { $query = $this->get_where("\143\142\164\x5f\x64\165\x72\x61\163\151\137\163\151\x73\x77\x61", "\x69\144\x5f\152\x61\144\167\x61\154", $id_jadwal)->num_rows(); return $query; } public function saveJadwalUjian($id_tp, $id_smt) { goto go0VE; lNEr1: $jenis_id = strip_tags($this->input->post("\152\145\156\151\163\x5f\x69\144", TRUE)); goto Ocj_9; jYG2h: $acak_opsi = $this->input->post("\141\143\x61\x6b\137\157\160\x73\x69", TRUE); goto D2F91; FmMqs: $check = $this->db->where("\x69\144\137\x62\141\156\x6b", $bank_id)->where("\x69\144\137\152\x65\156\151\163", $jenis_id)->get("\143\x62\x74\137\152\141\144\x77\x61\x6c")->row(); goto bv3gJ; D2F91: $hasil_tampil = $this->input->post("\150\141\x73\x69\154\x5f\x74\x61\x6d\x70\151\154", TRUE); goto IDYhf; GtGhp: return false; goto riifj; KJNPA: DqvzF: goto p7Qua; Ocj_9: $mulai = strip_tags($this->input->post("\x74\x67\154\x5f\x6d\x75\x6c\141\151", TRUE)); goto DSOXN; JfvuL: $durasi = strip_tags($this->input->post("\x64\x75\x72\x61\x73\x69\137\x75\152\151\141\x6e", TRUE)); goto VnNFu; JbPjh: $acak_soal = $this->input->post("\x61\143\141\x6b\137\163\157\x61\x6c", TRUE); goto jYG2h; Ml7f4: $status = $this->input->post("\163\164\x61\x74\165\x73", TRUE); goto KBUNG; zcWZk: return $insert_id; goto VxMn5; PGhFf: nHa3I: goto N9c1g; dT4J8: goto Y4tVA; goto vuq2y; OtOnl: $this->db->where("\x69\x64\137\152\141\144\167\x61\154", $id); goto KkM9X; pozcc: $insert_id = $this->db->insert_id(); goto zcWZk; bv3gJ: $data = array("\x69\144\x5f\x74\160" => $id_tp, "\x69\x64\137\x73\x6d\164" => $id_smt, "\151\x64\x5f\142\141\156\x6b" => $bank_id, "\x69\x64\x5f\152\x65\156\151\163" => $jenis_id, "\x74\147\154\x5f\x6d\x75\x6c\141\x69" => $mulai, "\x74\147\154\137\163\x65\x6c\x65\x73\x61\151" => $selesai, "\144\x75\162\141\x73\x69\137\x75\152\151\141\156" => $durasi, "\152\141\x72\141\x6b" => $jarak, "\x61\143\141\153\137\x73\157\x61\x6c" => !$acak_soal ? "\x30" : $acak_soal, "\141\143\141\153\137\157\x70\x73\x69" => !$acak_opsi ? "\x30" : $acak_opsi, "\150\141\163\x69\x6c\137\164\x61\155\x70\151\x6c" => !$hasil_tampil ? "\60" : $hasil_tampil, "\164\x6f\153\x65\156" => !$token ? "\x30" : $token, "\x73\x74\x61\164\165\x73" => !$status ? "\x30" : $status, "\162\x65\163\x65\x74\x5f\x6c\157\x67\x69\156" => !$reset_login ? "\x30" : $reset_login); goto w05n6; vuq2y: wM62x: goto GtGhp; iBTMj: goto m_17M; goto kFi8C; VxMn5: goto nHa3I; goto KJNPA; DSOXN: $selesai = strip_tags($this->input->post("\x74\x67\154\x5f\x73\145\x6c\x65\163\x61\151", TRUE)); goto JfvuL; B5SEN: $bank_id = strip_tags($this->input->post("\x62\141\x6e\x6b\x5f\151\x64", TRUE)); goto lNEr1; w05n6: if ($id == '') { goto jrpkd; } goto XLmb_; riifj: Y4tVA: goto iBTMj; XLmb_: if ($check != null && $check->id_jadwal != $id) { goto wM62x; } goto OtOnl; ZXZdC: if ($check != null) { goto DqvzF; } goto PAUPP; PAUPP: $this->db->insert("\143\142\164\x5f\x6a\141\x64\167\x61\x6c", $data); goto pozcc; KBUNG: $reset_login = $this->input->post("\x72\x65\163\145\x74\137\154\157\x67\151\156", TRUE); goto B5SEN; kFi8C: jrpkd: goto ZXZdC; N9c1g: m_17M: goto fGC9N; VnNFu: $jarak = strip_tags($this->input->post("\152\141\162\141\x6b", TRUE)); goto FmMqs; go0VE: $id = $this->input->post("\151\144\137\x6a\x61\144\x77\141\154", true); goto JbPjh; p7Qua: return false; goto PGhFf; KkM9X: return $this->db->update("\x63\x62\x74\x5f\x6a\141\x64\x77\x61\x6c", $data); goto dT4J8; IDYhf: $token = $this->input->post("\164\x6f\x6b\x65\156", TRUE); goto Ml7f4; fGC9N: } public function getJadwalTgl($guru = null) { goto EAFlg; qa1Xl: $this->db->select("\164\147\154\x5f\155\x75\154\141\x69"); goto idqqZ; EAFlg: $this->db->distinct(); goto qa1Xl; pi5S_: return $query->result(); goto V5DIq; qoFLQ: $query = $this->db->get(); goto pi5S_; idqqZ: $this->db->from("\143\142\164\137\x6a\x61\144\x77\x61\154"); goto qoFLQ; V5DIq: } public function getDataJadwalByTgl($tgl) { goto nrcYa; eplBV: $this->db->where("\x74\147\x6c\x5f\x6d\x75\154\141\151\40\74\75\40\x27{$tgl}\x27\40\x41\116\x44\40\164\x67\x6c\x5f\x73\x65\154\145\x73\141\151\x20\x3e\75\x20\x27{$tgl}\x27"); goto NTq4C; NTq4C: $query = $this->db->get(); goto Xf0rl; MXa_P: $this->db->select("\x74\147\x6c\x5f\x6d\x75\154\x61\x69\54\40\164\x67\154\x5f\163\x65\154\x65\163\141\x69"); goto EJ5aA; Xf0rl: return $query->result(); goto a77CK; EJ5aA: $this->db->from("\x63\x62\164\137\x6a\x61\144\167\141\154"); goto eplBV; nrcYa: $this->db->distinct(); goto MXa_P; a77CK: } public function getDataGuru() { goto Aalzd; SBPSI: return $query; goto KLfFc; Aalzd: $this->db->select("\141\56\151\144\137\147\165\x72\165\x2c\40\x61\x2e\156\x61\x6d\141\137\x67\165\x72\x75\x2c\x20\142\x2e\x69\x64\137\x70\x65\156\147\x61\167\141\x73\54\x20\142\56\151\x64\137\x6a\141\x64\x77\x61\154"); goto TLzdo; tgttg: $this->db->join("\143\142\164\137\160\145\156\x67\x61\x77\x61\163\x20\142", "\142\x2e\x69\x64\x5f\x67\x75\x72\165\40\x3d\x20\x61\56\x69\x64\137\x67\165\x72\165", "\154\x65\146\x74"); goto KWngt; KWngt: $query = $this->db->get()->result(); goto SBPSI; TLzdo: $this->db->from("\155\141\163\x74\145\x72\137\147\x75\x72\x75\40\x61"); goto tgttg; KLfFc: } public function saveToken($post_token) { goto FOcdB; j461t: $tkn = $post_token->token; goto lnnqE; FOcdB: $id = isset($post_token->id_token) ? $post_token->id_token : false; goto j461t; pc0XO: return $insert_id; goto iTu3U; lnnqE: $auto = $post_token->auto; goto CP3lI; WYBaC: if (!$id) { goto GMGvC; } goto JFn0_; B9j7X: return $this->db->update("\x63\142\164\x5f\164\x6f\x6b\145\x6e", $data); goto r40g1; iTu3U: PneVq: goto TVTVM; T_EUF: $data = array("\x74\x6f\153\145\156" => $tkn, "\x61\x75\x74\157" => $auto, "\152\141\162\141\x6b" => $jarak, "\x75\x70\x64\141\164\x65\144" => $post_token->updated); goto WYBaC; CP3lI: $jarak = $post_token->jarak; goto T_EUF; Lf5B9: $this->db->insert("\x63\142\164\137\164\157\x6b\145\x6e", $data); goto YZMvW; QODCo: GMGvC: goto Lf5B9; YZMvW: $insert_id = $this->db->insert_id(); goto pc0XO; JFn0_: $this->db->where("\151\144\137\164\157\x6b\x65\156", $id); goto B9j7X; r40g1: goto PneVq; goto QODCo; TVTVM: } public function updateToken($token, $auto) { goto EAQcj; Y5sHx: $result = $this->db->get("\x63\142\164\x5f\164\x6f\153\x65\156")->row(); goto yFgEm; EAQcj: $this->db->set("\x61\165\164\x6f", $auto, FALSE); goto K1GHA; K1GHA: $this->db->where("\x74\157\x6b\x65\x6e", $token); goto MgGRC; MgGRC: $this->db->update("\143\142\164\137\164\x6f\153\x65\156"); goto Y5sHx; yFgEm: return $result; goto k2pz_; k2pz_: } public function getToken() { $result = $this->db->get("\x63\x62\164\137\x74\157\x6b\x65\x6e")->row(); return $result; } public function getJadwalCbtKelas($id_tp, $id_smt) { goto OHuyS; hH0Pc: return $this->db->get()->result(); goto sOGko; tbT7k: $this->db->where("\141\56\x69\x64\137\x74\160", $id_tp); goto RJQ3x; VBWoY: $this->db->from("\143\x62\164\137\x6a\141\144\167\141\154\x20\x61"); goto uJ9Fr; uJ9Fr: $this->db->join("\x63\142\x74\x5f\x62\141\156\x6b\137\163\157\x61\x6c\x20\142", "\x62\x2e\151\144\137\x62\x61\x6e\153\75\141\56\151\144\137\x62\x61\x6e\x6b"); goto tbT7k; RJQ3x: $this->db->where("\x61\x2e\x69\144\137\x73\155\x74", $id_smt); goto hH0Pc; OHuyS: $this->db->select("\x61\56\151\144\x5f\152\141\x64\167\141\x6c\x2c\40\142\56\142\x61\156\153\137\153\x65\154\141\x73"); goto VBWoY; sOGko: } public function getInfoJadwal($id_bank) { goto cCOGP; jFs2m: $this->db->from("\x63\142\x74\137\x62\x61\x6e\153\x5f\163\157\141\154\x20\141"); goto ZcewW; cCOGP: $this->db->select("\x61\x2e\151\144\137\x62\x61\x6e\x6b\x2c\40\142\x2e\141\x63\x61\x6b\137\x73\x6f\x61\x6c\x2c\x20\142\56\141\x63\x61\153\x5f\157\160\163\151\x2c\40\141\56\x6f\x70\163\x69\x2c" . "\x20\141\56\x74\141\155\x70\151\154\137\x70\x67\54\x20\141\x2e\x74\x61\155\160\151\x6c\137\153\x6f\155\160\154\145\x6b\x73\54\x20\x61\x2e\164\x61\x6d\x70\151\154\137\152\x6f\x64\x6f\150\153\x61\x6e\54\40\x61\x2e\x74\141\155\160\x69\154\137\x69\x73\151\x61\x6e\x2c\x20\x61\56\164\141\155\160\x69\154\137\145\163\x61\151\54" . "\40\141\56\x62\x6f\x62\x6f\164\137\x70\147\x2c\40\x20\141\x2e\142\157\142\157\x74\137\x6b\157\x6d\x70\x6c\145\153\163\54\40\40\141\x2e\x62\x6f\x62\157\x74\x5f\x6a\157\144\x6f\150\x6b\x61\x6e\54\40\40\141\56\x62\x6f\142\x6f\164\x5f\x69\x73\x69\x61\156\x2c\x20\40\x61\56\142\157\142\x6f\164\137\x65\x73\x61\151"); goto jFs2m; AWLct: $this->db->where("\x61\x2e\151\x64\137\x62\x61\156\x6b", $id_bank); goto HFpzd; HFpzd: return $this->db->get()->row(); goto AHi1s; ZcewW: $this->db->join("\143\142\164\137\x6a\141\x64\x77\x61\x6c\40\142", "\141\x2e\151\144\137\142\x61\x6e\153\75\x62\x2e\x69\x64\137\x62\x61\156\x6b"); goto AWLct; AHi1s: } public function getAllIdSoal($id_bank) { goto ZhrIN; P1SsL: $this->db->from("\143\142\164\x5f\163\157\x61\x6c"); goto ZTalb; fyAug: foreach ($result as $row) { $ret[$row->jenis][] = $row; CfCGk: } goto gHujc; Nv2z4: $ret = []; goto y3dY2; ZhrIN: $this->db->select("\151\x64\x5f\x73\157\x61\154\54\x20\x6a\x65\156\151\x73\x2c\40\x6a\x61\x77\x61\142\141\156"); goto P1SsL; R18Ij: McOvj: goto xvcaP; on5U1: $this->db->where("\x62\x61\156\x6b\137\151\x64", $id_bank); goto Fa2lV; gHujc: HQf4d: goto R18Ij; Fa2lV: $result = $this->db->get()->result(); goto Nv2z4; y3dY2: if (!$result) { goto McOvj; } goto fyAug; xvcaP: return $ret; goto Jt6yT; ZTalb: $this->db->where("\164\141\x6d\x70\151\154\x6b\x61\156", "\61"); goto on5U1; Jt6yT: } public function getJadwalCbt($id_tp, $id_smt, $level) { goto soaMU; YU5T1: $retur = []; goto DqVo5; IJGbc: $this->db->join("\x63\142\x74\x5f\142\141\x6e\x6b\137\163\157\x61\x6c\40\x63", "\x63\56\x69\144\x5f\x62\141\156\x6b\x3d\141\x2e\x69\144\x5f\142\x61\x6e\x6b"); goto Tqsnj; BjXWN: $this->db->where("\141\x2e\151\x64\x5f\164\160", $id_tp); goto eIhZO; DqVo5: foreach ($result as $row) { $retur[$row->id_jadwal] = $row; nu2_B: } goto Nb2CJ; RFpow: $this->db->where("\x63\x2e\163\x74\141\x74\165\163\x5f\163\157\141\154", "\x31"); goto T3rl8; JyzFs: $this->db->from("\143\142\164\137\x6a\x61\x64\167\x61\154\40\x61"); goto sXp4l; fWv7u: $this->db->where("\143\56\x73\x74\x61\164\x75\163", "\61"); goto RFpow; Tqsnj: $this->db->join("\155\141\x73\x74\x65\162\137\155\141\160\x65\x6c\x20\144", "\144\x2e\151\x64\137\x6d\x61\160\145\154\75\143\56\x62\141\x6e\153\x5f\x6d\141\x70\x65\x6c\137\151\144"); goto BjXWN; eIhZO: $this->db->where("\x61\x2e\x73\164\x61\164\165\x73", "\61"); goto qR0TJ; sXp4l: $this->db->join("\x63\x62\x74\x5f\x6a\x65\156\x69\163\40\142", "\142\56\151\x64\137\152\145\x6e\151\163\x3d\141\x2e\151\x64\137\152\145\156\151\163"); goto IJGbc; Nb2CJ: lbDav: goto cqcV8; qR0TJ: $this->db->where("\141\x2e\151\x64\x5f\x73\155\x74", $id_smt); goto fWv7u; T3rl8: $this->db->where("\x63\x2e\x62\x61\156\153\x5f\x6c\x65\x76\145\154", $level); goto H7Oki; vX5SG: $result = $this->db->get()->result(); goto YU5T1; soaMU: $this->db->select("\x61\56\x69\144\x5f\x6a\x61\x64\167\141\154\54\40\141\56\151\144\137\x74\160\x2c\x20\141\56\151\x64\137\x73\x6d\x74\x2c\40\141\56\151\144\137\142\141\x6e\153\54\40\141\56\151\144\x5f\x6a\x65\156\151\x73\x2c\40\141\56\x74\147\x6c\x5f\x6d\165\x6c\141\151\x2c\40\141\56\x74\x67\x6c\137\163\x65\x6c\x65\x73\x61\x69\x2c" . "\x20\x61\x2e\144\165\x72\141\163\x69\137\x75\x6a\151\141\x6e\x2c\40\x61\56\x70\x65\156\147\141\167\141\x73\x2c\x20\x61\x2e\141\143\141\153\137\x73\157\x61\x6c\x2c\x20\141\56\141\x63\x61\153\137\157\160\x73\151\x2c\40\141\x2e\x68\x61\163\151\x6c\137\164\141\155\x70\151\x6c\54\40\x61\x2e\164\x6f\x6b\145\156\54\40\x61\56\163\164\x61\164\x75\163\x2c\x20\x61\x2e\165\x6c\x61\x6e\147\x2c" . "\x20\141\x2e\x72\145\163\x65\164\x5f\154\157\x67\151\x6e\54\40\x61\56\162\145\153\141\160\54\x20\x61\56\152\x61\155\x5f\153\x65\x2c\x20\x61\x2e\152\x61\162\141\153\54" . "\40\143\x2e\x62\141\156\153\137\153\157\144\145\x2c\x20\143\56\142\141\x6e\153\137\x6c\145\166\145\x6c\54\x20\x63\56\142\x61\156\153\137\x6b\x65\x6c\141\x73\54\x20\x63\x2e\x74\141\x6d\160\x69\x6c\137\x70\x67\54\x20\x63\56\x74\x61\155\x70\151\154\x5f\153\x6f\x6d\160\x6c\x65\153\163\54\x20\143\x2e\x74\x61\155\160\x69\154\137\x6a\x6f\144\157\150\x6b\141\156\x2c" . "\x20\143\56\x74\x61\x6d\160\151\x6c\x5f\151\x73\151\141\x6e\54\40\143\56\164\141\x6d\x70\151\154\x5f\145\163\x61\151\54\x20\x63\56\163\157\x61\x6c\137\141\147\141\155\141\x2c\x20" . "\40\143\56\142\157\x62\x6f\x74\137\160\x67\54\40\143\x2e\142\157\142\157\x74\x5f\153\x6f\x6d\x70\154\x65\153\163\54\40\143\56\142\157\x62\x6f\164\137\x6a\x6f\x64\157\x68\153\141\156\54\40\143\56\x62\157\142\157\x74\x5f\x69\163\x69\141\x6e\x2c\40\x63\x2e\142\x6f\142\157\x74\137\145\163\x61\151\x2c\x20\142\56\x6b\x6f\144\145\x5f\152\x65\x6e\151\163\54" . "\40\x62\56\x6e\x61\155\x61\x5f\x6a\145\x6e\151\x73\54\x20\144\56\x6b\x6f\x64\x65\54\40\x64\x2e\156\141\155\141\137\155\141\x70\x65\154"); goto JyzFs; cqcV8: return $retur; goto cFFJq; H7Oki: $this->db->order_by("\141\56\152\x61\155\137\153\x65"); goto vX5SG; cFFJq: } public function getJadwalByKelas($id_tp, $id_smt, $kelas) { goto efpgY; Akmwj: return $retur; goto Xnroa; dCh5a: $this->db->join("\x6d\x61\163\164\x65\162\x5f\x6d\141\160\x65\x6c\40\144", "\144\x2e\x69\144\x5f\155\x61\x70\x65\x6c\75\143\x2e\142\141\x6e\153\137\155\141\x70\145\x6c\x5f\151\144"); goto oyvYm; oyvYm: $this->db->where("\141\56\151\144\137\164\x70", $id_tp); goto Us25L; IV8Ip: $this->db->join("\x63\142\x74\137\142\x61\156\x6b\x5f\163\157\x61\x6c\x20\143", "\x63\56\x69\x64\x5f\x62\x61\x6e\x6b\75\x61\56\x69\144\137\x62\141\156\153"); goto dCh5a; SW9I8: $this->db->where("\x63\x2e\x73\164\x61\x74\165\x73\137\163\157\141\x6c", "\x31"); goto DbjoK; nvArY: $this->db->from("\143\x62\x74\137\x6a\x61\x64\167\x61\x6c\40\x61"); goto buplJ; DbjoK: $this->db->like("\x63\x2e\142\141\x6e\153\137\x6b\145\x6c\x61\163", $kelas); goto ntcud; PQ7Ax: $this->db->where("\143\56\x73\164\x61\164\x75\x73", "\61"); goto SW9I8; yrRJI: $retur = []; goto rSW9I; G4Tui: $this->db->where("\x61\x2e\151\x64\137\x73\155\x74", $id_smt); goto PQ7Ax; Cl69J: w4R03: goto Akmwj; Us25L: $this->db->where("\x61\56\x73\x74\141\164\x75\163", "\x31"); goto G4Tui; rSW9I: foreach ($result as $row) { $retur[$row->id_jadwal] = $row; eGqvT: } goto Cl69J; efpgY: $this->db->select("\141\x2e\x69\x64\137\152\x61\x64\x77\x61\x6c\x2c\x20\141\x2e\151\x64\x5f\164\x70\54\x20\141\56\x69\144\x5f\x73\155\164\x2c\x20\141\56\151\x64\x5f\142\141\x6e\x6b\x2c\x20\x61\x2e\151\x64\x5f\152\145\x6e\x69\163\x2c\x20\x61\x2e\164\147\x6c\137\x6d\x75\x6c\141\x69\x2c\40\x61\56\x74\147\154\137\x73\145\154\145\x73\x61\x69\x2c" . "\x20\x61\56\144\x75\162\141\x73\151\x5f\x75\152\151\x61\156\x2c\40\141\56\160\145\156\x67\141\167\141\163\x2c\x20\x61\56\x61\x63\141\x6b\137\x73\157\x61\154\54\x20\141\56\141\x63\141\x6b\137\x6f\160\163\151\54\40\141\x2e\x68\x61\163\151\x6c\137\x74\141\155\160\x69\154\x2c\x20\141\x2e\164\x6f\153\x65\156\x2c\40\x61\x2e\x73\x74\141\x74\x75\x73\54\40\141\x2e\x75\154\141\x6e\147\54" . "\x20\x61\x2e\x72\145\163\145\x74\137\x6c\x6f\147\x69\x6e\54\40\141\x2e\162\145\x6b\141\x70\x2c\x20\x61\56\152\x61\155\x5f\x6b\x65\x2c\x20\141\56\x6a\141\x72\141\153\54" . "\x20\143\56\x62\x61\x6e\x6b\x5f\x6b\x6f\x64\145\x2c\x20\143\56\142\x61\x6e\x6b\x5f\154\x65\166\x65\x6c\54\x20\x63\x2e\142\141\156\x6b\x5f\x6b\145\154\141\163\x2c\x20\x63\x2e\164\x61\x6d\x70\151\154\137\x70\147\x2c\40\143\56\164\141\155\x70\151\x6c\137\x6b\x6f\x6d\x70\x6c\x65\153\163\54\40\x63\56\164\141\x6d\160\x69\154\137\152\157\144\x6f\x68\x6b\x61\156\x2c" . "\x20\x63\56\164\x61\x6d\x70\x69\154\137\151\163\x69\141\156\54\x20\x63\x2e\164\x61\155\x70\151\154\x5f\x65\x73\141\151\54\40\143\56\163\157\x61\154\137\x61\147\141\155\141\x2c\x20" . "\40\x63\x2e\142\157\142\157\164\137\x70\x67\54\40\143\x2e\x62\x6f\142\157\164\x5f\x6b\157\155\x70\x6c\145\x6b\163\54\40\143\56\x62\157\142\157\164\137\x6a\157\x64\157\150\x6b\141\x6e\x2c\x20\x63\56\142\157\142\157\164\137\151\163\x69\x61\156\54\40\143\56\x62\x6f\x62\157\164\x5f\145\x73\141\151\x2c\40\x62\56\x6b\157\x64\145\137\x6a\145\x6e\x69\x73\x2c" . "\x20\142\x2e\156\141\155\x61\x5f\x6a\145\156\151\x73\x2c\40\x64\56\x6b\x6f\x64\x65\54\x20\144\56\x6e\x61\155\x61\x5f\x6d\141\x70\x65\154"); goto nvArY; buplJ: $this->db->join("\x63\x62\164\137\x6a\x65\x6e\151\x73\40\x62", "\x62\x2e\151\144\x5f\x6a\x65\156\151\163\75\141\x2e\151\x64\x5f\152\145\x6e\151\x73"); goto IV8Ip; sLbIq: $result = $this->db->get()->result(); goto yrRJI; ntcud: $this->db->order_by("\x61\x2e\152\141\155\x5f\153\145"); goto sLbIq; Xnroa: } public function getCbt($id_jadwal) { goto GSjjB; GSjjB: $this->db->select("\x61\x2e\x69\x64\137\x6a\x61\x64\167\141\154\54\40\141\56\x69\x64\137\164\x70\54\40\141\56\151\144\137\163\x6d\x74\54\40\141\x2e\151\x64\137\142\141\156\153\x2c\x20\141\x2e\151\144\x5f\152\145\x6e\151\163\x2c\x20\141\56\164\147\154\137\155\x75\154\141\151\54\40\x61\56\164\147\x6c\x5f\163\145\154\145\x73\141\x69\x2c" . "\x20\141\56\144\x75\x72\x61\x73\151\x5f\165\152\151\x61\156\x2c\40\x61\56\160\x65\x6e\x67\x61\x77\x61\163\54\40\141\x2e\x61\x63\141\153\x5f\163\x6f\x61\154\x2c\40\141\x2e\141\x63\x61\153\x5f\157\160\x73\151\x2c\40\x61\56\x68\x61\x73\151\x6c\x5f\x74\x61\x6d\x70\x69\x6c\54\x20\141\x2e\x74\x6f\153\x65\x6e\x2c\x20\141\x2e\x73\164\x61\164\x75\x73\54\x20\141\56\165\154\x61\156\147\54" . "\x20\x61\56\162\x65\x73\145\164\137\154\x6f\x67\x69\x6e\54\40\x61\56\x72\145\x6b\141\160\x2c\x20\x61\x2e\x6a\x61\155\x5f\x6b\145\54\x20\141\x2e\152\141\162\141\153\x2c" . "\x20\142\56\156\x61\x6d\x61\x5f\152\145\x6e\x69\163\x2c\x20\x62\56\153\x6f\x64\145\x5f\x6a\145\x6e\x69\163\x2c" . "\40\143\56\142\x61\x6e\153\x5f\153\x6f\144\x65\x2c\x20\x63\x2e\x62\141\156\x6b\x5f\x6c\145\166\x65\x6c\x2c\40\x63\x2e\x62\x61\x6e\153\x5f\153\145\x6c\141\x73\54\x20\x63\56\142\141\156\153\x5f\x6d\141\x70\x65\154\x5f\151\144\x2c\x20\143\x2e\142\x61\x6e\153\x5f\x6a\x75\162\165\163\141\x6e\x5f\151\x64\x2c" . "\40\143\56\x62\141\x6e\x6b\137\x67\165\162\x75\x5f\151\144\x2c\40\143\x2e\142\x61\x6e\153\x5f\156\x61\155\x61\54\40\x63\x2e\152\155\154\x5f\x73\x6f\141\154\54\x20\x63\x2e\x6a\155\154\137\x65\x73\141\151\x2c\40\x63\56\164\141\155\160\151\154\137\160\x67\54\40\143\56\164\141\x6d\160\x69\154\x5f\145\x73\141\151\x2c\x20\x63\56\x62\x6f\142\x6f\x74\137\x70\147\x2c" . "\40\x63\56\x62\157\x62\157\164\137\x65\x73\141\x69\54\x20\143\56\157\160\x73\x69\x2c\x20\143\56\144\141\164\145\54\40\143\x2e\x73\x74\141\164\165\163\54\40\x63\56\163\157\x61\x6c\x5f\141\x67\141\x6d\x61\54\40\x63\56\x69\x64\x5f\x74\x70\54\x20\x63\56\x69\x64\137\163\155\164\54\40\x63\x2e\x64\x65\x73\x6b\x72\x69\160\163\x69\x2c\x20\143\56\152\155\x6c\x5f\153\157\155\160\154\145\x6b\163\x2c" . "\40\143\x2e\x74\141\x6d\160\151\x6c\x5f\x6b\x6f\155\160\154\x65\x6b\163\x2c\x20\143\56\x62\157\x62\x6f\164\137\x6b\157\155\160\x6c\145\153\x73\x2c\40\143\x2e\x6a\x6d\x6c\x5f\152\157\144\x6f\x68\x6b\x61\x6e\54\40\143\x2e\164\x61\x6d\160\x69\154\x5f\152\x6f\144\x6f\150\153\141\x6e\x2c\40\x63\x2e\142\157\142\x6f\x74\x5f\x6a\x6f\144\x6f\x68\153\141\x6e\x2c\40\x63\x2e\x6a\155\154\137\151\163\151\x61\156\x2c" . "\x20\x63\x2e\x74\x61\155\160\151\x6c\x5f\151\x73\x69\141\x6e\x2c\40\143\x2e\x62\x6f\142\157\x74\137\151\163\x69\141\156\54\x20\x63\x2e\163\164\x61\164\x75\x73\137\x73\157\141\x6c\54" . "\40\144\x2e\x69\144\137\x6d\x61\160\145\154\x2c\40\144\56\156\141\155\141\x5f\155\x61\x70\145\154\x2c\40\x64\x2e\x6b\x6f\x64\145\54" . "\x20\145\x2e\151\x64\x5f\147\165\162\x75\x2c\x20\145\x2e\x6e\x61\x6d\x61\x5f\147\x75\x72\165\54" . "\40\x66\x2e\151\144\x5f\x6a\165\x72\165\x73\141\x6e\54\x20\146\x2e\x6e\x61\x6d\141\x5f\152\x75\x72\x75\163\141\x6e\x2c\40\x66\56\x6b\157\x64\145\x5f\x6a\165\162\165\x73\x61\x6e\54" . "\x20\x67\56\x74\141\150\x75\x6e\54" . "\40\150\56\x73\155\x74\x2c\x20\x68\56\x6e\141\x6d\141\x5f\163\x6d\164\54" . "\40\x28\123\x45\x4c\x45\x43\x54\40\103\117\125\116\124\x28\151\144\x5f\163\x6f\x61\154\x29\40\106\122\117\115\40\143\142\164\137\163\157\141\x6c\40\127\x48\x45\x52\105\x20\143\x62\164\137\x73\157\141\x6c\x2e\x62\x61\156\153\x5f\151\144\x20\75\40\141\x2e\x69\144\x5f\142\141\156\x6b\x29\x20\x41\x53\40\x74\x6f\x74\x61\154\137\163\x6f\141\x6c"); goto JiKo3; XMERu: $this->db->join("\x63\142\x74\137\x62\141\x6e\x6b\x5f\x73\157\141\x6c\40\x63", "\x63\56\x69\144\x5f\142\x61\156\x6b\x3d\141\56\151\x64\137\x62\x61\x6e\x6b", "\x6c\x65\146\x74"); goto R4S76; Vj6g_: $this->db->join("\143\x62\x74\137\x6a\x65\156\x69\163\40\x62", "\x62\56\151\144\x5f\x6a\145\x6e\151\163\x3d\141\56\x69\x64\x5f\x6a\145\x6e\151\163", "\154\x65\146\164"); goto XMERu; q3QYW: $this->db->join("\x6d\x61\x73\x74\x65\162\x5f\x74\160\40\x67", "\147\x2e\151\144\x5f\x74\160\75\141\56\151\144\137\x74\x70", "\x6c\145\x66\x74"); goto yI5MI; yI5MI: $this->db->join("\x6d\141\163\x74\145\x72\137\x73\155\164\40\x68", "\150\56\151\144\x5f\163\155\x74\x3d\141\x2e\151\x64\137\x73\x6d\164", "\154\145\x66\x74"); goto XnRUb; R4S76: $this->db->join("\x6d\x61\163\x74\145\162\137\155\141\x70\x65\154\40\144", "\x64\56\x69\x64\x5f\155\141\x70\x65\154\x3d\143\x2e\142\x61\156\153\x5f\155\141\x70\145\x6c\137\151\x64", "\154\145\146\x74"); goto MKMnE; tn21E: return $this->db->get()->row(); goto NV5xf; Lsx55: $this->db->join("\155\141\163\164\x65\x72\x5f\x6a\165\162\x75\x73\x61\156\x20\x66", "\146\x2e\151\144\x5f\152\x75\x72\x75\163\x61\x6e\x3d\x63\x2e\142\x61\x6e\153\137\x6a\x75\162\x75\x73\141\156\x5f\x69\x64", "\x6c\x65\146\x74"); goto q3QYW; JiKo3: $this->db->from("\143\142\x74\x5f\x6a\x61\x64\x77\141\154\40\x61"); goto Vj6g_; XnRUb: $this->db->where("\141\56\151\144\x5f\152\141\x64\x77\141\x6c", $id_jadwal); goto tn21E; MKMnE: $this->db->join("\x6d\141\163\164\x65\x72\x5f\147\x75\x72\x75\40\x65", "\x65\56\x69\x64\137\147\x75\162\165\75\143\56\x62\x61\156\x6b\x5f\x67\165\162\165\137\x69\144", "\x6c\145\x66\164"); goto Lsx55; NV5xf: } public function getCbtById($id_jadwal) { goto Ea6D1; Uccdo: $this->db->from("\x63\x62\x74\137\x6a\x61\144\x77\x61\154"); goto qPQUk; p2pCG: return $this->db->get()->row(); goto e1W6y; qPQUk: $this->db->where("\151\144\x5f\x6a\x61\144\167\141\154", $id_jadwal); goto p2pCG; Ea6D1: $this->db->select("\x2a"); goto Uccdo; e1W6y: } public function getIdRuangById($array) { goto nxdXj; dqlNB: BVyy7: goto QwgcM; qxYy_: $this->db->from("\x63\x62\164\x5f\x72\165\141\156\147"); goto ZJTt1; Cb0vO: foreach ($result as $key => $row) { $ret[$row->id_ruang] = $row->kode_ruang; PWiy3: } goto jTjBa; QwgcM: return $ret; goto rzZqG; k_EUh: $result = $this->db->get()->result(); goto y7jt1; jTjBa: TAcns: goto dqlNB; y7jt1: if (!$result) { goto BVyy7; } goto Cb0vO; nxdXj: $this->db->select("\156\x61\x6d\x61\x5f\x72\165\x61\x6e\147"); goto qxYy_; ZJTt1: $this->db->where("\x69\144\137\162\165\x61\x6e\x67", $array); goto k_EUh; rzZqG: } public function getNamaRuangById($id) { goto rx7tf; dBd8t: return ''; goto zNJHx; mYP6i: if ($result) { goto rbGbb; } goto dBd8t; rx7tf: $this->db->select("\x6e\141\155\x61\137\162\165\141\156\147"); goto K4e1x; svz2J: return $result->nama_ruang; goto qPdQI; j3_hQ: $this->db->where("\151\x64\x5f\x72\165\141\156\x67", $id); goto GM9Hp; zNJHx: goto ImyM0; goto rlPde; qPdQI: ImyM0: goto iLoO6; rlPde: rbGbb: goto svz2J; GM9Hp: $result = $this->db->get()->row(); goto mYP6i; K4e1x: $this->db->from("\143\142\x74\137\x72\x75\141\156\147"); goto j3_hQ; iLoO6: } public function getNamaSesiById($id) { goto jtGXL; k1LCI: $this->db->where(["\151\x64\x5f\163\145\163\x69" => $id]); goto ZqEd4; jtGXL: $this->db->select("\x6e\x61\x6d\x61\x5f\163\x65\x73\151"); goto Lz5EY; Lz5EY: $this->db->from("\143\x62\164\137\x73\145\163\151"); goto k1LCI; ZqEd4: return $this->db->get()->row()->nama_sesi; goto k5wkZ; k5wkZ: } public function getNamaKelasById($id) { goto tNd1N; tNd1N: $this->db->select("\x6e\x61\155\141\x5f\153\145\154\141\x73"); goto z_QLJ; h2J5S: $this->db->where(["\151\144\137\153\145\154\x61\163" => $id]); goto LNHbF; z_QLJ: $this->db->from("\x6d\x61\163\164\145\x72\137\x6b\145\154\x61\163"); goto h2J5S; LNHbF: return $this->db->get()->row()->nama_kelas; goto rTgiQ; rTgiQ: } public function getNamaGuruById($id) { goto HxcE_; LPuXU: $this->db->where("\x69\144\x5f\147\x75\x72\x75", $id); goto RaFGk; HxcE_: $this->db->select("\156\x61\x6d\x61\x5f\x67\x75\x72\x75"); goto upqsd; upqsd: $this->db->from("\x6d\141\x73\x74\x65\162\137\x67\x75\162\165"); goto LPuXU; RaFGk: return $this->db->get()->row()->nama_guru; goto iuhSP; iuhSP: } public function getElapsed($id) { goto pnGLK; pnGLK: $this->db->select("\151\144\x5f\144\165\162\x61\x73\151\54\x20\151\x64\137\x73\x69\x73\x77\141\x2c\x20\151\144\137\x6a\x61\144\167\141\x6c\x2c\40\x73\164\141\x74\165\163\54\x20\154\141\155\x61\137\x75\152\151\x61\x6e\x2c\40\x6d\165\x6c\141\x69\x2c\x20\x73\x65\x6c\x65\163\141\x69\x2c\x20\162\145\163\145\x74"); goto PaSiA; PaSiA: $this->db->from("\x63\142\x74\137\x64\165\x72\141\x73\151\x5f\x73\x69\x73\167\x61"); goto Ey7tO; Ey7tO: $this->db->where("\151\x64\137\144\165\162\141\163\151", $id); goto M00XM; M00XM: return $this->db->get()->row(); goto jGJeh; jGJeh: } public function getSoalSiswa($id_bank, $id_siswa) { goto vNtiT; p7Yz5: $this->db->where("\x61\x2e\x69\x64\137\x62\141\156\153", $id_bank); goto hKsdi; LttOL: $this->db->order_by("\x61\x2e\156\157\x5f\x73\x6f\141\154\137\141\x6c\151\141\x73"); goto zgXQh; ALY_o: $this->db->order_by("\x61\56\152\145\x6e\151\x73\137\x73\x6f\141\154"); goto LttOL; zgXQh: return $this->db->get()->result(); goto yc9pv; J_9j2: $this->db->join("\x63\x62\x74\x5f\x73\157\141\154\40\x62", "\142\x2e\151\x64\x5f\x73\x6f\141\x6c\x3d\x61\x2e\x69\144\137\x73\x6f\x61\154", "\x6c\145\146\x74"); goto p7Yz5; vNtiT: $this->db->select("\x61\56\52\x2c\x20\142\x2e\152\x65\156\151\163\54\40\x62\x2e\156\157\155\x6f\162\x5f\163\x6f\x61\x6c\x2c\40\x62\x2e\152\x61\x77\x61\x62\141\x6e"); goto fB7wJ; hKsdi: $this->db->where("\141\x2e\x69\x64\x5f\x73\x69\163\x77\141", $id_siswa); goto ALY_o; fB7wJ: $this->db->from("\x63\x62\x74\137\163\x6f\141\154\x5f\x73\x69\163\x77\x61\x20\141"); goto J_9j2; yc9pv: } public function getJumlahSoalSiswa($id_bank, $id_siswa) { goto YtkyY; AOd7G: $result = $this->db->get()->num_rows(); goto gs2Am; hQWlp: $this->db->where("\151\144\x5f\163\x69\x73\167\141", $id_siswa); goto AOd7G; VKJdQ: $this->db->from("\143\142\164\x5f\163\x6f\141\x6c\x5f\163\151\x73\x77\141"); goto dHIAr; dHIAr: $this->db->where("\x69\144\137\142\141\x6e\153", $id_bank); goto hQWlp; YtkyY: $this->db->select("\x69\x64\x5f\163\x6f\x61\154\x5f\163\151\x73\x77\x61"); goto VKJdQ; gs2Am: return $result; goto MgtY7; MgtY7: } public function getALLSoalSiswa($id_bank, $id_siswa) { goto M3dRG; siYiu: return $result; goto DaPRh; M3dRG: $this->db->select("\141\56\151\144\x5f\x73\x6f\x61\x6c\137\x73\x69\163\167\141\54\x20\x61\56\x69\x64\x5f\142\x61\156\x6b\54\x20\141\56\x69\x64\x5f\152\x61\144\x77\141\154\x2c\x20\x61\56\151\x64\137\x73\x6f\141\154\54\x20\141\x2e\x69\x64\x5f\163\151\163\167\x61\54\x20\x61\x2e\x6a\x65\156\x69\x73\x5f\163\157\141\x6c\54" . "\40\x61\56\156\157\137\163\x6f\141\154\x5f\x61\x6c\x69\141\163\x2c\x20\x61\56\x6f\x70\163\x69\x5f\x61\x6c\151\x61\163\137\x61\54\x20\141\x2e\x6f\160\163\151\137\x61\154\x69\141\163\x5f\x62\x2c\40\141\x2e\157\160\x73\x69\137\141\154\151\141\x73\x5f\x63\54\x20\x61\56\x6f\x70\x73\x69\137\x61\x6c\151\x61\x73\137\x64\54\x20\x61\56\157\160\163\151\137\x61\154\x69\x61\x73\x5f\145\x2c" . "\40\141\56\152\x61\x77\x61\x62\x61\x6e\x5f\x61\x6c\151\141\x73\x2c\40\141\x2e\152\x61\167\141\x62\141\156\137\163\151\x73\167\141\x2c\40\x61\56\x6a\x61\167\x61\142\x61\156\137\142\145\156\141\162\54\40\x61\x2e\160\x6f\x69\156\x74\137\x65\x73\163\x61\151\54\x20\x61\x2e\163\x6f\141\154\137\x65\156\x64\x2c\40\141\56\160\x6f\x69\156\164\137\x73\x6f\x61\154\x2c" . "\40\x62\x2e\151\144\137\163\157\x61\154\54\40\x62\56\x6e\157\x6d\157\162\137\163\157\x61\x6c\54\x20\x62\x2e\163\157\141\154\54\x20\142\56\x6a\x61\167\x61\x62\141\x6e\54\40\x62\56\157\160\163\151\137\141\x2c\x20\142\56\x6f\x70\x73\x69\137\x62\54\x20\142\x2e\157\x70\163\151\137\143\54\40\x62\56\157\x70\163\x69\x5f\x64\x2c" . "\40\x62\56\157\160\163\x69\x5f\x65\54\40\142\x2e\164\x61\155\160\151\154\153\x61\156"); goto D_KkX; D_KkX: $this->db->from("\x63\x62\x74\137\163\157\141\154\137\163\x69\x73\x77\141\x20\141"); goto t3JRD; VS2r1: $result = $this->db->get()->result(); goto siYiu; dpFk2: $this->db->order_by("\x61\x2e\x6e\x6f\x5f\163\157\x61\x6c\x5f\141\x6c\x69\x61\x73"); goto VS2r1; t3JRD: $this->db->join("\x63\x62\x74\137\163\x6f\x61\x6c\x20\142", "\142\56\151\144\137\163\157\x61\154\x3d\x61\56\x69\x64\137\163\x6f\x61\x6c"); goto yDq7C; yDq7C: $this->db->where("\141\x2e\151\x64\137\x62\141\156\x6b", $id_bank); goto mSQZi; mSQZi: $this->db->where("\x61\x2e\151\144\137\163\151\163\167\141", $id_siswa); goto dpFk2; DaPRh: } public function getJumlahJawaban($id_bank, $id_siswa) { goto RB0pn; gtSsu: $this->db->from("\x63\x62\x74\x5f\x73\157\x61\x6c\137\163\x69\x73\167\x61"); goto QBFA8; QBFA8: $this->db->where("\151\x64\137\x62\141\x6e\153", $id_bank); goto EUF19; bL2gc: return $result; goto nUxVG; RB0pn: $this->db->select("\x6a\x61\167\141\142\141\156\x5f\x73\151\163\167\141\x2c\x20\x69\x64\137\x73\151\163\x77\x61\54\40\x69\x64\x5f\x62\141\156\x6b"); goto gtSsu; EUF19: $this->db->where("\x69\x64\x5f\x73\x69\x73\x77\x61", $id_siswa); goto irrmP; irrmP: $result = $this->db->get()->result(); goto bL2gc; nUxVG: } public function getSoalSiswaByJadwal($id_jadwal, $id_siswa) { goto sYqaL; McOs8: $this->db->where("\x62\x2e\x74\x61\x6d\160\x69\154\153\x61\156", "\x31"); goto pSV16; ed9Nk: $this->db->where("\x61\56\x69\144\137\x6a\141\144\x77\x61\x6c", $id_jadwal); goto acjeh; uy1m1: return $this->db->get()->result(); goto kAjmh; CDLkU: $this->db->join("\x63\x62\164\x5f\163\157\141\154\40\x62", "\142\x2e\x69\x64\x5f\163\157\141\x6c\75\141\x2e\151\144\x5f\x73\157\141\154"); goto ed9Nk; sYqaL: $this->db->select("\141\x2e\x2a\54\40\x62\x2e\152\x65\156\x69\163\x2c\x20\142\x2e\x6e\x6f\x6d\157\162\x5f\163\157\141\154\54\40\x62\56\x73\157\141\154\54\40\x62\x2e\152\141\x77\x61\x62\x61\156\54\40\142\x2e\157\x70\163\x69\x5f\141\x2c\x20\x62\56\x6f\x70\x73\151\137\x62\54\40\142\x2e\x6f\160\x73\x69\137\143\x2c\x20\x62\56\x6f\x70\x73\x69\137\144\x2c\x20\x62\56\157\x70\x73\x69\x5f\x65"); goto UrKeg; acjeh: $this->db->where("\141\x2e\151\144\x5f\163\x69\163\167\141", $id_siswa); goto McOs8; pSV16: $this->db->order_by("\x61\x2e\x6a\145\x6e\151\163\x5f\x73\157\x61\x6c"); goto WAJxZ; WAJxZ: $this->db->order_by("\142\56\x6e\x6f\x6d\x6f\162\137\163\x6f\x61\x6c"); goto uy1m1; UrKeg: $this->db->from("\x63\x62\164\x5f\163\x6f\141\154\x5f\163\x69\x73\x77\x61\x20\141"); goto CDLkU; kAjmh: } public function getSoalSiswaByNomor($id_soal_siswa) { goto nhBHO; MSoRO: $this->db->join("\x63\142\164\137\142\141\x6e\153\x5f\163\x6f\141\154\40\143", "\142\x2e\151\144\137\142\141\156\153\x3d\141\x2e\151\x64\137\142\x61\x6e\153"); goto y8tHj; zHe3J: $this->db->order_by("\141\56\x6e\x6f\x5f\163\x6f\x61\x6c\137\141\154\151\x61\163"); goto OR0Ng; OR0Ng: return $this->db->get()->row(); goto zH1Ma; y8tHj: $this->db->where("\141\56\151\144\x5f\x73\x6f\141\x6c\137\163\x69\163\167\141", $id_soal_siswa); goto zHe3J; nhBHO: $this->db->select("\x61\56\151\144\137\163\x6f\141\x6c\137\163\x69\x73\x77\141\54\x20\141\x2e\151\x64\x5f\142\x61\x6e\x6b\54\40\x61\56\x6f\x70\163\x69\x5f\x61\x6c\151\x61\x73\x5f\141\x2c\40\x61\x2e\157\160\x73\x69\x5f\x61\154\151\141\163\x5f\142\54\x20\141\x2e\157\160\x73\151\137\141\x6c\151\x61\x73\137\143\x2c\x20\x61\56\x6f\160\x73\x69\x5f\141\x6c\151\141\x73\137\x64\x2c" . "\40\x61\x2e\157\x70\163\151\x5f\141\154\x69\x61\x73\137\x65\54\x20\x61\56\x6e\157\137\x73\x6f\x61\x6c\x5f\141\154\x69\x61\163\54\x20\141\x2e\152\141\x77\141\x62\141\x6e\x5f\141\x6c\151\x61\x73\54\x20\141\56\x73\x6f\x61\x6c\137\x65\x6e\144\54\40\141\56\152\x61\x77\x61\x62\x61\x6e\137\163\x69\x73\167\x61\x2c" . "\40\142\x2e\x69\x64\x5f\x73\157\141\x6c\x2c\x20\142\x2e\152\145\156\151\x73\54\40\x62\56\x6e\157\155\157\x72\137\163\x6f\x61\154\x2c\x20\142\x2e\163\157\x61\x6c\x2c\x20\x62\x2e\152\x61\167\x61\142\141\x6e\54\40\x62\x2e\x6f\x70\163\151\137\141\x2c\40\x62\56\x6f\160\163\151\137\x62\54\40\x62\x2e\x6f\x70\x73\x69\137\143\54\x20\142\56\157\x70\163\x69\x5f\x64\54\40\142\56\x6f\160\x73\x69\137\x65\x2c\40\142\56\x74\141\155\x70\x69\154\153\141\x6e\54" . "\40\143\x2e\x74\x61\155\x70\x69\x6c\137\160\x67\54\40\143\56\164\141\155\160\x69\x6c\137\x6b\x6f\x6d\x70\154\145\x6b\x73\54\40\x63\56\164\x61\155\160\x69\x6c\137\152\x6f\x64\157\x68\x6b\x61\156\x2c\40\x63\x2e\164\x61\x6d\160\151\x6c\137\x69\x73\x69\141\x6e\54\x20\143\x2e\x74\141\155\x70\151\x6c\137\145\163\141\x69\x2c"); goto TvIy6; tBM3E: $this->db->join("\x63\x62\164\x5f\x73\x6f\x61\x6c\x20\142", "\x62\x2e\x69\144\137\x73\x6f\141\154\75\141\56\x69\x64\x5f\x73\157\141\154"); goto MSoRO; TvIy6: $this->db->from("\x63\x62\x74\137\x73\157\141\154\x5f\x73\151\163\167\141\40\141"); goto tBM3E; zH1Ma: } public function getSettingKartu() { goto MqnTO; gSaEh: return $this->db->get()->row(); goto seN21; Dmd4I: $this->db->from("\143\x62\164\x5f\153\x6f\160\137\x6b\x61\162\164\x75"); goto gSaEh; MqnTO: $this->db->select("\52"); goto Dmd4I; seN21: } public function getSettingKopAbsensi() { goto weeK3; C9Oah: return $this->db->get()->row(); goto uF8Ib; MPbmY: $this->db->join("\x73\x65\x74\164\151\x6e\147\x20\142", "\x62\x2e\151\144\137\x73\145\x74\x74\151\156\x67\x3d\x31", "\x6c\145\146\x74"); goto C9Oah; tB0pz: $this->db->from("\x63\142\164\137\153\x6f\x70\137\x61\x62\x73\x65\156\163\151\40\141"); goto MPbmY; weeK3: $this->db->select("\141\x2e\x2a\54\40\142\56\154\x6f\x67\x6f\137\153\x61\x6e\x61\156\x2c\40\142\56\x6c\x6f\x67\157\137\153\x69\162\x69\54\x20\142\x2e\153\145\x70\x73\x65\153\54\40\142\56\x74\141\156\x64\141\x5f\x74\x61\x6e\147\x61\x6e"); goto tB0pz; uF8Ib: } public function getSettingKopBeritaAcara() { goto Vachi; OG_HS: $this->db->join("\163\145\164\164\151\x6e\x67\x20\x64", "\144\56\151\x64\x5f\x73\145\x74\164\x69\156\147\75\x31", "\x6c\145\x66\x74"); goto Sy055; x9jFk: $this->db->from("\x63\142\164\x5f\x6b\x6f\x70\x5f\142\x65\x72\x69\x74\141\40\x61"); goto OG_HS; Vachi: $this->db->select("\x61\56\x2a\x2c\x20\x64\56\154\x6f\147\157\x5f\153\x61\156\141\156\54\40\144\56\x6c\x6f\147\x6f\x5f\x6b\x69\162\151\x2c\40\x64\56\153\145\x70\x73\x65\x6b\54\40\x64\x2e\x6e\x69\160\x2c\40\144\56\x74\141\x6e\144\x61\137\x74\141\156\x67\141\x6e\54\40\144\x2e\163\145\153\x6f\x6c\141\150"); goto x9jFk; Sy055: return $this->db->get()->row(); goto nXxUh; nXxUh: } public function getDurasiSiswa($id) { return $this->db->get_where("\143\142\x74\137\144\x75\162\x61\x73\x69\137\x73\151\163\167\x61", "\x69\144\x5f\x64\x75\x72\141\163\151\x3d" . $id)->row(); } public function getFilterJawabanSiswa($jadwal, $arrIdSiswa) { goto Iuk0L; pCebv: $this->db->where_in("\x69\144\137\x73\x69\163\167\x61", $arrIdSiswa); goto CGgZj; CGgZj: return $this->db->get("\x63\x62\x74\x5f\x73\x6f\141\x6c\137\x73\x69\x73\x77\x61")->result(); goto bbQ6c; Iuk0L: $this->db->where("\151\144\x5f\152\x61\144\167\x61\154", $jadwal); goto pCebv; bbQ6c: } public function getFilterDurasiSiswa($jadwal, $arrIdSiswa) { goto pFyYy; fLJjl: nNo58: goto bS_Qo; bS_Qo: return $ret; goto IcorT; pFyYy: $this->db->where("\151\144\x5f\152\x61\144\x77\x61\x6c", $jadwal); goto nUeIK; z21oq: $ret = []; goto HCOFI; HCOFI: foreach ($result as $key => $row) { $ret[$row->id_durasi] = $row; aBVlv: } goto fLJjl; nUeIK: $result = $this->db->get_where("\x63\x62\x74\137\x64\165\x72\141\x73\151\137\x73\151\163\x77\x61")->result(); goto z21oq; IcorT: } public function getJawabanByBank($id_bank, $id_siswa = null) { goto MGbbd; AsSsb: $this->db->from("\143\x62\x74\x5f\x73\157\x61\x6c\x5f\163\x69\x73\167\x61\x20\141"); goto k9AD3; XsXbT: return $result; goto HC5bj; mPk1Y: k4JXI: goto DbwcF; ARaB5: $this->db->where("\141\x2e\x69\144\137\x73\151\163\167\x61\x3d", $id_siswa); goto mPk1Y; Q0R3u: if (!($id_siswa != null)) { goto k4JXI; } goto ARaB5; k9AD3: $this->db->join("\x63\142\x74\x5f\163\x6f\x61\x6c\40\x62", "\142\56\151\144\137\163\157\x61\x6c\75\141\x2e\x69\144\x5f\163\157\141\154"); goto Q0R3u; ci5W_: $result = $this->db->get()->result(); goto XsXbT; DbwcF: $this->db->where("\x61\56\151\x64\x5f\x62\141\x6e\153\75", $id_bank); goto ci5W_; MGbbd: $this->db->select("\x61\x2e\x2a\x2c\40\142\56\x6e\157\x6d\x6f\162\x5f\163\157\141\x6c\x2c\40\x62\56\152\x61\x77\141\142\x61\x6e"); goto AsSsb; HC5bj: } public function getJawabanSiswa($id) { goto ZUEJB; gpWP0: $this->db->where("\151\x64\137\x73\x6f\141\154\137\x73\x69\163\167\x61\75", $id); goto a57fB; a57fB: return $this->db->get()->row(); goto h99Ee; ZUEJB: $this->db->select("\x69\x64\x5f\x73\157\141\154\137\163\x69\163\167\x61\54\x20\x69\x64\x5f\142\x61\156\153\54\x20\x69\x64\x5f\152\x61\x64\x77\x61\154\54\x20\151\144\x5f\x73\157\x61\154\54\x20\x69\144\137\163\151\x73\167\x61\x2c\x20\152\145\156\x69\x73\137\x73\x6f\141\x6c\x2c\40\156\157\137\x73\x6f\141\x6c\137\141\x6c\151\141\x73\54\40\x6f\160\163\151\137\141\x6c\x69\141\163\137\x61\54\40\157\160\163\x69\137\x61\x6c\151\x61\x73\137\x62\54\40\x6f\160\x73\x69\137\x61\154\x69\141\x73\137\143\54\x20\x6f\x70\163\x69\137\x61\154\x69\141\163\x5f\144\x2c\x20\x6f\x70\x73\151\x5f\x61\x6c\x69\x61\x73\137\145\54\x20\x6a\x61\167\141\142\x61\156\x5f\x61\154\151\x61\x73\54\x20\152\x61\x77\141\142\x61\x6e\137\163\x69\x73\x77\141\x2c\x20\152\x61\x77\x61\142\141\156\137\142\145\x6e\141\162\54\40\x70\x6f\151\156\x74\x5f\163\x6f\x61\x6c"); goto kzG0R; kzG0R: $this->db->from("\143\x62\164\x5f\x73\x6f\x61\154\137\x73\x69\163\167\141"); goto gpWP0; h99Ee: } public function getJawabanSiswaByJadwal($id_jadwal, $id_siswa = null) { goto EyOHk; iBxB1: $this->db->where("\141\56\x69\x64\x5f\x73\x69\163\167\141", $id_siswa); goto zTUwz; Jiwd6: WNtL9: goto TuSpf; xxWDf: $this->db->where_in("\141\x2e\151\144\137\x73\x69\x73\x77\141", $id_siswa); goto cR8WN; zTUwz: goto t3wKh; goto lkF1u; c2hkj: return $this->db->get()->result(); goto YjZ1r; zf12N: $this->db->order_by("\142\56\x6e\x6f\x6d\157\x72\x5f\x73\157\141\154"); goto c2hkj; CPjoU: if (!($id_siswa != null)) { goto WNtL9; } goto ZOQum; lkF1u: CLVOd: goto xxWDf; zCh18: $this->db->join("\143\x62\164\137\x73\x6f\141\x6c\x20\x62", "\x62\x2e\151\144\137\x73\x6f\x61\154\x3d\141\56\151\144\137\163\157\141\154"); goto CPjoU; TuSpf: $this->db->where("\141\56\x69\144\x5f\152\141\x64\x77\x61\x6c\75", $id_jadwal); goto SZMvQ; T8bpX: $this->db->order_by("\x61\56\x6a\x65\x6e\x69\x73\x5f\x73\x6f\141\x6c"); goto zf12N; pRi6H: $this->db->from("\x63\142\x74\x5f\x73\157\x61\x6c\137\163\151\x73\x77\141\x20\141"); goto zCh18; ZOQum: if (is_array($id_siswa)) { goto CLVOd; } goto iBxB1; cR8WN: t3wKh: goto Jiwd6; SZMvQ: $this->db->where("\142\x2e\x74\x61\155\x70\x69\154\153\x61\156", "\x31"); goto T8bpX; EyOHk: $this->db->select("\x61\x2e\52\54\x20\x62\x2e\x6a\x65\x6e\151\x73\x2c\x20\x62\56\x6e\157\155\157\x72\x5f\x73\157\141\x6c\x2c\40\142\x2e\163\x6f\x61\x6c\54\40\x62\56\152\141\167\x61\x62\141\x6e\54\x20\x62\56\x6f\160\163\x69\x5f\x61\54\40\x62\56\x6f\x70\163\151\137\142\x2c\x20\142\x2e\157\160\x73\151\137\x63\x2c\x20\x62\56\157\x70\163\151\137\144\54\x20\142\56\157\160\163\151\137\x65\54\40\142\x2e\164\x61\155\x70\x69\x6c\153\141\156"); goto pRi6H; YjZ1r: } public function getIdSiswaFromJawabanByJadwal($id_jadwal) { goto Q3VSh; pOaIA: $retur = []; goto Ar6IN; Q3VSh: $result = $this->db->get_where("\143\142\x74\137\x73\x6f\141\154\137\163\151\x73\x77\x61", "\x69\x64\137\152\141\x64\167\141\154\75" . $id_jadwal)->result(); goto pOaIA; Ar6IN: foreach ($result as $row) { $retur[$row->id_siswa][] = $row; rNpBO: } goto zGL1B; zGL1B: AsMRn: goto Qb4bO; Qb4bO: return $retur; goto PXQR3; PXQR3: } public function getDurasiSiswaByJadwal($id_jadwal, $id_siswa = null) { goto SEqP7; jkw6c: c_FeS: goto ehtJe; ehtJe: return $this->db->get()->result(); goto zCIT_; eNO5r: $this->db->where("\151\x64\x5f\163\x69\x73\167\141\x3d", $id_siswa); goto jkw6c; KPvd8: $this->db->where("\151\x64\x5f\152\141\x64\167\141\154\x3d", $id_jadwal); goto Ufz__; SEqP7: $this->db->select("\x69\x64\x5f\x64\165\x72\141\163\151\54\40\151\144\x5f\x73\x69\x73\x77\x61\x2c\40\x69\x64\x5f\152\141\x64\167\x61\x6c\x2c\40\163\x74\x61\x74\165\x73\x2c\x20\154\141\x6d\x61\137\x75\152\x69\141\x6e\54\x20\155\165\154\x61\x69\54\40\163\145\154\145\163\141\x69\x2c\x20\x72\145\x73\x65\x74"); goto xyPCh; Ufz__: if (!($id_siswa != null)) { goto c_FeS; } goto eNO5r; xyPCh: $this->db->from("\x63\142\x74\x5f\x64\165\x72\x61\163\151\x5f\x73\x69\163\167\x61"); goto KPvd8; zCIT_: } public function getIdSiswaFromDurasiByJadwal($id_jadwal) { goto OiBV9; Wu1EZ: $retur = []; goto VJmlJ; OiBV9: $result = $this->db->get_where("\x63\x62\x74\x5f\144\x75\x72\141\x73\151\137\x73\151\163\167\141", "\151\x64\137\x6a\141\144\167\141\x6c\x3d" . $id_jadwal)->result(); goto Wu1EZ; Dgnp_: return $retur; goto EwMon; ThL4b: Ibx03: goto Dgnp_; VJmlJ: foreach ($result as $row) { $retur[$row->id_siswa] = $row; JZTuz: } goto ThL4b; EwMon: } public function getLogUjianByJadwal($id_jadwal) { goto dMrCd; dMrCd: $this->db->select("\x69\144\x5f\x6c\157\x67\54\x20\154\157\x67\137\x74\x69\x6d\145\54\40\151\x64\x5f\x73\x69\163\167\x61\x2c\x20\x69\x64\x5f\152\x61\x64\167\x61\x6c\54\x20\x6c\x6f\x67\137\x74\171\x70\x65\x2c\40\x6c\x6f\x67\x5f\x64\x65\163\x63\54\x20\x61\144\144\x72\145\163\x73\x2c\40\x61\147\x65\156\164\x2c\40\x64\145\x76\x69\x63\x65\x2c\x20\x72\x65\163\x65\x74"); goto ijMkr; sjtm0: $this->db->where("\151\144\x5f\x6a\x61\144\167\141\154\x3d", $id_jadwal); goto nipP4; nipP4: return $this->db->get()->result(); goto NKOFz; ijMkr: $this->db->from("\x6c\157\147\137\165\152\x69\x61\x6e"); goto sjtm0; NKOFz: } public function getIdSiswaFromLogUjianByJadwal($id_jadwal) { goto PSvVr; C91y9: CdP2h: goto MuyNC; PSvVr: $result = $this->db->get_where("\x6c\x6f\147\x5f\x75\x6a\151\141\156", "\x69\144\137\x6a\x61\144\167\x61\154\75" . $id_jadwal)->result(); goto PuWaf; PuWaf: $retur = []; goto XnRKm; XnRKm: foreach ($result as $row) { $retur[$row->id_siswa] = $row; sJSYg: } goto C91y9; MuyNC: return $retur; goto Q7qE4; Q7qE4: } public function getNilaiSiswa($arr_jadwal, $id_siswa) { goto aQnrt; eb1OY: return $retur; goto rcoKR; SZxZB: foreach ($result as $row) { $retur[$row->id_jadwal] = $row; JrIQ7: } goto XODCQ; aQnrt: $this->db->select("\x2a"); goto BJHwT; qiqNU: $retur = []; goto SZxZB; E9noo: $this->db->where("\151\x64\137\163\x69\x73\167\x61", $id_siswa); goto JdUJw; YEGCH: $this->db->where_in("\151\144\137\152\x61\144\x77\141\154", $arr_jadwal); goto E9noo; XODCQ: s_Nkn: goto eb1OY; JdUJw: $result = $this->db->get()->result(); goto qiqNU; BJHwT: $this->db->from("\x63\x62\164\137\156\151\x6c\141\151"); goto YEGCH; rcoKR: } public function getNilaiSiswaByJadwal($id_jadwal, $id_siswa) { goto PvfiA; HMXvo: return $result; goto N2EQL; e0LUd: $this->db->where("\x69\144\x5f\163\x69\163\x77\x61", $id_siswa); goto T_8ma; PvfiA: $this->db->select("\52"); goto Mywiy; Mywiy: $this->db->from("\143\142\x74\x5f\x6e\151\154\x61\151"); goto dq3V0; dq3V0: $this->db->where("\x69\144\137\x6a\141\x64\x77\141\x6c", $id_jadwal); goto e0LUd; T_8ma: $result = $this->db->get()->row(); goto HMXvo; N2EQL: } public function getNilaiAllSiswa($arr_jadwal, $arr_id_siswa) { goto v8b1t; ruQVJ: $this->db->where_in("\151\144\137\163\151\x73\167\x61", $arr_id_siswa); goto SwNGs; oPMF0: SeMJ3: goto uQ3tW; V3AJ1: $this->db->from("\x63\x62\x74\x5f\156\151\x6c\141\x69"); goto m2PCs; uQ3tW: return $retur; goto FFUtk; m2PCs: $this->db->where_in("\151\144\137\152\141\144\x77\141\x6c", $arr_jadwal); goto ruQVJ; yVOvx: $retur = []; goto JHred; SwNGs: $result = $this->db->get()->result(); goto yVOvx; v8b1t: $this->db->select("\52"); goto V3AJ1; JHred: foreach ($result as $row) { $retur[$row->id_siswa] = $row; v5ajG: } goto oPMF0; FFUtk: } public function getAllNilaiSiswa($id_jadwal) { goto c1ITm; RZDh3: MU1uI: goto v7x7h; WVFDc: $this->db->where("\x69\x64\137\x6a\141\x64\x77\141\154", $id_jadwal); goto ZZcE6; mWJv8: $retur = []; goto pCu6J; c1ITm: $this->db->select("\x2a"); goto v1N71; v1N71: $this->db->from("\143\x62\164\x5f\156\x69\x6c\141\151"); goto WVFDc; v7x7h: return $retur; goto JVWZg; pCu6J: foreach ($result as $row) { $retur[$row->id_siswa] = $row; RGiyR: } goto RZDh3; ZZcE6: $result = $this->db->get()->result(); goto mWJv8; JVWZg: } public function getTotalKoreksi() { goto Ju6VN; sEhgz: $result = $this->db->get()->result(); goto YtyWv; wF1ul: return $retur; goto zRUPl; gfxEw: $this->db->from("\143\x62\x74\137\x6e\x69\x6c\x61\x69"); goto sEhgz; GvJrC: foreach ($result as $row) { goto gcsHt; jpiau: LW32s: goto j2o6z; xE___: $retur[$row->id_jadwal][$row->dikoreksi][] = $row->id_siswa; goto jpiau; j2o6z: rmqOC: goto UqLkh; gcsHt: if (!($row->id_siswa != null)) { goto LW32s; } goto xE___; UqLkh: } goto ygjPw; ygjPw: LMPpX: goto wF1ul; YtyWv: $retur = []; goto GvJrC; Ju6VN: $this->db->select("\x69\144\137\x6a\141\x64\167\x61\154\54\x20\x64\x69\153\x6f\162\x65\153\163\x69\54\40\x69\144\x5f\163\151\163\167\141"); goto gfxEw; zRUPl: } public function getNilaiAnalisis($id_jadwal) { return $this->db->get_where("\143\142\164\137\156\151\154\141\151", "\151\x64\137\x6a\x61\144\167\141\154\75" . $id_jadwal)->result(); } public function getLogUjian($siswa_id, $id_jadwal) { return $this->db->get_where("\154\157\x67\x5f\165\152\151\141\x6e", "\x69\x64\x5f\x73\151\x73\167\141\x3d" . $siswa_id . "\40\101\x4e\104\40\x69\144\137\x6a\x61\x64\167\x61\x6c\75" . $id_jadwal)->result(); } public function getNomorPeserta($id_siswa) { return $this->db->get_where("\143\x62\x74\137\x6e\x6f\155\157\162\137\x70\x65\x73\145\162\164\141", "\151\144\x5f\163\151\x73\x77\141\x3d" . $id_siswa)->row(); } public function getAllNomorPeserta() { goto teDuv; BiKj2: $ret = []; goto ZMsrT; JSeQU: $result = $this->db->get("\x63\142\x74\137\x6e\x6f\x6d\x6f\162\137\160\x65\163\x65\162\164\x61")->result(); goto BiKj2; teDuv: $this->db->select("\x2a"); goto JSeQU; ZMsrT: foreach ($result as $row) { $ret[$row->id_siswa] = $row; HgpoD: } goto yIepu; ADr63: return $ret; goto UjQLu; yIepu: NVOY4: goto ADr63; UjQLu: } public function getDistinctTahun() { goto MQavD; MQavD: $this->db->select("\x74\160"); goto rdmCI; rdmCI: $this->db->distinct(); goto qbBDg; K0ClL: foreach ($result as $row) { $ret[$row->tp] = $row->tp; nJdZw: } goto ov55u; ov55u: m_F48: goto KFO4D; qbBDg: $result = $this->db->get("\143\142\164\x5f\x72\145\x6b\x61\x70\137\156\x69\154\x61\x69")->result(); goto x2kg0; x2kg0: $ret = []; goto K0ClL; KFO4D: return $ret; goto KY8Vn; KY8Vn: } public function getDistinctSmt() { goto X3JbL; E2DRh: $ret = []; goto czQH4; czQH4: foreach ($result as $row) { $ret[$row->smt] = $row->smt; Futny: } goto eStUd; Pk0Ta: return $ret; goto elygf; eStUd: GEur5: goto Pk0Ta; ptjhF: $result = $this->db->get("\143\142\164\x5f\x72\x65\153\141\x70\x5f\156\x69\154\141\x69")->result(); goto E2DRh; X3JbL: $this->db->select("\163\x6d\x74"); goto tu0BL; tu0BL: $this->db->distinct(); goto ptjhF; elygf: } public function getDistinctJenisUjian() { goto xiZY4; uCYJu: $result = $this->db->get("\143\142\164\x5f\x72\x65\x6b\x61\x70\x5f\x6e\x69\154\x61\151")->result(); goto mGvIt; TDhD6: $this->db->distinct(); goto uCYJu; mGvIt: $ret = []; goto y5uFO; xiZY4: $this->db->select("\x74\160\x2c\40\163\155\x74\x2c\40\x6b\x6f\x64\145\x5f\152\x65\x6e\x69\x73"); goto TDhD6; y5uFO: foreach ($result as $row) { $ret[$row->tp][$row->smt][$row->kode_jenis] = $row->kode_jenis; t7zX8: } goto hD1te; tgaPN: return $ret; goto Rl8YA; hD1te: CQaFS: goto tgaPN; Rl8YA: } public function getDistinctJenis() { goto AkJ6Z; l0zRg: return $ret; goto gbxHF; OcqE5: yoza9: goto l0zRg; xEpEh: foreach ($result as $row) { $ret[$row->tp][$row->smt][$row->id_jenis] = $row->kode_jenis; xv5pE: } goto OcqE5; FWWQU: $ret = []; goto xEpEh; kmYf2: $result = $this->db->get("\143\142\164\137\162\145\x6b\x61\x70\137\x6e\x69\154\x61\x69")->result(); goto FWWQU; xoRvs: $this->db->distinct(); goto kmYf2; AkJ6Z: $this->db->select("\151\144\137\152\x65\x6e\151\163\x2c\40\164\160\x2c\40\163\155\164\x2c\x20\x6b\157\144\145\137\152\x65\x6e\x69\163"); goto xoRvs; gbxHF: } public function getDistinctKelas($id_jadwal = null) { goto bE_rz; LF_77: if (!($id_jadwal != null)) { goto r8Fmt; } goto xkkVq; t46Iw: r8Fmt: goto WZOJh; z1Qnq: $this->db->distinct(); goto mYdqj; xkkVq: $this->db->where("\151\x64\x5f\152\141\x64\167\141\154", $id_jadwal); goto t46Iw; LS9Yi: return $ret; goto RvcgX; WZOJh: $this->db->join("\155\x61\x73\164\x65\x72\137\x6b\x65\x6c\x61\x73\40\x62", "\142\56\x69\x64\x5f\x6b\x65\154\141\163\75\141\x2e\x69\x64\137\x6b\x65\154\x61\163"); goto Sk9Cc; Sk9Cc: $result = $this->db->get()->result(); goto x8YE6; bE_rz: $this->db->select("\x61\56\x74\160\x2c\40\x61\x2e\163\x6d\x74\x2c\x20\141\56\x6b\157\x64\x65\x5f\x6a\145\156\151\x73\54\x20\141\56\x69\144\137\153\145\154\141\x73\x2c\40\x62\x2e\x6e\x61\155\x61\137\153\x65\154\141\163"); goto z1Qnq; DK6EY: zjutC: goto LS9Yi; J1qDI: foreach ($result as $row) { goto GTLBx; UAOqW: fv3G0: goto uJY7_; GTLBx: if (!($row->id_kelas != '')) { goto UUEwW; } goto HS64k; HS64k: $ret[$row->tp][$row->smt][$row->kode_jenis][$row->id_kelas] = $row->nama_kelas; goto OcguT; OcguT: UUEwW: goto UAOqW; uJY7_: } goto DK6EY; mYdqj: $this->db->from("\143\142\164\x5f\162\145\x6b\x61\x70\137\156\x69\154\141\x69\40\x61"); goto LF_77; x8YE6: $ret = []; goto J1qDI; RvcgX: } }
+class Cbt_model extends CI_Model
+{
+    public function get_where($table, $pk, $id, $join = null, $order = null)
+    {
+        $this->db->select("*");
+        $this->db->from($table);
+        $this->db->where($pk, $id);
+        if (!($join !== null)) {
+            goto FAII1;
+        }
+        foreach ($join as $table => $field) {
+            $this->db->join($table, $field);
+        }
+        FAII1:
+        if (!($order !== null)) {
+            goto jT2Mu;
+        }
+        foreach ($order as $field => $sort) {
+            $this->db->order_by($field, $sort);
+        }
+        jT2Mu:
+        $query = $this->db->get();
+        return $query;
+    }
+    public function saveLog($id_siswa, $id_jadwal, $type, $desc)
+    {
+        if ($this->agent->is_browser()) {
+            $agent = $this->agent->browser() . " " . $this->agent->version();
+            goto dS9nn;
+        }
+        if ($this->agent->is_mobile()) {
+            $agent = $this->agent->mobile();
+            goto lENXq;
+        }
+        $agent = "unknown";
+        lENXq:
+        dS9nn:
+        if ($agent == "unknown") {
+            return "error";
+        }
+        $os = $this->agent->platform();
+        $ip = $this->input->ip_address();
+        return $this->insertLog($id_siswa, $id_jadwal, $type, $desc, $agent, $os, $ip);
+    }
+    private function insertLog($id_siswa, $id_jadwal, $type, $desc, $agent, $os, $ip)
+    {
+        $log = $this->db->where("id_log", $id_siswa . "0" . $id_jadwal . $type)->get("log_ujian")->row();
+        if ($log != null) {
+            $this->db->set("log_type", $type);
+            $this->db->set("log_desc", $desc);
+            $this->db->where("id_log", $id_siswa . "0" . $id_jadwal . $type);
+            $insert = $this->db->update("log_ujian");
+            goto BTGMa;
+        }
+        $data = array("id_log" => $id_siswa . "0" . $id_jadwal . $type, "id_siswa" => $id_siswa, "id_jadwal" => $id_jadwal, "log_type" => $type, "log_desc" => $desc, "address" => $ip, "agent" => $agent, "device" => $os);
+        $insert = $this->db->insert("log_ujian", $data);
+        BTGMa:
+        return $insert;
+    }
+    public function getDataSiswa($username, $id_tp, $id_smt)
+    {
+        $this->db->select("a.id_siswa, a.nisn, a.nis, a.nama, a.jenis_kelamin, a.username, a.password, a.agama, a.foto, b.id_kelas_siswa, b.id_tp, b.id_smt, b.id_siswa, b.id_kelas, c.nama_kelas, c.kode_kelas, c.level_id,  d.kelas_id, d.ruang_id, d.sesi_id");
+        $this->db->from("master_siswa a");
+        $this->db->join("kelas_siswa b", "a.id_siswa=b.id_siswa AND b.id_tp=" . $id_tp . " AND b.id_smt=" . $id_smt, "left");
+        $this->db->join("master_kelas c", "b.id_kelas=c.id_kelas AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt, "left");
+        $this->db->join("cbt_sesi_siswa d", "a.id_siswa=d.siswa_id", "left");
+        $this->db->where("username", $username);
+        $query = $this->db->get()->row();
+        return $query;
+    }
+    public function getDataSiswaById($id_tp, $id_smt, $idSiswa)
+    {
+        $this->db->select("b.id_siswa, b.nama, b.jenis_kelamin, b.nis, b.nisn, b.username, b.password, b.foto, c.sesi_id, d.kode_ruang, e.kode_sesi, f.nama_kelas, g.nomor_peserta, h.set_siswa, i.kode_ruang as ruang_kelas, j.kode_sesi as sesi_kelas");
+        $this->db->from("kelas_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa", "left");
+        $this->db->join("cbt_sesi_siswa c", "c.siswa_id=a.id_siswa", "left");
+        $this->db->join("cbt_ruang d", "d.id_ruang=c.ruang_id", "left");
+        $this->db->join("cbt_sesi e", "e.id_sesi=c.sesi_id", "left");
+        $this->db->join("master_kelas f", "f.id_kelas=a.id_kelas", "left");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.id_siswa AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("cbt_kelas_ruang h", "h.id_kelas=a.id_kelas", "left");
+        $this->db->join("cbt_ruang i", "i.id_ruang=h.id_ruang", "left");
+        $this->db->join("cbt_sesi j", "j.id_sesi=h.id_sesi", "left");
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        $this->db->where("a.id_siswa", $idSiswa);
+        return $this->db->get()->row();
+    }
+    public function getWaktuSesiById($id_sesi)
+    {
+        $this->db->select("*");
+        $this->db->where("id_sesi", $id_sesi);
+        $result = $this->db->get("cbt_sesi")->row();
+        return $result;
+    }
+    public function getAllRuang()
+    {
+        $this->db->select("id_ruang, nama_ruang, kode_ruang");
+        $result = $this->db->get("cbt_ruang")->result();
+        $ret = [];
+        if (!$result) {
+            goto UK2nS;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_ruang] = $row->kode_ruang;
+        }
+        UK2nS:
+        return $ret;
+    }
+    public function getKelasByLevel($level, $arrKelas)
+    {
+        $this->db->select("id_kelas, kode_kelas");
+        $this->db->where("level_id", $level);
+        $this->db->where_in("id_kelas", $arrKelas);
+        $result = $this->db->get("master_kelas")->result();
+        return $result;
+    }
+    public function getAllJurusan()
+    {
+        $result = $this->db->get("master_jurusan")->result();
+        if (!$result) {
+            goto ICc0t;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_jurusan] = $row->kode_jurusan;
+        }
+        ICc0t:
+        return $ret;
+    }
+    public function getPengawas($id_pengawas)
+    {
+        $this->db->select("id_pengawas, id_jadwal, id_tp, id_smt, id_ruang, id_sesi, id_guru");
+        $this->db->from("cbt_pengawas");
+        $this->db->where("id_pengawas", $id_pengawas);
+        return $this->db->get()->row();
+    }
+    public function getPengawasByGuru($tp, $smt, $id_guru)
+    {
+        $this->db->select("a.id_pengawas, a.id_jadwal, a.id_tp, a.id_smt, a.id_ruang, a.id_sesi, a.id_guru, b.id_jadwal, b.tgl_mulai, b.tgl_selesai, c.bank_kode, d.kode_jenis");
+        $this->db->from("cbt_pengawas a");
+        $this->db->where("a.id_tp", $tp);
+        $this->db->where("a.id_smt", $smt);
+        $this->db->like("a.id_guru", $id_guru);
+        $this->db->join("cbt_jadwal b", "b.id_jadwal=a.id_jadwal");
+        $this->db->join("cbt_bank_soal c", "b.id_bank=c.id_bank");
+        $this->db->join("cbt_jenis d", "d.id_jenis=b.id_jenis", "left");
+        return $this->db->get()->result();
+    }
+    public function getPengawasByJadwal($tp, $smt, $id_jadwal, $sesi = null, $ruang = null)
+    {
+        $this->db->select("id_pengawas, id_guru");
+        $this->db->from("cbt_pengawas");
+        $this->db->where("id_tp", $tp);
+        $this->db->where("id_smt", $smt);
+        $this->db->where("id_jadwal", $id_jadwal);
+        if (!($sesi != null)) {
+            goto mU254;
+        }
+        $this->db->where("id_sesi", $sesi);
+        mU254:
+        if (!($ruang != null)) {
+            goto B80Yg;
+        }
+        $this->db->where("id_ruang", $ruang);
+        B80Yg:
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getAllPengawas($tp, $smt, $ruang = null, $sesi = null)
+    {
+        $this->db->select("id_pengawas, id_jadwal, id_ruang, id_sesi, id_guru");
+        $this->db->from("cbt_pengawas");
+        $this->db->where("id_tp", $tp);
+        $this->db->where("id_smt", $smt);
+        if (!($ruang != null)) {
+            goto DBXms;
+        }
+        $this->db->where("id_ruang", $ruang);
+        DBXms:
+        if (!($sesi != null)) {
+            goto YGZ7I;
+        }
+        $this->db->where("id_sesi", $sesi);
+        YGZ7I:
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto dyktk;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_jadwal][$row->id_ruang][$row->id_sesi] = $row;
+        }
+        dyktk:
+        return $ret;
+    }
+    public function getDistinctRuang($tp, $smt, $arrKelas)
+    {
+        $this->db->distinct("a.ruang_id");
+        $this->db->select("a.ruang_id, a.sesi_id, b.kode_ruang, b.nama_ruang, c.kode_sesi, c.nama_sesi");
+        $this->db->from("cbt_sesi_siswa a");
+        $this->db->join("cbt_ruang b", "b.id_ruang=a.ruang_id");
+        $this->db->join("cbt_sesi c", "c.id_sesi=a.sesi_id");
+        if (!(count($arrKelas) > 0)) {
+            goto r0MHh;
+        }
+        $this->db->where_in("kelas_id", $arrKelas);
+        r0MHh:
+        $this->db->order_by("b.nama_ruang", "ASC");
+        $this->db->order_by("c.nama_sesi", "ASC");
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto azkjT;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->ruang_id][$row->sesi_id] = $row;
+        }
+        azkjT:
+        return $ret;
+    }
+    public function getKelasUjian($kelas_id)
+    {
+        $this->db->select("kelas_id, ruang_id, sesi_id");
+        $this->db->from("cbt_sesi_siswa");
+        $this->db->where("kelas_id", $kelas_id);
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto xAXO0;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->ruang_id][$row->sesi_id][] = $row->kelas_id;
+        }
+        xAXO0:
+        return $ret;
+    }
+    public function getDistinctKelasLevel($tp, $smt, $arrLevel)
+    {
+        $this->db->select("id_kelas, level_id");
+        $this->db->distinct();
+        $this->db->from("master_kelas");
+        $this->db->where("id_tp", $tp);
+        $this->db->where("id_smt", $smt);
+        $this->db->where_in("level_id", $arrLevel);
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getAllJenisUjian()
+    {
+        $this->db->select("id_jenis, nama_jenis, kode_jenis");
+        $result = $this->db->get("cbt_jenis")->result();
+        $ret[''] = "Jenis Penilaian :";
+        if (!$result) {
+            goto PKz2s;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_jenis] = $row->kode_jenis;
+        }
+        PKz2s:
+        return $ret;
+    }
+    public function getAllJenisUjianByArrJenis($arrJenis)
+    {
+        $this->db->where_in("id_jenis", $arrJenis);
+        $result = $this->db->get("cbt_jenis")->result();
+        $ret[''] = "Jenis Penilaian :";
+        if (!$result) {
+            goto zWv0e;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_jenis] = $row->kode_jenis;
+        }
+        zWv0e:
+        return $ret;
+    }
+    public function getPengawasHariIni($tgl)
+    {
+        $this->db->from("cbt_jadwal a");
+        $this->db->where("a.tgl_mulai <= '{$tgl}' AND a.tgl_selesai >= '{$tgl}'");
+        $this->db->join("cbt_pengawas b", "b.id_jadwal=a.id_jadwal");
+        $this->db->where("status", "1");
+        return $this->db->get()->result();
+    }
+    public function getJadwalGuru($tp, $smt, $guru)
+    {
+        $this->db->select("a.id_jadwal, a.tgl_mulai, b.bank_kode, b.bank_kelas");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank AND b.bank_guru_id=" . $guru);
+        $this->db->where("a.id_tp", $tp);
+        $this->db->where("a.id_smt", $smt);
+        return $this->db->get()->result();
+    }
+    public function getJadwalKelas($tp, $smt)
+    {
+        $this->db->select("a.id_jadwal, a.tgl_mulai, b.bank_kode, b.bank_kelas");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank");
+        $this->db->where("a.id_tp", $tp);
+        $this->db->where("a.id_smt", $smt);
+        return $this->db->get()->result();
+    }
+    public function getJadwalByJenis($jenis, $level, $dari, $sampai)
+    {
+        $this->db->select("a.id_jadwal, a.id_bank, a.id_jenis, a.tgl_mulai, a.tgl_selesai, a.jam_ke, c.bank_kode, c.bank_level, c.bank_kelas, b.kode_jenis, b.nama_jenis, d.kode, d.nama_mapel");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_jenis b", "b.id_jenis=a.id_jenis");
+        $this->db->join("cbt_bank_soal c", "c.id_bank=a.id_bank");
+        $this->db->join("master_mapel d", "d.id_mapel=c.bank_mapel_id");
+        $this->db->where("a.id_jenis", $jenis);
+        if (!($level != "0")) {
+            goto iDfE8;
+        }
+        $this->db->where("c.bank_level", $level);
+        iDfE8:
+        if (!($dari != null)) {
+            goto ZaJ9S;
+        }
+        $this->db->where("a.tgl_mulai >=", $dari);
+        ZaJ9S:
+        if (!($sampai != null)) {
+            goto vEYid;
+        }
+        $this->db->where("a.tgl_mulai <=", $sampai);
+        vEYid:
+        $this->db->order_by("a.tgl_mulai", "ASC");
+        $this->db->order_by("a.jam_ke", "ASC");
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getAllJadwalByJenis($jenis, $tp, $smt)
+    {
+        $this->db->select("a.id_jadwal, a.id_jenis, a.tgl_mulai, c.bank_kode, c.bank_level, c.bank_kelas, b.kode_jenis, b.nama_jenis, d.id_mapel, d.kode, d.nama_mapel");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_jenis b", "b.id_jenis=a.id_jenis");
+        $this->db->join("cbt_bank_soal c", "c.id_bank=a.id_bank");
+        $this->db->join("master_mapel d", "d.id_mapel=c.bank_mapel_id");
+        if (!($jenis != null)) {
+            goto uviaE;
+        }
+        $this->db->where("a.id_jenis", $jenis);
+        uviaE:
+        $this->db->where("a.id_tp", $tp);
+        $this->db->where("a.id_smt", $smt);
+        $this->db->order_by("a.tgl_mulai", "ASC");
+        $this->db->order_by("a.jam_ke", "ASC");
+        $this->db->order_by("c.bank_level", "ASC");
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto lUFBe;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->tgl_mulai][$row->id_mapel][] = $row;
+        }
+        lUFBe:
+        return $ret;
+    }
+    public function getAllBankSoal($guru = null)
+    {
+        $this->db->select("id_bank, bank_kode");
+        if (!($guru !== null)) {
+            goto x8H6K;
+        }
+        $this->db->where("bank_guru_id", $guru);
+        x8H6K:
+        $result = $this->db->get("cbt_bank_soal")->result();
+        $ret["0"] = "Pilih Bank Soal :";
+        if (!$result) {
+            goto rvYur;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_bank] = $row->bank_kode;
+        }
+        rvYur:
+        return $ret;
+    }
+    public function getAllBankSoalByTp($id_tp, $id_smt, $guru = null)
+    {
+        $this->db->select("id_bank, bank_kode, bank_mapel_id, tampil_pg, tampil_kompleks, tampil_jodohkan, tampil_isian, tampil_esai");
+        $this->db->where("id_tp", $id_tp);
+        $this->db->where("id_smt", $id_smt);
+        $this->db->where("status", "1");
+        $this->db->where("status_soal", "1");
+        if (!($guru !== null)) {
+            goto IrdLs;
+        }
+        $this->db->where("bank_guru_id", $guru);
+        IrdLs:
+        $result = $this->db->get("cbt_bank_soal")->result();
+        $ret = [];
+        if (!$result) {
+            goto r_XnU;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_bank] = $row;
+        }
+        r_XnU:
+        return $ret;
+    }
+    public function getAllBankSoalByMapel($id_tp, $id_smt, $mapel)
+    {
+        $this->db->select("id_bank, bank_kode, bank_mapel_id, tampil_pg, tampil_kompleks, tampil_jodohkan, tampil_isian, tampil_esai, status");
+        $this->db->from("cbt_bank_soal");
+        $this->db->where("id_tp", $id_tp);
+        $this->db->where("id_smt", $id_smt);
+        $this->db->where("bank_mapel_id", $mapel);
+        $this->db->where("status", "1");
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto W2blw;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_bank] = $row;
+        }
+        W2blw:
+        return $ret;
+    }
+    public function getJumlahJenisSoal($id_bank)
+    {
+        $this->db->select("id_soal, jenis");
+        $this->db->from("cbt_soal");
+        $this->db->where("bank_id", $id_bank);
+        $this->db->where("tampilkan", "1");
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto dIE5i;
+        }
+        foreach ($result as $row) {
+            $ret[$row->jenis][] = $row;
+        }
+        dIE5i:
+        return $ret;
+    }
+    public function getJenis()
+    {
+        $this->datatables->select("*");
+        $this->datatables->from("cbt_jenis");
+        return $this->datatables->generate();
+    }
+    public function getJenisById($id)
+    {
+        $this->db->select("id_jenis, nama_jenis, kode_jenis");
+        $this->db->from("cbt_jenis");
+        $this->db->where(["id_jenis" => $id]);
+        return $this->db->get()->row();
+    }
+    function updateJenis()
+    {
+        $id = $this->input->post("id_jenis");
+        $name = $this->input->post("nama_jenis", true);
+        $kode = $this->input->post("kode_jenis", true);
+        $this->db->set("nama_jenis", $name);
+        $this->db->set("kode_jenis", $kode);
+        $this->db->where("id_jenis", $id);
+        return $this->db->update("cbt_jenis");
+    }
+    public function getRuang()
+    {
+        $this->datatables->select("*, (SELECT COUNT(id_sesi) FROM cbt_sesi) AS jum_sesi");
+        $this->datatables->from("cbt_ruang");
+        return $this->datatables->generate();
+    }
+    public function getRuangById($id)
+    {
+        $this->db->select("id_ruang, nama_ruang, kode_ruang");
+        $this->db->from("cbt_ruang");
+        $this->db->where(["id_ruang" => $id]);
+        return $this->db->get()->row();
+    }
+    public function getRuangSesi($tp, $smt)
+    {
+        $this->db->select("a.siswa_id, a.sesi_id, a.ruang_id, a.kelas_id, b.nama_ruang, b.kode_ruang, c.nama_sesi, c.kode_sesi, d.nama_kelas");
+        $this->db->from("cbt_sesi_siswa a");
+        $this->db->join("cbt_ruang b", "b.id_ruang=a.ruang_id");
+        $this->db->join("cbt_sesi c", "c.id_sesi=a.sesi_id");
+        $this->db->join("master_kelas d", "d.id_kelas=a.kelas_id");
+        $this->db->order_by("b.nama_ruang", "ASC");
+        $this->db->order_by("c.nama_sesi", "ASC");
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto DcNO_;
+        }
+        foreach ($result as $row) {
+            $ret[$row->sesi_id][$row->ruang_id][$row->kelas_id] = $row->nama_kelas;
+        }
+        DcNO_:
+        return $ret;
+    }
+    function updateRuang()
+    {
+        $id = $this->input->post("id_ruang");
+        $name = $this->input->post("nama_ruang", true);
+        $kode = $this->input->post("kode_ruang", true);
+        $this->db->set("nama_ruang", $name);
+        $this->db->set("kode_ruang", $kode);
+        $this->db->where("id_ruang", $id);
+        return $this->db->update("cbt_ruang");
+    }
+    public function getSesi()
+    {
+        $this->datatables->select("*");
+        $this->datatables->from("cbt_sesi c");
+        return $this->datatables->generate();
+    }
+    public function getAllKodeSesi()
+    {
+        $this->db->select("id_sesi, nama_sesi, kode_sesi, waktu_mulai, waktu_akhir");
+        $this->db->from("cbt_sesi");
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto uRH2P;
+        }
+        foreach ($result as $row) {
+            $ret[$row->kode_sesi] = $row;
+        }
+        uRH2P:
+        return $ret;
+    }
+    public function getSesiById($id)
+    {
+        $this->db->select("id_sesi, nama_sesi, kode_sesi, waktu_mulai, waktu_akhir");
+        $this->db->from("cbt_sesi");
+        $this->db->where(["id_sesi" => $id]);
+        return $this->db->get()->row();
+    }
+    public function getSesiBySiswa($siswa_id)
+    {
+        $this->db->where("siswa_id", $siswa_id);
+        $query = $this->db->get("siswa_sesi")->result();
+        return $query;
+    }
+    function updateSesi()
+    {
+        $id = $this->input->post("id_sesi");
+        $name = $this->input->post("nama_sesi", true);
+        $kode = $this->input->post("kode_sesi", true);
+        $mulai = $this->input->post("waktu_mulai", true);
+        $akhir = $this->input->post("waktu_akhir", true);
+        $this->db->set("nama_sesi", $name);
+        $this->db->set("kode_sesi", $kode);
+        $this->db->set("waktu_mulai", $mulai);
+        $this->db->set("waktu_akhir", $akhir);
+        $this->db->set("aktif", 1);
+        $this->db->where("id_sesi", $id);
+        return $this->db->update("cbt_sesi");
+    }
+    public function getSiswaCbtInfo($id_siswa, $id_tp, $id_smt)
+    {
+        $this->db->select("a.id_kelas_siswa, a.id_tp, a.id_smt, a.id_siswa, a.id_kelas, b.siswa_id, b.kelas_id, b.ruang_id, b.sesi_id, rk.id_ruang, rk.nama_ruang, rk.kode_ruang, sk.id_sesi, sk.nama_sesi, sk.kode_sesi, sk.waktu_mulai, sk.waktu_akhir");
+        $this->db->from("kelas_siswa a");
+        $this->db->join("cbt_sesi_siswa b", "a.id_siswa=b.siswa_id", "left");
+        $this->db->join("cbt_ruang rk", "b.ruang_id=rk.id_ruang", "left");
+        $this->db->join("cbt_sesi sk", "b.sesi_id=sk.id_sesi", "left");
+        $this->db->where("a.id_siswa", $id_siswa);
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        return $this->db->get()->row();
+    }
+    public function getRuangSesiSiswa($id_kelas, $id_tp, $id_smt)
+    {
+        $this->db->select("a.id_siswa, a.id_kelas, b.nama, b.nis, b.username, c.nama_kelas, c.kode_kelas, e.sesi_id, e.ruang_id, rk.id_ruang, rk.kode_ruang, sk.id_sesi, sk.kode_sesi");
+        $this->db->from("kelas_siswa a");
+        $this->db->join("master_siswa b", "a.id_siswa=b.id_siswa", "left");
+        $this->db->join("master_kelas c", "a.id_kelas=c.id_kelas", "left");
+        $this->db->join("cbt_sesi_siswa e", "a.id_siswa=e.siswa_id", "left");
+        $this->db->join("cbt_ruang rk", "e.ruang_id=rk.id_ruang", "left");
+        $this->db->join("cbt_sesi sk", "e.sesi_id=sk.id_sesi", "left");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        $this->db->where("a.id_kelas", $id_kelas);
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        $this->db->order_by("b.nama", "ASC");
+        return $this->db->get()->result();
+    }
+    public function getSiswaByKelas($id_tp, $id_smt, $id_kelas)
+    {
+        $this->db->select("b.id_siswa, b.nama, b.nis, b.nisn, b.username, b.password, b.foto, d.kode_ruang, e.kode_sesi, f.nama_kelas, f.kode_kelas, g.nomor_peserta");
+        $this->db->from("kelas_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa", "left");
+        $this->db->join("cbt_sesi_siswa c", "c.siswa_id=a.id_siswa", "left");
+        $this->db->join("cbt_ruang d", "d.id_ruang=c.ruang_id", "left");
+        $this->db->join("cbt_sesi e", "e.id_sesi=c.sesi_id", "left");
+        $this->db->join("master_kelas f", "f.id_kelas=a.id_kelas", "left");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.id_siswa AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        $this->db->where("a.id_siswa is NOT NULL", NULL, FALSE);
+        $this->db->where("b.id_siswa is NOT NULL", NULL, FALSE);
+        $this->db->where("c.siswa_id is NOT NULL", NULL, FALSE);
+        $this->db->where("f.siswa_id is NOT NULL", NULL, FALSE);
+        $this->db->where("g.id_siswa is NOT NULL", NULL, FALSE);
+        if (is_array($id_kelas)) {
+            $this->db->where_in("a.id_kelas", $id_kelas);
+            goto LNAhn;
+        }
+        $this->db->where("a.id_kelas", $id_kelas);
+        LNAhn:
+        $this->db->order_by("b.nama", "ASC");
+        return $this->db->get()->result();
+    }
+    public function getSiswaById($id_tp, $id_smt, $idSiswa)
+    {
+        $this->db->select("b.id_siswa, b.nama, b.nis, b.nisn, b.username, b.password, b.foto, d.kode_ruang, e.kode_sesi, f.nama_kelas, f.kode_kelas, g.nomor_peserta, h.set_siswa, i.kode_ruang as ruang_kelas, j.kode_sesi as sesi_kelas");
+        $this->db->from("kelas_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa", "left");
+        $this->db->join("cbt_sesi_siswa c", "c.siswa_id=a.id_siswa", "left");
+        $this->db->join("cbt_ruang d", "d.id_ruang=c.ruang_id", "left");
+        $this->db->join("cbt_sesi e", "e.id_sesi=c.sesi_id", "left");
+        $this->db->join("master_kelas f", "f.id_kelas=a.id_kelas", "left");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.id_siswa AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("cbt_kelas_ruang h", "h.id_kelas=a.id_kelas", "left");
+        $this->db->join("cbt_ruang i", "i.id_ruang=h.id_ruang", "left");
+        $this->db->join("cbt_sesi j", "j.id_sesi=h.id_sesi", "left");
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        $this->db->where("a.id_siswa", $idSiswa);
+        return $this->db->get()->row();
+    }
+    public function getAllPesertaByRuang($id_tp, $id_smt)
+    {
+        $this->db->select("b.id_siswa, b.nama, b.nis, b.nisn, b.username, b.password, b.foto, f.level_id, f.nama_kelas, f.kode_kelas, d.nama_ruang, d.kode_ruang, e.kode_sesi, e.nama_sesi, g.nomor_peserta");
+        $this->db->from("cbt_sesi_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.siswa_id", "left");
+        $this->db->join("cbt_ruang d", "d.id_ruang=a.ruang_id", "left");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.siswa_id AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("cbt_sesi e", "e.id_sesi=a.sesi_id", "left");
+        $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
+        $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->order_by("d.kode_ruang");
+        $this->db->order_by("e.kode_sesi");
+        $this->db->order_by("f.level_id");
+        $this->db->order_by("f.kode_kelas");
+        $this->db->order_by("b.nama");
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->kode_ruang][$row->kode_sesi][] = $row;
+        }
+        return $ret;
+    }
+    public function getAllPesertaByKelas($id_tp, $id_smt)
+    {
+        $this->db->select("b.id_siswa, b.nama, b.nis, b.nisn, b.username, b.password, b.foto, f.nama_kelas, f.kode_kelas, d.nama_ruang, d.kode_ruang, e.kode_sesi, e.nama_sesi, g.nomor_peserta");
+        $this->db->from("cbt_sesi_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.siswa_id", "left");
+        $this->db->join("cbt_ruang d", "d.id_ruang=a.ruang_id", "left");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.siswa_id AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("cbt_sesi e", "e.id_sesi=a.sesi_id", "left");
+        $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
+        $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->order_by("f.level_id");
+        $this->db->order_by("f.kode_kelas");
+        $this->db->order_by("b.nama");
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->kode_kelas][] = $row;
+        }
+        return $ret;
+    }
+    public function getSiswaByRuang($id_tp, $id_smt, $id_ruang, $sesi, $level = null)
+    {
+        $this->db->select("a.ruang_id, a.sesi_id, b.id_siswa, b.nama, b.nis, b.nisn, b.username, b.password, b.foto, f.id_kelas, f.nama_kelas, f.kode_kelas, d.nama_ruang, d.kode_ruang, e.kode_sesi, e.nama_sesi, g.nomor_peserta");
+        $this->db->from("cbt_sesi_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.siswa_id", "left");
+        $this->db->join("cbt_ruang d", "d.id_ruang=a.ruang_id", "left");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.siswa_id AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("cbt_sesi e", "e.id_sesi=a.sesi_id", "left");
+        $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
+        if ($level === null) {
+            $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
+            goto A2ECF;
+        }
+        $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas AND f.level_id=" . $level . '');
+        A2ECF:
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->where("a.ruang_id", $id_ruang);
+        $this->db->where("a.sesi_id", $sesi);
+        $this->db->order_by("b.nama");
+        return $this->db->get()->result();
+    }
+    public function getRuangSiswaByKelas($id_tp, $id_smt, $kelas, $sesi)
+    {
+        $this->db->select("b.id_siswa, b.nama, b.nis, b.nisn, b.username, b.password, b.foto, f.nama_kelas, f.kode_kelas, d.nama_ruang, d.kode_ruang, e.kode_sesi, e.nama_sesi, g.nomor_peserta");
+        $this->db->from("cbt_sesi_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.siswa_id", "left");
+        $this->db->join("cbt_ruang d", "d.id_ruang=a.ruang_id", "left");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.siswa_id AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("cbt_sesi e", "e.id_sesi=a.sesi_id", "left");
+        $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
+        $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->where_in("a.kelas_id", $kelas);
+        if (!($sesi != null)) {
+            goto P5m5A;
+        }
+        $this->db->where("a.sesi_id", $sesi);
+        P5m5A:
+        $this->db->order_by("b.nama");
+        return $this->db->get()->result();
+    }
+    public function getSiswaByKelasArray($id_tp, $id_smt, $arr_kelas)
+    {
+        $this->db->select("a.id_siswa, a.id_kelas, b.nama, b.nis, b.nisn, b.username, b.password, f.nama_kelas, f.kode_kelas, l.level, g.nomor_peserta");
+        $this->db->from("kelas_siswa a");
+        $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa");
+        $this->db->join("master_kelas f", "f.id_kelas=a.id_kelas");
+        $this->db->join("level_kelas l", "l.id_level=f.level_id");
+        $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.id_siswa AND g.id_tp=" . $id_tp, "left");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        if (in_array("Semua", $arr_kelas)) {
+            goto fBVtU;
+        }
+        $this->db->where_in("a.id_kelas", $arr_kelas);
+        fBVtU:
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        $this->db->order_by("l.level", "ASC");
+        $this->db->order_by("f.kode_kelas", "ASC");
+        $this->db->order_by("b.nama", "ASC");
+        return $this->db->get()->result();
+    }
+    public function getKelasList($tp, $smt)
+    {
+        $this->db->select("a.id_kelas, a.nama_kelas, a.kode_kelas, c.nama_jurusan, b.id_ruang, b.id_sesi, b.set_siswa");
+        $this->db->from("master_kelas a");
+        $this->db->join("cbt_kelas_ruang b", "a.id_kelas=b.id_kelas", "left");
+        $this->db->join("master_jurusan c", "c.id_jurusan=a.jurusan_id", "left");
+        $this->db->join("level_kelas d", "d.id_level=a.level_id", "left");
+        $this->db->where("a.id_tp", $tp);
+        $this->db->where("a.id_smt", $smt);
+        $this->db->order_by("a.level_id", "ASC");
+        $this->db->order_by("a.nama_kelas", "ASC");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function getKelas($tp = null, $smt = null)
+    {
+        $this->db->select("a.id_kelas, a.nama_kelas, a.kode_kelas, b.level");
+        $this->db->from("master_kelas a");
+        $this->db->join("level_kelas b", "b.id_level=a.level_id", "left");
+        if (!($tp != null)) {
+            goto MNbkL;
+        }
+        $this->db->where("a.id_tp", $tp);
+        MNbkL:
+        if (!($smt != null)) {
+            goto KIkAX;
+        }
+        $this->db->where("a.id_smt", $smt);
+        KIkAX:
+        $this->db->order_by("a.nama_kelas", "ASC");
+        return $this->db->get()->result();
+    }
+    public function getDataTableBank($guru = null)
+    {
+        $this->datatables->select("a.id_bank, a.bank_kode, a.bank_level, a.tampil_pg, a.tampil_esai, a.status, b.nama_mapel, c.nama_guru");
+        $this->datatables->from("cbt_bank_soal a");
+        $this->datatables->join("master_mapel b", "b.id_mapel=a.bank_mapel_id", "left");
+        $this->datatables->join("master_guru c", "c.id_guru=a.bank_guru_id", "left");
+        $this->datatables->join("master_jurusan d", "d.id_jurusan=a.bank_jurusan_id", "left");
+        $this->datatables->join("cbt_jenis e", "e.id_jenis=a.bank_jenis_id", "left");
+        if (!($guru !== null)) {
+            goto vvb4j;
+        }
+        $this->datatables->where("a.bank_guru_id", $guru);
+        vvb4j:
+        return $this->datatables->generate();
+    }
+    public function getDataBank($guru = null, $mapel = null, $level = null)
+    {
+        $this->db->select("a.id_bank, a.id_tp, a.id_smt, a.bank_kode, a.bank_level, a.bank_kelas, a.date, a.status, a.tampil_pg, a.tampil_kompleks, a.tampil_jodohkan, a.tampil_isian, a.tampil_esai, a.bank_guru_id, b.nama_mapel, c.id_guru, c.nama_guru, (SELECT COUNT(id_soal) FROM cbt_soal WHERE cbt_soal.bank_id = a.id_bank) AS total_soal, (SELECT COUNT(id_jadwal) FROM cbt_jadwal WHERE cbt_jadwal.id_bank = a.id_bank AND cbt_jadwal.status=\"1\") AS digunakan");
+        $this->db->from("cbt_bank_soal a");
+        $this->db->join("master_mapel b", "b.id_mapel=a.bank_mapel_id", "left");
+        $this->db->join("master_guru c", "c.id_guru=a.bank_guru_id", "left");
+        if (!($guru !== null)) {
+            goto T98Ks;
+        }
+        $this->db->where("a.bank_guru_id", $guru);
+        T98Ks:
+        if (!($mapel !== null)) {
+            goto ds6iJ;
+        }
+        $this->db->where("a.bank_mapel_id", $mapel);
+        ds6iJ:
+        if (!($level !== null)) {
+            goto zDBgE;
+        }
+        $this->db->where("a.bank_level", $level);
+        zDBgE:
+        $this->db->order_by("a.bank_level", "ASC");
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->id_tp][$row->id_smt][] = $row;
+        }
+        return $ret;
+    }
+    public function getDataBankById($id)
+    {
+        $this->db->select("a.*, b.nama_mapel, b.kode, c.nama_guru, d.nama_jurusan, d.kode_jurusan, (SELECT COUNT(id_jadwal) FROM cbt_jadwal WHERE cbt_jadwal.id_bank = a.id_bank AND cbt_jadwal.status=\"1\") AS digunakan");
+        $this->db->from("cbt_bank_soal a");
+        $this->db->join("master_mapel b", "b.id_mapel=a.bank_mapel_id", "left");
+        $this->db->join("master_guru c", "c.id_guru=a.bank_guru_id", "left");
+        $this->db->join("master_jurusan d", "d.id_jurusan=a.bank_jurusan_id", "left");
+        $this->db->where("a.id_bank", $id);
+        return $this->db->get()->row();
+    }
+    public function getTotalSoal($id_bank, $jenis = null)
+    {
+        $this->db->where("bank_id", $id_bank);
+        if (!($jenis != null)) {
+            goto ZNL2x;
+        }
+        $this->db->where("jenis", $jenis);
+        ZNL2x:
+        return $this->db->get("cbt_soal")->num_rows();
+    }
+    public function getNomorSoalById($id_soal)
+    {
+        $this->db->select("nomor_soal, jenis, bank_id");
+        $this->db->where("id_soal", $id_soal);
+        return $this->db->get("cbt_soal")->row();
+    }
+    public function getFileSoalById($id_soal)
+    {
+        $this->db->select("file");
+        $this->db->where("id_soal", $id_soal);
+        return $this->db->get("cbt_soal")->row();
+    }
+    public function getSoalByBank($id_bank)
+    {
+        $this->db->select("id_soal, bank_id, mapel_id, jenis, nomor_soal, soal, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e, jawaban");
+        $this->db->from("cbt_soal");
+        $this->db->where("bank_id", $id_bank);
+        $this->db->order_by("jenis");
+        $this->db->order_by("nomor_soal");
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->jenis][$row->nomor_soal] = $row;
+        }
+        return $ret;
+    }
+    public function getAllSoalByBank($id_bank, $jenis = null)
+    {
+        $this->db->select("id_soal, bank_id, mapel_id, jenis, nomor_soal, soal, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e, jawaban, tampilkan");
+        $this->db->where("bank_id", $id_bank);
+        if (!($jenis != null)) {
+            goto sJdEs;
+        }
+        $this->db->where("jenis", $jenis);
+        sJdEs:
+        return $this->db->get("cbt_soal")->result();
+    }
+    public function getSoalByNomor($id_bank, $nomor, $jenis)
+    {
+        $this->db->select("*");
+        $this->db->where("bank_id", $id_bank);
+        $this->db->where("nomor_soal", $nomor);
+        $this->db->where("jenis", $jenis);
+        return $this->db->get("cbt_soal")->row();
+    }
+    public function getNomorSoalByBankJenis($id_bank, $jenis)
+    {
+        $this->db->select("id_soal, jenis, nomor_soal");
+        $this->db->where("bank_id", $id_bank);
+        $this->db->where("jenis", $jenis);
+        $result = $this->db->get("cbt_soal")->result();
+        $ret = [];
+        foreach ($result as $key => $row) {
+            $ret[$row->nomor_soal] = $row;
+        }
+        return $ret;
+    }
+    public function getNomorSoalByBank($id_bank, $jenis = null)
+    {
+        $this->db->select("id_soal, jenis, nomor_soal, jawaban");
+        $this->db->where("bank_id", $id_bank);
+        $this->db->where("tampilkan", "1");
+        if (!($jenis != null)) {
+            goto znhyj;
+        }
+        $this->db->where("jenis", $jenis);
+        znhyj:
+        $result = $this->db->get("cbt_soal")->result();
+        $ret = [];
+        foreach ($result as $key => $row) {
+            $ret[$row->id_soal] = $row;
+        }
+        return $ret;
+    }
+    public function getNomorSoalByArrIdBank($arr_id_bank, $jenis = null)
+    {
+        $this->db->select("id_soal, jenis, nomor_soal, jawaban");
+        $this->db->where_in("bank_id", $arr_id_bank);
+        if (!($jenis != null)) {
+            goto cdbQu;
+        }
+        $this->db->where("jenis", $jenis);
+        cdbQu:
+        return $this->db->get("cbt_soal")->result();
+    }
+    public function cekSoalAda($id_bank, $jenis)
+    {
+        $this->db->select("id_soal, bank_id, jenis, nomor_soal");
+        $this->db->where("bank_id", $id_bank);
+        $this->db->where("jenis", $jenis);
+        return $this->db->get("cbt_soal")->result();
+    }
+    public function cekSoalKomplit($id_bank, $jenjang)
+    {
+        $this->db->select("id_soal, bank_id, jenis, nomor_soal");
+        $this->db->where("bank_id", $id_bank)->where("soal NOT NULL")->or_where("opsi_a NOT NULL")->or_where("opsi_b NOT NULL")->or_where("opsi_c NOT NULL")->or_where("opsi_d NOT NULL")->or_where("jawaban NOT NULL");
+        if (!($jenjang == "3")) {
+            goto LeZPP;
+        }
+        $this->db->or_where("opsi_e NOT NULL");
+        LeZPP:
+        return $this->db->get("cbt_soal")->result();
+    }
+    public function cekSoalBelumKomplit($jenis, $opsi_ganda)
+    {
+        $this->db->select("id_soal, bank_id, jenis, nomor_soal, mapel_id");
+        $this->db->from("cbt_soal");
+        $this->db->where("jenis", $jenis);
+        $this->db->where("soal IS NULL")->or_where("soal =\"\"");
+        if (!($jenis == "1")) {
+            goto em3J9;
+        }
+        $this->db->where("opsi_a IS NULL")->or_where("opsi_a =\"\"");
+        $this->db->where("opsi_b IS NULL")->or_where("opsi_b =\"\"");
+        $this->db->where("opsi_c IS NULL")->or_where("opsi_c =\"\"");
+        if (!($opsi_ganda == "4")) {
+            goto WH0KZ;
+        }
+        $this->db->where("opsi_d IS NULL")->or_where("opsi_d =\"\"");
+        WH0KZ:
+        if (!($opsi_ganda == "5")) {
+            goto B90zj;
+        }
+        $this->db->where("opsi_d IS NULL")->or_where("opsi_d =\"\"");
+        $this->db->where("opsi_e IS NULL")->or_where("opsi_e =\"\"");
+        B90zj:
+        em3J9:
+        if (!($jenis == "2")) {
+            goto Wc15J;
+        }
+        $this->db->where("opsi_a IS NULL")->or_where("opsi_a =\"\"");
+        Wc15J:
+        $this->db->where("jawaban IS NULL")->or_where("jawaban =\"\"");
+        $ret = [];
+        $result = $this->db->get()->result();
+        foreach ($result as $key => $row) {
+            $ret[$row->bank_id][] = $row;
+        }
+        return $ret;
+    }
+    public function getNomorSoalTerbesar($id_bank, $jenis)
+    {
+        $this->db->select("nomor_soal");
+        $this->db->where("bank_id", $id_bank)->where("jenis", $jenis);
+        $this->db->order_by("nomor_soal", "DESC");
+        return $this->db->get("cbt_soal")->row();
+    }
+    public function dummy($jenjang)
+    {
+        $data = array("id_bank" => '', "bank_jenis_id" => '', "bank_kode" => '', "bank_mapel_id" => '', "bank_level" => '', "bank_kelas" => serialize([]), "bank_guru_id" => '', "jml_soal" => "0", "bobot_pg" => "0", "tampil_pg" => "0", "opsi" => $jenjang == "1" ? "3" : ($jenjang == "2" ? "4" : ($jenjang == "3" ? "5" : '')), "jml_kompleks" => "0", "tampil_kompleks" => "0", "bobot_kompleks" => "0", "jml_jodohkan" => "0", "tampil_jodohkan" => "0", "bobot_jodohkan" => "0", "jml_isian" => "0", "tampil_isian" => "0", "bobot_isian" => "0", "jml_esai" => "0", "bobot_esai" => "0", "tampil_esai" => "0", "kkm" => '', "soal_agama" => "-", "status" => "1");
+        return $data;
+    }
+    public function saveBankSoal($tp, $smt)
+    {
+        $id = $this->input->post("id_bank", true);
+        $rows = count($this->input->post("kelas", true));
+        $kelas = [];
+        $i = 0;
+        kC5hR:
+        if (!($i <= $rows)) {
+            $jumlah = serialize($kelas);
+            $data = array("id_tp" => $tp, "id_smt" => $smt, "bank_kode" => strip_tags($this->input->post("kode", TRUE)), "bank_jenis_id" => strip_tags($this->input->post("jenis", TRUE)), "bank_mapel_id" => strip_tags($this->input->post("mapel", TRUE)), "bank_kelas" => $jumlah, "bank_level" => $this->input->post("level", TRUE), "bank_guru_id" => strip_tags($this->input->post("guru", TRUE)), "jml_soal" => strip_tags($this->input->post("tampil_pg", TRUE)), "tampil_pg" => strip_tags($this->input->post("tampil_pg", TRUE)), "bobot_pg" => strip_tags($this->input->post("bobot_pg", TRUE)), "opsi" => strip_tags($this->input->post("opsi", TRUE)), "jml_kompleks" => strip_tags($this->input->post("tampil_kompleks", TRUE)), "tampil_kompleks" => strip_tags($this->input->post("tampil_kompleks", TRUE)), "bobot_kompleks" => strip_tags($this->input->post("bobot_kompleks", TRUE)), "jml_jodohkan" => strip_tags($this->input->post("tampil_jodohkan", TRUE)), "tampil_jodohkan" => strip_tags($this->input->post("tampil_jodohkan", TRUE)), "bobot_jodohkan" => strip_tags($this->input->post("bobot_jodohkan", TRUE)), "jml_isian" => strip_tags($this->input->post("tampil_isian", TRUE)), "tampil_isian" => strip_tags($this->input->post("tampil_isian", TRUE)), "bobot_isian" => strip_tags($this->input->post("bobot_isian", TRUE)), "jml_esai" => strip_tags($this->input->post("bobot_esai", TRUE)), "bobot_esai" => strip_tags($this->input->post("bobot_esai", TRUE)), "tampil_esai" => strip_tags($this->input->post("tampil_esai", TRUE)), "status" => strip_tags($this->input->post("status", TRUE)), "soal_agama" => strip_tags($this->input->post("soal_agama", TRUE)));
+            if (!$id) {
+                $this->db->insert("cbt_bank_soal", $data);
+                $insert_id = $this->db->insert_id();
+                return $insert_id;
+            }
+            $this->db->where("id_bank", $id);
+            return $this->db->update("cbt_bank_soal", $data);
+        }
+        $kelas[] = ["kelas_id" => $this->input->post("kelas[" . $i . "]", true)];
+        $i++;
+        goto kC5hR;
+    }
+    public function dummyJadwal()
+    {
+        $data = array("id_bank" => '', "id_jadwal" => '', "id_jenis" => '', "tgl_mulai" => '', "tgl_selesai" => '', "durasi_ujian" => '', "bank_kelas" => serialize([]), "acak_soal" => '', "acak_opsi" => '', "hasil_tampil" => '', "token" => '', "status" => '', "ulang" => '', "jarak" => '', "reset_login" => '');
+        return $data;
+    }
+    public function getDistinctJenisJadwal($tp, $smt)
+    {
+        $this->db->select("id_jenis");
+        $this->db->distinct();
+        $this->db->from("cbt_jadwal");
+        $this->db->where("id_tp", $tp);
+        $this->db->where("id_smt", $smt);
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getDataJadwal($tp, $smt, $guru = null, $rekap = null)
+    {
+        $this->db->select("a.id_jadwal, a.id_tp, a.id_smt, a.id_bank, a.id_jenis, a.tgl_mulai, a.tgl_selesai, a.status, a.ulang, a.reset_login, a.rekap, a.jam_ke, e.id_tp, e.tahun, f.id_smt, f.nama_smt, g.level, b.bank_kode, b.bank_level, b.bank_kelas, c.kode_jenis, d.kode, d.nama_mapel, b.tampil_pg, b.tampil_kompleks, b.tampil_jodohkan, b.tampil_isian, b.tampil_esai, b.bank_guru_id, (SELECT COUNT(id_soal) FROM cbt_soal WHERE cbt_soal.bank_id = a.id_bank) AS total_soal");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank", "left");
+        $this->db->join("cbt_jenis c", "c.id_jenis=a.id_jenis", "left");
+        $this->db->join("master_mapel d", "d.id_mapel=b.bank_mapel_id", "left");
+        $this->db->join("master_tp e", "a.id_tp=e.id_tp");
+        $this->db->join("master_smt f", "a.id_smt=f.id_smt");
+        $this->db->join("level_kelas g", "b.bank_level=g.id_level");
+        if (!($guru !== null)) {
+            goto D8Ffl;
+        }
+        $this->db->where("b.bank_guru_id", $guru);
+        D8Ffl:
+        if (!($rekap !== null)) {
+            goto yYTag;
+        }
+        $this->db->where("a.rekap", $rekap);
+        yYTag:
+        $this->db->order_by("a.tgl_mulai", "DESC");
+        $this->db->order_by("b.bank_level", "ASC");
+        $query = $this->db->get()->result();
+        return $query;
+    }
+    public function getAllDataJadwal($guru = null, $mapel = null, $level = null)
+    {
+        $this->db->select("a.id_jadwal, a.tgl_mulai, a.tgl_selesai, a.status, a.durasi_ujian, a.acak_soal, a.acak_opsi, a.id_bank, a.id_jenis, a.hasil_tampil, a.status, a.ulang, a.reset_login, a.rekap, a.jam_ke, a.token, e.tahun, f.nama_smt, g.level, b.bank_kode, b.bank_level, b.bank_kelas, c.kode_jenis, d.kode, d.nama_mapel, b.tampil_pg, b.tampil_kompleks, b.tampil_jodohkan, b.tampil_isian, b.tampil_esai, b.bank_guru_id, (SELECT COUNT(id_soal) FROM cbt_soal WHERE cbt_soal.bank_id = a.id_bank) AS total_soal");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank");
+        $this->db->join("cbt_jenis c", "c.id_jenis=a.id_jenis", "left");
+        $this->db->join("master_mapel d", "d.id_mapel=b.bank_mapel_id", "left");
+        $this->db->join("master_tp e", "a.id_tp=e.id_tp");
+        $this->db->join("master_smt f", "a.id_smt=f.id_smt");
+        $this->db->join("level_kelas g", "b.bank_level=g.id_level");
+        if (!($guru !== null)) {
+            goto jWtJ0;
+        }
+        $this->db->where("b.bank_guru_id", $guru);
+        jWtJ0:
+        if (!($mapel !== null)) {
+            goto d72gD;
+        }
+        $this->db->where("b.bank_mapel_id", $mapel);
+        d72gD:
+        if (!($level !== null)) {
+            goto W5ak4;
+        }
+        $this->db->where("b.bank_level", $level);
+        W5ak4:
+        $this->db->order_by("b.bank_level", "ASC");
+        $this->db->order_by("a.id_tp", "DESC");
+        $this->db->order_by("a.id_smt", "DESC");
+        $query = $this->db->get()->result();
+        $ret = [];
+        foreach ($query as $key => $row) {
+            $ret["<b>" . $row->kode_jenis . "</b>  " . $row->tahun . " smt " . $row->nama_smt][$row->level][] = $row;
+        }
+        return $ret;
+    }
+    public function getJadwalTerpakai($id_jadwal = null)
+    {
+        $this->db->select("id_bank,id_jadwal,id_siswa");
+        $this->db->from("cbt_soal_siswa");
+        if (!($id_jadwal != null)) {
+            goto x9hdM;
+        }
+        $this->db->where("id_jadwal", $id_jadwal);
+        x9hdM:
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $key => $row) {
+            $ret[$row->id_jadwal][$row->id_siswa] = $row;
+        }
+        return $ret;
+    }
+    public function getBankTerpakai($id_banks = null)
+    {
+        $this->db->select("id_bank,id_soal,id_siswa");
+        $this->db->from("cbt_soal_siswa");
+        if (!($id_banks != null)) {
+            goto sWG8D;
+        }
+        $this->db->where_in("id_bank", $id_banks);
+        sWG8D:
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $key => $row) {
+            $ret[$row->id_bank][$row->id_siswa] = $row;
+        }
+        return $ret;
+    }
+    public function getCountBankTerpakai($id_bank = null)
+    {
+        $this->db->select("id_bank,COUNT(id_siswa) as siswa");
+        $this->db->from("cbt_soal_siswa");
+        if (!($id_bank != null)) {
+            goto scLQV;
+        }
+        $this->db->where("id_bank", $id_bank);
+        scLQV:
+        $this->db->group_by("id_bank");
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getRekapByJadwalKelas($jadwal, $guru = null)
+    {
+        $this->db->from("cbt_rekap");
+        $this->db->where("id_jadwal", $jadwal);
+        if (!($guru !== null)) {
+            goto uzfKN;
+        }
+        $this->db->where("id_guru", $guru);
+        uzfKN:
+        $result = $this->db->get()->row();
+        return $result;
+    }
+    public function getRekapJadwal($guru = null)
+    {
+        $this->db->select("*");
+        $this->db->from("cbt_rekap");
+        if (!($guru !== null)) {
+            goto zdDUH;
+        }
+        $this->db->where("id_guru", $guru);
+        zdDUH:
+        $this->db->order_by("tgl_mulai", "DESC");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function getAllRekapByJenis($tp, $smt, $jenis, $level, $mapel, $jadwal = null, $guru = null)
+    {
+        $this->db->from("cbt_rekap");
+        if (!($mapel != "0")) {
+            goto NQb7A;
+        }
+        $this->db->where("id_mapel", $mapel);
+        NQb7A:
+        if (!($jadwal != null)) {
+            goto Kkr31;
+        }
+        $this->db->where("id_jadwal", $jadwal);
+        Kkr31:
+        if (!($guru != null)) {
+            goto s3LtG;
+        }
+        $this->db->where("id_guru", $guru);
+        s3LtG:
+        $this->db->where("tp", $tp);
+        $this->db->where("smt", $smt);
+        $this->db->where("kode_jenis", $jenis);
+        $this->db->where("bank_level", $level);
+        $this->db->order_by("id_mapel", "ASC");
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getAllNilaiRekapByJenis($tp, $smt, $kode_jenis, $id_kelas, $id_mapel, $id_jadwal = null, $id_guru = null)
+    {
+        $this->db->select("a.*, b.nomor_peserta, c.nama");
+        $this->db->from("cbt_rekap_nilai a");
+        $this->db->join("cbt_nomor_peserta b", "b.id_siswa=a.id_siswa AND b.id_tp=a.id_tp", "left");
+        $this->db->join("master_siswa c", "c.id_siswa=a.id_siswa", "left");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        if (!($id_mapel != "0")) {
+            goto gD7W2;
+        }
+        $this->db->where("a.id_mapel", $id_mapel);
+        gD7W2:
+        if (!($id_jadwal != null)) {
+            goto Mlldg;
+        }
+        $this->db->where("a.id_jadwal", $id_jadwal);
+        Mlldg:
+        if (!($id_guru != null)) {
+            goto npruc;
+        }
+        $this->db->where("a.id_guru", $id_guru);
+        npruc:
+        $this->db->where("a.id_kelas", $id_kelas);
+        $this->db->where("a.tp", $tp);
+        $this->db->where("a.smt", $smt);
+        $this->db->where("a.kode_jenis", $kode_jenis);
+        $this->db->order_by("c.nama", "ASC");
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getAllRekap($guru = null)
+    {
+        $this->db->select("id_rekap, id_tp, tp, id_smt, smt, id_jadwal, id_jenis, kode_jenis, id_bank, bank_kelas, nama_kelas, bank_kode, bank_level, id_mapel, nama_mapel, kode, tgl_mulai, tgl_selesai, id_guru, nama_guru");
+        $this->db->from("cbt_rekap");
+        if (!($guru != null)) {
+            goto qQ69x;
+        }
+        $this->db->where("id_guru", $guru);
+        qQ69x:
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $key => $row) {
+            $ret[$row->id_jadwal] = $row;
+        }
+        return $ret;
+    }
+    public function getJadwalById($id_jadwal, $sesi = null)
+    {
+        $this->db->select("a.*, b.opsi, b.bank_kode, b.bank_level, b.bank_kelas, b.tampil_pg, b.tampil_kompleks, b.tampil_jodohkan, b.tampil_isian, b.tampil_esai, b.bobot_pg, b.bobot_kompleks, b.bobot_jodohkan, b.bobot_isian, b.bobot_esai, b.id_bank, b.bank_guru_id, c.kode_jenis, c.nama_jenis, d.id_mapel, d.kode, d.nama_mapel, f.id_guru, f.nama_guru");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank", "left");
+        $this->db->join("cbt_jenis c", "c.id_jenis=a.id_jenis", "left");
+        $this->db->join("master_mapel d", "d.id_mapel=b.bank_mapel_id", "left");
+        if (!($sesi != null)) {
+            goto AQ07J;
+        }
+        $this->db->join("cbt_sesi e", "e.id_sesi=" . $sesi, "left");
+        AQ07J:
+        $this->db->join("master_guru f", "f.id_guru=b.bank_guru_id", "left");
+        $this->db->where("a.id_jadwal", $id_jadwal);
+        $query = $this->db->get()->row();
+        return $query;
+    }
+    public function getJadwalByIdBank($id_bank)
+    {
+        $this->db->select("a.*, b.opsi, b.bank_kode, b.bank_level, b.bank_kelas, b.tampil_pg, b.tampil_kompleks, b.tampil_jodohkan, b.tampil_isian, b.tampil_esai, b.bobot_pg, b.bobot_kompleks, b.bobot_jodohkan, b.bobot_isian, b.bobot_esai, b.id_bank, b.bank_guru_id, c.kode_jenis, c.nama_jenis, d.id_mapel, d.kode, d.nama_mapel, f.id_guru, f.nama_guru");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank", "left");
+        $this->db->join("cbt_jenis c", "c.id_jenis=a.id_jenis", "left");
+        $this->db->join("master_mapel d", "d.id_mapel=b.bank_mapel_id", "left");
+        $this->db->join("master_guru f", "f.id_guru=b.bank_guru_id", "left");
+        $this->db->where("a.id_bank", $id_bank);
+        $query = $this->db->get()->row();
+        return $query;
+    }
+    public function getAllJadwal($tp, $smt, $id_guru = null)
+    {
+        $this->db->select("a.bank_kode, a.bank_kelas, b.id_jadwal");
+        $this->db->from("cbt_bank_soal a");
+        $this->db->join("cbt_jadwal b", "b.id_bank=a.id_bank");
+        if (!($id_guru != null)) {
+            goto Mz2IC;
+        }
+        $this->db->where("a.bank_guru_id", $id_guru);
+        Mz2IC:
+        $this->db->where("b.id_tp", $tp);
+        $this->db->where("b.id_smt", $smt);
+        return $this->db->get()->result();
+    }
+    public function getJadwalByArrId($arr_id_jadwal, $sesi = null)
+    {
+        $this->db->select("a.*, b.opsi, b.bank_kode, b.bank_level, b.bank_kelas, b.tampil_pg, b.tampil_kompleks, b.tampil_jodohkan, b.tampil_isian, b.tampil_esai, b.bobot_pg, b.bobot_kompleks, b.bobot_jodohkan, b.bobot_isian, b.bobot_esai, b.id_bank, b.bank_guru_id, c.kode_jenis, c.nama_jenis, d.id_mapel, d.kode, d.nama_mapel, f.id_guru, f.nama_guru");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank", "left");
+        $this->db->join("cbt_jenis c", "c.id_jenis=a.id_jenis", "left");
+        $this->db->join("master_mapel d", "d.id_mapel=b.bank_mapel_id", "left");
+        if (!($sesi != null)) {
+            goto SVDMN;
+        }
+        $this->db->join("cbt_sesi e", "e.id_sesi=" . $sesi, "left");
+        SVDMN:
+        $this->db->join("master_guru f", "f.id_guru=b.bank_guru_id", "left");
+        $this->db->where_in("a.id_jadwal", $arr_id_jadwal);
+        $query = $this->db->get()->result();
+        return $query;
+    }
+    public function cekJadwalBankSoal($id_bank)
+    {
+        $this->db->select("id_bank");
+        $this->db->from("cbt_jadwal");
+        if (is_array($id_bank)) {
+            $this->db->where_in("id_bank", $id_bank);
+            goto aZGdw;
+        }
+        $this->db->where("id_bank", $id_bank);
+        aZGdw:
+        $query = $this->db->get()->num_rows();
+        return $query;
+    }
+    public function cekJadwalSudahMulai($id_jadwal)
+    {
+        $query = $this->get_where("cbt_durasi_siswa", "id_jadwal", $id_jadwal)->num_rows();
+        return $query;
+    }
+    public function saveJadwalUjian($id_tp, $id_smt)
+    {
+        $id = $this->input->post("id_jadwal", true);
+        $acak_soal = $this->input->post("acak_soal", TRUE);
+        $acak_opsi = $this->input->post("acak_opsi", TRUE);
+        $hasil_tampil = $this->input->post("hasil_tampil", TRUE);
+        $token = $this->input->post("token", TRUE);
+        $status = $this->input->post("status", TRUE);
+        $reset_login = $this->input->post("reset_login", TRUE);
+        $bank_id = strip_tags($this->input->post("bank_id", TRUE));
+        $jenis_id = strip_tags($this->input->post("jenis_id", TRUE));
+        $mulai = strip_tags($this->input->post("tgl_mulai", TRUE));
+        $selesai = strip_tags($this->input->post("tgl_selesai", TRUE));
+        $durasi = strip_tags($this->input->post("durasi_ujian", TRUE));
+        $jarak = strip_tags($this->input->post("jarak", TRUE));
+        $check = $this->db->where("id_bank", $bank_id)->where("id_jenis", $jenis_id)->get("cbt_jadwal")->row();
+        $data = array("id_tp" => $id_tp, "id_smt" => $id_smt, "id_bank" => $bank_id, "id_jenis" => $jenis_id, "tgl_mulai" => $mulai, "tgl_selesai" => $selesai, "durasi_ujian" => $durasi, "jarak" => $jarak, "acak_soal" => !$acak_soal ? "0" : $acak_soal, "acak_opsi" => !$acak_opsi ? "0" : $acak_opsi, "hasil_tampil" => !$hasil_tampil ? "0" : $hasil_tampil, "token" => !$token ? "0" : $token, "status" => !$status ? "0" : $status, "reset_login" => !$reset_login ? "0" : $reset_login);
+        if ($id == '') {
+            if ($check != null) {
+                return false;
+            }
+            $this->db->insert("cbt_jadwal", $data);
+            $insert_id = $this->db->insert_id();
+            return $insert_id;
+        }
+        if ($check != null && $check->id_jadwal != $id) {
+            return false;
+        }
+        $this->db->where("id_jadwal", $id);
+        return $this->db->update("cbt_jadwal", $data);
+    }
+    public function getJadwalTgl($guru = null)
+    {
+        $this->db->distinct();
+        $this->db->select("tgl_mulai");
+        $this->db->from("cbt_jadwal");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function getDataJadwalByTgl($tgl)
+    {
+        $this->db->distinct();
+        $this->db->select("tgl_mulai, tgl_selesai");
+        $this->db->from("cbt_jadwal");
+        $this->db->where("tgl_mulai <= '{$tgl}' AND tgl_selesai >= '{$tgl}'");
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function getDataGuru()
+    {
+        $this->db->select("a.id_guru, a.nama_guru, b.id_pengawas, b.id_jadwal");
+        $this->db->from("master_guru a");
+        $this->db->join("cbt_pengawas b", "b.id_guru = a.id_guru", "left");
+        $query = $this->db->get()->result();
+        return $query;
+    }
+    public function saveToken($post_token)
+    {
+        $id = isset($post_token->id_token) ? $post_token->id_token : false;
+        $tkn = $post_token->token;
+        $auto = $post_token->auto;
+        $jarak = $post_token->jarak;
+        $data = array("token" => $tkn, "auto" => $auto, "jarak" => $jarak, "updated" => $post_token->updated);
+        if (!$id) {
+            $this->db->insert("cbt_token", $data);
+            $insert_id = $this->db->insert_id();
+            return $insert_id;
+        }
+        $this->db->where("id_token", $id);
+        return $this->db->update("cbt_token", $data);
+    }
+    public function updateToken($token, $auto)
+    {
+        $this->db->set("auto", $auto, FALSE);
+        $this->db->where("token", $token);
+        $this->db->update("cbt_token");
+        $result = $this->db->get("cbt_token")->row();
+        return $result;
+    }
+    public function getToken()
+    {
+        $result = $this->db->get("cbt_token")->row();
+        return $result;
+    }
+    public function getJadwalCbtKelas($id_tp, $id_smt)
+    {
+        $this->db->select("a.id_jadwal, b.bank_kelas");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_bank_soal b", "b.id_bank=a.id_bank");
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        return $this->db->get()->result();
+    }
+    public function getInfoJadwal($id_bank)
+    {
+        $this->db->select("a.id_bank, b.acak_soal, b.acak_opsi, a.opsi, a.tampil_pg, a.tampil_kompleks, a.tampil_jodohkan, a.tampil_isian, a.tampil_esai, a.bobot_pg,  a.bobot_kompleks,  a.bobot_jodohkan,  a.bobot_isian,  a.bobot_esai");
+        $this->db->from("cbt_bank_soal a");
+        $this->db->join("cbt_jadwal b", "a.id_bank=b.id_bank");
+        $this->db->where("a.id_bank", $id_bank);
+        return $this->db->get()->row();
+    }
+    public function getAllIdSoal($id_bank)
+    {
+        $this->db->select("id_soal, jenis, jawaban");
+        $this->db->from("cbt_soal");
+        $this->db->where("tampilkan", "1");
+        $this->db->where("bank_id", $id_bank);
+        $result = $this->db->get()->result();
+        $ret = [];
+        if (!$result) {
+            goto McOvj;
+        }
+        foreach ($result as $row) {
+            $ret[$row->jenis][] = $row;
+        }
+        McOvj:
+        return $ret;
+    }
+    public function getJadwalCbt($id_tp, $id_smt, $level)
+    {
+        $this->db->select("a.id_jadwal, a.id_tp, a.id_smt, a.id_bank, a.id_jenis, a.tgl_mulai, a.tgl_selesai, a.durasi_ujian, a.pengawas, a.acak_soal, a.acak_opsi, a.hasil_tampil, a.token, a.status, a.ulang, a.reset_login, a.rekap, a.jam_ke, a.jarak, c.bank_kode, c.bank_level, c.bank_kelas, c.tampil_pg, c.tampil_kompleks, c.tampil_jodohkan, c.tampil_isian, c.tampil_esai, c.soal_agama,  c.bobot_pg, c.bobot_kompleks, c.bobot_jodohkan, c.bobot_isian, c.bobot_esai, b.kode_jenis, b.nama_jenis, d.kode, d.nama_mapel");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_jenis b", "b.id_jenis=a.id_jenis");
+        $this->db->join("cbt_bank_soal c", "c.id_bank=a.id_bank");
+        $this->db->join("master_mapel d", "d.id_mapel=c.bank_mapel_id");
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.status", "1");
+        $this->db->where("a.id_smt", $id_smt);
+        $this->db->where("c.status", "1");
+        $this->db->where("c.status_soal", "1");
+        $this->db->where("c.bank_level", $level);
+        $this->db->order_by("a.jam_ke");
+        $result = $this->db->get()->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_jadwal] = $row;
+        }
+        return $retur;
+    }
+    public function getJadwalByKelas($id_tp, $id_smt, $kelas)
+    {
+        $this->db->select("a.id_jadwal, a.id_tp, a.id_smt, a.id_bank, a.id_jenis, a.tgl_mulai, a.tgl_selesai, a.durasi_ujian, a.pengawas, a.acak_soal, a.acak_opsi, a.hasil_tampil, a.token, a.status, a.ulang, a.reset_login, a.rekap, a.jam_ke, a.jarak, c.bank_kode, c.bank_level, c.bank_kelas, c.tampil_pg, c.tampil_kompleks, c.tampil_jodohkan, c.tampil_isian, c.tampil_esai, c.soal_agama,  c.bobot_pg, c.bobot_kompleks, c.bobot_jodohkan, c.bobot_isian, c.bobot_esai, b.kode_jenis, b.nama_jenis, d.kode, d.nama_mapel");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_jenis b", "b.id_jenis=a.id_jenis");
+        $this->db->join("cbt_bank_soal c", "c.id_bank=a.id_bank");
+        $this->db->join("master_mapel d", "d.id_mapel=c.bank_mapel_id");
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.status", "1");
+        $this->db->where("a.id_smt", $id_smt);
+        $this->db->where("c.status", "1");
+        $this->db->where("c.status_soal", "1");
+        $this->db->like("c.bank_kelas", $kelas);
+        $this->db->order_by("a.jam_ke");
+        $result = $this->db->get()->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_jadwal] = $row;
+        }
+        return $retur;
+    }
+    public function getCbt($id_jadwal)
+    {
+        $this->db->select("a.id_jadwal, a.id_tp, a.id_smt, a.id_bank, a.id_jenis, a.tgl_mulai, a.tgl_selesai, a.durasi_ujian, a.pengawas, a.acak_soal, a.acak_opsi, a.hasil_tampil, a.token, a.status, a.ulang, a.reset_login, a.rekap, a.jam_ke, a.jarak, b.nama_jenis, b.kode_jenis, c.bank_kode, c.bank_level, c.bank_kelas, c.bank_mapel_id, c.bank_jurusan_id, c.bank_guru_id, c.bank_nama, c.jml_soal, c.jml_esai, c.tampil_pg, c.tampil_esai, c.bobot_pg, c.bobot_esai, c.opsi, c.date, c.status, c.soal_agama, c.id_tp, c.id_smt, c.deskripsi, c.jml_kompleks, c.tampil_kompleks, c.bobot_kompleks, c.jml_jodohkan, c.tampil_jodohkan, c.bobot_jodohkan, c.jml_isian, c.tampil_isian, c.bobot_isian, c.status_soal, d.id_mapel, d.nama_mapel, d.kode, e.id_guru, e.nama_guru, f.id_jurusan, f.nama_jurusan, f.kode_jurusan, g.tahun, h.smt, h.nama_smt, (SELECT COUNT(id_soal) FROM cbt_soal WHERE cbt_soal.bank_id = a.id_bank) AS total_soal");
+        $this->db->from("cbt_jadwal a");
+        $this->db->join("cbt_jenis b", "b.id_jenis=a.id_jenis", "left");
+        $this->db->join("cbt_bank_soal c", "c.id_bank=a.id_bank", "left");
+        $this->db->join("master_mapel d", "d.id_mapel=c.bank_mapel_id", "left");
+        $this->db->join("master_guru e", "e.id_guru=c.bank_guru_id", "left");
+        $this->db->join("master_jurusan f", "f.id_jurusan=c.bank_jurusan_id", "left");
+        $this->db->join("master_tp g", "g.id_tp=a.id_tp", "left");
+        $this->db->join("master_smt h", "h.id_smt=a.id_smt", "left");
+        $this->db->where("a.id_jadwal", $id_jadwal);
+        return $this->db->get()->row();
+    }
+    public function getCbtById($id_jadwal)
+    {
+        $this->db->select("*");
+        $this->db->from("cbt_jadwal");
+        $this->db->where("id_jadwal", $id_jadwal);
+        return $this->db->get()->row();
+    }
+    public function getIdRuangById($array)
+    {
+        $this->db->select("nama_ruang");
+        $this->db->from("cbt_ruang");
+        $this->db->where("id_ruang", $array);
+        $result = $this->db->get()->result();
+        if (!$result) {
+            goto BVyy7;
+        }
+        foreach ($result as $key => $row) {
+            $ret[$row->id_ruang] = $row->kode_ruang;
+        }
+        BVyy7:
+        return $ret;
+    }
+    public function getNamaRuangById($id)
+    {
+        $this->db->select("nama_ruang");
+        $this->db->from("cbt_ruang");
+        $this->db->where("id_ruang", $id);
+        $result = $this->db->get()->row();
+        if ($result) {
+            return $result->nama_ruang;
+        }
+        return "";
+    }
+    public function getNamaSesiById($id)
+    {
+        $this->db->select("nama_sesi");
+        $this->db->from("cbt_sesi");
+        $this->db->where(["id_sesi" => $id]);
+        return $this->db->get()->row()->nama_sesi;
+    }
+    public function getNamaKelasById($id)
+    {
+        $this->db->select("nama_kelas");
+        $this->db->from("master_kelas");
+        $this->db->where(["id_kelas" => $id]);
+        return $this->db->get()->row()->nama_kelas;
+    }
+    public function getNamaGuruById($id)
+    {
+        $this->db->select("nama_guru");
+        $this->db->from("master_guru");
+        $this->db->where("id_guru", $id);
+        return $this->db->get()->row()->nama_guru;
+    }
+    public function getElapsed($id)
+    {
+        $this->db->select("id_durasi, id_siswa, id_jadwal, status, lama_ujian, mulai, selesai, reset");
+        $this->db->from("cbt_durasi_siswa");
+        $this->db->where("id_durasi", $id);
+        return $this->db->get()->row();
+    }
+    public function getSoalSiswa($id_bank, $id_siswa)
+    {
+        $this->db->select("a.*, b.jenis, b.nomor_soal, b.jawaban");
+        $this->db->from("cbt_soal_siswa a");
+        $this->db->join("cbt_soal b", "b.id_soal=a.id_soal", "left");
+        $this->db->where("a.id_bank", $id_bank);
+        $this->db->where("a.id_siswa", $id_siswa);
+        $this->db->order_by("a.jenis_soal");
+        $this->db->order_by("a.no_soal_alias");
+        return $this->db->get()->result();
+    }
+    public function getJumlahSoalSiswa($id_bank, $id_siswa)
+    {
+        $this->db->select("id_soal_siswa");
+        $this->db->from("cbt_soal_siswa");
+        $this->db->where("id_bank", $id_bank);
+        $this->db->where("id_siswa", $id_siswa);
+        $result = $this->db->get()->num_rows();
+        return $result;
+    }
+    public function getALLSoalSiswa($id_bank, $id_siswa)
+    {
+        $this->db->select("a.id_soal_siswa, a.id_bank, a.id_jadwal, a.id_soal, a.id_siswa, a.jenis_soal, a.no_soal_alias, a.opsi_alias_a, a.opsi_alias_b, a.opsi_alias_c, a.opsi_alias_d, a.opsi_alias_e, a.jawaban_alias, a.jawaban_siswa, a.jawaban_benar, a.point_essai, a.soal_end, a.point_soal, b.id_soal, b.nomor_soal, b.soal, b.jawaban, b.opsi_a, b.opsi_b, b.opsi_c, b.opsi_d, b.opsi_e, b.tampilkan");
+        $this->db->from("cbt_soal_siswa a");
+        $this->db->join("cbt_soal b", "b.id_soal=a.id_soal");
+        $this->db->where("a.id_bank", $id_bank);
+        $this->db->where("a.id_siswa", $id_siswa);
+        $this->db->order_by("a.no_soal_alias");
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getJumlahJawaban($id_bank, $id_siswa)
+    {
+        $this->db->select("jawaban_siswa, id_siswa, id_bank");
+        $this->db->from("cbt_soal_siswa");
+        $this->db->where("id_bank", $id_bank);
+        $this->db->where("id_siswa", $id_siswa);
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getSoalSiswaByJadwal($id_jadwal, $id_siswa)
+    {
+        $this->db->select("a.*, b.jenis, b.nomor_soal, b.soal, b.jawaban, b.opsi_a, b.opsi_b, b.opsi_c, b.opsi_d, b.opsi_e");
+        $this->db->from("cbt_soal_siswa a");
+        $this->db->join("cbt_soal b", "b.id_soal=a.id_soal");
+        $this->db->where("a.id_jadwal", $id_jadwal);
+        $this->db->where("a.id_siswa", $id_siswa);
+        $this->db->where("b.tampilkan", "1");
+        $this->db->order_by("a.jenis_soal");
+        $this->db->order_by("b.nomor_soal");
+        return $this->db->get()->result();
+    }
+    public function getSoalSiswaByNomor($id_soal_siswa)
+    {
+        $this->db->select("a.id_soal_siswa, a.id_bank, a.opsi_alias_a, a.opsi_alias_b, a.opsi_alias_c, a.opsi_alias_d, a.opsi_alias_e, a.no_soal_alias, a.jawaban_alias, a.soal_end, a.jawaban_siswa, b.id_soal, b.jenis, b.nomor_soal, b.soal, b.jawaban, b.opsi_a, b.opsi_b, b.opsi_c, b.opsi_d, b.opsi_e, b.tampilkan, c.tampil_pg, c.tampil_kompleks, c.tampil_jodohkan, c.tampil_isian, c.tampil_esai,");
+        $this->db->from("cbt_soal_siswa a");
+        $this->db->join("cbt_soal b", "b.id_soal=a.id_soal");
+        $this->db->join("cbt_bank_soal c", "b.id_bank=a.id_bank");
+        $this->db->where("a.id_soal_siswa", $id_soal_siswa);
+        $this->db->order_by("a.no_soal_alias");
+        return $this->db->get()->row();
+    }
+    public function getSettingKartu()
+    {
+        $this->db->select("*");
+        $this->db->from("cbt_kop_kartu");
+        return $this->db->get()->row();
+    }
+    public function getSettingKopAbsensi()
+    {
+        $this->db->select("a.*, b.logo_kanan, b.logo_kiri, b.kepsek, b.tanda_tangan");
+        $this->db->from("cbt_kop_absensi a");
+        $this->db->join("setting b", "b.id_setting=1", "left");
+        return $this->db->get()->row();
+    }
+    public function getSettingKopBeritaAcara()
+    {
+        $this->db->select("a.*, d.logo_kanan, d.logo_kiri, d.kepsek, d.nip, d.tanda_tangan, d.sekolah");
+        $this->db->from("cbt_kop_berita a");
+        $this->db->join("setting d", "d.id_setting=1", "left");
+        return $this->db->get()->row();
+    }
+    public function getDurasiSiswa($id)
+    {
+        return $this->db->get_where("cbt_durasi_siswa", "id_durasi=" . $id)->row();
+    }
+    public function getFilterJawabanSiswa($jadwal, $arrIdSiswa)
+    {
+        $this->db->where("id_jadwal", $jadwal);
+        $this->db->where_in("id_siswa", $arrIdSiswa);
+        return $this->db->get("cbt_soal_siswa")->result();
+    }
+    public function getFilterDurasiSiswa($jadwal, $arrIdSiswa)
+    {
+        $this->db->where("id_jadwal", $jadwal);
+        $result = $this->db->get_where("cbt_durasi_siswa")->result();
+        $ret = [];
+        foreach ($result as $key => $row) {
+            $ret[$row->id_durasi] = $row;
+        }
+        return $ret;
+    }
+    public function getJawabanByBank($id_bank, $id_siswa = null)
+    {
+        $this->db->select("a.*, b.nomor_soal, b.jawaban");
+        $this->db->from("cbt_soal_siswa a");
+        $this->db->join("cbt_soal b", "b.id_soal=a.id_soal");
+        if (!($id_siswa != null)) {
+            goto k4JXI;
+        }
+        $this->db->where("a.id_siswa=", $id_siswa);
+        k4JXI:
+        $this->db->where("a.id_bank=", $id_bank);
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function getJawabanSiswa($id)
+    {
+        $this->db->select("id_soal_siswa, id_bank, id_jadwal, id_soal, id_siswa, jenis_soal, no_soal_alias, opsi_alias_a, opsi_alias_b, opsi_alias_c, opsi_alias_d, opsi_alias_e, jawaban_alias, jawaban_siswa, jawaban_benar, point_soal");
+        $this->db->from("cbt_soal_siswa");
+        $this->db->where("id_soal_siswa=", $id);
+        return $this->db->get()->row();
+    }
+    public function getJawabanSiswaByJadwal($id_jadwal, $id_siswa = null)
+    {
+        $this->db->select("a.*, b.jenis, b.nomor_soal, b.soal, b.jawaban, b.opsi_a, b.opsi_b, b.opsi_c, b.opsi_d, b.opsi_e, b.tampilkan");
+        $this->db->from("cbt_soal_siswa a");
+        $this->db->join("cbt_soal b", "b.id_soal=a.id_soal");
+        if (!($id_siswa != null)) {
+            goto WNtL9;
+        }
+        if (is_array($id_siswa)) {
+            $this->db->where_in("a.id_siswa", $id_siswa);
+            goto cR8WN;
+        }
+        $this->db->where("a.id_siswa", $id_siswa);
+        cR8WN:
+        WNtL9:
+        $this->db->where("a.id_jadwal=", $id_jadwal);
+        $this->db->where("b.tampilkan", "1");
+        $this->db->order_by("a.jenis_soal");
+        $this->db->order_by("b.nomor_soal");
+        return $this->db->get()->result();
+    }
+    public function getIdSiswaFromJawabanByJadwal($id_jadwal)
+    {
+        $result = $this->db->get_where("cbt_soal_siswa", "id_jadwal=" . $id_jadwal)->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_siswa][] = $row;
+        }
+        return $retur;
+    }
+    public function getDurasiSiswaByJadwal($id_jadwal, $id_siswa = null)
+    {
+        $this->db->select("id_durasi, id_siswa, id_jadwal, status, lama_ujian, mulai, selesai, reset");
+        $this->db->from("cbt_durasi_siswa");
+        $this->db->where("id_jadwal=", $id_jadwal);
+        if (!($id_siswa != null)) {
+            goto c_FeS;
+        }
+        $this->db->where("id_siswa=", $id_siswa);
+        c_FeS:
+        return $this->db->get()->result();
+    }
+    public function getIdSiswaFromDurasiByJadwal($id_jadwal)
+    {
+        $result = $this->db->get_where("cbt_durasi_siswa", "id_jadwal=" . $id_jadwal)->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_siswa] = $row;
+        }
+        return $retur;
+    }
+    public function getLogUjianByJadwal($id_jadwal)
+    {
+        $this->db->select("id_log, log_time, id_siswa, id_jadwal, log_type, log_desc, address, agent, device, reset");
+        $this->db->from("log_ujian");
+        $this->db->where("id_jadwal=", $id_jadwal);
+        return $this->db->get()->result();
+    }
+    public function getIdSiswaFromLogUjianByJadwal($id_jadwal)
+    {
+        $result = $this->db->get_where("log_ujian", "id_jadwal=" . $id_jadwal)->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_siswa] = $row;
+        }
+        return $retur;
+    }
+    public function getNilaiSiswa($arr_jadwal, $id_siswa)
+    {
+        $this->db->select("*");
+        $this->db->from("cbt_nilai");
+        $this->db->where_in("id_jadwal", $arr_jadwal);
+        $this->db->where("id_siswa", $id_siswa);
+        $result = $this->db->get()->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_jadwal] = $row;
+        }
+        return $retur;
+    }
+    public function getNilaiSiswaByJadwal($id_jadwal, $id_siswa)
+    {
+        $this->db->select("*");
+        $this->db->from("cbt_nilai");
+        $this->db->where("id_jadwal", $id_jadwal);
+        $this->db->where("id_siswa", $id_siswa);
+        $result = $this->db->get()->row();
+        return $result;
+    }
+    public function getNilaiAllSiswa($arr_jadwal, $arr_id_siswa)
+    {
+        $this->db->select("*");
+        $this->db->from("cbt_nilai");
+        $this->db->where_in("id_jadwal", $arr_jadwal);
+        $this->db->where_in("id_siswa", $arr_id_siswa);
+        $result = $this->db->get()->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_siswa] = $row;
+        }
+        return $retur;
+    }
+    public function getAllNilaiSiswa($id_jadwal)
+    {
+        $this->db->select("*");
+        $this->db->from("cbt_nilai");
+        $this->db->where("id_jadwal", $id_jadwal);
+        $result = $this->db->get()->result();
+        $retur = [];
+        foreach ($result as $row) {
+            $retur[$row->id_siswa] = $row;
+        }
+        return $retur;
+    }
+    public function getTotalKoreksi()
+    {
+        $this->db->select("id_jadwal, dikoreksi, id_siswa");
+        $this->db->from("cbt_nilai");
+        $result = $this->db->get()->result();
+        $retur = [];
+        foreach ($result as $row) {
+            if (!($row->id_siswa != null)) {
+                goto LW32s;
+            }
+            $retur[$row->id_jadwal][$row->dikoreksi][] = $row->id_siswa;
+            LW32s:
+        }
+        return $retur;
+    }
+    public function getNilaiAnalisis($id_jadwal)
+    {
+        return $this->db->get_where("cbt_nilai", "id_jadwal=" . $id_jadwal)->result();
+    }
+    public function getLogUjian($siswa_id, $id_jadwal)
+    {
+        return $this->db->get_where("log_ujian", "id_siswa=" . $siswa_id . " AND id_jadwal=" . $id_jadwal)->result();
+    }
+    public function getNomorPeserta($id_siswa)
+    {
+        return $this->db->get_where("cbt_nomor_peserta", "id_siswa=" . $id_siswa)->row();
+    }
+    public function getAllNomorPeserta()
+    {
+        $this->db->select("*");
+        $result = $this->db->get("cbt_nomor_peserta")->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->id_siswa] = $row;
+        }
+        return $ret;
+    }
+    public function getDistinctTahun()
+    {
+        $this->db->select("tp");
+        $this->db->distinct();
+        $result = $this->db->get("cbt_rekap_nilai")->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->tp] = $row->tp;
+        }
+        return $ret;
+    }
+    public function getDistinctSmt()
+    {
+        $this->db->select("smt");
+        $this->db->distinct();
+        $result = $this->db->get("cbt_rekap_nilai")->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->smt] = $row->smt;
+        }
+        return $ret;
+    }
+    public function getDistinctJenisUjian()
+    {
+        $this->db->select("tp, smt, kode_jenis");
+        $this->db->distinct();
+        $result = $this->db->get("cbt_rekap_nilai")->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->tp][$row->smt][$row->kode_jenis] = $row->kode_jenis;
+        }
+        return $ret;
+    }
+    public function getDistinctJenis()
+    {
+        $this->db->select("id_jenis, tp, smt, kode_jenis");
+        $this->db->distinct();
+        $result = $this->db->get("cbt_rekap_nilai")->result();
+        $ret = [];
+        foreach ($result as $row) {
+            $ret[$row->tp][$row->smt][$row->id_jenis] = $row->kode_jenis;
+        }
+        return $ret;
+    }
+    public function getDistinctKelas($id_jadwal = null)
+    {
+        $this->db->select("a.tp, a.smt, a.kode_jenis, a.id_kelas, b.nama_kelas");
+        $this->db->distinct();
+        $this->db->from("cbt_rekap_nilai a");
+        if (!($id_jadwal != null)) {
+            goto r8Fmt;
+        }
+        $this->db->where("id_jadwal", $id_jadwal);
+        r8Fmt:
+        $this->db->join("master_kelas b", "b.id_kelas=a.id_kelas");
+        $result = $this->db->get()->result();
+        $ret = [];
+        foreach ($result as $row) {
+            if (!($row->id_kelas != '')) {
+                goto UUEwW;
+            }
+            $ret[$row->tp][$row->smt][$row->kode_jenis][$row->id_kelas] = $row->nama_kelas;
+            UUEwW:
+        }
+        return $ret;
+    }
+}

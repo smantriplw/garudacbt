@@ -1,6 +1,6 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
+defined('BASEPATH') or exit('No direct script access allowed');
 /*
 |--------------------------------------------------------------------------
 | Enable/Disable Migrations
@@ -12,7 +12,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['migration_enabled'] = TRUE;
-
 /*
 |--------------------------------------------------------------------------
 | Migration Type
@@ -29,9 +28,8 @@ $config['migration_enabled'] = TRUE;
 |       defaults to 'sequential' for backward compatibility with CI2.
 |
 */
- $config['migration_type'] = 'timestamp';
+$config['migration_type'] = 'timestamp';
 //$config['migration_type'] = 'sequential';
-
 /*
 |--------------------------------------------------------------------------
 | Migrations table
@@ -45,7 +43,6 @@ $config['migration_enabled'] = TRUE;
 |
 */
 $config['migration_table'] = 'migrations';
-
 /*
 |--------------------------------------------------------------------------
 | Auto Migrate To Latest
@@ -59,7 +56,6 @@ $config['migration_table'] = 'migrations';
 |
 */
 $config['migration_auto_latest'] = TRUE;
-
 /*
 |--------------------------------------------------------------------------
 | Migrations version
@@ -71,7 +67,6 @@ $config['migration_auto_latest'] = TRUE;
 |
 */
 $config['migration_version'] = 20211212140002;
-
 /*
 |--------------------------------------------------------------------------
 | Migrations Path
@@ -82,4 +77,4 @@ $config['migration_version'] = 20211212140002;
 | Also, writing permission is required within the migrations path.
 |
 */
-$config['migration_path'] = APPPATH.'migrations/';
+$config['migration_path'] = "APPPATHmigrations/";

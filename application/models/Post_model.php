@@ -1,7 +1,57 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Post_model extends CI_Model { public function getPostUser($id_user) { goto I0isy; uTK_j: $this->db->from("\160\x6f\163\164\x20\x61"); goto vK3ff; LBFGj: eron_: goto W70Lv; KtSEQ: return $posts; goto BN3mS; fCu2R: $posts = $this->db->get()->result(); goto KtSEQ; W70Lv: $this->db->order_by("\141\56\x75\x70\x64\x61\164\x65\144", "\144\145\x73\x63"); goto fCu2R; I0isy: $this->db->select("\x61\x2e\x2a\x2c\x20\142\x2e\x6e\x61\155\141\x5f\x67\x75\162\165\54\40\142\56\x66\x6f\x74\x6f\54\40\x28\x53\x45\x4c\105\x43\124\x20\x43\117\x55\116\x54\x28\160\157\x73\x74\x5f\143\x6f\155\155\145\156\164\163\x2e\x69\144\x5f\x63\x6f\155\x6d\145\x6e\164\x29\x20\106\122\x4f\115\x20\x70\157\163\164\x5f\x63\157\x6d\x6d\x65\x6e\x74\163\x20\x57\110\105\x52\x45\x20\141\56\151\x64\137\x70\x6f\x73\x74\40\x3d\x20\160\x6f\163\x74\x5f\143\157\x6d\155\145\x6e\x74\163\x2e\x69\x64\x5f\160\x6f\x73\x74\51\x20\101\x53\40\x6a\155\x6c"); goto uTK_j; fCD0C: if (!($id_user != 0)) { goto eron_; } goto uhaWc; vK3ff: $this->db->join("\155\141\163\x74\145\x72\x5f\147\165\x72\165\40\142", "\141\56\x64\x61\x72\x69\x3d\x62\x2e\x69\x64\137\x67\x75\162\165", "\154\145\x66\164"); goto fCD0C; uhaWc: $this->db->where("\x61\56\144\x61\162\x69", $id_user); goto LBFGj; BN3mS: } public function getPostForUser($kepada, $kelas = null) { goto I0iE3; Ovihz: mycvK: goto hf2rN; hf2rN: $this->db->order_by("\x61\x2e\x75\160\x64\141\x74\x65\x64", "\144\145\163\x63"); goto ToW1T; I0iE3: $this->db->select("\141\x2e\x2a\54\40\x62\x2e\156\141\x6d\x61\x5f\x67\x75\x72\165\54\x20\x62\x2e\x66\x6f\x74\x6f\54\40\x28\x53\x45\x4c\x45\x43\124\40\103\x4f\x55\x4e\x54\50\x70\157\163\x74\x5f\143\x6f\x6d\155\x65\x6e\x74\x73\56\151\x64\137\x63\157\155\155\145\x6e\x74\51\x20\106\122\x4f\115\x20\x70\157\x73\164\x5f\143\157\x6d\155\x65\156\x74\x73\40\127\x48\x45\122\x45\x20\141\56\151\x64\x5f\160\x6f\163\164\x20\75\40\x70\157\x73\164\137\x63\x6f\x6d\155\x65\x6e\x74\163\56\151\x64\137\x70\x6f\x73\164\x29\x20\101\123\40\x6a\155\x6c"); goto YWz62; InMDj: return $posts; goto TL382; YWz62: $this->db->from("\160\x6f\163\164\x20\141"); goto LiZlg; LiZlg: $this->db->join("\x6d\141\163\x74\145\162\x5f\x67\x75\x72\x75\40\142", "\141\56\144\x61\x72\151\x3d\x62\x2e\151\144\137\x67\x75\x72\165", "\x6c\145\146\164"); goto pMsW4; ToW1T: $posts = $this->db->get()->result(); goto InMDj; c_ne8: $this->db->where("\x28\141\56\153\145\x70\141\144\x61\x20\114\x49\113\x45\40" . $kepada . "\51\x20\117\x52\40\x28\x61\x2e\x6b\145\x70\x61\144\x61\x20\114\x49\113\105\x20" . $kelas . "\x29"); goto Ovihz; pMsW4: if (!($kepada != null)) { goto mycvK; } goto c_ne8; TL382: } public function getIdComments($id_post) { goto XeH0B; R2c8r: return $ids; goto fKf7Q; XeH0B: $this->db->select("\151\x64\x5f\143\x6f\155\x6d\145\x6e\164"); goto Dbg20; Dbg20: $this->db->where("\x69\x64\137\160\x6f\x73\164", $id_post); goto OBlxS; OBlxS: $ids = $this->db->get("\x70\x6f\x73\x74\x5f\x63\x6f\155\155\x65\156\x74\163")->result(); goto R2c8r; fKf7Q: } public function getIdReplies($id_comment) { goto f8kET; uuq10: FOAF_: goto VNiyt; PGTQI: goto FOAF_; goto Wdqh0; VNiyt: $ids = $this->db->get("\160\157\x73\164\x5f\x72\145\x70\x6c\x79")->result(); goto rdTHb; Wdqh0: W63SI: goto C1aNE; koE1L: $this->db->where("\151\x64\137\143\x6f\155\155\x65\156\x74", $id_comment); goto PGTQI; C1aNE: $this->db->where_in("\x69\144\x5f\x63\x6f\x6d\155\x65\156\164", $id_comment); goto uuq10; f8kET: $this->db->select("\x69\144\x5f\x72\145\x70\x6c\171"); goto mUVjJ; mUVjJ: if (is_array($id_comment)) { goto W63SI; } goto koE1L; rdTHb: return $ids; goto J8qUh; J8qUh: } }
+class Post_model extends CI_Model
+{
+    public function getPostUser($id_user)
+    {
+        $this->db->select("a.*, b.nama_guru, b.foto, (SELECT COUNT(post_comments.id_comment) FROM post_comments WHERE a.id_post = post_comments.id_post) AS jml");
+        $this->db->from("post a");
+        $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+        if (!($id_user != 0)) {
+            goto eron_;
+        }
+        $this->db->where("a.dari", $id_user);
+        eron_:
+        $this->db->order_by("a.updated", "desc");
+        $posts = $this->db->get()->result();
+        return $posts;
+    }
+    public function getPostForUser($kepada, $kelas = null)
+    {
+        $this->db->select("a.*, b.nama_guru, b.foto, (SELECT COUNT(post_comments.id_comment) FROM post_comments WHERE a.id_post = post_comments.id_post) AS jml");
+        $this->db->from("post a");
+        $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+        if (!($kepada != null)) {
+            goto mycvK;
+        }
+        $this->db->where("(a.kepada LIKE " . $kepada . ") OR (a.kepada LIKE " . $kelas . ")");
+        mycvK:
+        $this->db->order_by("a.updated", "desc");
+        $posts = $this->db->get()->result();
+        return $posts;
+    }
+    public function getIdComments($id_post)
+    {
+        $this->db->select("id_comment");
+        $this->db->where("id_post", $id_post);
+        $ids = $this->db->get("post_comments")->result();
+        return $ids;
+    }
+    public function getIdReplies($id_comment)
+    {
+        $this->db->select("id_reply");
+        if (is_array($id_comment)) {
+            $this->db->where_in("id_comment", $id_comment);
+            goto uuq10;
+        }
+        $this->db->where("id_comment", $id_comment);
+        uuq10:
+        $ids = $this->db->get("post_reply")->result();
+        return $ids;
+    }
+}

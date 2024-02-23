@@ -1,7 +1,66 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\x42\101\x53\105\x50\x41\x54\x48") or exit("\116\x6f\x20\x64\x69\x72\145\143\164\40\163\143\162\x69\160\x74\40\x61\x63\143\145\x73\x73\x20\141\x6c\154\157\x77\x65\x64"); class Migrate extends CI_Controller { public function index() { echo "\103\157\x6e\x74\x72\x6f\154\154\x65\162\40\x66\x69\154\145\x20\x69\x6e\144\x65\x78\x20\x6d\145\x74\x68\157\x64\40\x72\x75\x6e\56"; } public function CreateMigration($version = "\x32\x30\62\63\60\x39\60\62\60\60\60\x30\60\60") { goto TROP9; w3PTx: echo "\124\150\145\x20\x6d\x69\147\x72\141\x74\151\x6f\x6e\40\x66\x69\x6c\x65\x20\150\x61\x73\x20\x65\170\145\x63\x75\164\x65\x64\x20\163\165\x63\143\145\x73\x73\x66\165\154\x6c\171\56"; goto ge15U; NnTGZ: p_iZZ: goto JhHV3; gbWlS: pO1ih: goto ztcoh; ge15U: goto p_iZZ; goto gbWlS; b4gZS: if ($this->migration->current() === FALSE) { goto pO1ih; } goto w3PTx; ztcoh: show_error($this->migration->error_string()); goto NnTGZ; TROP9: $this->load->library("\x6d\x69\x67\x72\141\x74\151\x6f\156"); goto b4gZS; JhHV3: } public function undoMigration($version = NULL) { goto UcNgh; TKwUJ: echo "\124\x68\145\40\x6d\151\147\x72\141\164\x69\157\x6e\40\x68\x61\163\x20\x62\x65\x65\x6e\40\x72\x65\166\x65\162\x74\145\144\40\163\165\143\143\145\x73\x73\x66\x75\154\154\171\56"; goto tf0e5; jzakg: WwVvq: goto w4r0F; W0Ris: if ($this->migration->version($penultimate)) { goto wg5j_; } goto leMSa; mwqAi: goto yfnP1; goto yNBfG; tf0e5: exit; goto DjTjn; cFdSC: $migrationKeys = array(); goto c5vzl; tVhye: exit; goto oxaM3; c5vzl: foreach ($migrations as $key => $migration) { $migrationKeys[] = $key; OD5M5: } goto jzakg; w2aNx: wg5j_: goto TKwUJ; yB0ig: xdJIa: goto evr0f; yNBfG: ybhgm: goto id9V2; FbZYC: goto yfnP1; goto yB0ig; id9V2: echo "\x54\x68\145\40\155\x69\x67\162\x61\164\x69\157\156\40\167\151\164\x68\x20\x73\x65\154\x65\x63\164\x65\144\40\166\x65\x72\163\x69\157\x6e\x20\x64\x6f\x65\x73\156\342\200\231\x74\x20\x65\x78\x69\163\x74\56"; goto u1Kb4; HnOjW: exit; goto mwqAi; evr0f: echo "\x54\x68\145\x20\x6d\151\x67\x72\141\164\151\157\x6e\x20\x77\141\163\x20\x75\156\144\x6f"; goto HnOjW; leMSa: echo "\103\x6f\x75\154\x64\x6e\x5c\xe2\200\x99\x74\40\x72\x6f\154\x6c\40\x62\141\143\x6b\40\164\150\x65\40\155\151\147\x72\x61\164\151\x6f\x6e\56"; goto tVhye; sPyDn: if (isset($version) && !array_key_exists($version, $migrations)) { goto ybhgm; } goto Y6Nug; UcNgh: $this->load->library("\x6d\x69\147\x72\x61\x74\x69\x6f\156"); goto t0yt3; t0yt3: $migrations = $this->migration->find_migrations(); goto cFdSC; oxaM3: goto KzE3F; goto w2aNx; DjTjn: KzE3F: goto FbZYC; w4r0F: if (isset($version) && array_key_exists($version, $migrations) && $this->migration->version($version)) { goto xdJIa; } goto sPyDn; u1Kb4: yfnP1: goto LpFG3; Y6Nug: $penultimate = sizeof($migrationKeys) == 1 ? 0 : $migrationKeys[sizeof($migrationKeys) - 2]; goto W0Ris; LpFG3: } public function resetMigration() { goto ie_wh; P4Ma5: goto kGHDu; goto Ay0GR; Ay0GR: TD6EZ: goto k2AtM; x2_8F: echo "\103\157\x75\154\144\x6e\x5c\xe2\200\x99\x74\x20\162\x65\163\x65\164\40\x6d\x69\x67\x72\141\164\x69\157\x6e\x2e"; goto O7UIv; Kgkc5: if ($this->migration->current() !== FALSE) { goto TD6EZ; } goto x2_8F; Azglv: return TRUE; goto XXrBa; ie_wh: $this->load->library("\x6d\x69\x67\x72\141\x74\151\x6f\156"); goto Kgkc5; O7UIv: show_error($this->migration->error_string()); goto gLmZQ; k2AtM: echo "\124\x68\145\40\x6d\x69\x67\162\141\164\x69\157\156\40\167\141\163\x20\x72\x65\x76\145\162\x74\x20\164\x6f\40\164\150\145\40\166\145\x72\x73\x69\x6f\156\x20\x73\x65\164\x20\x69\x6e\x20\x74\x68\145\x20\143\x6f\x6e\146\x69\147\x20\146\x69\x6c\145\x2e"; goto Azglv; XXrBa: kGHDu: goto QyfL2; gLmZQ: exit; goto P4Ma5; QyfL2: } function make_base() { $this->load->library("\x63\x69\x5f\x6d\x69\147\162\141\x74\151\x6f\156\x73\137\x67\145\x6e\145\x72\141\x74\x6f\x72\57\x53\x71\x6c\164\157\143\x69"); $this->sqltoci->generate("\153\x65\x6c\141\163\x5f\x6a\141\144\167\141\154\x5f\x6b\142\x6d"); } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Migrate extends CI_Controller
+{
+    public function index()
+    {
+        echo "Controller file index method run.";
+    }
+    public function CreateMigration($version = "20230902000000")
+    {
+        $this->load->library("migration");
+        if ($this->migration->current() === FALSE) {
+            show_error($this->migration->error_string());
+            goto NnTGZ;
+        }
+        echo "The migration file has executed successfully.";
+        NnTGZ:
+    }
+    public function undoMigration($version = NULL)
+    {
+        $this->load->library("migration");
+        $migrations = $this->migration->find_migrations();
+        $migrationKeys = array();
+        foreach ($migrations as $key => $migration) {
+            $migrationKeys[] = $key;
+        }
+        if (isset($version) && array_key_exists($version, $migrations) && $this->migration->version($version)) {
+            echo "The migration was undo";
+            exit;
+        }
+        if (isset($version) && !array_key_exists($version, $migrations)) {
+            echo "The migration with selected version doesn\xe2\x80\x99t exist.";
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        $penultimate = sizeof($migrationKeys) == 1 ? 0 : $migrationKeys[sizeof($migrationKeys) - 2];
+        if ($this->migration->version($penultimate)) {
+            echo "The migration has been reverted successfully.";
+            exit;
+        }
+        echo "Couldn\\\xe2\x80\x99t roll back the migration.";
+        exit;
+    }
+    public function resetMigration()
+    {
+        $this->load->library("migration");
+        if ($this->migration->current() !== FALSE) {
+            echo "The migration was revert to the version set in the config file.";
+            return true;
+        }
+        echo "Couldn\\\xe2\x80\x99t reset migration.";
+        show_error($this->migration->error_string());
+        exit;
+    }
+    function make_base()
+    {
+        $this->load->library("ci_migrations_generator/Sqltoci");
+        $this->sqltoci->generate("kelas_jadwal_kbm");
+    }
+}

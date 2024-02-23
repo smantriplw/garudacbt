@@ -1,7 +1,653 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\x42\101\123\105\120\101\x54\x48") or exit("\116\x6f\x20\144\151\x72\145\143\x74\x20\163\143\x72\151\x70\164\x20\141\143\143\145\163\x73\40\x61\x6c\154\x6f\x77\x65\x64"); use alhimik1986\PhpExcelTemplator\PhpExcelTemplator; class Datasiswa extends CI_Controller { public function __construct() { goto RGuaZ; G41Hn: bUXly: goto xAa3Z; uQvP7: Coj36: goto ejORd; GLPro: if (!$this->ion_auth->logged_in()) { goto bUXly; } goto NmZQI; yCs72: EhzFe: goto fK1Dw; NmZQI: if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("\x67\x75\x72\165"))) { goto EhzFe; } goto lTX7a; xAa3Z: redirect("\141\x75\x74\150"); goto uQvP7; YRlVI: $this->load->library(["\x64\141\x74\x61\x74\x61\142\x6c\145\x73", "\x66\x6f\x72\155\137\166\x61\154\x69\x64\141\x74\x69\x6f\156"]); goto NofYW; lTX7a: show_error("\110\141\156\x79\x61\x20\x41\x64\155\x69\x6e\x69\x73\164\162\x61\x74\157\x72\x20\x79\x61\156\x67\40\x64\151\x62\145\x72\x69\40\150\x61\x6b\x20\165\x6e\x74\165\153\x20\x6d\145\156\147\141\153\x73\145\163\x20\x68\141\x6c\141\155\x61\156\x20\x69\x6e\x69\54\x20\74\141\x20\x68\162\145\x66\75\x22" . base_url("\144\141\x73\x68\142\x6f\141\x72\x64") . "\42\x3e\113\145\x6d\x62\x61\154\x69\x20\x6b\x65\40\155\145\x6e\x75\x20\141\167\x61\x6c\x3c\x2f\x61\76", 403, "\x41\153\163\145\163\40\124\145\x72\x6c\141\162\141\156\x67"); goto yCs72; ejORd: $this->load->library("\165\160\x6c\157\x61\144"); goto YRlVI; NofYW: $this->form_validation->set_error_delimiters('', ''); goto P3T4Z; RGuaZ: parent::__construct(); goto GLPro; fK1Dw: goto Coj36; goto G41Hn; P3T4Z: } public function output_json($data, $encode = true) { goto TM4uP; TM4uP: if (!$encode) { goto GWSeq; } goto bfdDl; bfdDl: $data = json_encode($data); goto zAWOe; rz73D: $this->output->set_content_type("\141\160\x70\154\x69\x63\x61\x74\151\x6f\156\57\152\x73\x6f\x6e")->set_output($data); goto LKWWx; zAWOe: GWSeq: goto rz73D; LKWWx: } public function index() { goto ijsQA; ijsQA: $this->load->model("\104\x61\163\150\142\157\141\x72\x64\x5f\x6d\x6f\144\145\x6c", "\x64\141\163\150\x62\x6f\x61\162\144"); goto zKfMG; SiIEa: $searchTp = array_search("\61", array_column($tp, "\x61\143\x74\x69\166\x65")); goto b1DGV; b1DGV: $searchSmt = array_search("\61", array_column($smt, "\x61\x63\x74\x69\x76\145")); goto SipYG; eI7D5: $user = $this->ion_auth->user()->row(); goto G_wFP; gfA8v: $smtAktif = $smt[$searchSmt]; goto zIKZu; uUo2h: $this->load->view("\137\164\145\x6d\160\154\141\x74\x65\x73\57\x64\x61\x73\x68\x62\157\x61\x72\x64\x2f\x5f\150\x65\141\x64\x65\162", $data); goto UoN06; cdr2a: $data["\160\162\x6f\146\151\x6c\145"] = $this->dashboard->getProfileAdmin($user->id); goto xxWQX; a2JXl: $data["\x74\160"] = $tp; goto lg2uU; SipYG: $tpAktif = $tp[$searchTp]; goto gfA8v; UoN06: $this->load->view("\x6d\141\x73\164\145\x72\57\163\151\163\167\x61\x2f\144\x61\164\141"); goto AZg8S; WRNRa: $tp = $this->dashboard->getTahun(); goto E0R29; zKfMG: $this->load->model("\104\x72\x6f\x70\144\x6f\x77\156\137\155\157\x64\145\154", "\144\x72\x6f\x70\144\x6f\167\156"); goto eI7D5; xxWQX: $data["\x6b\x65\154\141\x73\163"] = $this->dropdown->getAllKelas($tpAktif->id_tp, $smtAktif->id_smt); goto uUo2h; AZg8S: $this->load->view("\137\164\145\155\160\154\x61\x74\x65\163\57\144\141\163\150\x62\x6f\x61\x72\x64\57\x5f\x66\x6f\157\x74\145\x72"); goto JOK68; zIKZu: $data["\x74\x70\x5f\141\x63\164\151\166\x65"] = $tpAktif; goto TCR1c; TCR1c: $data["\x73\x6d\164\x5f\141\143\x74\x69\166\x65"] = $smtAktif; goto cdr2a; lg2uU: $data["\x73\155\x74"] = $smt; goto SiIEa; G_wFP: $data = ["\x75\x73\x65\162" => $user, "\152\165\144\x75\x6c" => "\123\x69\x73\167\141", "\x73\x75\x62\152\x75\144\165\154" => "\x44\x61\164\x61\40\123\151\x73\167\141", "\163\145\164\164\x69\x6e\147" => $this->dashboard->getSetting()]; goto WRNRa; E0R29: $smt = $this->dashboard->getSemester(); goto a2JXl; JOK68: } public function data() { goto tKZrv; h9Idn: $this->output_json($this->master->getDataSiswa($tp->id_tp, $smt->id_smt), false); goto acWN5; YaWi8: $tp = $this->dashboard->getTahunActive(); goto fUXRl; gGhC8: $this->load->model("\104\141\163\150\142\157\141\162\x64\137\155\157\x64\145\x6c", "\x64\x61\x73\150\x62\x6f\141\162\144"); goto YaWi8; tKZrv: $this->load->model("\x4d\x61\x73\x74\x65\x72\x5f\155\157\x64\145\154", "\155\x61\163\x74\145\x72"); goto gGhC8; fUXRl: $smt = $this->dashboard->getSemesterActive(); goto h9Idn; acWN5: } public function list() { goto TQTj9; Y3BF9: $tp = $this->dashboard->getTahunActive(); goto XxsVd; h20i6: $page = $this->input->post("\x70\141\x67\145", true); goto amU2D; igU5o: $search = $this->input->post("\163\x65\x61\162\143\x68", true); goto Yx62x; TQTj9: $this->load->model("\115\141\163\164\x65\162\x5f\x6d\x6f\x64\x65\154", "\155\141\163\164\x65\x72"); goto ov3G4; ov3G4: $this->load->model("\104\x61\163\150\142\157\x61\162\144\x5f\155\x6f\x64\x65\154", "\x64\x61\x73\150\142\x6f\x61\162\x64"); goto h20i6; amU2D: $limit = $this->input->post("\x6c\x69\x6d\151\164", true); goto igU5o; Yx62x: $offset = ($page - 1) * $limit; goto Y3BF9; XxsVd: $smt = $this->dashboard->getSemesterActive(); goto YsIHj; OIyt1: $data = ["\154\x69\163\x74\x73" => $lists, "\x74\157\x74\141\154" => $count_siswa, "\160\141\147\145\x73" => ceil($count_siswa / $limit), "\x73\x65\141\x72\143\150" => $search, "\160\x65\162\x70\141\x67\145" => $limit]; goto XEAt2; YsIHj: $count_siswa = $this->master->getSiswaTotalPage($search); goto zklGG; zklGG: $lists = $this->master->getSiswaPage($tp->id_tp, $smt->id_smt, $offset, $limit, $search); goto OIyt1; XEAt2: $this->output_json($data); goto mXzd4; mXzd4: } public function add() { goto Y5xt7; FVrvK: $this->load->view("\137\164\x65\155\160\154\x61\x74\x65\163\57\144\x61\x73\150\142\x6f\x61\162\144\x2f\137\150\145\x61\x64\145\162", $data); goto Q7Odq; J1Tf4: $data["\x74\x69\x70\145"] = "\x61\144\144"; goto FVrvK; Y5xt7: $this->load->model("\x44\141\163\x68\142\x6f\141\162\144\x5f\x6d\157\144\x65\154", "\144\x61\163\x68\142\x6f\141\162\x64"); goto aLnSN; aLnSN: $user = $this->ion_auth->user()->row(); goto P2E3q; P2E3q: $data = ["\165\x73\145\162" => $user, "\152\165\x64\x75\x6c" => "\123\x69\163\x77\141", "\163\165\x62\x6a\x75\144\165\154" => "\x54\x61\x6d\x62\141\150\x20\x44\x61\164\x61\40\123\151\x73\x77\x61", "\163\x65\x74\164\151\156\x67" => $this->dashboard->getSetting()]; goto TU7bg; EfgG5: $data["\164\160\137\x61\x63\x74\x69\x76\145"] = $this->dashboard->getTahunActive(); goto tNIm0; rmcmo: $this->load->view("\x5f\x74\145\155\x70\x6c\141\x74\145\x73\57\144\x61\x73\x68\142\x6f\141\x72\x64\x2f\137\146\x6f\x6f\164\145\162"); goto Wl1ro; eQ4bG: $data["\160\x72\x6f\x66\151\x6c\x65"] = $this->dashboard->getProfileAdmin($user->id); goto J1Tf4; CDiHz: $data["\x73\x6d\164\x5f\x61\x63\164\151\x76\145"] = $this->dashboard->getSemesterActive(); goto eQ4bG; tNIm0: $data["\x73\x6d\x74"] = $this->dashboard->getSemester(); goto CDiHz; TU7bg: $data["\164\x70"] = $this->dashboard->getTahun(); goto EfgG5; Q7Odq: $this->load->view("\155\141\163\164\x65\x72\x2f\163\x69\x73\167\141\57\141\x64\x64"); goto rmcmo; Wl1ro: } public function create() { goto MVqnp; M3jD3: $siswa = $this->master->getSiswaById($id); goto aKywj; IM9W1: $id = $this->db->insert_id(); goto M3jD3; z0BeS: $nisn = $this->input->post("\156\151\x73\156", true); goto QFXhy; lB7X2: $this->form_validation->set_rules("\165\163\x65\x72\156\x61\x6d\145", "\125\x73\145\x72\x6e\141\x6d\145", "\162\x65\x71\x75\151\x72\x65\144\174\x74\x72\x69\155" . $u_name); goto FK68_; f_nLG: $this->output_json($data); goto T2oqa; k2BAH: $data["\164\x65\x78\164"] = "\104\141\164\141\40\123\x75\x64\141\x68\40\x61\144\141\54\x20\120\141\x73\164\151\153\x61\x6e\x20\x4e\111\x53\54\x20\116\x49\123\x4e\x20\x64\141\x6e\40\125\163\x65\x72\156\141\155\145\x20\142\x65\154\x75\x6d\x20\x64\151\x67\165\156\x61\x6b\141\156\40\163\x69\x73\167\x61\x20\x6c\x61\x69\x6e"; goto JehmN; k4YFy: $this->form_validation->set_rules("\156\151\163\x6e", "\x4e\111\123\116", "\162\x65\x71\x75\x69\162\x65\x64\x7c\x6e\165\x6d\x65\x72\151\x63\174\164\x72\x69\x6d\174\x6d\151\x6e\x5f\x6c\145\156\147\x74\150\x5b\66\x5d\174\155\141\170\137\154\145\156\x67\x74\x68\x5b\x32\60\135" . $u_nisn); goto lB7X2; oL99m: ZtGzl: goto oUymc; QekVE: $this->db->insert("\x62\165\x6b\x75\137\151\x6e\144\165\153", $induk); goto JX2Bj; LOOe_: $this->db->set("\165\x69\x64", "\125\x55\x49\104\50\x29", FALSE); goto nhq9D; JehmN: sYvqj: goto f_nLG; FK68_: if ($this->form_validation->run() == FALSE) { goto ZtGzl; } goto DbvbC; DbvbC: $insert = ["\156\141\x6d\141" => $this->input->post("\156\141\x6d\x61\137\x73\x69\x73\x77\x61", true), "\156\151\163" => $nis, "\156\x69\163\156" => $nisn, "\152\x65\x6e\151\x73\x5f\153\145\x6c\141\155\151\x6e" => $this->input->post("\x6a\145\x6e\x69\x73\137\153\145\154\141\155\x69\156", true), "\x6b\x65\154\141\x73\x5f\141\167\x61\154" => $this->input->post("\x6b\x65\154\x61\163\x5f\141\x77\x61\x6c", true), "\164\x61\x68\x75\x6e\137\155\141\x73\165\x6b" => $this->input->post("\x74\x61\x68\x75\156\x5f\x6d\141\163\165\x6b", true), "\x75\163\145\x72\156\141\x6d\145" => $username, "\x70\141\163\x73\x77\157\162\x64" => $this->input->post("\160\141\x73\x73\x77\x6f\162\144", true), "\x66\157\x74\157" => "\165\x70\x6c\x6f\141\x64\163\x2f\146\x6f\164\157\137\163\151\x73\167\141\57" . $nis . "\x6a\x70\147"]; goto LOOe_; bFoDV: goto sYvqj; goto oL99m; k2lVP: $this->form_validation->set_rules("\156\x69\x73", "\116\111\x53", "\x72\x65\x71\x75\151\162\x65\x64\x7c\x6e\x75\155\x65\162\151\x63\x7c\164\x72\151\155\x7c\x6d\x69\156\137\x6c\145\x6e\147\x74\x68\x5b\66\x5d\174\155\x61\x78\x5f\x6c\x65\x6e\147\164\150\x5b\63\60\x5d" . $u_nis); goto k4YFy; vxeXj: $u_nisn = "\174\151\163\x5f\165\156\x69\161\165\145\133\155\141\163\164\x65\x72\137\163\151\x73\167\141\56\x6e\151\163\156\135"; goto i6JpQ; MVqnp: $this->load->model("\x4d\x61\x73\164\x65\162\137\155\x6f\144\x65\154", "\x6d\x61\163\x74\x65\162"); goto hfYB3; aKywj: $induk = ["\x69\144\137\x73\151\163\167\141" => $id, "\165\151\x64" => $siswa->uid, "\163\x74\x61\164\x75\163" => 1]; goto QekVE; i6JpQ: $u_name = "\174\x69\x73\137\165\x6e\x69\x71\x75\145\x5b\155\141\163\164\x65\x72\137\163\x69\163\x77\x61\x2e\165\x73\145\162\156\141\x6d\145\135"; goto k2lVP; QFXhy: $username = $this->input->post("\x75\x73\x65\x72\x6e\x61\155\x65", true); goto BnfS7; hfYB3: $nis = $this->input->post("\x6e\x69\163", true); goto z0BeS; BnfS7: $u_nis = "\174\151\163\137\165\156\x69\161\x75\145\x5b\155\x61\x73\164\x65\x72\137\163\x69\x73\167\x61\56\156\x69\x73\x5d"; goto vxeXj; JX2Bj: $data["\164\145\x78\164"] = "\123\151\x73\167\141\x20\142\145\162\x68\141\x73\x69\x6c\x20\x64\x69\164\141\155\142\x61\x68\x6b\141\x6e"; goto bFoDV; oUymc: $data["\151\x6e\163\145\x72\164"] = false; goto k2BAH; nhq9D: $data["\x69\x6e\x73\x65\162\x74"] = $this->db->insert("\155\x61\163\164\x65\162\x5f\163\x69\x73\167\141", $insert); goto IM9W1; T2oqa: } public function edit($id) { goto q9Phz; tUgkM: $inputBio = [["\156\x61\155\145" => "\164\x65\155\160\x61\x74\137\x6c\141\x68\151\x72", "\154\141\142\145\154" => "\124\145\x6d\x70\x61\x74\x20\x4c\x61\150\151\162", "\x76\x61\x6c\x75\145" => $siswa->tempat_lahir, "\151\x63\157\x6e" => "\x66\x61\x72\x20\x66\141\55\155\141\x70", "\x63\154\x61\x73\163" => '', "\x74\x79\x70\x65" => "\x74\145\170\x74"], ["\x6e\141\x6d\145" => "\x74\141\x6e\147\x67\141\x6c\137\x6c\141\150\151\162", "\154\x61\x62\145\x6c" => "\x54\x61\x6e\147\147\141\154\40\114\141\x68\x69\162", "\166\141\x6c\x75\x65" => $siswa->tanggal_lahir, "\151\x63\157\156" => "\146\x61\x72\40\146\141\x2d\143\x61\x6c\145\156\144\141\162", "\x63\154\141\x73\163" => "\x74\x61\x68\x75\x6e", "\x74\171\160\145" => "\x74\145\x78\x74"], ["\x63\x6c\x61\x73\x73" => '', "\x6e\x61\155\x65" => "\141\147\x61\x6d\141", "\154\141\x62\x65\x6c" => "\101\x67\x61\x6d\x61", "\166\141\x6c\x75\x65" => $siswa->agama, "\x69\143\157\x6e" => "\x66\141\x72\x20\146\141\x2d\x63\141\154\x65\156\144\x61\162", "\164\171\160\145" => "\x74\x65\170\164"], ["\143\154\141\x73\163" => '', "\156\141\x6d\145" => "\x61\154\141\x6d\141\x74", "\x6c\141\142\145\x6c" => "\101\154\x61\x6d\x61\164", "\166\141\154\x75\x65" => $siswa->alamat, "\x69\143\157\156" => "\146\141\x72\x20\x66\x61\x2d\x75\163\145\x72", "\164\171\160\145" => "\x74\x65\x78\x74"], ["\143\x6c\141\x73\163" => '', "\156\141\155\145" => "\x72\x74", "\154\141\142\145\154" => "\x52\x74", "\x76\141\x6c\x75\145" => $siswa->rt, "\x69\x63\x6f\x6e" => "\x66\141\162\x20\x66\x61\55\x75\x73\x65\162", "\164\171\x70\145" => "\x74\x65\170\164"], ["\143\x6c\141\x73\163" => '', "\156\x61\155\x65" => "\162\x77", "\x6c\x61\142\145\154" => "\122\x77", "\x76\x61\x6c\x75\x65" => $siswa->rw, "\151\x63\157\x6e" => "\146\x61\162\40\x66\x61\x2d\165\163\x65\162", "\x74\171\x70\145" => "\164\x65\170\164"], ["\143\154\141\x73\163" => '', "\156\141\155\x65" => "\153\x65\x6c\165\x72\141\150\x61\x6e", "\x6c\x61\x62\145\x6c" => "\x4b\145\x6c\x75\x72\141\150\x61\x6e\57\x44\145\x73\141", "\166\x61\x6c\x75\145" => $siswa->kelurahan, "\151\x63\157\156" => "\146\x61\x72\x20\146\x61\55\165\163\x65\162", "\x74\171\x70\145" => "\164\x65\x78\x74"], ["\143\x6c\141\163\x73" => '', "\x6e\x61\155\x65" => "\x6b\x65\143\x61\x6d\x61\164\141\156", "\x6c\141\142\x65\154" => "\x4b\x65\143\x61\x6d\141\x74\x61\156", "\x76\x61\x6c\x75\x65" => $siswa->kecamatan, "\x69\143\157\x6e" => "\146\141\162\40\146\141\x2d\165\x73\145\162", "\164\x79\160\145" => "\164\145\170\164"], ["\x63\154\x61\x73\x73" => '', "\x6e\141\x6d\x65" => "\x6b\x61\142\165\160\x61\x74\x65\x6e", "\x6c\x61\x62\145\154" => "\x4b\141\142\x75\160\141\x74\145\156\x2f\x4b\x6f\164\141", "\166\141\154\x75\145" => $siswa->kabupaten, "\x69\143\157\x6e" => "\x66\141\162\40\146\x61\55\x75\163\145\162", "\x74\171\x70\145" => "\164\x65\170\x74"], ["\x63\x6c\141\163\163" => '', "\156\141\155\145" => "\153\x6f\x64\145\137\x70\157\x73", "\x6c\141\142\145\x6c" => "\113\157\144\x65\x20\120\x6f\x73", "\166\141\154\x75\145" => $siswa->kode_pos, "\x69\143\157\156" => "\146\x61\x72\x20\146\x61\55\x75\163\x65\x72", "\x74\x79\160\x65" => "\164\145\170\164"], ["\x63\x6c\x61\163\x73" => '', "\156\141\155\145" => "\150\x70", "\154\x61\x62\x65\x6c" => "\110\160", "\166\141\x6c\165\x65" => $siswa->hp, "\x69\143\157\156" => "\146\x61\x72\x20\x66\x61\55\x75\163\145\x72", "\164\171\160\145" => "\164\145\170\164"]]; goto Ap2Vi; T4gLj: $data["\151\156\x70\x75\164\137\x6f\162\164\x75"] = json_decode(json_encode($inputOrtu), FALSE); goto z0tu8; Nzo2B: $inputWali = [["\156\141\155\x65" => "\156\x61\155\x61\x5f\167\141\154\x69", "\154\x61\x62\x65\x6c" => "\x4e\x61\155\141\x20\127\x61\x6c\x69", "\166\141\154\x75\145" => $siswa->nama_wali, "\x69\x63\x6f\156" => "\146\141\162\40\146\141\x2d\x75\163\145\x72", "\x74\x79\160\x65" => "\164\145\170\x74"], ["\x6e\x61\x6d\145" => "\160\x65\153\145\x72\152\141\x61\x6e\x5f\167\x61\154\x69", "\154\x61\x62\x65\x6c" => "\x50\145\153\145\162\152\141\141\156\x20\x57\141\x6c\151", "\x76\141\x6c\x75\145" => $siswa->pekerjaan_wali, "\151\x63\157\156" => "\x66\141\x72\x20\146\141\55\165\x73\145\162", "\164\x79\160\145" => "\164\145\x78\164"], ["\156\x61\x6d\145" => "\x61\154\x61\x6d\x61\164\x5f\167\x61\154\151", "\x6c\141\142\145\x6c" => "\x41\x6c\141\x6d\141\x74\40\127\x61\154\151", "\166\141\x6c\165\x65" => $siswa->alamat_wali, "\151\x63\157\156" => "\x66\141\x72\40\x66\x61\55\x75\163\145\x72", "\164\171\160\x65" => "\164\145\x78\x74"], ["\x6e\x61\x6d\x65" => "\x6e\x6f\150\160\137\x77\x61\154\x69", "\154\141\x62\x65\154" => "\116\157\56\40\110\x50\x20\x57\x61\154\x69", "\x76\141\x6c\165\145" => $siswa->nohp_wali, "\x69\x63\x6f\156" => "\x66\x61\162\40\x66\141\x2d\x75\x73\x65\x72", "\164\x79\x70\145" => "\x6e\165\155\x62\145\x72"]]; goto sP2ym; GqmGN: $this->load->model("\x44\x61\163\x68\142\x6f\141\x72\x64\x5f\x6d\x6f\x64\145\x6c", "\144\x61\163\x68\142\x6f\141\x72\144"); goto UOjl0; oY90o: $this->load->view("\x6d\x65\x6d\142\145\162\163\57\147\x75\x72\165\57\164\145\155\x70\x6c\x61\x74\145\x73\x2f\x66\x6f\x6f\164\145\x72"); goto Mvt7H; Ap2Vi: $inputOrtu = [["\156\141\155\x65" => "\x73\164\141\x74\x75\x73\137\x6b\x65\x6c\165\x61\162\x67\x61", "\154\x61\142\x65\x6c" => "\x53\x74\x61\x74\x75\x73\x20\x4b\x65\x6c\x75\141\162\147\x61", "\x76\x61\154\165\145" => $siswa->status_keluarga, "\x69\x63\157\x6e" => "\x66\141\162\40\146\x61\x2d\165\163\x65\x72", "\164\x79\160\145" => "\x74\x65\x78\x74"], ["\x6e\x61\155\x65" => "\141\x6e\x61\x6b\x5f\153\145", "\x6c\141\142\145\154" => "\x41\x6e\x61\x6b\x20\153\x65", "\x76\141\154\165\x65" => $siswa->anak_ke, "\151\x63\157\156" => "\146\x61\162\40\x66\x61\x2d\x75\x73\145\162", "\x74\171\x70\145" => "\156\x75\155\x62\145\x72"], ["\156\141\x6d\145" => "\x6e\x61\x6d\141\x5f\x61\x79\141\x68", "\x6c\141\142\x65\154" => "\116\x61\155\141\40\101\x79\x61\x68", "\166\x61\x6c\x75\x65" => $siswa->nama_ayah, "\151\143\x6f\156" => "\x66\141\x72\x20\x66\x61\55\165\163\x65\162", "\164\x79\160\145" => "\x74\x65\x78\164"], ["\x6e\141\x6d\x65" => "\160\145\153\145\162\152\x61\141\156\x5f\141\171\x61\150", "\x6c\141\x62\x65\x6c" => "\x50\x65\x6b\x65\162\152\x61\141\156\x20\101\171\141\150", "\166\141\154\165\x65" => $siswa->pekerjaan_ayah, "\151\143\157\156" => "\146\141\162\40\x66\x61\x2d\x75\163\145\162", "\164\x79\x70\145" => "\164\x65\x78\x74"], ["\156\141\155\145" => "\141\154\141\x6d\x61\164\137\141\x79\x61\150", "\x6c\x61\142\x65\x6c" => "\x41\x6c\x61\155\141\164\x20\x41\x79\141\150", "\x76\x61\x6c\165\x65" => $siswa->alamat_ayah, "\151\143\x6f\x6e" => "\x66\x61\x72\40\x66\141\x2d\x75\163\x65\162", "\x74\x79\x70\145" => "\x74\145\170\164"], ["\156\x61\155\x65" => "\156\157\x68\160\137\141\171\x61\x68", "\154\141\x62\145\154" => "\x4e\x6f\56\40\x48\120\40\x41\x79\141\x68", "\166\141\154\165\x65" => $siswa->nohp_ayah, "\151\143\x6f\156" => "\x66\x61\162\x20\x66\x61\x2d\x75\163\x65\162", "\164\171\160\145" => "\156\165\155\142\145\x72"], ["\156\141\x6d\145" => "\x6e\141\x6d\141\x5f\151\142\x75", "\x6c\141\x62\145\x6c" => "\116\x61\x6d\x61\40\x49\142\165", "\x76\141\154\165\x65" => $siswa->nama_ibu, "\x69\143\157\156" => "\x66\141\x72\40\146\141\x2d\165\163\x65\162", "\x74\171\x70\x65" => "\x74\145\170\164"], ["\156\141\155\145" => "\160\x65\x6b\x65\162\152\141\141\x6e\137\x69\x62\165", "\154\x61\x62\145\154" => "\120\x65\153\x65\162\152\x61\141\x6e\x20\111\142\165", "\x76\x61\x6c\x75\145" => $siswa->pekerjaan_ibu, "\x69\143\x6f\x6e" => "\x66\x61\x72\40\146\141\x2d\165\x73\x65\162", "\164\171\x70\145" => "\164\x65\170\164"], ["\156\x61\155\x65" => "\x61\154\141\155\x61\x74\137\x69\142\x75", "\154\141\x62\x65\154" => "\x41\x6c\141\x6d\x61\164\40\x49\x62\165", "\x76\x61\154\165\145" => $siswa->alamat_ibu, "\x69\x63\157\x6e" => "\146\x61\x72\40\x66\141\x2d\165\x73\145\162", "\x74\171\x70\x65" => "\164\x65\x78\x74"], ["\156\x61\x6d\x65" => "\x6e\157\x68\x70\x5f\x69\x62\x75", "\154\x61\142\145\x6c" => "\x4e\x6f\56\x20\x48\120\40\x49\x62\165", "\166\x61\x6c\x75\145" => $siswa->nohp_ibu, "\x69\x63\157\156" => "\146\x61\162\x20\x66\x61\55\165\x73\145\x72", "\164\171\160\145" => "\156\x75\155\142\145\x72"]]; goto Nzo2B; WsYRV: $inputData = [["\x6c\x61\142\145\x6c" => "\x4e\141\x6d\x61\40\114\x65\x6e\x67\153\141\x70", "\x6e\141\155\145" => "\x6e\141\x6d\141", "\166\141\154\165\x65" => $siswa->nama, "\151\x63\157\156" => "\x66\141\162\x20\146\141\55\165\x73\x65\x72", "\x63\x6c\141\163\163" => '', "\x74\171\x70\145" => "\164\145\170\164"], ["\x6c\x61\x62\145\154" => "\116\111\x53", "\156\x61\155\x65" => "\156\151\163", "\166\141\x6c\x75\x65" => $siswa->nis, "\151\143\x6f\x6e" => "\x66\x61\x72\x20\146\x61\55\x69\x64\x2d\x63\141\x72\x64", "\143\154\141\x73\x73" => '', "\164\171\160\145" => "\156\x75\x6d\x62\x65\x72"], ["\156\141\155\x65" => "\156\151\163\156", "\154\141\142\x65\154" => "\116\x49\123\116", "\x76\141\154\165\145" => $siswa->nisn, "\151\143\x6f\156" => "\146\141\x72\40\146\141\x2d\x69\144\55\143\141\162\x64", "\143\154\141\x73\x73" => '', "\x74\171\x70\x65" => "\x74\145\170\x74"], ["\154\x61\142\145\x6c" => "\112\145\156\151\163\40\x4b\145\x6c\141\155\x69\156", "\156\x61\155\145" => "\x6a\x65\x6e\151\163\x5f\153\x65\154\x61\x6d\x69\x6e", "\x76\x61\x6c\165\145" => $siswa->jenis_kelamin, "\151\x63\157\156" => "\146\x61\163\40\x66\141\x2d\166\145\156\165\x73\x2d\x6d\x61\x72\163", "\x63\x6c\x61\x73\163" => '', "\x74\171\x70\x65" => "\x74\145\x78\x74"], ["\x6e\141\x6d\145" => "\153\x65\154\x61\x73\x5f\x61\167\x61\x6c", "\x6c\x61\142\145\x6c" => "\104\151\164\145\x72\x69\x6d\141\40\x64\151\x20\x6b\145\x6c\141\x73", "\166\x61\x6c\x75\145" => $siswa->kelas_awal, "\151\x63\157\x6e" => "\x66\x61\163\x20\146\141\x2d\147\x72\x61\144\x75\141\164\151\157\156\x2d\143\141\160", "\x63\154\x61\x73\x73" => '', "\164\171\160\145" => "\164\x65\x78\164"], ["\x6e\141\x6d\145" => "\164\x61\150\165\x6e\137\x6d\141\163\x75\x6b", "\x6c\141\x62\145\x6c" => "\124\147\x6c\40\144\151\164\145\162\x69\x6d\x61", "\166\x61\x6c\165\x65" => $siswa->tahun_masuk, "\151\x63\x6f\156" => "\x74\x61\x68\x75\x6e\x20\146\141\x72\x20\x66\x61\x2d\143\x61\154\145\x6e\144\141\162\55\x61\x6c\x74", "\x63\154\x61\x73\x73" => "\x74\x61\150\x75\156", "\164\x79\160\x65" => "\x74\145\170\x74"], ["\x6e\x61\155\145" => "\x73\x65\x6b\x6f\x6c\x61\x68\137\x61\163\x61\154", "\154\x61\x62\x65\x6c" => "\x53\x65\x6b\157\154\141\x68\40\x41\x73\141\154", "\x76\141\154\x75\145" => $siswa->sekolah_asal, "\x69\143\x6f\156" => "\x66\141\x73\x20\146\141\55\x67\162\x61\144\165\x61\164\x69\x6f\156\x2d\143\x61\160", "\x63\x6c\x61\163\163" => '', "\x74\171\x70\x65" => "\164\x65\170\164"], ["\x6e\x61\155\145" => "\x73\164\x61\x74\165\x73", "\154\x61\142\145\x6c" => "\123\164\x61\x74\x75\x73", "\166\x61\x6c\x75\145" => $siswa->status, "\x69\x63\157\x6e" => "\146\x61\x72\40\146\141\55\x75\163\x65\162", "\x63\x6c\141\163\163" => "\163\x74\x61\164\165\x73", "\x74\x79\160\145" => "\164\145\x78\164"]]; goto tUgkM; qnj25: $data["\x73\x6d\x74"] = $this->dashboard->getSemester(); goto rb0Xy; paKfU: $this->load->view("\155\x65\x6d\x62\x65\162\163\57\x67\x75\162\165\x2f\x74\x65\155\160\x6c\141\x74\x65\163\57\150\x65\x61\x64\145\x72", $data); goto Od9Sb; S7udq: if ($this->ion_auth->is_admin()) { goto YSgbS; } goto ncZgI; Nv0dv: $data["\x69\x6e\x70\165\164\x5f\x64\141\164\141"] = json_decode(json_encode($inputData), FALSE); goto WUMgP; UOjl0: $siswa = $this->master->getSiswaById($id); goto WsYRV; sP2ym: $user = $this->ion_auth->user()->row(); goto RVy9i; o8hea: $data["\x74\x70"] = $this->dashboard->getTahun(); goto qnj25; NYc1Q: $data["\x70\x72\x6f\x66\151\x6c\145"] = $this->dashboard->getProfileAdmin($user->id); goto S7udq; GzYFY: Y3uWi: goto FsQC0; ncZgI: $data["\147\x75\162\165"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto paKfU; T4GMF: $this->load->view("\x6d\x61\x73\164\145\162\57\163\x69\163\x77\141\57\x65\x64\x69\x74"); goto KQ_oP; Jv9BY: $tp = $this->master->getTahunActive(); goto LF0ub; z0tu8: $data["\x69\x6e\160\x75\164\x5f\167\x61\x6c\151"] = json_decode(json_encode($inputWali), FALSE); goto NYc1Q; q9Phz: $this->load->model("\x4d\x61\x73\164\145\x72\137\x6d\x6f\144\x65\x6c", "\x6d\x61\x73\x74\x65\x72"); goto GqmGN; c4ljQ: YSgbS: goto gDExz; Od9Sb: $this->load->view("\x6d\x61\x73\x74\x65\x72\57\163\151\163\x77\x61\57\145\x64\151\164"); goto oY90o; gDExz: $this->load->view("\137\x74\x65\155\x70\x6c\x61\x74\x65\163\x2f\144\x61\x73\x68\142\157\141\x72\144\57\137\150\x65\141\144\x65\x72", $data); goto T4GMF; RVy9i: $data = ["\x75\163\x65\x72" => $user, "\x6a\x75\x64\165\x6c" => "\123\x69\163\x77\141", "\163\x75\x62\x6a\165\144\x75\x6c" => "\105\144\x69\x74\40\x44\141\164\x61\40\x53\151\163\167\x61", "\x73\x69\x73\x77\x61" => $siswa, "\x73\x65\164\164\x69\156\x67" => $this->dashboard->getSetting()]; goto Jv9BY; Mvt7H: goto Y3uWi; goto c4ljQ; WUMgP: $data["\151\x6e\160\165\x74\x5f\142\x69\x6f"] = json_decode(json_encode($inputBio), FALSE); goto T4gLj; lCjWZ: $data["\163\155\164\x5f\x61\x63\x74\x69\x76\x65"] = $smt; goto Nv0dv; LF0ub: $smt = $this->master->getSemesterActive(); goto o8hea; rb0Xy: $data["\x74\160\x5f\x61\143\x74\151\x76\145"] = $tp; goto lCjWZ; KQ_oP: $this->load->view("\137\x74\145\155\x70\154\x61\164\145\163\57\x64\141\x73\150\x62\157\141\162\144\57\137\146\x6f\x6f\164\x65\x72"); goto GzYFY; FsQC0: } public function updateData() { goto f8T24; vTpjq: $tgl_masuk = $this->input->post("\x74\x61\150\165\x6e\x5f\155\141\163\x75\x6b", true); goto DsS5o; VUbb4: KvprV: goto YxsXY; oejzW: goto j_nUx; goto VUbb4; NuRlW: $data["\x74\x65\170\x74"] = "\123\x69\163\x77\141\40\x62\x65\x72\150\141\163\151\x6c\40\x64\151\x70\145\162\x62\x61\x68\x61\162\x75\151"; goto oejzW; Dj2HH: $u_nisn = $siswa->nisn === $nisn ? '' : "\x7c\x69\163\137\x75\x6e\x69\161\x75\x65\133\155\141\x73\x74\145\x72\137\163\151\163\x77\x61\56\x6e\x69\x73\156\x5d"; goto umNhA; umNhA: $this->form_validation->set_rules("\156\x69\x73", "\x4e\x49\123", "\x72\x65\161\165\x69\x72\x65\144\174\x6e\165\x6d\x65\162\x69\143\x7c\x74\x72\151\155\x7c\155\x69\156\x5f\x6c\x65\156\x67\164\x68\133\66\x5d\174\155\x61\170\137\154\145\x6e\x67\164\x68\x5b\x33\x30\x5d" . $u_nis); goto Y0kkf; O1YwB: $id_siswa = $this->input->post("\x69\144\x5f\163\x69\x73\167\x61", true); goto dEVuZ; YxsXY: $data["\x69\x6e\x73\x65\162\164"] = false; goto I58Wh; f8T24: $this->load->model("\115\x61\163\164\145\162\137\x6d\x6f\144\x65\x6c", "\x6d\x61\163\x74\x65\162"); goto O1YwB; xK8Re: j_nUx: goto Zu_NR; H0uZP: $tgl_lahir = $this->input->post("\164\x61\x6e\x67\x67\141\x6c\x5f\154\x61\x68\151\x72", true); goto vTpjq; bvYKu: $nisn = $this->input->post("\156\x69\x73\156", true); goto qe0qs; DsS5o: $input = ["\156\x69\x73\156" => $this->input->post("\x6e\151\x73\156", true), "\156\151\163" => $this->input->post("\x6e\x69\163", true), "\x6e\141\x6d\141" => $this->input->post("\x6e\141\x6d\141", true), "\152\x65\156\x69\x73\137\x6b\x65\x6c\141\155\x69\156" => $this->input->post("\152\x65\156\x69\163\x5f\x6b\145\154\141\x6d\x69\156", true), "\164\145\155\x70\141\164\137\154\141\x68\151\x72" => $this->input->post("\x74\x65\x6d\160\x61\164\137\154\x61\x68\151\x72", true), "\164\141\156\147\147\141\154\137\154\141\x68\151\x72" => $this->strContains($tgl_lahir, "\x30\x30\x30\x30\55") ? null : $tgl_lahir, "\x61\x67\141\x6d\x61" => $this->input->post("\141\147\141\x6d\x61", true), "\x73\x74\x61\x74\x75\163\137\153\145\154\165\x61\162\x67\141" => $this->input->post("\x73\164\141\164\x75\163\x5f\x6b\x65\x6c\x75\x61\x72\x67\141", true), "\141\x6e\x61\153\137\x6b\145" => $this->input->post("\141\156\x61\153\137\x6b\x65", true), "\x61\x6c\x61\155\x61\164" => $this->input->post("\141\154\x61\155\x61\x74", true), "\162\164" => $this->input->post("\162\164", true), "\162\167" => $this->input->post("\x72\x77", true), "\x6b\x65\154\x75\x72\x61\150\141\x6e" => $this->input->post("\x6b\x65\154\165\x72\141\150\x61\156", true), "\x6b\x65\x63\141\155\x61\164\x61\x6e" => $this->input->post("\x6b\x65\143\x61\x6d\x61\164\141\156", true), "\153\141\142\x75\x70\141\164\145\x6e" => $this->input->post("\x6b\141\x62\165\160\141\164\x65\156", true), "\x70\x72\157\x76\x69\156\163\151" => $this->input->post("\160\x72\x6f\166\x69\x6e\163\x69", true), "\x6b\157\x64\145\137\x70\x6f\x73" => $this->input->post("\153\x6f\144\x65\x5f\160\x6f\x73", true), "\150\x70" => $this->input->post("\150\160", true), "\156\141\x6d\141\137\x61\x79\x61\x68" => $this->input->post("\156\141\x6d\141\137\141\171\x61\150", true), "\x6e\157\x68\x70\x5f\141\171\141\150" => $this->input->post("\156\157\150\160\x5f\141\171\x61\150", true), "\x70\x65\156\x64\x69\144\151\153\x61\156\137\x61\171\141\150" => $this->input->post("\160\x65\156\x64\151\144\151\153\141\156\137\141\x79\x61\150", true), "\160\x65\153\145\x72\x6a\141\141\156\x5f\x61\171\141\x68" => $this->input->post("\160\145\x6b\x65\162\152\141\x61\156\137\x61\171\141\150", true), "\141\154\x61\155\x61\164\137\141\171\141\150" => $this->input->post("\x61\x6c\141\155\x61\164\137\141\171\x61\150", true), "\156\141\x6d\141\x5f\151\x62\165" => $this->input->post("\156\x61\x6d\141\137\x69\142\165", true), "\x6e\157\150\x70\137\151\142\165" => $this->input->post("\156\157\150\160\137\x69\x62\165", true), "\160\145\x6e\144\x69\x64\x69\153\141\x6e\x5f\151\x62\165" => $this->input->post("\160\145\156\144\151\x64\x69\153\x61\x6e\137\151\142\165", true), "\x70\145\x6b\145\162\152\x61\x61\x6e\x5f\x69\x62\165" => $this->input->post("\160\x65\x6b\x65\x72\152\141\x61\156\137\151\x62\165", true), "\141\x6c\141\x6d\x61\164\137\151\142\x75" => $this->input->post("\141\154\141\x6d\141\x74\137\x69\142\165", true), "\x6e\x61\x6d\x61\x5f\167\141\154\151" => $this->input->post("\156\141\155\x61\x5f\167\x61\154\151", true), "\160\145\x6e\x64\151\x64\x69\x6b\x61\156\x5f\x77\x61\154\x69" => $this->input->post("\160\x65\x6e\144\x69\144\x69\153\141\x6e\137\167\x61\x6c\151", true), "\x70\145\153\145\x72\x6a\x61\141\156\x5f\167\141\154\151" => $this->input->post("\160\145\153\x65\162\152\x61\x61\x6e\x5f\167\141\x6c\151", true), "\156\157\150\160\x5f\x77\x61\x6c\151" => $this->input->post("\156\157\x68\x70\137\167\141\x6c\x69", true), "\141\x6c\141\155\141\x74\x5f\167\x61\154\x69" => $this->input->post("\x61\x6c\x61\x6d\x61\x74\x5f\x77\x61\154\x69", true), "\164\141\150\x75\156\x5f\155\141\x73\x75\x6b" => $this->strContains($tgl_masuk, "\x30\60\x30\x30\55") ? null : $tgl_masuk, "\153\x65\154\141\163\137\141\167\x61\x6c" => $this->input->post("\x6b\x65\154\x61\163\137\141\167\x61\154", true), "\164\147\154\x5f\154\141\150\x69\x72\137\x61\x79\141\150" => $this->input->post("\164\147\x6c\x5f\x6c\141\x68\151\162\x5f\x61\x79\x61\x68", true), "\164\x67\154\137\154\x61\150\151\x72\x5f\x69\x62\165" => $this->input->post("\164\147\x6c\137\x6c\x61\x68\151\162\137\x69\142\165", true), "\x74\x67\154\x5f\x6c\141\x68\151\162\x5f\167\x61\x6c\x69" => $this->input->post("\x74\147\154\x5f\x6c\141\150\151\162\x5f\x77\x61\x6c\x69", true), "\163\145\x6b\x6f\x6c\x61\x68\x5f\141\163\x61\154" => $this->input->post("\x73\145\x6b\x6f\x6c\141\150\x5f\141\x73\141\x6c", true), "\x66\157\x74\157" => $siswa->foto != null && $siswa->foto != '' ? $siswa->foto : "\165\x70\x6c\157\141\144\163\x2f\x66\x6f\x74\x6f\137\163\x69\x73\x77\x61\x2f" . $nis . "\x2e\152\x70\x67"]; goto OZ332; n23BR: $u_nis = $siswa->nis === $nis ? '' : "\174\151\x73\x5f\165\x6e\x69\161\165\145\x5b\155\141\x73\164\x65\162\x5f\x73\151\x73\167\x61\56\156\151\x73\135"; goto Dj2HH; Zu_NR: $this->output_json($data); goto Wd3im; w25Dr: $this->db->set("\x73\x74\x61\164\165\x73", $this->input->post("\x73\x74\x61\164\165\x73", true)); goto zHhOW; qe0qs: $siswa = $this->master->getSiswaById($id_siswa); goto n23BR; zcJqh: $data["\151\156\163\x65\x72\x74"] = $input; goto NuRlW; zHhOW: $this->db->where("\x69\x64\x5f\163\x69\x73\167\141", $siswa->id_siswa); goto EBGlX; I58Wh: $data["\x74\x65\x78\164"] = "\x4e\x49\123\40\153\x75\x72\141\156\x67\40\144\x61\162\151\40\66\x20\x61\156\x67\x6b\x61\54\x20\x61\164\141\x75\40\144\x61\x74\141\x20\x53\x75\x64\x61\150\x20\141\x64\141\54\40\x50\141\163\164\x69\153\x61\156\x20\116\x49\x53\x2c\40\144\x61\x6e\40\116\x49\x53\x4e\40\x62\145\154\x75\155\40\144\x69\147\165\156\141\153\141\156\40\163\x69\x73\167\141\x20\x6c\x61\x69\156"; goto xK8Re; EBGlX: $this->db->update("\x62\x75\x6b\x75\137\x69\156\x64\x75\x6b"); goto zcJqh; dEVuZ: $nis = $this->input->post("\156\151\x73", true); goto bvYKu; Y0kkf: if ($this->form_validation->run() == FALSE) { goto KvprV; } goto H0uZP; OZ332: $this->master->update("\155\141\163\164\145\162\x5f\163\151\163\x77\x61", $input, "\151\x64\x5f\163\151\163\167\141", $id_siswa); goto w25Dr; Wd3im: } function strContains($string, $val) { return strpos($string, $val) !== false; } function uploadFile($id_siswa) { goto s_kSe; Qihtr: $data["\x66\x69\154\145\x6e\141\x6d\x65"] = pathinfo($result["\146\151\x6c\145\x5f\x6e\141\x6d\x65"], PATHINFO_FILENAME); goto pdQiQ; JIooD: zea0p: goto AJ7AL; FLiOy: $data["\x73\x72\143"] = $this->upload->display_errors(); goto aXU5E; rrhIW: $config["\x6f\166\x65\162\167\x72\151\164\x65"] = true; goto ov7TJ; aXU5E: IM_8C: goto RIvlm; ysZjF: goto IM_8C; goto JIooD; SB1rI: RFO7r: goto hi6_1; IOiRk: $siswa = $this->master->getSiswaById($id_siswa); goto JCb3G; J0gxU: $config["\165\160\x6c\x6f\x61\x64\137\160\141\x74\x68"] = "\x2e\57\165\160\154\157\141\x64\163\57\146\x6f\x74\x6f\x5f\163\151\163\x77\x61\57"; goto A7g7p; odmCh: $this->db->where("\151\144\137\x73\151\163\x77\x61", $id_siswa); goto w_crQ; uwH5D: $data["\x73\x69\x7a\145"] = $_FILES["\146\157\x74\x6f"]["\163\151\x7a\145"]; goto SB1rI; pdQiQ: $data["\x73\x74\x61\x74\x75\x73"] = true; goto eARKQ; hi6_1: $this->output_json($data); goto NelXn; VFLJv: $data["\163\x72\x63"] = ''; goto pgV3q; s_kSe: $this->load->model("\x4d\141\163\x74\145\x72\137\155\157\x64\145\154", "\155\141\x73\x74\145\x72"); goto IOiRk; ov7TJ: $config["\x66\151\x6c\145\x5f\156\141\x6d\x65"] = $siswa->nis; goto r8ihN; RIvlm: $data["\x74\x79\x70\145"] = $_FILES["\x66\157\164\x6f"]["\164\x79\x70\x65"]; goto uwH5D; pgV3q: goto RFO7r; goto DWP63; A7g7p: $config["\141\x6c\154\x6f\167\145\144\x5f\164\171\x70\x65\x73"] = "\x67\x69\x66\x7c\x6a\160\x67\174\x70\156\x67\174\152\x70\x65\147\174\112\120\x45\x47\174\112\x50\x47\x7c\120\116\x47\x7c\107\x49\x46"; goto rrhIW; hOjQB: if (!$this->upload->do_upload("\146\x6f\164\157")) { goto zea0p; } goto h7o2g; r8ihN: $this->upload->initialize($config); goto hOjQB; h7o2g: $result = $this->upload->data(); goto B69Wg; w_crQ: $this->db->update("\155\141\x73\164\145\162\x5f\163\x69\163\x77\x61"); goto ysZjF; eARKQ: $this->db->set("\146\x6f\x74\157", "\x75\160\x6c\157\141\144\x73\57\x66\157\164\157\137\163\151\x73\167\x61\x2f" . $result["\x66\x69\154\x65\x5f\156\x61\x6d\145"]); goto odmCh; B69Wg: $data["\163\x72\x63"] = base_url() . "\x75\160\x6c\157\141\144\x73\x2f\146\x6f\x74\157\137\x73\x69\x73\167\141\57" . $result["\146\151\154\x65\137\156\x61\x6d\145"]; goto Qihtr; JCb3G: if (isset($_FILES["\146\157\x74\157"]["\x6e\141\155\x65"])) { goto PMZj9; } goto VFLJv; DWP63: PMZj9: goto J0gxU; AJ7AL: $data["\163\164\141\x74\165\163"] = false; goto FLiOy; NelXn: } function deleteFile($id_siswa) { goto eXH7r; BeeKu: echo "\x46\x69\x6c\x65\40\104\145\154\x65\164\x65\x20\123\x75\143\143\x65\x73\163\146\x75\x6c\x6c\x79"; goto bEZ10; khfpB: Dr0o6: goto VxwC1; EcPDw: if (!unlink($file_name)) { goto Pc0Zu; } goto Rd47a; eXH7r: $src = $this->input->post("\x73\162\143"); goto e_Yqp; bEZ10: Pc0Zu: goto khfpB; tQyB7: if (!($file_name != "\141\x73\163\x65\x74\x73\x2f\x69\x6d\x67\57\163\x69\x73\167\x61\x2e\x70\x6e\x67")) { goto Dr0o6; } goto EcPDw; DeRSD: $this->db->update("\155\x61\163\164\145\x72\x5f\163\151\163\x77\x61"); goto BeeKu; Rd47a: $this->db->set("\146\x6f\x74\157", ''); goto miQaK; e_Yqp: $file_name = str_replace(base_url(), '', $src); goto tQyB7; miQaK: $this->db->where("\x69\x64\x5f\x73\x69\163\x77\141", $id_siswa); goto DeRSD; VxwC1: } public function delete() { goto wQYVG; Sb7Lt: $this->master->delete("\142\165\153\165\137\151\156\144\x75\x6b", $chk, "\151\x64\137\x73\151\x73\167\x61"); goto GkrEw; tSUJS: goto BkKza; goto JDCUo; GLNi1: if (!$chk) { goto YExcO; } goto bn7Aq; AR3vL: $this->output_json(["\163\x74\141\x74\x75\x73" => false]); goto nY0M_; q2Dq9: NefWT: goto tSUJS; nY0M_: BkKza: goto TsUlt; wQYVG: $this->load->model("\x4d\141\163\164\x65\162\x5f\x6d\157\x64\x65\x6c", "\155\x61\x73\164\x65\x72"); goto M0VO1; bn7Aq: if (!$this->master->delete("\155\141\x73\164\145\162\x5f\x73\151\x73\x77\141", $chk, "\x69\x64\137\163\151\163\167\141")) { goto NefWT; } goto Sb7Lt; GkrEw: $this->output_json(["\x73\x74\x61\x74\165\163" => true, "\164\x6f\164\141\154" => count($chk)]); goto q2Dq9; M0VO1: $chk = $this->input->post("\143\x68\145\x63\153\x65\144", true); goto GLNi1; JDCUo: YExcO: goto AR3vL; TsUlt: } public function previewExcel() { goto FEJQM; silAT: $i = 1; goto gySta; S2zbW: $sheetData = $spreadsheet->getActiveSheet()->toArray(); goto H982r; rco12: echo $error; goto Kawsz; jJH00: goto OQHfa; goto t7BxD; PC9XT: $arr_nisn = []; goto Ewz_0; iSYO1: switch ($ext) { case "\56\170\x6c\x73\170": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx(); goto gnupg; case "\x2e\x78\x6c\x73": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls(); goto gnupg; case "\56\x63\163\x76": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv(); goto gnupg; default: echo "\165\156\x6b\x6e\x6f\x77\x6e\x20\x66\x69\154\x65\x20\x65\x78\x74"; die; } goto lVkCv; guVCq: C2CS6: goto No377; pPtNj: bxvmg: goto zOQIY; HlYTI: goto bxvmg; goto TWkJO; rEsDP: if (!$this->upload->do_upload("\165\x70\x6c\157\x61\x64\x5f\146\151\x6c\x65")) { goto yG9S6; } goto yzyyC; lVkCv: wEIAS: goto Y2olH; mWpRs: $nis = str_replace("\47", '', $sheetData[$i][2]); goto iIaaJ; TTX8h: $config["\145\x6e\x63\162\171\x70\164\137\156\x61\x6d\x65"] = true; goto BAdMk; nmd81: $data["\x65\x78\x69\x73\x74"] = $this->master->getSiswaByArrNisn($arr_nisn, $arr_nis, $arr_username); goto bkh43; BAdMk: $this->upload->initialize($config); goto rEsDP; Kawsz: die; goto pPtNj; iIaaJ: $arr_nis[] = $nis; goto jC82k; Ewz_0: $arr_nis = []; goto V9vHc; V9vHc: $arr_username = []; goto silAT; bkh43: echo json_encode($data); goto HlYTI; RG6DX: unlink($file); goto nmd81; yzyyC: $file = $this->upload->data("\x66\165\154\154\137\x70\x61\164\150"); goto Gif7n; UTJKA: $nisn = str_replace("\47", '', $sheetData[$i][1]); goto r7x6y; tniCg: if (!($sheetData[$i][0] != null)) { goto C2CS6; } goto UTJKA; AfIBW: $config["\141\x6c\x6c\157\x77\145\144\x5f\164\x79\160\145\163"] = "\170\154\163\174\170\154\163\x78\x7c\x63\163\166"; goto yjFEt; r7x6y: $arr_nisn[] = $nisn; goto mWpRs; Zq6tj: $arr_username[] = $username; goto O6X35; O6X35: $data["\x73\x69\x73\167\141"][] = ["\x6e\151\x73\156" => $nisn, "\x6e\x69\x73" => $nis, "\x6e\141\x6d\x61" => $sheetData[$i][3], "\152\145\156\151\x73\137\153\145\x6c\x61\x6d\151\x6e" => $sheetData[$i][4], "\165\163\x65\162\156\141\x6d\145" => $username, "\x70\141\163\x73\x77\157\162\x64" => $sheetData[$i][6], "\164\x65\x6d\160\x61\164\137\x6c\x61\x68\151\162" => $sheetData[$i][10], "\x74\x61\156\147\x67\141\x6c\x5f\154\141\150\151\x72" => $sheetData[$i][11], "\x61\x67\141\155\x61" => $sheetData[$i][12], "\x73\x74\141\x74\165\163\137\153\145\154\x75\x61\x72\x67\141" => $sheetData[$i][16], "\x61\156\141\x6b\x5f\x6b\x65" => $sheetData[$i][15], "\x61\154\x61\x6d\141\x74" => $sheetData[$i][17], "\162\164" => $sheetData[$i][18], "\x72\x77" => $sheetData[$i][19], "\153\x65\154\x75\x72\141\x68\141\x6e" => $sheetData[$i][20], "\153\x65\x63\141\x6d\141\164\141\x6e" => $sheetData[$i][21], "\x6b\x61\x62\x75\x70\141\x74\x65\x6e" => $sheetData[$i][22], "\160\162\x6f\x76\x69\x6e\x73\x69" => $sheetData[$i][23], "\153\157\144\145\x5f\x70\157\163" => $sheetData[$i][24], "\150\x70" => str_replace("\47", '', $sheetData[$i][13]), "\156\141\155\x61\137\x61\x79\x61\150" => $sheetData[$i][25], "\x6e\x6f\150\160\x5f\141\171\141\150" => str_replace("\x27", '', $sheetData[$i][29]), "\160\145\x6e\144\x69\144\151\153\x61\156\137\141\171\141\x68" => $sheetData[$i][27], "\160\x65\153\145\162\152\141\141\x6e\x5f\141\171\x61\x68" => $sheetData[$i][28], "\141\x6c\141\x6d\x61\x74\x5f\x61\171\x61\x68" => $sheetData[$i][30], "\x6e\x61\x6d\141\x5f\x69\x62\165" => $sheetData[$i][31], "\x6e\x6f\150\160\x5f\x69\x62\x75" => str_replace("\x27", '', $sheetData[$i][35]), "\x70\x65\156\144\x69\x64\x69\x6b\x61\x6e\x5f\x69\x62\165" => $sheetData[$i][33], "\160\145\153\145\162\x6a\141\141\x6e\137\x69\x62\x75" => $sheetData[$i][34], "\141\154\x61\x6d\141\x74\137\151\142\165" => $sheetData[$i][36], "\x6e\141\x6d\x61\x5f\167\x61\154\151" => $sheetData[$i][37], "\x70\x65\x6e\x64\x69\144\x69\153\141\x6e\x5f\167\x61\x6c\151" => $sheetData[$i][39], "\x70\x65\153\x65\x72\x6a\141\x61\156\137\167\x61\154\151" => $sheetData[$i][40], "\156\157\150\x70\137\167\x61\x6c\x69" => str_replace("\x27", '', $sheetData[$i][41]), "\141\x6c\x61\155\x61\x74\137\x77\141\154\x69" => $sheetData[$i][42], "\164\x61\150\x75\156\x5f\x6d\141\163\165\153" => $sheetData[$i][8], "\153\145\x6c\141\x73\x5f\141\167\141\x6c" => $sheetData[$i][7], "\x74\147\x6c\x5f\x6c\141\x68\151\x72\x5f\141\171\141\x68" => $sheetData[$i][26], "\x74\x67\154\137\x6c\x61\150\x69\162\x5f\151\142\x75" => $sheetData[$i][32], "\164\x67\x6c\x5f\x6c\141\x68\151\x72\x5f\x77\x61\x6c\151" => $sheetData[$i][38], "\x73\145\x6b\157\154\141\x68\137\141\163\141\x6c" => $sheetData[$i][9], "\x69\x64\x5f\163\151\x73\167\x61" => isset($sheetData[$i][43]) ? $sheetData[$i][43] : '']; goto guVCq; TWkJO: yG9S6: goto NCcl_; ZOql4: $i++; goto jJH00; yjFEt: $config["\x6d\141\170\137\x73\151\x7a\x65"] = 2048; goto TTX8h; MCGAZ: $spreadsheet = $reader->load($file); goto S2zbW; t7BxD: YgFRz: goto RG6DX; gySta: OQHfa: goto Svuet; Svuet: if (!($i < count($sheetData))) { goto YgFRz; } goto tniCg; Gif7n: $ext = $this->upload->data("\x66\x69\154\145\137\145\170\x74"); goto iSYO1; H982r: $data = []; goto PC9XT; f120l: $config["\165\160\154\x6f\x61\144\x5f\x70\141\x74\150"] = "\x2e\57\x75\x70\154\x6f\141\144\163\x2f\151\155\160\157\162\x74\x2f"; goto AfIBW; Y2olH: gnupg: goto MCGAZ; No377: zrmPI: goto ZOql4; jC82k: $username = $sheetData[$i][5]; goto Zq6tj; NCcl_: $error = $this->upload->display_errors(); goto rco12; FEJQM: $this->load->model("\x4d\141\x73\x74\145\162\x5f\x6d\x6f\144\145\154", "\x6d\x61\x73\164\145\162"); goto f120l; zOQIY: } public function do_import() { goto T_khT; seF7G: $this->db->trans_complete(); goto wWvZs; wWvZs: $data = ["\163\x74\141\164\x75\x73" => true, "\x65\162\162\157\x72\163" => []]; goto DYA54; tV_fx: $data = ["\x73\x74\x61\164\x75\x73" => false, "\145\x72\x72\x6f\x72\x73" => $errors, "\144\x75\160\x6c\151\x6b\141\164" => $duplikat]; goto quVxi; Wbiil: Nx_5L: goto foDtc; U8VNe: $errors = []; goto mAcaD; T_khT: $input = json_decode($this->input->post("\163\151\x73\x77\x61", true)); goto U8VNe; mAcaD: $duplikat = []; goto Ae5bq; dlJIp: $uids = $this->db->select("\151\144\137\163\151\163\167\141\x2c\x20\165\151\x64")->from("\155\x61\163\x74\x65\x72\x5f\x73\151\x73\x77\141")->get()->result(); goto dkBT0; dkBT0: foreach ($uids as $uid) { goto EyjSo; EyjSo: $check = $this->db->select("\x69\144\x5f\163\151\163\167\x61")->from("\x62\165\x6b\165\x5f\x69\x6e\x64\x75\153")->where("\151\x64\x5f\x73\x69\x73\x77\x61", $uid->id_siswa); goto s2YQf; tkRmW: $this->db->insert("\x62\x75\x6b\x75\137\x69\x6e\x64\165\153", $uid); goto D69ek; s2YQf: if (!($check->get()->num_rows() == 0)) { goto stzD4; } goto tkRmW; le0Uh: EJsWZ: goto HbtHI; D69ek: stzD4: goto le0Uh; HbtHI: } goto Cj6yd; qmcSD: ma9JP: goto qrWvV; quVxi: $this->output_json($data); goto Wbiil; qrWvV: if (count($errors) > 0) { goto kSzEw; } goto tqfzl; Ae5bq: foreach ($input as $key1 => $val1) { goto PJtSF; u6I4B: $u_name = "\x7c\x69\163\137\x75\156\151\161\x75\145\133\x6d\x61\163\x74\x65\x72\x5f\163\151\x73\x77\x61\56\165\x73\x65\162\x6e\141\155\x65\135"; goto cJmKy; N_V9Y: yGOoW: goto cJzQ3; PJtSF: $data = []; goto AGRPK; TH9Fg: $duplikat[] = $data; goto rjhix; Dy1GA: $this->form_validation->set_rules("\x6e\151\x73\156", "\x4e\111\123\116", "\x72\x65\x71\165\151\162\x65\x64\174\x6e\x75\155\x65\162\151\x63\174\164\162\151\155\x7c\155\x69\156\x5f\154\145\156\x67\x74\x68\133\66\135\x7c\x6d\141\x78\x5f\154\145\156\147\164\x68\x5b\x32\60\x5d" . $u_nisn); goto tz35j; iZ_N2: D92TB: goto NAhYx; cJmKy: $this->form_validation->set_rules("\156\151\x73", "\x4e\x49\x53", "\162\x65\x71\165\151\x72\x65\x64\x7c\156\165\155\145\162\151\143\174\164\x72\x69\x6d\x7c\x6d\151\x6e\x5f\154\145\x6e\x67\164\x68\x5b\66\135\174\155\141\x78\x5f\x6c\x65\x6e\147\x74\150\133\x33\60\x5d" . $u_nis); goto Dy1GA; AGRPK: foreach (((array) $input)[$key1] as $key => $val) { $data[$key] = $val; UFPjW: } goto iZ_N2; i0cWh: if (!($this->form_validation->run() == FALSE)) { goto yGOoW; } goto TH9Fg; NAhYx: $this->form_validation->set_data($data); goto XKLl5; cJzQ3: MgWGH: goto aXmtS; ZQAst: $u_nisn = "\174\151\x73\137\x75\x6e\x69\x71\x75\145\133\155\141\163\x74\145\x72\x5f\163\x69\163\167\141\56\x6e\x69\163\x6e\135"; goto u6I4B; tz35j: $this->form_validation->set_rules("\165\163\145\162\x6e\x61\x6d\145", "\125\x73\145\162\156\141\155\145", "\162\x65\x71\165\151\x72\145\144\x7c\x74\x72\151\x6d" . $u_name); goto i0cWh; rjhix: $errors[$data["\156\141\155\141"]] = ["\x6e\x69\x73" => form_error("\156\151\163"), "\156\x69\163\156" => form_error("\x6e\151\x73\156"), "\165\x73\x65\x72\156\x61\x6d\145" => form_error("\x75\x73\x65\162\156\141\x6d\x65")]; goto N_V9Y; XKLl5: $u_nis = "\x7c\151\x73\137\165\x6e\x69\161\x75\145\133\155\x61\x73\x74\x65\162\137\163\151\163\167\x61\x2e\156\x69\163\x5d"; goto ZQAst; aXmtS: } goto qmcSD; Cj6yd: a_WJq: goto seF7G; bIaqx: kSzEw: goto tV_fx; cg0Yi: USz7Q: goto dlJIp; tqfzl: $this->db->trans_start(); goto ENakB; bAv16: goto Nx_5L; goto bIaqx; DYA54: $this->output_json($data); goto bAv16; ENakB: foreach ($input as $key1 => $val1) { goto OxgHw; QFG2f: yxGHS: goto MeyF4; OxgHw: $data = []; goto RQwSR; nU8d3: hkkPG: goto MfLEE; MeyF4: $data["\146\x6f\164\x6f"] = "\165\x70\x6c\x6f\141\x64\x73\57\x66\x6f\x74\157\137\x73\x69\163\x77\x61\x2f" . $data["\x6e\151\163"] . "\x2e\x6a\x70\147"; goto eMGLz; eMGLz: $this->db->set("\165\151\x64", "\125\x55\111\104\50\x29", FALSE); goto GdaPw; GdaPw: $save = $this->db->insert("\x6d\x61\163\164\145\162\x5f\x73\151\163\x77\x61", $data); goto nU8d3; RQwSR: foreach (((array) $input)[$key1] as $key => $val) { goto vCiOb; vCiOb: if ($key == "\x73\164\x61\x74\x75\163\137\x6b\x65\x6c\165\x61\162\x67\x61" && $val == null) { goto w6z3U; } goto Liutt; N0xvu: goto AkmCI; goto cdgyG; JColx: $data[$key] = "\61"; goto Qa8Sp; Qa8Sp: AkmCI: goto ydnUe; ydnUe: FYwSE: goto LYMus; Liutt: $data[$key] = $val; goto N0xvu; cdgyG: w6z3U: goto JColx; LYMus: } goto QFG2f; MfLEE: } goto cg0Yi; foDtc: } public function update() { goto Lx8wL; XUA6j: $data["\x74\151\160\x65"] = "\x75\160\x64\x61\x74\145"; goto Bjezx; MeqTn: $data["\x73\155\164\x5f\x61\x63\x74\151\x76\x65"] = $smt; goto b3lpo; RzqHp: $this->load->view("\137\x74\x65\155\160\x6c\x61\x74\x65\x73\x2f\144\x61\163\x68\x62\157\141\162\x64\x2f\x5f\x66\x6f\157\164\x65\162"); goto kONFe; OBFVa: $data["\160\x72\157\146\x69\154\x65"] = $this->dashboard->getProfileAdmin($user->id); goto XUA6j; u7Xvm: $data["\x74\x70\x5f\x61\143\164\151\166\x65"] = $tp; goto MeqTn; KnCX3: $this->load->model("\104\x72\157\x70\x64\x6f\x77\x6e\137\155\x6f\144\145\x6c", "\x64\162\157\x70\x64\157\167\x6e"); goto b0fYK; b0fYK: $user = $this->ion_auth->user()->row(); goto H0kKO; Bjezx: $data["\153\x65\x6c\x61\x73"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt); goto Do13G; UOe9I: $this->load->view("\155\141\163\x74\145\162\57\163\x69\x73\x77\141\57\165\160\144\x61\x74\x65"); goto RzqHp; b3lpo: $data["\164\160"] = $this->dashboard->getTahun(); goto u1mwg; Lx8wL: $this->load->model("\104\141\x73\150\x62\x6f\141\x72\x64\137\155\157\x64\145\154", "\x64\141\163\150\x62\x6f\x61\162\144"); goto KnCX3; oK0If: $tp = $this->dashboard->getTahunActive(); goto PTtgT; PTtgT: $smt = $this->dashboard->getSemesterActive(); goto u7Xvm; u1mwg: $data["\163\155\x74"] = $this->dashboard->getSemester(); goto OBFVa; Do13G: $this->load->view("\x5f\x74\145\x6d\x70\x6c\141\x74\145\x73\x2f\x64\141\x73\150\142\x6f\141\162\144\57\x5f\x68\145\141\144\145\162", $data); goto UOe9I; H0kKO: $data = ["\165\163\145\162" => $user, "\x6a\x75\144\165\x6c" => "\x55\x70\x64\x61\x74\145\x20\x44\141\164\141\x20\x53\151\x73\167\141", "\163\x75\142\152\165\144\165\154" => "\x55\x70\x64\x61\x74\x65\40\x44\141\x74\x61\x20\x53\151\163\167\x61", "\163\145\164\x74\x69\x6e\147" => $this->dashboard->getSetting()]; goto oK0If; kONFe: } public function downloadData($id_kelas) { goto jLqkS; RYPh5: $alamat_ibu = []; goto HAEL8; R6agt: $agama = []; goto XikDd; lJR_O: $nama = []; goto OaBiN; cAQyR: PhpExcelTemplator::outputToFile($template, $fileName, $params); goto Vk6vE; ksFYy: $tp = $this->master->getTahunActive(); goto iXrsX; wqM02: $i = 0; goto uUbZJ; IuRQU: $ids = []; goto hhmrQ; PWTNB: $tgl_lahir_ayah = []; goto lwjWn; mpP3H: $tgl_lahir_ibu[] = $siswa->tgl_lahir_ibu; goto vJz2k; D1caB: goto R80vV; goto cy3KL; RF26w: $pekerjaan_ibu[] = $siswa->pekerjaan_ibu; goto hG9gx; GkFnm: $kelas = $this->master->getKelasById($id_kelas); goto xBCk1; QOf4I: $nama[] = $siswa->nama; goto fP9pz; nBxhK: $tlp_ayah = []; goto t6VGh; tlan8: $password = []; goto oMPpm; rPB3Q: $pendidikan_ayah[] = $siswa->pendidikan_ayah; goto p80x2; xrGO3: $kec = []; goto tbXNo; BGC7e: $tgl_diterima = []; goto Uz4bZ; sSHWU: $tlp_siswa[] = "\47" . $siswa->hp; goto vPMaV; njPNt: $email = []; goto nmOoX; N2qp9: $sekolah_asal[] = $siswa->sekolah_asal; goto N1Ffi; N1Ffi: $tempat_lahir[] = $siswa->tempat_lahir; goto R3YGK; Y1wAb: $nisn[] = "\x27" . $siswa->nisn; goto QOf4I; zvo93: $pekerjaan_wali[] = $siswa->pekerjaan_wali; goto V5AK1; Uz4bZ: $sekolah_asal = []; goto CNDFu; ffF87: $pekerjaan_ayah = []; goto nBxhK; CNDFu: $tempat_lahir = []; goto OFwFu; l8Q4P: $alamat_ibu[] = $siswa->alamat_ibu; goto Yrxkm; rXuDS: $fileName = "\104\x61\164\141\40\x53\151\163\167\141\40\x4b\x65\x6c\x61\163\40" . $kelas->nama_kelas . "\56\170\x6c\x73\x78"; goto jY0Vq; WWFa2: $rw = []; goto XVH3o; XVH3o: $kel = []; goto xrGO3; W_SiH: $tgl_lahir_wali[] = $siswa->tgl_lahir_wali; goto S11w6; xBCk1: $siswas = $this->master->getSiswaByKelas($tp->id_tp, $smt->id_smt, $id_kelas); goto ZnA9D; H2egj: $rw[] = $siswa->rw; goto raDZy; YfFA8: $i++; goto D1caB; zMOua: $ids[] = $siswa->id_siswa; goto hVyj3; UoDtH: $jk[] = $siswa->jenis_kelamin; goto Vp5c4; QkWMY: $tgl_lahir_wali = []; goto xlGv2; pfTh5: $alamat_wali = []; goto wqM02; fP9pz: $email[] = $siswa->email; goto UoDtH; v_xwG: $params = ["\x5b\151\144\x5d" => $ids, "\133\156\157\135" => $no, "\133\156\x69\163\x5d" => $nis, "\x5b\156\x69\163\156\x5d" => $nisn, "\133\x6e\x61\x6d\141\x5d" => $nama, "\133\x6a\153\135" => $jk, "\133\165\163\x65\x72\156\141\x6d\145\x5d" => $username, "\x5b\160\x61\x73\x73\167\157\x72\x64\135" => $password, "\133\x6b\145\x6c\x61\x73\x5f\141\x77\x61\x6c\x5d" => $kelas_awal, "\x5b\x74\x67\x6c\137\x64\x69\164\x65\x72\151\x6d\x61\135" => $tgl_diterima, "\x5b\163\x65\x6b\x6f\x6c\x61\x68\137\x61\163\141\x6c\x5d" => $sekolah_asal, "\x5b\x74\x65\155\x70\141\164\137\154\x61\x68\151\162\135" => $tempat_lahir, "\133\164\147\x6c\137\154\x61\x68\x69\162\x5d" => $tgl_lahir, "\133\141\x67\141\155\141\135" => $agama, "\x5b\x74\154\x70\137\163\x69\163\167\141\x5d" => $tlp_siswa, "\x5b\x65\x6d\141\151\x6c\x5d" => $email, "\x5b\x61\x6e\141\153\137\153\145\135" => $anak_ke, "\x5b\x73\164\x61\164\165\163\x5f\153\145\x6c\x75\141\x72\x67\x61\x5d" => $status_keluarga, "\x5b\x61\154\x61\x6d\141\164\137\x73\x69\x73\x77\x61\135" => $alamat_siswa, "\x5b\x72\x74\135" => $rt, "\133\162\x77\135" => $rw, "\133\153\145\154\135" => $kel, "\x5b\x6b\x65\143\x5d" => $kec, "\133\x6b\x61\x62\135" => $kab, "\133\160\162\157\166\135" => $prov, "\x5b\x6b\x6f\144\x65\137\x70\x6f\163\135" => $kode_pos, "\133\x6e\x61\x6d\141\137\141\171\x61\x68\x5d" => $nama_ayah, "\133\x74\147\x6c\x5f\x6c\x61\150\151\x72\137\x61\171\141\x68\x5d" => $tgl_lahir_ayah, "\133\160\145\156\144\x69\144\151\153\141\156\137\x61\x79\x61\x68\135" => $pendidikan_ayah, "\133\x70\145\x6b\145\x72\x6a\x61\x61\x6e\137\x61\171\141\x68\135" => $pekerjaan_ayah, "\x5b\x74\154\160\137\141\171\141\x68\x5d" => $tlp_ayah, "\133\x61\x6c\x61\x6d\x61\164\137\x61\x79\x61\150\135" => $alamat_ayah, "\x5b\156\x61\x6d\141\137\x69\142\x75\135" => $nama_ibu, "\133\x74\x67\x6c\137\x6c\x61\150\151\x72\137\151\x62\165\x5d" => $tgl_lahir_ibu, "\x5b\160\x65\x6e\144\151\x64\151\x6b\141\156\137\x69\142\165\135" => $pendidikan_ibu, "\x5b\160\145\153\x65\162\x6a\141\141\x6e\x5f\151\142\165\x5d" => $pekerjaan_ibu, "\x5b\x74\x6c\160\137\x69\142\165\x5d" => $tlp_ibu, "\133\x61\154\141\155\x61\164\137\151\142\165\x5d" => $alamat_ibu, "\133\x6e\141\155\x61\137\167\141\154\151\x5d" => $nama_wali, "\x5b\164\x67\x6c\x5f\x6c\141\x68\151\162\x5f\167\x61\154\151\135" => $tgl_lahir_wali, "\x5b\160\145\156\x64\x69\144\x69\x6b\x61\x6e\137\x77\141\x6c\151\x5d" => $pendidikan_wali, "\x5b\x70\x65\153\x65\x72\x6a\141\141\156\137\x77\x61\x6c\151\x5d" => $pekerjaan_wali, "\x5b\164\154\160\x5f\x77\141\154\x69\135" => $tlp_wali, "\133\x61\x6c\141\x6d\x61\x74\x5f\x77\141\154\x69\135" => $alamat_wali]; goto cAQyR; OFwFu: $tgl_lahir = []; goto R6agt; iXrsX: $smt = $this->master->getSemesterActive(); goto GkFnm; hhmrQ: $nis = []; goto n8_sk; LHNwT: $nama_ayah = []; goto PWTNB; hVyj3: $nis[] = "\x27" . $siswa->nis; goto Y1wAb; vJz2k: $pendidikan_ibu[] = $siswa->pendidikan_ibu; goto RF26w; oq3NG: Z0bLr: goto YfFA8; R3YGK: $tgl_lahir[] = $siswa->tanggal_lahir; goto TJOAR; ugjBK: $tlp_ibu = []; goto RYPh5; hG9gx: $tlp_ibu[] = "\x27" . $siswa->nohp_ibu; goto l8Q4P; aKxUK: $nama_ibu = []; goto CQbyz; INyI2: $kec[] = $siswa->kecamatan; goto xZQqr; R64Oe: $kode_pos = []; goto LHNwT; laifu: $pendidikan_ibu = []; goto sqepG; Vp5c4: $username[] = $siswa->username; goto rgkeA; OaBiN: $jk = []; goto cXV7p; QpuKb: $siswa = $siswas[$i]; goto JQsUw; dbcTP: $tlp_ayah[] = "\47" . $siswa->nohp_ayah; goto Sv2ci; ATb5R: $alamat_wali[] = $siswa->alamat_wali; goto oq3NG; ZXvsJ: $alamat_siswa = []; goto CuMPC; KGqJn: if (!($i < count($siswas))) { goto eE2pd; } goto QpuKb; t6VGh: $alamat_ayah = []; goto aKxUK; TJOAR: $agama[] = $siswa->agama; goto sSHWU; xZQqr: $kab[] = $siswa->kabupaten; goto vBKyZ; nmOoX: $anak_ke = []; goto kP2Gv; Yrxkm: $nama_wali[] = $siswa->nama_wali; goto W_SiH; uUbZJ: R80vV: goto KGqJn; xlGv2: $pendidikan_wali = []; goto m_bC3; Qffd0: $nama_ibu[] = $siswa->nama_ibu; goto mpP3H; rgkeA: $password[] = $siswa->password; goto LiK1r; ZMOYo: $tgl_diterima[] = $siswa->tahun_masuk; goto N2qp9; lwjWn: $pendidikan_ayah = []; goto ffF87; m_bC3: $pekerjaan_wali = []; goto mKdwd; V5AK1: $tlp_wali[] = "\x27" . $siswa->nohp_wali; goto ATb5R; kP2Gv: $status_keluarga = []; goto ZXvsJ; ZnA9D: $template = "\56\57\x75\160\x6c\157\x61\x64\163\x2f\151\155\x70\x6f\162\164\57\x66\157\162\155\x61\164\x2f\x66\x6f\x72\155\x61\164\x5f\165\160\144\x61\x74\145\137\163\x69\x73\167\141\x2e\x78\x6c\x73\x78"; goto rXuDS; CuMPC: $rt = []; goto WWFa2; a4Cqo: $rt[] = $siswa->rt; goto H2egj; raDZy: $kel[] = $siswa->kelurahan; goto INyI2; tbXNo: $kab = []; goto wFeUA; CQbyz: $tgl_lahir_ibu = []; goto laifu; HAEL8: $nama_wali = []; goto QkWMY; IFXzu: $alamat_siswa[] = $siswa->alamat; goto a4Cqo; jY0Vq: $no = []; goto IuRQU; l1qGY: $status_keluarga[] = $siswa->status_keluarga; goto IFXzu; BcwSG: $kode_pos[] = $siswa->kode_pos; goto nnJ9r; p80x2: $pekerjaan_ayah[] = $siswa->pekerjaan_ayah; goto dbcTP; XikDd: $tlp_siswa = []; goto njPNt; cXV7p: $username = []; goto tlan8; vPMaV: $anak_ke[] = $siswa->anak_ke; goto l1qGY; cy3KL: eE2pd: goto v_xwG; S11w6: $pendidikan_wali[] = $siswa->pendidikan_wali; goto zvo93; sqepG: $pekerjaan_ibu = []; goto ugjBK; n8_sk: $nisn = []; goto lJR_O; vBKyZ: $prov[] = $siswa->provinsi; goto BcwSG; jLqkS: $this->load->model("\x4d\x61\x73\x74\145\x72\x5f\x6d\x6f\144\x65\x6c", "\155\141\x73\164\145\162"); goto ksFYy; LiK1r: $kelas_awal[] = $siswa->kelas_awal; goto ZMOYo; vku5i: $tgl_lahir_ayah[] = $siswa->tgl_lahir_ayah; goto rPB3Q; JQsUw: $no[] = $i + 1; goto zMOua; oMPpm: $kelas_awal = []; goto BGC7e; nnJ9r: $nama_ayah[] = $siswa->nama_ayah; goto vku5i; Sv2ci: $alamat_ayah[] = $siswa->alamat_ayah; goto Qffd0; mKdwd: $tlp_wali = []; goto pfTh5; wFeUA: $prov = []; goto R64Oe; Vk6vE: } public function updateAll() { goto v0jxg; v0jxg: $input = json_decode($this->input->post("\163\151\x73\x77\x61", true)); goto Ylgj6; N5HgN: $data = ["\163\164\x61\164\x75\163" => $save, "\x65\x72\x72\157\162\x73" => []]; goto vwTzj; dGlq8: $this->db->trans_complete(); goto N5HgN; GG1wu: FYp_K: goto dGlq8; vwTzj: $this->output_json($data); goto ZKUM2; B0i4N: foreach ($input as $key1 => $val1) { goto lzxPy; vSBUj: $id_siswa = "\60"; goto XT1v9; lv3HX: $kid = "\151\x64\137\x73\x69\163\x77\x61"; goto vSBUj; VhQOE: $save = $this->db->update("\155\x61\163\164\145\162\137\x73\151\x73\167\141", $data, array("\x69\x64\x5f\x73\x69\x73\x77\141" => $id_siswa)); goto ZtF76; ZtF76: UI_wE: goto Wj2I2; XT1v9: foreach (((array) $input)[$key1] as $key => $val) { goto iUjwp; Lg1vA: MXHtK: goto o5iV1; iUjwp: if ($key == $kid) { goto MXHtK; } goto Ty4Y4; o5iV1: $id_siswa = $val; goto maJDt; maJDt: wSRcV: goto MDZNX; FGCf2: $data["\x66\x6f\x74\157"] = "\x75\x70\x6c\157\141\x64\x73\57\146\x6f\x74\157\x5f\163\x69\163\x77\141\57" . $val . "\x2e\x6a\x70\x67"; goto H8zbF; MDZNX: cY5Gz: goto nbAoX; Ty4Y4: $data[$key] = $val; goto X2x1b; X2x1b: if (!($key == "\x6e\151\x73")) { goto UJypQ; } goto FGCf2; H8zbF: UJypQ: goto Aeuw2; Aeuw2: goto wSRcV; goto Lg1vA; nbAoX: } goto JjYDH; JjYDH: FMsvX: goto VhQOE; lzxPy: $data = []; goto lv3HX; Wj2I2: } goto GG1wu; Ylgj6: $this->db->trans_start(); goto B0i4N; ZKUM2: } public function previewExcelNis() { goto c0RAj; pDqdN: unlink($file); goto sNjKO; tGw4g: $config["\x6d\x61\x78\x5f\x73\x69\x7a\x65"] = 2048; goto v2ovG; Y6m7f: Xa_bQ: goto J6V4r; J6V4r: $spreadsheet = $reader->load($file); goto yBsd5; Qz0oK: $file = $this->upload->data("\x66\x75\x6c\x6c\137\160\141\164\x68"); goto PtBxx; VIpA_: $data[] = ["\156\151\x73\x6e" => str_replace("\47", '', $sheetData[$i][1]), "\x6e\151\163" => str_replace("\47", '', $sheetData[$i][2])]; goto DC058; sNjKO: echo json_encode($data); goto y6fWP; SQyLp: goto EXWYG; goto QJwqk; UnE0D: $data = []; goto BbmoJ; v2ovG: $config["\145\156\x63\x72\171\x70\x74\x5f\x6e\x61\155\x65"] = true; goto Q_p70; Q_p70: $this->upload->initialize($config); goto DLQY4; wMnp3: yAdQ_: goto x4ppD; BbmoJ: $i = 1; goto LItJc; aBtlk: XhjeM: goto P8J20; PtBxx: $ext = $this->upload->data("\146\151\x6c\145\137\145\170\x74"); goto y3qko; y3qko: switch ($ext) { case "\56\170\x6c\163\170": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx(); goto Xa_bQ; case "\x2e\x78\154\163": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls(); goto Xa_bQ; case "\56\x63\163\166": $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv(); goto Xa_bQ; default: echo "\165\x6e\x6b\156\x6f\x77\156\x20\x66\151\154\x65\x20\x65\170\164"; die; } goto ruV1P; P8J20: $error = $this->upload->display_errors(); goto OrAv1; DC058: tXAJG: goto Df8yA; EaliU: if (!($sheetData[$i][0] != null)) { goto tXAJG; } goto VIpA_; QJwqk: LPhRs: goto pDqdN; ug_HI: $i++; goto SQyLp; y6fWP: goto yAdQ_; goto aBtlk; c0RAj: $config["\165\x70\154\157\x61\x64\137\160\x61\164\x68"] = "\56\x2f\165\160\154\x6f\141\x64\163\x2f\x69\x6d\160\x6f\162\x74\57"; goto xHxe9; ruV1P: xhSVH: goto Y6m7f; jr8Jw: die; goto wMnp3; Df8yA: gVLGN: goto ug_HI; yBsd5: $sheetData = $spreadsheet->getActiveSheet()->toArray(); goto UnE0D; DLQY4: if (!$this->upload->do_upload("\x75\x70\x6c\x6f\x61\x64\x5f\x66\x69\x6c\145")) { goto XhjeM; } goto Qz0oK; aI50t: if (!($i < count($sheetData))) { goto LPhRs; } goto EaliU; LItJc: EXWYG: goto aI50t; OrAv1: echo $error; goto jr8Jw; xHxe9: $config["\x61\x6c\154\157\x77\145\144\137\164\x79\160\145\x73"] = "\170\x6c\163\x7c\x78\x6c\x73\x78\x7c\143\x73\x76"; goto tGw4g; x4ppD: } public function updateNisByNisn() { goto zGJRp; lU6gl: foreach ($input as $val) { goto B7dMK; B7dMK: $this->db->set("\156\151\163", trim($val->nis)); goto fQwi3; vj1i6: $save = $this->db->update("\155\141\163\x74\x65\162\137\x73\151\163\167\x61"); goto WiCCF; fQwi3: $this->db->where("\156\151\163\x6e", trim($val->nisn)); goto vj1i6; WiCCF: LDDu2: goto Ywv4h; Ywv4h: } goto qRixv; qRixv: ddNB8: goto nzt8f; zGJRp: $input = json_decode($this->input->post("\x73\x69\163\x77\x61", true)); goto lU6gl; nzt8f: $this->db->trans_complete(); goto O97sW; O97sW: $this->output_json($save); goto BWhNh; BWhNh: } public function editLogin() { goto jGZ4q; fHBrj: $smt = $this->master->getSemesterActive(); goto FBE0e; zAzFl: $data["\164\x65\x78\x74"] = $msg; goto NDmb5; cqGXn: $data = ["\163\164\x61\164\165\163" => false, "\145\x72\x72\157\x72\x73" => ["\165\163\x65\162\156\x61\x6d\x65" => "\x55\x73\x65\162\x6e\x61\155\145\40\x73\165\144\141\x68\x20\144\x69\x67\x75\x6e\x61\x6b\141\x6e"]]; goto XY3Fy; z2T1f: o6S0_: goto NICCC; ompf0: $last_name = end($nama); goto Mcahd; ClFgD: $this->output_json($data); goto MeniH; jKoSM: $this->db->set("\165\163\145\162\x6e\141\x6d\x65", $username); goto CTsrP; CJCrL: $nama = explode("\40", $siswa->nama); goto x__cS; jBvl8: $id_siswa = $this->input->post("\151\144\x5f\163\151\x73\x77\141", true); goto cOYdJ; lXg1f: if ($deleted) { goto JeG_8; } goto Ysna9; JiTO6: VPQZY: goto lXg1f; Ysna9: $status = false; goto rNXlg; J7RSP: H9Eey: goto rbQEk; p1Wos: if ($this->form_validation->run() === FALSE) { goto H9Eey; } goto hPT3u; CeYBa: $this->ion_auth->register($username, $password, $email, $additional_data, $group); goto jKoSM; hPT3u: $siswa = $this->db->get_where("\x6d\141\x73\x74\145\x72\137\163\x69\x73\x77\x61", "\151\144\x5f\163\x69\163\167\x61\x3d\42" . $id_siswa . "\42")->row(); goto CJCrL; NDmb5: goto YFswj; goto H4MRr; JhC1t: $group = array("\x33"); goto Tz88v; Tz88v: $user_siswa = $this->db->get_where("\165\163\x65\162\163", "\x65\155\141\x69\x6c\75\x22" . $email . "\x22")->row(); goto kfTqR; qcQgX: $pass = $this->input->post("\156\x65\167", true); goto NOELI; nI9jH: $password = trim($pass); goto RTsml; NICCC: $data["\163\164\141\164\x75\163"] = $status; goto zAzFl; rFpSt: $msg = !$status ? "\x47\x61\147\141\x6c\40\x6d\145\x6e\147\147\x61\156\x74\151\40\x75\x73\145\x72\156\141\155\145\57\x70\x61\x73\x73\163\167\x6f\x72\x64\56" : "\x62\x65\162\x68\x61\x73\x69\x6c\x20\155\x65\156\x67\147\141\x6e\x74\x69\x20\165\x73\145\162\x6e\x61\155\x65\x2f\160\x61\x73\163\163\x77\157\x72\144\x2e"; goto z2T1f; R8mOs: if ($siswa_lain && $siswa_lain->id_siswa != $id_siswa) { goto uRyHD; } goto p1Wos; rNXlg: $msg = "\x47\x61\147\x61\154\40\155\x65\156\147\147\141\x6e\x74\151\40\x75\x73\x65\162\x6e\141\x6d\145\57\x70\141\x73\x73\163\x77\157\162\x64\56"; goto ZoMcO; erslx: $this->form_validation->set_rules("\x6e\x65\167\137\x63\x6f\156\146\151\162\x6d", $this->lang->line("\x63\150\141\x6e\x67\x65\137\x70\141\x73\x73\167\157\162\x64\x5f\166\x61\x6c\x69\x64\141\x74\151\157\x6e\x5f\x6e\x65\x77\x5f\x70\x61\x73\x73\x77\x6f\x72\144\x5f\x63\x6f\156\x66\151\x72\x6d\x5f\154\x61\x62\x65\x6c"), "\162\x65\161\165\151\x72\x65\x64"); goto R8mOs; Z3yiW: $status = $this->db->update("\155\x61\x73\164\145\162\x5f\x73\x69\x73\x77\141"); goto rFpSt; XY3Fy: goto YFswj; goto J7RSP; jGZ4q: $this->load->model("\115\141\x73\x74\145\162\x5f\155\157\144\145\154", "\155\141\x73\x74\145\x72"); goto xX1jv; RTsml: $email = $siswa->nis . "\100\x73\151\163\x77\141\x2e\143\157\x6d"; goto YZuCc; Mcahd: $username = trim($username); goto nI9jH; H4MRr: uRyHD: goto cqGXn; YZuCc: $additional_data = ["\x66\x69\162\163\x74\x5f\x6e\141\155\x65" => $first_name, "\x6c\x61\163\x74\x5f\x6e\x61\x6d\x65" => $last_name]; goto JhC1t; ItqLS: $deleted = $this->ion_auth->delete_user($user_siswa->id); goto JiTO6; AxieV: $this->form_validation->set_rules("\x6e\145\x77", $this->lang->line("\x63\150\141\156\147\x65\137\160\x61\163\163\167\x6f\162\144\x5f\166\141\x6c\x69\x64\x61\164\151\x6f\x6e\x5f\156\x65\x77\137\x70\141\x73\163\167\x6f\x72\144\137\x6c\x61\x62\145\154"), "\x72\x65\x71\x75\x69\162\145\144\x7c\x6d\x69\156\x5f\154\x65\156\x67\x74\150\x5b" . $this->config->item("\x6d\x69\156\x5f\160\x61\163\163\x77\157\x72\x64\x5f\x6c\145\x6e\x67\x74\150", "\151\157\156\x5f\141\x75\164\150") . "\x5d\174\x6d\x61\x74\143\x68\x65\163\x5b\156\145\167\x5f\143\x6f\x6e\x66\151\162\155\135"); goto erslx; tVG8P: $this->form_validation->set_rules("\x6f\154\x64", $this->lang->line("\143\x68\x61\156\x67\x65\137\x70\x61\163\x73\x77\157\162\144\137\x76\141\154\x69\x64\141\164\x69\x6f\156\137\x6f\x6c\144\x5f\x70\141\x73\x73\167\x6f\x72\x64\x5f\x6c\141\x62\145\x6c"), "\x72\145\x71\x75\151\162\x65\144"); goto AxieV; kfTqR: $deleted = true; goto Cm68i; x__cS: $first_name = $nama[0]; goto ompf0; Rjv1b: JeG_8: goto CeYBa; NOELI: $tp = $this->master->getTahunActive(); goto fHBrj; FBE0e: $siswa_lain = $this->dashboard->getDataSiswa($username, $tp->id_tp, $smt->id_smt); goto tVG8P; Cm68i: if (!($user_siswa != null)) { goto VPQZY; } goto ItqLS; ZoMcO: goto o6S0_; goto Rjv1b; PJiyg: $this->db->where("\x69\x64\137\x73\x69\x73\167\141", $id_siswa); goto Z3yiW; xX1jv: $this->load->model("\x44\141\163\150\x62\x6f\x61\x72\144\x5f\155\x6f\x64\x65\154", "\x64\141\x73\150\x62\157\x61\x72\x64"); goto jBvl8; CTsrP: $this->db->set("\x70\x61\163\163\167\x6f\162\x64", $password); goto PJiyg; rbQEk: $data = ["\163\164\x61\x74\165\x73" => false, "\x65\162\x72\157\162\x73" => ["\x6f\154\x64" => form_error("\157\x6c\x64"), "\156\145\x77" => form_error("\156\145\x77"), "\x6e\x65\x77\137\143\x6f\x6e\146\x69\x72\x6d" => form_error("\156\145\167\x5f\143\x6f\x6e\146\x69\x72\155")]]; goto jndwe; cOYdJ: $username = $this->input->post("\165\x73\145\162\156\x61\155\x65", true); goto qcQgX; jndwe: YFswj: goto ClFgD; MeniH: } private function registerSiswa($username, $password, $email, $additional_data, $group) { goto ocd5H; soTl6: $data["\x73\x74\x61\x74\165\x73"] = false; goto UOAyQ; UOAyQ: W4zYJ: goto YCfFV; YCfFV: return $data; goto uXtn6; ra_5h: if (!($reg == false)) { goto W4zYJ; } goto soTl6; ocd5H: $reg = $this->ion_auth->register($username, $password, $email, $additional_data, $group); goto SMKom; AGwdz: $data["\x69\144"] = $reg; goto ra_5h; SMKom: $data["\163\164\141\x74\x75\163"] = true; goto AGwdz; uXtn6: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+use alhimik1986\PhpExcelTemplator\PhpExcelTemplator;
+class Datasiswa extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto uQvP7;
+        }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto EhzFe;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        EhzFe:
+        uQvP7:
+        $this->load->library("upload");
+        $this->load->library(["datatables", "form_validation"]);
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto GWSeq;
+        }
+        $data = json_encode($data);
+        GWSeq:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Dropdown_model", "dropdown");
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Siswa", "subjudul" => "Data Siswa", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->dashboard->getTahun();
+        $smt = $this->dashboard->getSemester();
+        $data["tp"] = $tp;
+        $data["smt"] = $smt;
+        $searchTp = array_search("1", array_column($tp, "active"));
+        $searchSmt = array_search("1", array_column($smt, "active"));
+        $tpAktif = $tp[$searchTp];
+        $smtAktif = $smt[$searchSmt];
+        $data["tp_active"] = $tpAktif;
+        $data["smt_active"] = $smtAktif;
+        $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+        $data["kelass"] = $this->dropdown->getAllKelas($tpAktif->id_tp, $smtAktif->id_smt);
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("master/siswa/data");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function data()
+    {
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $this->output_json($this->master->getDataSiswa($tp->id_tp, $smt->id_smt), false);
+    }
+    public function list()
+    {
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $page = $this->input->post("page", true);
+        $limit = $this->input->post("limit", true);
+        $search = $this->input->post("search", true);
+        $offset = ($page - 1) * $limit;
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $count_siswa = $this->master->getSiswaTotalPage($search);
+        $lists = $this->master->getSiswaPage($tp->id_tp, $smt->id_smt, $offset, $limit, $search);
+        $data = ["lists" => $lists, "total" => $count_siswa, "pages" => ceil($count_siswa / $limit), "search" => $search, "perpage" => $limit];
+        $this->output_json($data);
+    }
+    public function add()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Siswa", "subjudul" => "Tambah Data Siswa", "setting" => $this->dashboard->getSetting()];
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $this->dashboard->getTahunActive();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $this->dashboard->getSemesterActive();
+        $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+        $data["tipe"] = "add";
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("master/siswa/add");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function create()
+    {
+        $this->load->model("Master_model", "master");
+        $nis = $this->input->post("nis", true);
+        $nisn = $this->input->post("nisn", true);
+        $username = $this->input->post("username", true);
+        $u_nis = "|is_unique[master_siswa.nis]";
+        $u_nisn = "|is_unique[master_siswa.nisn]";
+        $u_name = "|is_unique[master_siswa.username]";
+        $this->form_validation->set_rules("nis", "NIS", "required|numeric|trim|min_length[6]|max_length[30]|is_unique[master_siswa.nis]");
+        $this->form_validation->set_rules("nisn", "NISN", "required|numeric|trim|min_length[6]|max_length[20]|is_unique[master_siswa.nisn]");
+        $this->form_validation->set_rules("username", "Username", "required|trim|is_unique[master_siswa.username]");
+        if ($this->form_validation->run() == FALSE) {
+            $data["insert"] = false;
+            $data["text"] = "Data Sudah ada, Pastikan NIS, NISN dan Username belum digunakan siswa lain";
+            goto JehmN;
+        }
+        $insert = ["nama" => $this->input->post("nama_siswa", true), "nis" => $nis, "nisn" => $nisn, "jenis_kelamin" => $this->input->post("jenis_kelamin", true), "kelas_awal" => $this->input->post("kelas_awal", true), "tahun_masuk" => $this->input->post("tahun_masuk", true), "username" => $username, "password" => $this->input->post("password", true), "foto" => "uploads/foto_siswa/" . $nis . "jpg"];
+        $this->db->set("uid", "UUID()", FALSE);
+        $data["insert"] = $this->db->insert("master_siswa", $insert);
+        $id = $this->db->insert_id();
+        $siswa = $this->master->getSiswaById($id);
+        $induk = ["id_siswa" => $id, "uid" => $siswa->uid, "status" => 1];
+        $this->db->insert("buku_induk", $induk);
+        $data["text"] = "Siswa berhasil ditambahkan";
+        JehmN:
+        $this->output_json($data);
+    }
+    public function edit($id)
+    {
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $siswa = $this->master->getSiswaById($id);
+        $inputData = [["label" => "Nama Lengkap", "name" => "nama", "value" => $siswa->nama, "icon" => "far fa-user", "class" => '', "type" => "text"], ["label" => "NIS", "name" => "nis", "value" => $siswa->nis, "icon" => "far fa-id-card", "class" => '', "type" => "number"], ["name" => "nisn", "label" => "NISN", "value" => $siswa->nisn, "icon" => "far fa-id-card", "class" => '', "type" => "text"], ["label" => "Jenis Kelamin", "name" => "jenis_kelamin", "value" => $siswa->jenis_kelamin, "icon" => "fas fa-venus-mars", "class" => '', "type" => "text"], ["name" => "kelas_awal", "label" => "Diterima di kelas", "value" => $siswa->kelas_awal, "icon" => "fas fa-graduation-cap", "class" => '', "type" => "text"], ["name" => "tahun_masuk", "label" => "Tgl diterima", "value" => $siswa->tahun_masuk, "icon" => "tahun far fa-calendar-alt", "class" => "tahun", "type" => "text"], ["name" => "sekolah_asal", "label" => "Sekolah Asal", "value" => $siswa->sekolah_asal, "icon" => "fas fa-graduation-cap", "class" => '', "type" => "text"], ["name" => "status", "label" => "Status", "value" => $siswa->status, "icon" => "far fa-user", "class" => "status", "type" => "text"]];
+        $inputBio = [["name" => "tempat_lahir", "label" => "Tempat Lahir", "value" => $siswa->tempat_lahir, "icon" => "far fa-map", "class" => '', "type" => "text"], ["name" => "tanggal_lahir", "label" => "Tanggal Lahir", "value" => $siswa->tanggal_lahir, "icon" => "far fa-calendar", "class" => "tahun", "type" => "text"], ["class" => '', "name" => "agama", "label" => "Agama", "value" => $siswa->agama, "icon" => "far fa-calendar", "type" => "text"], ["class" => '', "name" => "alamat", "label" => "Alamat", "value" => $siswa->alamat, "icon" => "far fa-user", "type" => "text"], ["class" => '', "name" => "rt", "label" => "Rt", "value" => $siswa->rt, "icon" => "far fa-user", "type" => "text"], ["class" => '', "name" => "rw", "label" => "Rw", "value" => $siswa->rw, "icon" => "far fa-user", "type" => "text"], ["class" => '', "name" => "kelurahan", "label" => "Kelurahan/Desa", "value" => $siswa->kelurahan, "icon" => "far fa-user", "type" => "text"], ["class" => '', "name" => "kecamatan", "label" => "Kecamatan", "value" => $siswa->kecamatan, "icon" => "far fa-user", "type" => "text"], ["class" => '', "name" => "kabupaten", "label" => "Kabupaten/Kota", "value" => $siswa->kabupaten, "icon" => "far fa-user", "type" => "text"], ["class" => '', "name" => "kode_pos", "label" => "Kode Pos", "value" => $siswa->kode_pos, "icon" => "far fa-user", "type" => "text"], ["class" => '', "name" => "hp", "label" => "Hp", "value" => $siswa->hp, "icon" => "far fa-user", "type" => "text"]];
+        $inputOrtu = [["name" => "status_keluarga", "label" => "Status Keluarga", "value" => $siswa->status_keluarga, "icon" => "far fa-user", "type" => "text"], ["name" => "anak_ke", "label" => "Anak ke", "value" => $siswa->anak_ke, "icon" => "far fa-user", "type" => "number"], ["name" => "nama_ayah", "label" => "Nama Ayah", "value" => $siswa->nama_ayah, "icon" => "far fa-user", "type" => "text"], ["name" => "pekerjaan_ayah", "label" => "Pekerjaan Ayah", "value" => $siswa->pekerjaan_ayah, "icon" => "far fa-user", "type" => "text"], ["name" => "alamat_ayah", "label" => "Alamat Ayah", "value" => $siswa->alamat_ayah, "icon" => "far fa-user", "type" => "text"], ["name" => "nohp_ayah", "label" => "No. HP Ayah", "value" => $siswa->nohp_ayah, "icon" => "far fa-user", "type" => "number"], ["name" => "nama_ibu", "label" => "Nama Ibu", "value" => $siswa->nama_ibu, "icon" => "far fa-user", "type" => "text"], ["name" => "pekerjaan_ibu", "label" => "Pekerjaan Ibu", "value" => $siswa->pekerjaan_ibu, "icon" => "far fa-user", "type" => "text"], ["name" => "alamat_ibu", "label" => "Alamat Ibu", "value" => $siswa->alamat_ibu, "icon" => "far fa-user", "type" => "text"], ["name" => "nohp_ibu", "label" => "No. HP Ibu", "value" => $siswa->nohp_ibu, "icon" => "far fa-user", "type" => "number"]];
+        $inputWali = [["name" => "nama_wali", "label" => "Nama Wali", "value" => $siswa->nama_wali, "icon" => "far fa-user", "type" => "text"], ["name" => "pekerjaan_wali", "label" => "Pekerjaan Wali", "value" => $siswa->pekerjaan_wali, "icon" => "far fa-user", "type" => "text"], ["name" => "alamat_wali", "label" => "Alamat Wali", "value" => $siswa->alamat_wali, "icon" => "far fa-user", "type" => "text"], ["name" => "nohp_wali", "label" => "No. HP Wali", "value" => $siswa->nohp_wali, "icon" => "far fa-user", "type" => "number"]];
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Siswa", "subjudul" => "Edit Data Siswa", "siswa" => $siswa, "setting" => $this->dashboard->getSetting()];
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["tp_active"] = $tp;
+        $data["smt_active"] = $smt;
+        $data["input_data"] = json_decode(json_encode($inputData), FALSE);
+        $data["input_bio"] = json_decode(json_encode($inputBio), FALSE);
+        $data["input_ortu"] = json_decode(json_encode($inputOrtu), FALSE);
+        $data["input_wali"] = json_decode(json_encode($inputWali), FALSE);
+        $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+        if ($this->ion_auth->is_admin()) {
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("master/siswa/edit");
+            $this->load->view("_templates/dashboard/_footer");
+            goto GzYFY;
+        }
+        $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("master/siswa/edit");
+        $this->load->view("members/guru/templates/footer");
+        GzYFY:
+    }
+    public function updateData()
+    {
+        $this->load->model("Master_model", "master");
+        $id_siswa = $this->input->post("id_siswa", true);
+        $nis = $this->input->post("nis", true);
+        $nisn = $this->input->post("nisn", true);
+        $siswa = $this->master->getSiswaById($id_siswa);
+        $u_nis = $siswa->nis === $nis ? '' : "|is_unique[master_siswa.nis]";
+        $u_nisn = $siswa->nisn === $nisn ? '' : "|is_unique[master_siswa.nisn]";
+        $this->form_validation->set_rules("nis", "NIS", "required|numeric|trim|min_length[6]|max_length[30]" . $u_nis);
+        if ($this->form_validation->run() == FALSE) {
+            $data["insert"] = false;
+            $data["text"] = "NIS kurang dari 6 angka, atau data Sudah ada, Pastikan NIS, dan NISN belum digunakan siswa lain";
+            goto xK8Re;
+        }
+        $tgl_lahir = $this->input->post("tanggal_lahir", true);
+        $tgl_masuk = $this->input->post("tahun_masuk", true);
+        $input = ["nisn" => $this->input->post("nisn", true), "nis" => $this->input->post("nis", true), "nama" => $this->input->post("nama", true), "jenis_kelamin" => $this->input->post("jenis_kelamin", true), "tempat_lahir" => $this->input->post("tempat_lahir", true), "tanggal_lahir" => $this->strContains($tgl_lahir, "0000-") ? null : $tgl_lahir, "agama" => $this->input->post("agama", true), "status_keluarga" => $this->input->post("status_keluarga", true), "anak_ke" => $this->input->post("anak_ke", true), "alamat" => $this->input->post("alamat", true), "rt" => $this->input->post("rt", true), "rw" => $this->input->post("rw", true), "kelurahan" => $this->input->post("kelurahan", true), "kecamatan" => $this->input->post("kecamatan", true), "kabupaten" => $this->input->post("kabupaten", true), "provinsi" => $this->input->post("provinsi", true), "kode_pos" => $this->input->post("kode_pos", true), "hp" => $this->input->post("hp", true), "nama_ayah" => $this->input->post("nama_ayah", true), "nohp_ayah" => $this->input->post("nohp_ayah", true), "pendidikan_ayah" => $this->input->post("pendidikan_ayah", true), "pekerjaan_ayah" => $this->input->post("pekerjaan_ayah", true), "alamat_ayah" => $this->input->post("alamat_ayah", true), "nama_ibu" => $this->input->post("nama_ibu", true), "nohp_ibu" => $this->input->post("nohp_ibu", true), "pendidikan_ibu" => $this->input->post("pendidikan_ibu", true), "pekerjaan_ibu" => $this->input->post("pekerjaan_ibu", true), "alamat_ibu" => $this->input->post("alamat_ibu", true), "nama_wali" => $this->input->post("nama_wali", true), "pendidikan_wali" => $this->input->post("pendidikan_wali", true), "pekerjaan_wali" => $this->input->post("pekerjaan_wali", true), "nohp_wali" => $this->input->post("nohp_wali", true), "alamat_wali" => $this->input->post("alamat_wali", true), "tahun_masuk" => $this->strContains($tgl_masuk, "0000-") ? null : $tgl_masuk, "kelas_awal" => $this->input->post("kelas_awal", true), "tgl_lahir_ayah" => $this->input->post("tgl_lahir_ayah", true), "tgl_lahir_ibu" => $this->input->post("tgl_lahir_ibu", true), "tgl_lahir_wali" => $this->input->post("tgl_lahir_wali", true), "sekolah_asal" => $this->input->post("sekolah_asal", true), "foto" => $siswa->foto != null && $siswa->foto != '' ? $siswa->foto : "uploads/foto_siswa/" . $nis . ".jpg"];
+        $this->master->update("master_siswa", $input, "id_siswa", $id_siswa);
+        $this->db->set("status", $this->input->post("status", true));
+        $this->db->where("id_siswa", $siswa->id_siswa);
+        $this->db->update("buku_induk");
+        $data["insert"] = $input;
+        $data["text"] = "Siswa berhasil diperbaharui";
+        xK8Re:
+        $this->output_json($data);
+    }
+    function strContains($string, $val)
+    {
+        return strpos($string, $val) !== false;
+    }
+    function uploadFile($id_siswa)
+    {
+        $this->load->model("Master_model", "master");
+        $siswa = $this->master->getSiswaById($id_siswa);
+        if (isset($_FILES["foto"]["name"])) {
+            $config["upload_path"] = "./uploads/foto_siswa/";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["overwrite"] = true;
+            $config["file_name"] = $siswa->nis;
+            $this->upload->initialize($config);
+            if (!$this->upload->do_upload("foto")) {
+                $data["status"] = false;
+                $data["src"] = $this->upload->display_errors();
+                goto aXU5E;
+            }
+            $result = $this->upload->data();
+            $data["src"] = base_url() . "uploads/foto_siswa/" . $result["file_name"];
+            $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
+            $data["status"] = true;
+            $this->db->set("foto", "uploads/foto_siswa/" . $result["file_name"]);
+            $this->db->where("id_siswa", $id_siswa);
+            $this->db->update("master_siswa");
+            aXU5E:
+            $data["type"] = $_FILES["foto"]["type"];
+            $data["size"] = $_FILES["foto"]["size"];
+            goto SB1rI;
+        }
+        $data["src"] = '';
+        SB1rI:
+        $this->output_json($data);
+    }
+    function deleteFile($id_siswa)
+    {
+        $src = $this->input->post("src");
+        $file_name = str_replace(base_url(), '', $src);
+        if (!($file_name != "assets/img/siswa.png")) {
+            goto Dr0o6;
+        }
+        if (!unlink($file_name)) {
+            goto Pc0Zu;
+        }
+        $this->db->set("foto", '');
+        $this->db->where("id_siswa", $id_siswa);
+        $this->db->update("master_siswa");
+        echo "File Delete Successfully";
+        Pc0Zu:
+        Dr0o6:
+    }
+    public function delete()
+    {
+        $this->load->model("Master_model", "master");
+        $chk = $this->input->post("checked", true);
+        if (!$chk) {
+            $this->output_json(["status" => false]);
+            goto nY0M_;
+        }
+        if (!$this->master->delete("master_siswa", $chk, "id_siswa")) {
+            goto NefWT;
+        }
+        $this->master->delete("buku_induk", $chk, "id_siswa");
+        $this->output_json(["status" => true, "total" => count($chk)]);
+        NefWT:
+        nY0M_:
+    }
+    public function previewExcel()
+    {
+        $this->load->model("Master_model", "master");
+        $config["upload_path"] = "./uploads/import/";
+        $config["allowed_types"] = "xls|xlsx|csv";
+        $config["max_size"] = 2048;
+        $config["encrypt_name"] = true;
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload("upload_file")) {
+            $error = $this->upload->display_errors();
+            echo $error;
+            die;
+        }
+        $file = $this->upload->data("full_path");
+        $ext = $this->upload->data("file_ext");
+        switch ($ext) {
+            case ".xlsx":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                goto gnupg;
+            case ".xls":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                goto gnupg;
+            case ".csv":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                goto gnupg;
+            default:
+                echo "unknown file ext";
+                die;
+        }
+        gnupg:
+        $spreadsheet = $reader->load($file);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $data = [];
+        $arr_nisn = [];
+        $arr_nis = [];
+        $arr_username = [];
+        $i = 1;
+        OQHfa:
+        if (!($i < count($sheetData))) {
+            unlink($file);
+            $data["exist"] = $this->master->getSiswaByArrNisn($arr_nisn, $arr_nis, $arr_username);
+            echo json_encode($data);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        if (!($sheetData[$i][0] != null)) {
+            goto C2CS6;
+        }
+        $nisn = str_replace("'", '', $sheetData[$i][1]);
+        $arr_nisn[] = $nisn;
+        $nis = str_replace("'", '', $sheetData[$i][2]);
+        $arr_nis[] = $nis;
+        $username = $sheetData[$i][5];
+        $arr_username[] = $username;
+        $data["siswa"][] = ["nisn" => $nisn, "nis" => $nis, "nama" => $sheetData[$i][3], "jenis_kelamin" => $sheetData[$i][4], "username" => $username, "password" => $sheetData[$i][6], "tempat_lahir" => $sheetData[$i][10], "tanggal_lahir" => $sheetData[$i][11], "agama" => $sheetData[$i][12], "status_keluarga" => $sheetData[$i][16], "anak_ke" => $sheetData[$i][15], "alamat" => $sheetData[$i][17], "rt" => $sheetData[$i][18], "rw" => $sheetData[$i][19], "kelurahan" => $sheetData[$i][20], "kecamatan" => $sheetData[$i][21], "kabupaten" => $sheetData[$i][22], "provinsi" => $sheetData[$i][23], "kode_pos" => $sheetData[$i][24], "hp" => str_replace("'", '', $sheetData[$i][13]), "nama_ayah" => $sheetData[$i][25], "nohp_ayah" => str_replace("'", '', $sheetData[$i][29]), "pendidikan_ayah" => $sheetData[$i][27], "pekerjaan_ayah" => $sheetData[$i][28], "alamat_ayah" => $sheetData[$i][30], "nama_ibu" => $sheetData[$i][31], "nohp_ibu" => str_replace("'", '', $sheetData[$i][35]), "pendidikan_ibu" => $sheetData[$i][33], "pekerjaan_ibu" => $sheetData[$i][34], "alamat_ibu" => $sheetData[$i][36], "nama_wali" => $sheetData[$i][37], "pendidikan_wali" => $sheetData[$i][39], "pekerjaan_wali" => $sheetData[$i][40], "nohp_wali" => str_replace("'", '', $sheetData[$i][41]), "alamat_wali" => $sheetData[$i][42], "tahun_masuk" => $sheetData[$i][8], "kelas_awal" => $sheetData[$i][7], "tgl_lahir_ayah" => $sheetData[$i][26], "tgl_lahir_ibu" => $sheetData[$i][32], "tgl_lahir_wali" => $sheetData[$i][38], "sekolah_asal" => $sheetData[$i][9], "id_siswa" => isset($sheetData[$i][43]) ? $sheetData[$i][43] : ''];
+        C2CS6:
+        $i++;
+        goto OQHfa;
+    }
+    public function do_import()
+    {
+        $input = json_decode($this->input->post("siswa", true));
+        $errors = [];
+        $duplikat = [];
+        foreach ($input as $key1 => $val1) {
+            $data = [];
+            foreach (((array) $input)[$key1] as $key => $val) {
+                $data[$key] = $val;
+            }
+            $this->form_validation->set_data($data);
+            $u_nis = "|is_unique[master_siswa.nis]";
+            $u_nisn = "|is_unique[master_siswa.nisn]";
+            $u_name = "|is_unique[master_siswa.username]";
+            $this->form_validation->set_rules("nis", "NIS", "required|numeric|trim|min_length[6]|max_length[30]|is_unique[master_siswa.nis]");
+            $this->form_validation->set_rules("nisn", "NISN", "required|numeric|trim|min_length[6]|max_length[20]|is_unique[master_siswa.nisn]");
+            $this->form_validation->set_rules("username", "Username", "required|trim|is_unique[master_siswa.username]");
+            if (!($this->form_validation->run() == FALSE)) {
+                goto yGOoW;
+            }
+            $duplikat[] = $data;
+            $errors[$data["nama"]] = ["nis" => form_error("nis"), "nisn" => form_error("nisn"), "username" => form_error("username")];
+            yGOoW:
+        }
+        if (count($errors) > 0) {
+            $data = ["status" => false, "errors" => $errors, "duplikat" => $duplikat];
+            $this->output_json($data);
+            goto Wbiil;
+        }
+        $this->db->trans_start();
+        foreach ($input as $key1 => $val1) {
+            $data = [];
+            foreach (((array) $input)[$key1] as $key => $val) {
+                if ($key == "status_keluarga" && $val == null) {
+                    $data[$key] = "1";
+                    goto Qa8Sp;
+                }
+                $data[$key] = $val;
+                Qa8Sp:
+            }
+            $data["foto"] = "uploads/foto_siswa/" . $data["nis"] . ".jpg";
+            $this->db->set("uid", "UUID()", FALSE);
+            $save = $this->db->insert("master_siswa", $data);
+        }
+        $uids = $this->db->select("id_siswa, uid")->from("master_siswa")->get()->result();
+        foreach ($uids as $uid) {
+            $check = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $uid->id_siswa);
+            if (!($check->get()->num_rows() == 0)) {
+                goto stzD4;
+            }
+            $this->db->insert("buku_induk", $uid);
+            stzD4:
+        }
+        $this->db->trans_complete();
+        $data = ["status" => true, "errors" => []];
+        $this->output_json($data);
+        Wbiil:
+    }
+    public function update()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Dropdown_model", "dropdown");
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Update Data Siswa", "subjudul" => "Update Data Siswa", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp_active"] = $tp;
+        $data["smt_active"] = $smt;
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+        $data["tipe"] = "update";
+        $data["kelas"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("master/siswa/update");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function downloadData($id_kelas)
+    {
+        $this->load->model("Master_model", "master");
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $kelas = $this->master->getKelasById($id_kelas);
+        $siswas = $this->master->getSiswaByKelas($tp->id_tp, $smt->id_smt, $id_kelas);
+        $template = "./uploads/import/format/format_update_siswa.xlsx";
+        $fileName = "Data Siswa Kelas " . $kelas->nama_kelas . ".xlsx";
+        $no = [];
+        $ids = [];
+        $nis = [];
+        $nisn = [];
+        $nama = [];
+        $jk = [];
+        $username = [];
+        $password = [];
+        $kelas_awal = [];
+        $tgl_diterima = [];
+        $sekolah_asal = [];
+        $tempat_lahir = [];
+        $tgl_lahir = [];
+        $agama = [];
+        $tlp_siswa = [];
+        $email = [];
+        $anak_ke = [];
+        $status_keluarga = [];
+        $alamat_siswa = [];
+        $rt = [];
+        $rw = [];
+        $kel = [];
+        $kec = [];
+        $kab = [];
+        $prov = [];
+        $kode_pos = [];
+        $nama_ayah = [];
+        $tgl_lahir_ayah = [];
+        $pendidikan_ayah = [];
+        $pekerjaan_ayah = [];
+        $tlp_ayah = [];
+        $alamat_ayah = [];
+        $nama_ibu = [];
+        $tgl_lahir_ibu = [];
+        $pendidikan_ibu = [];
+        $pekerjaan_ibu = [];
+        $tlp_ibu = [];
+        $alamat_ibu = [];
+        $nama_wali = [];
+        $tgl_lahir_wali = [];
+        $pendidikan_wali = [];
+        $pekerjaan_wali = [];
+        $tlp_wali = [];
+        $alamat_wali = [];
+        $i = 0;
+        R80vV:
+        if (!($i < count($siswas))) {
+            $params = ["[id]" => $ids, "[no]" => $no, "[nis]" => $nis, "[nisn]" => $nisn, "[nama]" => $nama, "[jk]" => $jk, "[username]" => $username, "[password]" => $password, "[kelas_awal]" => $kelas_awal, "[tgl_diterima]" => $tgl_diterima, "[sekolah_asal]" => $sekolah_asal, "[tempat_lahir]" => $tempat_lahir, "[tgl_lahir]" => $tgl_lahir, "[agama]" => $agama, "[tlp_siswa]" => $tlp_siswa, "[email]" => $email, "[anak_ke]" => $anak_ke, "[status_keluarga]" => $status_keluarga, "[alamat_siswa]" => $alamat_siswa, "[rt]" => $rt, "[rw]" => $rw, "[kel]" => $kel, "[kec]" => $kec, "[kab]" => $kab, "[prov]" => $prov, "[kode_pos]" => $kode_pos, "[nama_ayah]" => $nama_ayah, "[tgl_lahir_ayah]" => $tgl_lahir_ayah, "[pendidikan_ayah]" => $pendidikan_ayah, "[pekerjaan_ayah]" => $pekerjaan_ayah, "[tlp_ayah]" => $tlp_ayah, "[alamat_ayah]" => $alamat_ayah, "[nama_ibu]" => $nama_ibu, "[tgl_lahir_ibu]" => $tgl_lahir_ibu, "[pendidikan_ibu]" => $pendidikan_ibu, "[pekerjaan_ibu]" => $pekerjaan_ibu, "[tlp_ibu]" => $tlp_ibu, "[alamat_ibu]" => $alamat_ibu, "[nama_wali]" => $nama_wali, "[tgl_lahir_wali]" => $tgl_lahir_wali, "[pendidikan_wali]" => $pendidikan_wali, "[pekerjaan_wali]" => $pekerjaan_wali, "[tlp_wali]" => $tlp_wali, "[alamat_wali]" => $alamat_wali];
+            PhpExcelTemplator::outputToFile($template, $fileName, $params);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        $siswa = $siswas[$i];
+        $no[] = $i + 1;
+        $ids[] = $siswa->id_siswa;
+        $nis[] = "'" . $siswa->nis;
+        $nisn[] = "'" . $siswa->nisn;
+        $nama[] = $siswa->nama;
+        $email[] = $siswa->email;
+        $jk[] = $siswa->jenis_kelamin;
+        $username[] = $siswa->username;
+        $password[] = $siswa->password;
+        $kelas_awal[] = $siswa->kelas_awal;
+        $tgl_diterima[] = $siswa->tahun_masuk;
+        $sekolah_asal[] = $siswa->sekolah_asal;
+        $tempat_lahir[] = $siswa->tempat_lahir;
+        $tgl_lahir[] = $siswa->tanggal_lahir;
+        $agama[] = $siswa->agama;
+        $tlp_siswa[] = "'" . $siswa->hp;
+        $anak_ke[] = $siswa->anak_ke;
+        $status_keluarga[] = $siswa->status_keluarga;
+        $alamat_siswa[] = $siswa->alamat;
+        $rt[] = $siswa->rt;
+        $rw[] = $siswa->rw;
+        $kel[] = $siswa->kelurahan;
+        $kec[] = $siswa->kecamatan;
+        $kab[] = $siswa->kabupaten;
+        $prov[] = $siswa->provinsi;
+        $kode_pos[] = $siswa->kode_pos;
+        $nama_ayah[] = $siswa->nama_ayah;
+        $tgl_lahir_ayah[] = $siswa->tgl_lahir_ayah;
+        $pendidikan_ayah[] = $siswa->pendidikan_ayah;
+        $pekerjaan_ayah[] = $siswa->pekerjaan_ayah;
+        $tlp_ayah[] = "'" . $siswa->nohp_ayah;
+        $alamat_ayah[] = $siswa->alamat_ayah;
+        $nama_ibu[] = $siswa->nama_ibu;
+        $tgl_lahir_ibu[] = $siswa->tgl_lahir_ibu;
+        $pendidikan_ibu[] = $siswa->pendidikan_ibu;
+        $pekerjaan_ibu[] = $siswa->pekerjaan_ibu;
+        $tlp_ibu[] = "'" . $siswa->nohp_ibu;
+        $alamat_ibu[] = $siswa->alamat_ibu;
+        $nama_wali[] = $siswa->nama_wali;
+        $tgl_lahir_wali[] = $siswa->tgl_lahir_wali;
+        $pendidikan_wali[] = $siswa->pendidikan_wali;
+        $pekerjaan_wali[] = $siswa->pekerjaan_wali;
+        $tlp_wali[] = "'" . $siswa->nohp_wali;
+        $alamat_wali[] = $siswa->alamat_wali;
+        $i++;
+        goto R80vV;
+    }
+    public function updateAll()
+    {
+        $input = json_decode($this->input->post("siswa", true));
+        $this->db->trans_start();
+        foreach ($input as $key1 => $val1) {
+            $data = [];
+            $kid = "id_siswa";
+            $id_siswa = "0";
+            foreach (((array) $input)[$key1] as $key => $val) {
+                if ($key == $kid) {
+                    $id_siswa = $val;
+                    goto maJDt;
+                }
+                $data[$key] = $val;
+                if (!($key == "nis")) {
+                    goto UJypQ;
+                }
+                $data["foto"] = "uploads/foto_siswa/" . $val . ".jpg";
+                UJypQ:
+                maJDt:
+            }
+            $save = $this->db->update("master_siswa", $data, array("id_siswa" => $id_siswa));
+        }
+        $this->db->trans_complete();
+        $data = ["status" => $save, "errors" => []];
+        $this->output_json($data);
+    }
+    public function previewExcelNis()
+    {
+        $config["upload_path"] = "./uploads/import/";
+        $config["allowed_types"] = "xls|xlsx|csv";
+        $config["max_size"] = 2048;
+        $config["encrypt_name"] = true;
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload("upload_file")) {
+            $error = $this->upload->display_errors();
+            echo $error;
+            die;
+        }
+        $file = $this->upload->data("full_path");
+        $ext = $this->upload->data("file_ext");
+        switch ($ext) {
+            case ".xlsx":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                goto Xa_bQ;
+            case ".xls":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                goto Xa_bQ;
+            case ".csv":
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                goto Xa_bQ;
+            default:
+                echo "unknown file ext";
+                die;
+        }
+        Xa_bQ:
+        $spreadsheet = $reader->load($file);
+        $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $data = [];
+        $i = 1;
+        EXWYG:
+        if (!($i < count($sheetData))) {
+            unlink($file);
+            echo json_encode($data);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        if (!($sheetData[$i][0] != null)) {
+            goto tXAJG;
+        }
+        $data[] = ["nisn" => str_replace("'", '', $sheetData[$i][1]), "nis" => str_replace("'", '', $sheetData[$i][2])];
+        tXAJG:
+        $i++;
+        goto EXWYG;
+    }
+    public function updateNisByNisn()
+    {
+        $input = json_decode($this->input->post("siswa", true));
+        foreach ($input as $val) {
+            $this->db->set("nis", trim($val->nis));
+            $this->db->where("nisn", trim($val->nisn));
+            $save = $this->db->update("master_siswa");
+        }
+        $this->db->trans_complete();
+        $this->output_json($save);
+    }
+    public function editLogin()
+    {
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $id_siswa = $this->input->post("id_siswa", true);
+        $username = $this->input->post("username", true);
+        $pass = $this->input->post("new", true);
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $siswa_lain = $this->dashboard->getDataSiswa($username, $tp->id_tp, $smt->id_smt);
+        $this->form_validation->set_rules("old", $this->lang->line("change_password_validation_old_password_label"), "required");
+        $this->form_validation->set_rules("new", $this->lang->line("change_password_validation_new_password_label"), "required|min_length[" . $this->config->item("min_password_length", "ion_auth") . "]|matches[new_confirm]");
+        $this->form_validation->set_rules("new_confirm", $this->lang->line("change_password_validation_new_password_confirm_label"), "required");
+        if ($siswa_lain && $siswa_lain->id_siswa != $id_siswa) {
+            $data = ["status" => false, "errors" => ["username" => "Username sudah digunakan"]];
+            goto YFswj;
+        }
+        if ($this->form_validation->run() === FALSE) {
+            $data = ["status" => false, "errors" => ["old" => form_error("old"), "new" => form_error("new"), "new_confirm" => form_error("new_confirm")]];
+            goto jndwe;
+        }
+        $siswa = $this->db->get_where("master_siswa", "id_siswa=\"" . $id_siswa . "\"")->row();
+        $nama = explode(" ", $siswa->nama);
+        $first_name = $nama[0];
+        $last_name = end($nama);
+        $username = trim($username);
+        $password = trim($pass);
+        $email = $siswa->nis . "@siswa.com";
+        $additional_data = ["first_name" => $first_name, "last_name" => $last_name];
+        $group = array("3");
+        $user_siswa = $this->db->get_where("users", "email=\"" . $email . "\"")->row();
+        $deleted = true;
+        if (!($user_siswa != null)) {
+            goto VPQZY;
+        }
+        $deleted = $this->ion_auth->delete_user($user_siswa->id);
+        VPQZY:
+        if ($deleted) {
+            $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+            $this->db->set("username", $username);
+            $this->db->set("password", $password);
+            $this->db->where("id_siswa", $id_siswa);
+            $status = $this->db->update("master_siswa");
+            $msg = !$status ? "Gagal mengganti username/passsword." : "berhasil mengganti username/passsword.";
+            goto z2T1f;
+        }
+        $status = false;
+        $msg = "Gagal mengganti username/passsword.";
+        z2T1f:
+        $data["status"] = $status;
+        $data["text"] = $msg;
+        jndwe:
+        YFswj:
+        $this->output_json($data);
+    }
+    private function registerSiswa($username, $password, $email, $additional_data, $group)
+    {
+        $reg = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+        $data["status"] = true;
+        $data["id"] = $reg;
+        if (!($reg == false)) {
+            goto W4zYJ;
+        }
+        $data["status"] = false;
+        W4zYJ:
+        return $data;
+    }
+}

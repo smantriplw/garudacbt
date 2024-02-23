@@ -1,7 +1,108 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\102\x41\123\105\120\101\124\x48") or exit("\x4e\157\40\x64\x69\162\x65\143\164\x20\x73\x63\162\151\x70\x74\x20\141\143\143\x65\x73\163\40\141\154\x6c\157\x77\x65\144"); class Dbclear extends CI_Controller { public function __construct() { goto iRfmX; U7QrI: $this->load->model("\104\x61\163\150\x62\x6f\141\162\x64\137\x6d\157\144\x65\x6c", "\144\x61\163\150\142\157\x61\162\x64"); goto oTRFW; e6JrI: $this->load->model("\x53\145\164\164\x69\156\147\x73\x5f\x6d\x6f\x64\x65\154", "\163\x65\x74\x74\x69\156\x67\x73"); goto U7QrI; GWk4R: show_error("\110\141\x6e\171\141\40\x41\x64\155\x69\x6e\40\171\x61\156\x67\40\x62\x6f\154\145\150\x20\x6d\x65\x6e\x67\141\x6b\x73\x65\x73\40\x68\x61\x6c\141\x6d\x61\156\40\x69\x6e\151", 403, "\x41\x6b\163\x65\x73\40\x64\x69\x6c\141\162\x61\156\x67"); goto PRPj6; LiuVL: $this->load->library("\x75\160\x6c\x6f\141\x64"); goto ZCTAx; Td99v: goto D5f71; goto QgNr_; bHNWx: redirect("\141\x75\x74\x68"); goto BsZKH; PAz6i: if ($this->ion_auth->is_admin()) { goto c8yQs; } goto GWk4R; BsZKH: D5f71: goto LiuVL; ZCTAx: $this->load->dbforge(); goto e6JrI; oTRFW: $this->load->helper("\x64\x69\x72\145\x63\164\157\162\171"); goto rRfog; z7Rge: if (!$this->ion_auth->logged_in()) { goto H0tjt; } goto PAz6i; PRPj6: c8yQs: goto Td99v; QgNr_: H0tjt: goto bHNWx; iRfmX: parent::__construct(); goto z7Rge; rRfog: } public function output_json($data, $encode = true) { goto rJe7C; rJe7C: if (!$encode) { goto AELLo; } goto QKPcT; Ly31C: $this->output->set_content_type("\x61\160\x70\x6c\151\x63\x61\164\x69\x6f\156\57\152\163\157\x6e")->set_output($data); goto dN8fP; QKPcT: $data = json_encode($data); goto MdGMJ; MdGMJ: AELLo: goto Ly31C; dN8fP: } public function index() { goto Dvv1t; vLJMg: $user = $this->ion_auth->user()->row(); goto Nr5WW; xb3YF: $this->load->view("\x73\145\x74\164\x69\x6e\147\x2f\x6d\x61\156\x61\147\x65"); goto gmGc1; IeGvl: $json = json_decode($json); goto JB6pw; e1N87: jXDep: goto X0Hz2; g1oVo: $data["\x74\160\x5f\141\143\164\151\x76\145"] = $this->dashboard->getTahunActive(); goto FCnhD; Nr5WW: $data = ["\x75\163\145\x72" => $user, "\x6a\x75\x64\x75\154" => "\102\x65\162\163\x69\x68\x6b\141\x6e\40\x44\141\164\141", "\163\165\142\152\165\144\x75\x6c" => "\x48\141\x70\x75\x73\x20\x44\x61\164\141", "\x70\x72\157\x66\151\x6c\x65" => $this->dashboard->getProfileAdmin($user->id), "\163\145\164\x74\151\x6e\147" => $this->dashboard->getSetting()]; goto fYTpE; JB6pw: $json = (array) $json; goto vLJMg; Dvv1t: $json = file_get_contents("\x2e\57\141\x73\163\x65\x74\x73\x2f\x61\160\160\57\144\142\x2f\x64\x61\164\x61\142\x61\x73\x65\56\152\163\157\x6e"); goto IeGvl; fYTpE: $data["\164\x70"] = $this->dashboard->getTahun(); goto g1oVo; gmGc1: $this->load->view("\x5f\x74\x65\x6d\160\154\x61\164\x65\x73\x2f\144\x61\x73\150\142\x6f\x61\x72\144\57\137\146\x6f\x6f\x74\x65\162"); goto xO9yl; XRFUy: $excludes = ["\142\165\153\165\137\x69\x6e\x64\x75\x6b", "\x61\160\151\137\x73\x65\164\164\151\x6e\147", "\x61\x70\151\137\x74\x6f\x6b\145\x6e", "\142\165\154\141\x6e", "\x68\141\x72\x69", "\163\145\x74\164\x69\x6e\147", "\x63\142\x74\x5f\x6a\x65\x6e\151\163", "\143\x62\x74\x5f\162\x75\141\x6e\147", "\143\142\164\137\x73\x65\163\x69", "\143\142\x74\137\x74\x6f\x6b\x65\156", "\x6c\145\x76\x65\154\x5f\147\165\x72\x75", "\x6c\145\x76\145\x6c\x5f\x6b\x65\154\x61\163", "\155\x61\x73\164\145\x72\x5f\164\160", "\x6d\x61\x73\164\145\x72\137\163\x6d\164", "\155\x61\x73\x74\x65\x72\x5f\150\x61\162\x69\137\145\146\x65\153\164\151\146", "\x75\x73\145\x72\163", "\x67\x72\x6f\x75\x70\x73", "\x75\x73\145\x72\163\x5f\x67\x72\157\x75\x70\163", "\x6c\x6f\x67\x69\156\137\x61\164\x74\x65\155\160\x74\163", "\165\x73\x65\162\x73\x5f\160\x72\x6f\146\151\154\x65", "\x72\x61\x70\x6f\162\137\141\x64\x6d\x69\x6e\x5f\163\x65\x74\x74\x69\156\x67", "\162\165\156\x6e\151\156\x67\137\x74\145\170\164"]; goto v8zoA; vOy2H: $tables = $this->db->list_tables(); goto SswJp; X0Hz2: $data["\x74\141\142\154\x65\x73"] = $data_tables; goto aa5Sc; IsA3v: $data["\x73\x6d\x74\137\x61\143\x74\151\166\145"] = $this->dashboard->getSemesterActive(); goto XRFUy; SswJp: foreach ($tables as $table) { goto qRExS; GsJAE: if (in_array($table, $excludes)) { goto ArJzC; } goto m4cXD; cM5eF: $this->dbforge->drop_table($table, true); goto ouADe; kToLs: oCd78: goto ulNAO; owwlp: BhxbH: goto GsJAE; m4cXD: $name = str_replace("\x5f", "\x20", $table); goto AjF9s; QTLSZ: if (in_array($table, $excludes)) { goto yKxgS; } goto fbzv3; fbzv3: if ($table == "\x62\165\153\x75\137\x6e\151\154\x61\x69") { goto oCd78; } goto cM5eF; v2Gp5: ArJzC: goto lT934; ulNAO: $nums = $this->db->get("\142\165\x6b\165\x5f\x6e\151\x6c\141\x69")->num_rows(); goto cP_09; Eijpl: Iz3z6: goto vgjN5; ouADe: goto Dm8Kw; goto kToLs; I58jE: goto OJBH0; goto owwlp; cP_09: if (!($nums == 0)) { goto gFdBs; } goto Wmccv; iajQe: $data_tables[$table_info["\x6b\145\164"]][] = $table_info; goto v2Gp5; AjF9s: $table_info = ["\x6b\145\164" => $this->keterangan()[$table], "\x73\x69\x7a\x65" => $this->settings->rowSize($table), "\x74\141\142\154\x65" => $table, "\x6e\141\x6d\145" => ucwords($name)]; goto iajQe; AaSgx: gFdBs: goto YIPUb; XvLiG: yKxgS: goto I58jE; lT934: OJBH0: goto Eijpl; Wmccv: $this->dbforge->drop_table("\142\165\x6b\x75\x5f\156\x69\x6c\x61\151", true); goto AaSgx; qRExS: if (isset($json[$table])) { goto BhxbH; } goto QTLSZ; YIPUb: Dm8Kw: goto XvLiG; vgjN5: } goto e1N87; FCnhD: $data["\x73\x6d\164"] = $this->dashboard->getSemester(); goto IsA3v; aa5Sc: $this->load->view("\x5f\164\x65\x6d\x70\154\x61\164\x65\x73\57\x64\x61\x73\x68\x62\157\141\x72\144\x2f\x5f\150\x65\x61\x64\145\162", $data); goto xb3YF; v8zoA: $data_tables = []; goto vOy2H; xO9yl: } public function hapusTable() { goto YWgki; doTFf: $this->db->truncate($table); goto GQZFT; IS76h: $this->load->helper("\x66\151\x6c\x65"); goto F8su9; YWgki: $table = $this->input->post("\x74\x61\x62\x6c\145", true); goto G6b4k; G6b4k: $this->load->dbutil(); goto szXjU; Ef023: $backup = $this->dbutil->backup(array($prefs)); goto IS76h; szXjU: $prefs = ["\164\x61\142\154\145\x73" => array($table), "\151\x67\156\157\x72\145" => array(), "\146\x6f\x72\155\x61\x74" => "\164\x78\164", "\x66\x69\x6c\145\x6e\141\155\x65" => $table . "\x2e\x73\161\x6c", "\141\144\x64\x5f\x64\162\157\160" => TRUE, "\x61\144\x64\137\151\x6e\x73\x65\162\x74" => TRUE, "\x6e\145\167\154\x69\x6e\x65" => "\xa"]; goto Ef023; F8su9: write_file("\x2e\57\142\x61\143\x6b\165\160\x73\57\142\141\x63\153\x75\x70\x5f" . $table . "\137" . date("\x59\137\x6d\x5f\x64\137\x48\137\151\x5f\163") . "\56\163\161\154", $backup); goto doTFf; GQZFT: $this->output_json(["\x74\171\160\x65" => "\x64\141\164\141\x62\x61\163\x65", "\x6d\145\x73\163\141\x67\x65" => "\x44\141\x74\x61\142\x61\x73\x65\x20\142\x65\x72\x68\141\x73\x69\x6c\40\x64\x69\150\141\160\x75\x73"]); goto rECOg; rECOg: } public function truncate() { goto mz75p; N06qf: $this->settings->truncate($tables); goto u3TKT; u3TKT: $this->output_json(["\163\x74\141\x74\165\x73" => true]); goto ghVrP; mz75p: $tables = $this->db->list_tables(); goto N06qf; ghVrP: } private function keterangan() { $data = ["\x61\x70\x69\x5f\163\x65\x74\x74\151\x6e\x67" => "\61", "\141\x70\151\137\x74\157\x6b\145\156" => "\61", "\x62\165\x6b\165\x5f\x69\x6e\x64\x75\x6b" => "\61", "\142\165\154\141\x6e" => "\x30", "\143\x62\164\137\142\141\156\x6b\137\x73\x6f\141\154" => "\62", "\143\142\x74\x5f\144\x75\162\x61\x73\x69\137\x73\151\x73\x77\141" => "\62", "\x63\142\x74\137\x6a\x61\x64\x77\141\x6c" => "\x32", "\x63\142\x74\x5f\x6a\141\x64\167\x61\x6c\x5f\x75\x6a\x69\x61\x6e" => "\62", "\x63\x62\164\137\x6a\x65\x6e\x69\x73" => "\60", "\x63\x62\x74\137\x6b\x65\154\141\x73\137\x72\165\141\x6e\x67" => "\x32", "\x63\x62\x74\x5f\153\x6f\x70\137\141\142\x73\x65\156\163\151" => "\x31", "\143\x62\x74\137\153\157\x70\x5f\x62\x65\162\151\x74\141" => "\x31", "\x63\142\164\x5f\x6b\157\x70\x5f\153\141\x72\164\x75" => "\x31", "\143\x62\x74\x5f\156\151\x6c\141\151" => "\x32", "\x63\142\x74\137\156\157\155\x6f\x72\137\160\x65\x73\145\162\x74\141" => "\62", "\143\142\x74\x5f\x70\145\156\147\141\167\141\163" => "\62", "\x63\x62\164\x5f\x72\145\153\x61\160" => "\62", "\143\142\164\137\162\145\153\x61\160\137\x6e\151\154\141\151" => "\62", "\143\x62\164\137\162\x75\141\x6e\147" => "\61", "\143\142\x74\137\x73\145\163\151" => "\61", "\x63\142\164\137\x73\145\x73\151\x5f\x73\x69\163\x77\x61" => "\x32", "\x63\142\164\x5f\x73\x6f\x61\x6c" => "\62", "\143\142\x74\x5f\x73\157\x61\154\137\x73\x69\x73\167\141" => "\x32", "\143\142\164\x5f\x74\157\x6b\145\156" => "\61", "\x67\162\157\165\x70\x73" => "\x30", "\x68\141\x72\151" => "\x30", "\x6a\141\x62\x61\164\141\156\137\x67\165\162\165" => "\x31", "\153\145\154\141\163\x5f\x63\x61\164\x61\x74\141\156\137\155\141\160\x65\x6c" => "\62", "\x6b\x65\x6c\141\163\x5f\x63\141\164\141\x74\x61\156\137\167\x61\154\151" => "\x32", "\153\x65\154\x61\163\137\x65\153\x73\x74\x72\141" => "\x31", "\x6b\x65\x6c\141\x73\137\152\x61\x64\x77\x61\154\x5f\x6b\x62\x6d" => "\62", "\153\145\154\141\x73\x5f\x6a\141\x64\167\141\154\x5f\x6d\141\160\x65\154" => "\x32", "\153\145\x6c\x61\163\137\x6a\x61\x64\x77\x61\x6c\137\x6d\x61\164\145\x72\151" => "\x32", "\153\x65\x6c\141\163\137\x6a\141\144\x77\x61\154\137\164\x75\x67\141\x73" => "\x32", "\153\145\154\x61\x73\137\x6d\x61\164\145\162\151" => "\62", "\153\x65\154\x61\x73\137\163\151\x73\167\x61" => "\62", "\x6b\x65\154\141\x73\x5f\x73\x74\x72\165\x6b\164\x75\x72" => "\x32", "\x6b\145\x6c\141\163\137\164\165\x67\x61\163" => "\62", "\x6c\x65\x76\x65\154\137\x67\x75\162\165" => "\60", "\154\145\x76\145\x6c\137\153\x65\x6c\x61\163" => "\60", "\x6c\x6f\x67" => "\x32", "\154\157\x67\x69\x6e\137\141\x74\164\x65\155\x70\x74\x73" => "\x30", "\x6c\157\147\x5f\x6d\141\164\x65\162\x69" => "\x32", "\x6c\157\x67\x5f\x74\165\147\141\163" => "\x32", "\x6c\157\x67\137\165\x6a\151\x61\156" => "\x32", "\155\141\x73\x74\145\162\137\x65\153\x73\164\x72\x61" => "\61", "\155\x61\163\164\x65\162\137\x67\x75\x72\x75" => "\x31", "\155\141\163\164\145\162\x5f\150\x61\x72\x69\x5f\x65\x66\145\x6b\164\151\x66" => "\x31", "\155\x61\163\164\145\x72\x5f\x6a\165\162\165\x73\141\156" => "\61", "\155\141\163\x74\x65\162\x5f\x6b\145\154\141\163" => "\x31", "\x6d\x61\163\164\x65\162\137\x6b\145\154\x6f\155\x70\x6f\x6b\137\x6d\x61\x70\x65\154" => "\61", "\155\x61\x73\x74\145\x72\137\x6d\x61\x70\x65\x6c" => "\x31", "\155\x61\x73\164\145\162\137\163\x69\163\x77\141" => "\61", "\155\141\x73\164\x65\162\137\163\x6d\x74" => "\60", "\155\x61\163\x74\x65\162\x5f\x74\x70" => "\x30", "\x70\x6f\x73\164" => "\62", "\x70\157\163\x74\x5f\x63\157\155\155\145\x6e\x74\163" => "\62", "\x70\157\163\164\x5f\162\x65\x70\154\171" => "\62", "\x72\x61\160\x6f\162\x5f\141\x64\x6d\x69\x6e\x5f\163\145\x74\x74\151\x6e\147" => "\61", "\x72\141\160\157\162\x5f\x63\x61\164\141\x74\x61\x6e\x5f\167\x61\154\x69" => "\61", "\x72\141\x70\x6f\x72\x5f\x64\x61\164\x61\137\143\141\x74\x61\164\141\x6e" => "\x31", "\x72\x61\160\157\162\x5f\x64\141\164\x61\x5f\x66\151\x73\x69\x6b" => "\x31", "\x72\x61\x70\157\162\x5f\144\x61\164\141\137\163\x69\x6b\x61\x70" => "\61", "\162\141\160\157\x72\137\x66\151\x73\151\x6b" => "\61", "\162\141\160\157\x72\x5f\x6b\x69\x6b\144" => "\61", "\162\141\160\157\x72\137\x6b\153\x6d" => "\61", "\x72\x61\x70\x6f\x72\137\156\141\151\153" => "\x31", "\162\141\160\157\x72\137\156\151\154\141\x69\137\x61\x6b\150\151\x72" => "\61", "\x72\141\160\157\x72\137\156\x69\154\x61\151\137\x65\x6b\163\164\x72\x61" => "\x31", "\x72\141\x70\157\x72\137\156\x69\154\x61\151\137\150\141\x72\151\141\x6e" => "\x31", "\x72\141\x70\x6f\x72\137\x6e\151\154\x61\151\x5f\160\x74\163" => "\61", "\162\x61\x70\x6f\162\x5f\x6e\151\x6c\141\151\x5f\163\151\x6b\141\160" => "\x31", "\x72\x61\160\157\x72\137\x70\162\x65\163\164\x61\x73\x69" => "\x31", "\162\x75\156\156\x69\156\x67\x5f\164\145\x78\x74" => "\61", "\x73\x65\164\x74\151\156\147" => "\61", "\x75\x73\145\x72\163" => "\60", "\165\x73\145\x72\x73\137\x67\162\x6f\165\x70\x73" => "\60", "\x75\163\x65\x72\163\x5f\x70\x72\x6f\x66\x69\x6c\145" => "\x30"]; return $data; } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Dbclear extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto BsZKH;
+        }
+        if ($this->ion_auth->is_admin()) {
+            goto c8yQs;
+        }
+        show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
+        c8yQs:
+        BsZKH:
+        $this->load->library("upload");
+        $this->load->dbforge();
+        $this->load->model("Settings_model", "settings");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->helper("directory");
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto AELLo;
+        }
+        $data = json_encode($data);
+        AELLo:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $json = file_get_contents("./assets/app/db/database.json");
+        $json = json_decode($json);
+        $json = (array) $json;
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Bersihkan Data", "subjudul" => "Hapus Data", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $this->dashboard->getTahunActive();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $this->dashboard->getSemesterActive();
+        $excludes = ["buku_induk", "api_setting", "api_token", "bulan", "hari", "setting", "cbt_jenis", "cbt_ruang", "cbt_sesi", "cbt_token", "level_guru", "level_kelas", "master_tp", "master_smt", "master_hari_efektif", "users", "groups", "users_groups", "login_attempts", "users_profile", "rapor_admin_setting", "running_text"];
+        $data_tables = [];
+        $tables = $this->db->list_tables();
+        foreach ($tables as $table) {
+            if (isset($json[$table])) {
+                if (in_array($table, $excludes)) {
+                    goto ArJzC;
+                }
+                $name = str_replace("_", " ", $table);
+                $table_info = ["ket" => $this->keterangan()[$table], "size" => $this->settings->rowSize($table), "table" => $table, "name" => ucwords($name)];
+                $data_tables[$table_info["ket"]][] = $table_info;
+                ArJzC:
+                goto lT934;
+            }
+            if (in_array($table, $excludes)) {
+                goto yKxgS;
+            }
+            if ($table == "buku_nilai") {
+                $nums = $this->db->get("buku_nilai")->num_rows();
+                if (!($nums == 0)) {
+                    goto gFdBs;
+                }
+                $this->dbforge->drop_table("buku_nilai", true);
+                gFdBs:
+                goto YIPUb;
+            }
+            $this->dbforge->drop_table($table, true);
+            YIPUb:
+            yKxgS:
+            lT934:
+        }
+        $data["tables"] = $data_tables;
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("setting/manage");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function hapusTable()
+    {
+        $table = $this->input->post("table", true);
+        $this->load->dbutil();
+        $prefs = ["tables" => array($table), "ignore" => array(), "format" => "txt", "filename" => $table . ".sql", "add_drop" => TRUE, "add_insert" => TRUE, "newline" => "\n"];
+        $backup = $this->dbutil->backup(array($prefs));
+        $this->load->helper("file");
+        write_file("./backups/backup_" . $table . "_" . date("Y_m_d_H_i_s") . ".sql", $backup);
+        $this->db->truncate($table);
+        $this->output_json(["type" => "database", "message" => "Database berhasil dihapus"]);
+    }
+    public function truncate()
+    {
+        $tables = $this->db->list_tables();
+        $this->settings->truncate($tables);
+        $this->output_json(["status" => true]);
+    }
+    private function keterangan()
+    {
+        $data = ["api_setting" => "1", "api_token" => "1", "buku_induk" => "1", "bulan" => "0", "cbt_bank_soal" => "2", "cbt_durasi_siswa" => "2", "cbt_jadwal" => "2", "cbt_jadwal_ujian" => "2", "cbt_jenis" => "0", "cbt_kelas_ruang" => "2", "cbt_kop_absensi" => "1", "cbt_kop_berita" => "1", "cbt_kop_kartu" => "1", "cbt_nilai" => "2", "cbt_nomor_peserta" => "2", "cbt_pengawas" => "2", "cbt_rekap" => "2", "cbt_rekap_nilai" => "2", "cbt_ruang" => "1", "cbt_sesi" => "1", "cbt_sesi_siswa" => "2", "cbt_soal" => "2", "cbt_soal_siswa" => "2", "cbt_token" => "1", "groups" => "0", "hari" => "0", "jabatan_guru" => "1", "kelas_catatan_mapel" => "2", "kelas_catatan_wali" => "2", "kelas_ekstra" => "1", "kelas_jadwal_kbm" => "2", "kelas_jadwal_mapel" => "2", "kelas_jadwal_materi" => "2", "kelas_jadwal_tugas" => "2", "kelas_materi" => "2", "kelas_siswa" => "2", "kelas_struktur" => "2", "kelas_tugas" => "2", "level_guru" => "0", "level_kelas" => "0", "log" => "2", "login_attempts" => "0", "log_materi" => "2", "log_tugas" => "2", "log_ujian" => "2", "master_ekstra" => "1", "master_guru" => "1", "master_hari_efektif" => "1", "master_jurusan" => "1", "master_kelas" => "1", "master_kelompok_mapel" => "1", "master_mapel" => "1", "master_siswa" => "1", "master_smt" => "0", "master_tp" => "0", "post" => "2", "post_comments" => "2", "post_reply" => "2", "rapor_admin_setting" => "1", "rapor_catatan_wali" => "1", "rapor_data_catatan" => "1", "rapor_data_fisik" => "1", "rapor_data_sikap" => "1", "rapor_fisik" => "1", "rapor_kikd" => "1", "rapor_kkm" => "1", "rapor_naik" => "1", "rapor_nilai_akhir" => "1", "rapor_nilai_ekstra" => "1", "rapor_nilai_harian" => "1", "rapor_nilai_pts" => "1", "rapor_nilai_sikap" => "1", "rapor_prestasi" => "1", "running_text" => "1", "setting" => "1", "users" => "0", "users_groups" => "0", "users_profile" => "0"];
+        return array("api_setting" => "1", "api_token" => "1", "buku_induk" => "1", "bulan" => "0", "cbt_bank_soal" => "2", "cbt_durasi_siswa" => "2", "cbt_jadwal" => "2", "cbt_jadwal_ujian" => "2", "cbt_jenis" => "0", "cbt_kelas_ruang" => "2", "cbt_kop_absensi" => "1", "cbt_kop_berita" => "1", "cbt_kop_kartu" => "1", "cbt_nilai" => "2", "cbt_nomor_peserta" => "2", "cbt_pengawas" => "2", "cbt_rekap" => "2", "cbt_rekap_nilai" => "2", "cbt_ruang" => "1", "cbt_sesi" => "1", "cbt_sesi_siswa" => "2", "cbt_soal" => "2", "cbt_soal_siswa" => "2", "cbt_token" => "1", "groups" => "0", "hari" => "0", "jabatan_guru" => "1", "kelas_catatan_mapel" => "2", "kelas_catatan_wali" => "2", "kelas_ekstra" => "1", "kelas_jadwal_kbm" => "2", "kelas_jadwal_mapel" => "2", "kelas_jadwal_materi" => "2", "kelas_jadwal_tugas" => "2", "kelas_materi" => "2", "kelas_siswa" => "2", "kelas_struktur" => "2", "kelas_tugas" => "2", "level_guru" => "0", "level_kelas" => "0", "log" => "2", "login_attempts" => "0", "log_materi" => "2", "log_tugas" => "2", "log_ujian" => "2", "master_ekstra" => "1", "master_guru" => "1", "master_hari_efektif" => "1", "master_jurusan" => "1", "master_kelas" => "1", "master_kelompok_mapel" => "1", "master_mapel" => "1", "master_siswa" => "1", "master_smt" => "0", "master_tp" => "0", "post" => "2", "post_comments" => "2", "post_reply" => "2", "rapor_admin_setting" => "1", "rapor_catatan_wali" => "1", "rapor_data_catatan" => "1", "rapor_data_fisik" => "1", "rapor_data_sikap" => "1", "rapor_fisik" => "1", "rapor_kikd" => "1", "rapor_kkm" => "1", "rapor_naik" => "1", "rapor_nilai_akhir" => "1", "rapor_nilai_ekstra" => "1", "rapor_nilai_harian" => "1", "rapor_nilai_pts" => "1", "rapor_nilai_sikap" => "1", "rapor_prestasi" => "1", "running_text" => "1", "setting" => "1", "users" => "0", "users_groups" => "0", "users_profile" => "0");
+    }
+}

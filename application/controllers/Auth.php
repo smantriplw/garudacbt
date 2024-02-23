@@ -1,7 +1,512 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\x42\x41\123\105\120\x41\x54\110") or exit("\116\x6f\x20\144\151\x72\x65\x63\164\40\163\x63\162\151\x70\x74\40\x61\143\143\x65\163\163\40\x61\x6c\154\157\167\145\x64"); class Auth extends CI_Controller { public $data = array(); public function __construct() { goto rCtXY; sFJGb: $this->lang->load("\x61\x75\x74\150"); goto ol7HA; AxdHb: $this->load->database(); goto mGUdR; mGUdR: $this->load->library("\x66\157\162\x6d\x5f\166\x61\x6c\x69\x64\x61\164\x69\157\156"); goto VFXL7; UyZpZ: $this->form_validation->set_error_delimiters($this->config->item("\x65\162\162\x6f\x72\x5f\163\164\141\162\x74\x5f\144\x65\x6c\x69\155\x69\x74\145\162", "\151\x6f\156\137\x61\165\x74\150"), $this->config->item("\x65\162\162\x6f\162\x5f\x65\x6e\144\x5f\x64\x65\154\151\x6d\151\x74\x65\162", "\x69\x6f\x6e\137\141\x75\x74\x68")); goto sFJGb; VFXL7: $this->load->helper(["\165\162\x6c", "\x6c\x61\156\x67\x75\x61\147\145"]); goto UyZpZ; rCtXY: parent::__construct(); goto AxdHb; ol7HA: } public function output_json($data) { $this->output->set_content_type("\x61\160\x70\154\151\143\x61\x74\x69\157\x6e\57\152\x73\x6f\x6e")->set_output(json_encode($data)); } public function index() { goto F_6nK; x9ymK: if (!$this->ion_auth->logged_in()) { goto NU2EE; } goto aOfNB; l03ae: $group = $this->ion_auth->get_users_groups($user_id)->row()->name; goto Z8UkN; BFmM1: $this->load->view("\137\x74\x65\155\160\x6c\x61\164\x65\163\x2f\x61\x75\164\x68\x2f\x5f\146\x6f\157\x74\x65\162"); goto SNQh0; aOfNB: $user_id = $this->ion_auth->user()->row()->id; goto l03ae; wdgx0: $this->data["\160\141\163\x73\167\x6f\162\x64"] = ["\x6e\x61\155\x65" => "\x70\x61\163\163\x77\x6f\x72\x64", "\x69\x64" => "\160\x61\x73\163\x77\x6f\x72\x64", "\164\x79\x70\145" => "\x70\x61\163\x73\167\157\162\x64", "\x70\154\141\x63\145\150\x6f\x6c\x64\x65\x72" => "\x50\x61\x73\163\167\x6f\162\144", "\x63\x6c\141\x73\163" => "\146\157\x72\155\55\143\157\x6e\164\162\157\154"]; goto Uue3j; NpMpV: $this->data["\151\144\145\x6e\164\x69\164\171"] = ["\156\141\155\145" => "\x69\x64\x65\156\164\151\164\171", "\151\x64" => "\x69\x64\x65\x6e\164\x69\164\171", "\164\171\x70\145" => "\164\x65\x78\164", "\x70\154\141\x63\x65\150\x6f\154\144\x65\162" => "\x55\163\145\x72\x6e\141\x6d\145", "\x61\165\164\x6f\146\157\x63\165\163" => "\x61\165\164\157\x66\x6f\143\x75\163", "\x63\154\141\x73\163" => "\146\157\162\x6d\x2d\143\157\156\164\x72\x6f\x6c", "\x61\x75\x74\157\143\x6f\x6d\x70\x6c\x65\x74\145" => "\x6f\146\146"]; goto wdgx0; oMU0z: $this->load->view("\x5f\x74\145\x6d\160\x6c\141\164\145\163\x2f\141\165\164\150\57\x5f\x68\x65\141\x64\x65\162", $this->data); goto JXo02; JXo02: $this->load->view("\x61\165\164\x68\57\154\x6f\147\151\156"); goto BFmM1; oYgYE: if (!(count($this->db->list_tables()) == 0)) { goto nl8br; } goto FkMko; qq04m: $setting = $this->settings->getSetting(); goto bb0EA; bb0EA: if (!($setting == null)) { goto O1PM3; } goto WkBbm; FkMko: redirect("\x69\156\163\x74\x61\154\x6c"); goto jWxLm; WkBbm: redirect("\x69\x6e\x73\x74\x61\x6c\154"); goto BNVsG; QbAot: NU2EE: goto sHx5O; sHx5O: $this->data["\163\x65\164\164\x69\156\x67"] = $setting; goto NpMpV; jWxLm: nl8br: goto qq04m; BNVsG: O1PM3: goto x9ymK; F_6nK: $this->load->model("\123\145\x74\x74\x69\x6e\x67\x73\x5f\155\157\x64\x65\154", "\163\x65\164\164\151\x6e\147\x73"); goto oYgYE; Uue3j: $this->data["\155\x65\163\163\x61\147\x65"] = validation_errors() ? validation_errors() : $this->session->flashdata("\x6d\x65\163\163\141\x67\145"); goto oMU0z; Z8UkN: redirect("\144\141\163\x68\142\x6f\x61\x72\x64"); goto QbAot; SNQh0: } public function cek_login() { goto vxShw; JBzz7: eELDJ: goto v7ZAJ; OfjmC: lGhtC: goto w7F1I; mnKh1: goto sdmnd; goto OfjmC; xJaZZ: oF5DQ: goto Rc20m; Rc20m: $remember = (bool) $this->input->post("\162\145\x6d\145\155\x62\x65\x72"); goto NoJyu; it1IG: if ($this->ion_auth->is_max_login_attempts_exceeded($this->input->post("\151\144\145\156\164\151\164\171"))) { goto lGhtC; } goto TwUDA; sUttE: $invalid = ["\x69\144\x65\156\x74\x69\164\171" => form_error("\x69\144\x65\x6e\x74\x69\164\x79"), "\x70\141\163\163\x77\x6f\x72\x64" => form_error("\x70\141\x73\x73\x77\157\x72\x64")]; goto Qww7a; hyXes: if ($this->form_validation->run() === TRUE) { goto oF5DQ; } goto sUttE; my5Qw: $this->form_validation->set_rules("\x70\141\x73\163\167\157\162\144", str_replace("\x3a", '', $this->lang->line("\x6c\x6f\x67\151\156\137\x70\x61\163\163\x77\157\162\144\137\154\141\142\x65\x6c")), "\x72\145\x71\165\151\x72\145\x64\x7c\x74\x72\151\155"); goto hyXes; vxShw: $this->form_validation->set_rules("\x69\144\145\x6e\x74\x69\x74\171", str_replace("\x3a", '', $this->lang->line("\154\x6f\147\x69\x6e\137\x69\x64\145\156\x74\x69\x74\171\x5f\154\141\142\145\x6c")), "\x72\145\x71\165\x69\x72\x65\x64\x7c\x74\x72\x69\155"); goto my5Qw; oooYP: goto eELDJ; goto C5zaH; wjsCd: $this->cek_akses(); goto JBzz7; w7F1I: $data = ["\x73\164\141\164\165\x73" => false, "\146\141\x69\154\145\144" => "\101\x6e\144\141\40\163\x75\x64\141\x68\40\63\170\x20\x6d\x65\154\141\153\165\x6b\141\156\x20\160\145\x72\x63\157\x62\x61\x61\x6e\40\x6c\x6f\147\151\156\54\x20\163\x69\154\x61\x6b\141\x6e\x20\150\x75\142\x75\x6e\147\x69\x20\101\144\155\x69\156\x69\163\164\162\141\164\157\x72", "\x61\x6b\x73\145\163" => "\141\x74\164\145\x6d\x70\x74\x73"]; goto vGeXp; NoJyu: if ($this->ion_auth->login($this->input->post("\151\x64\x65\x6e\164\151\x74\171"), $this->input->post("\160\x61\x73\x73\x77\157\162\x64"), $remember)) { goto dj3zt; } goto it1IG; qjpCd: $this->output_json($data); goto oooYP; TwUDA: $data = ["\163\164\141\164\165\163" => false, "\x66\x61\x69\x6c\x65\x64" => "\x49\x6e\143\x6f\x72\x72\x65\x63\164\40\114\157\x67\151\x6e", "\141\x6b\163\x65\163" => "\x6e\157\40\x61\x74\164\x65\x6d\160\164\163"]; goto mnKh1; Qww7a: $data = ["\x73\x74\141\164\165\163" => false, "\x69\x6e\166\141\x6c\x69\x64" => $invalid, "\141\153\x73\x65\x73" => "\156\x6f\x20\x76\x61\x6c\151\144"]; goto xVvzj; C5zaH: dj3zt: goto wjsCd; v7ZAJ: P2tb1: goto N6Wi3; L7vth: goto P2tb1; goto xJaZZ; vGeXp: sdmnd: goto qjpCd; xVvzj: $this->output_json($data); goto L7vth; N6Wi3: } public function cek_akses() { goto yjnvz; rTzCo: $status = false; goto VvwLd; gZFIj: $status = true; goto aSlVA; aSlVA: $this->load->model("\x4c\157\x67\x5f\155\157\x64\x65\x6c", "\154\x6f\x67\x67\x69\x6e\x67"); goto CauM8; dIVuI: joYup: goto rTzCo; Zfamv: $this->output_json($data); goto qD_Fe; QP1Z2: $url = "\144\x61\x73\150\142\157\141\162\144"; goto gRWbi; VvwLd: $url = "\x61\165\164\150"; goto bqB08; bqB08: bBsT7: goto H1bZM; CauM8: $this->logging->saveLog(1, "\x4c\x6f\147\x69\156"); goto QP1Z2; H1bZM: $data = ["\163\x74\x61\164\165\x73" => $status, "\x75\x72\x6c" => $url]; goto Zfamv; yjnvz: if (!$this->ion_auth->logged_in()) { goto joYup; } goto gZFIj; gRWbi: goto bBsT7; goto dIVuI; qD_Fe: } public function logout() { $this->ion_auth->logout(); redirect("\x6c\157\x67\x69\156", "\x72\145\146\x72\x65\163\150"); } public function change_password() { goto oCZio; ODxnX: cJg2F: goto gQ4wN; l0VFi: $this->data["\165\x73\145\162\x5f\x69\x64"] = ["\x6e\x61\x6d\145" => "\165\163\145\x72\137\151\144", "\151\x64" => "\x75\x73\145\162\x5f\151\144", "\x74\171\160\x65" => "\150\151\144\144\x65\156", "\x76\141\154\165\x65" => $user->id]; goto PEK08; sFvnv: $this->data["\x6d\x65\163\163\x61\x67\145"] = validation_errors() ? validation_errors() : $this->session->flashdata("\x6d\x65\x73\x73\141\x67\145"); goto V3Ap2; aeYtg: $identity = $this->session->userdata("\x69\x64\145\x6e\x74\x69\x74\171"); goto GkicT; LdTv2: if ($change) { goto O526b; } goto Yl2tk; roW0s: $this->data["\156\145\167\137\x70\141\x73\163\x77\157\162\144"] = ["\x6e\141\155\x65" => "\156\x65\167", "\x69\x64" => "\x6e\x65\167", "\164\x79\x70\145" => "\160\x61\x73\163\x77\x6f\162\144", "\160\141\164\164\x65\x72\x6e" => "\x5e\x2e\173" . $this->data["\155\x69\x6e\x5f\160\x61\163\163\x77\157\162\x64\x5f\x6c\x65\x6e\x67\x74\x68"] . "\x7d\56\52\44"]; goto nggSI; q4ICz: if ($this->ion_auth->logged_in()) { goto oCzo5; } goto I_yCj; F8Prr: goto cJg2F; goto bd_dm; OXh2l: oCzo5: goto VqiJD; NEmsT: redirect("\x61\165\x74\150\57\143\x68\141\156\x67\145\x5f\160\x61\163\x73\167\157\x72\144", "\162\145\146\162\145\x73\150"); goto F8Prr; V3Ap2: $this->data["\155\x69\x6e\137\160\141\x73\163\x77\x6f\162\144\x5f\x6c\x65\156\x67\164\150"] = $this->config->item("\155\x69\156\137\x70\141\163\x73\167\x6f\162\144\x5f\x6c\145\x6e\147\x74\x68", "\151\x6f\156\137\141\165\x74\150"); goto wMfHp; ZAh8M: $this->logout(); goto ODxnX; wv4PA: znZVk: goto sFvnv; Yl2tk: $this->session->set_flashdata("\155\x65\x73\x73\x61\x67\145", $this->ion_auth->errors()); goto NEmsT; oCZio: $this->form_validation->set_rules("\157\x6c\x64", $this->lang->line("\x63\x68\141\156\x67\145\137\160\141\x73\163\x77\157\x72\x64\137\x76\x61\x6c\151\144\x61\x74\151\x6f\x6e\x5f\x6f\154\x64\x5f\160\x61\x73\x73\x77\x6f\162\x64\137\154\x61\142\145\x6c"), "\x72\x65\161\165\151\x72\145\x64"); goto kaRR7; l5rAk: A3Vax: goto TXxOp; sCmS3: $this->session->set_flashdata("\155\x65\163\x73\x61\x67\x65", $this->ion_auth->messages()); goto ZAh8M; VqiJD: $user = $this->ion_auth->user()->row(); goto e15hx; gQ4wN: goto A3Vax; goto wv4PA; l20b3: $this->form_validation->set_rules("\x6e\145\167\137\x63\157\x6e\146\x69\162\x6d", $this->lang->line("\x63\150\x61\156\x67\145\137\x70\x61\163\x73\167\157\x72\x64\137\x76\x61\154\x69\144\141\164\151\157\x6e\x5f\x6e\145\x77\137\x70\141\x73\163\167\157\162\144\137\x63\157\x6e\x66\x69\162\155\x5f\154\x61\142\x65\x6c"), "\162\145\x71\x75\151\x72\145\144"); goto q4ICz; wMfHp: $this->data["\157\x6c\x64\137\x70\x61\163\x73\x77\x6f\x72\144"] = ["\x6e\141\155\145" => "\157\154\144", "\x69\144" => "\x6f\x6c\144", "\x74\x79\x70\x65" => "\x70\x61\163\x73\167\157\162\x64"]; goto roW0s; bd_dm: O526b: goto sCmS3; e15hx: if ($this->form_validation->run() === FALSE) { goto znZVk; } goto aeYtg; GkicT: $change = $this->ion_auth->change_password($identity, $this->input->post("\x6f\154\x64"), $this->input->post("\x6e\145\x77")); goto LdTv2; kaRR7: $this->form_validation->set_rules("\156\145\167", $this->lang->line("\x63\150\x61\156\147\145\x5f\x70\x61\163\x73\x77\x6f\162\x64\137\166\x61\x6c\151\x64\141\x74\x69\x6f\156\137\x6e\145\x77\137\x70\141\163\x73\167\157\x72\144\x5f\x6c\141\142\145\x6c"), "\162\x65\x71\x75\151\x72\145\144\174\155\151\x6e\137\x6c\x65\156\x67\164\x68\133" . $this->config->item("\155\x69\156\137\x70\x61\163\163\167\157\162\x64\137\x6c\x65\x6e\147\164\x68", "\x69\x6f\x6e\137\x61\x75\x74\150") . "\135\174\155\x61\x74\143\150\145\x73\133\x6e\145\x77\137\x63\x6f\x6e\x66\x69\162\155\135"); goto l20b3; nggSI: $this->data["\156\145\x77\137\160\x61\x73\x73\167\x6f\x72\x64\137\x63\x6f\156\x66\x69\162\155"] = ["\156\141\x6d\145" => "\x6e\145\167\x5f\143\x6f\x6e\x66\x69\x72\x6d", "\151\144" => "\x6e\x65\167\x5f\x63\x6f\156\146\x69\162\155", "\164\x79\160\145" => "\160\141\163\163\x77\x6f\162\x64", "\x70\x61\x74\x74\x65\162\156" => "\x5e\56\x7b" . $this->data["\155\x69\156\137\160\141\163\163\x77\157\x72\x64\137\x6c\145\156\x67\164\150"] . "\x7d\x2e\x2a\x24"]; goto l0VFi; I_yCj: redirect("\x61\165\164\x68\57\x6c\157\147\x69\156", "\x72\x65\x66\162\x65\x73\150"); goto OXh2l; PEK08: $this->_render_page("\141\165\x74\150" . DIRECTORY_SEPARATOR . "\x63\x68\x61\x6e\147\x65\137\x70\141\163\x73\167\x6f\x72\144", $this->data); goto l5rAk; TXxOp: } public function forgot_password() { goto Pb4vd; j7SnJ: z6o31: goto xfZHN; ZWgn0: $this->session->set_flashdata("\155\145\163\x73\141\x67\145", $this->ion_auth->errors()); goto NWbgj; fupdK: if (!empty($identity)) { goto UZ9yt; } goto k2JbU; Afmm5: redirect("\x61\x75\x74\x68\57\x66\157\x72\x67\157\164\137\x70\x61\163\x73\167\x6f\x72\144", "\x72\x65\146\x72\x65\x73\x68"); goto eXrp2; r8q62: $this->data["\151\x64\x65\x6e\x74\x69\x74\x79"] = ["\x6e\141\155\x65" => "\151\144\x65\156\164\x69\164\x79", "\x69\x64" => "\151\144\145\156\164\151\x74\171", "\x63\x6c\141\163\163" => "\x66\157\x72\x6d\x2d\143\157\x6e\x74\x72\x6f\154", "\x61\165\x74\157\x63\x6f\x6d\160\154\x65\164\x65" => "\157\146\x66", "\x61\165\x74\x6f\x66\x6f\x63\x75\163" => "\141\165\164\x6f\x66\x6f\x63\x75\163"]; goto PcWK7; evYUt: $this->form_validation->set_rules("\x69\144\145\156\x74\x69\x74\x79", $this->lang->line("\146\x6f\x72\x67\x6f\164\x5f\x70\x61\163\163\x77\x6f\162\144\x5f\151\144\145\156\164\151\164\171\137\154\141\142\145\x6c"), "\x72\145\x71\165\151\x72\145\x64"); goto ssaAt; dLOZy: $this->form_validation->set_rules("\x69\144\x65\156\x74\x69\x74\x79", $this->lang->line("\x66\157\162\147\157\x74\x5f\160\x61\163\163\167\x6f\162\144\x5f\166\141\x6c\151\x64\x61\x74\x69\x6f\156\x5f\x65\155\x61\x69\154\137\154\x61\142\x65\154"), "\x72\145\x71\165\x69\162\x65\x64\174\x76\141\154\151\x64\137\x65\155\x61\151\x6c"); goto nYWzE; YL8hj: $identity_column = $this->config->item("\x69\x64\145\156\x74\151\164\x79", "\x69\x6f\x6e\137\141\165\164\x68"); goto KIzc8; mbQoI: goto rMwIj; goto j7SnJ; t1VxA: $this->data["\155\145\163\163\x61\147\145"] = validation_errors() ? validation_errors() : $this->session->flashdata("\x6d\x65\x73\163\141\147\x65"); goto Q1hML; E3y31: if ($this->config->item("\151\144\145\156\x74\151\164\171", "\151\x6f\x6e\x5f\x61\165\164\150") != "\x65\x6d\141\x69\154") { goto MYyrU; } goto dLOZy; xdVFy: $this->session->set_flashdata("\155\x65\163\x73\141\x67\145", $this->ion_auth->errors()); goto ClJDH; G09kV: $forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item("\151\144\x65\x6e\164\x69\164\171", "\151\x6f\156\x5f\x61\x75\164\x68")}); goto CCoMy; ClJDH: redirect("\x61\165\164\150\57\x66\157\x72\x67\157\164\137\x70\x61\163\x73\x77\157\x72\144", "\x72\145\x66\x72\145\163\x68"); goto x7emi; eXrp2: IheL_: goto GIIpJ; KIzc8: $identity = $this->ion_auth->where($identity_column, $this->input->post("\151\144\x65\x6e\164\151\x74\171"))->users()->row(); goto fupdK; rLv1H: $this->data["\x74\x79\x70\x65"] = $this->config->item("\151\144\x65\x6e\x74\x69\x74\x79", "\x69\x6f\156\137\x61\x75\x74\x68"); goto r8q62; h64DH: W8Uoa: goto rYCoR; gjKgE: if ($this->form_validation->run() === FALSE) { goto Iku4J; } goto YL8hj; mhxaU: G7Xj9: goto kVUA2; b30KW: rMwIj: goto ZWgn0; DhCg7: $this->ion_auth->set_error("\146\157\x72\x67\157\x74\137\160\141\163\x73\167\x6f\x72\x64\137\x65\x6d\x61\x69\154\x5f\x6e\157\x74\137\146\157\x75\x6e\x64"); goto mbQoI; ZGCdr: $this->data["\x69\144\145\156\164\x69\x74\171\137\x6c\141\142\x65\x6c"] = $this->lang->line("\x66\x6f\162\x67\x6f\164\x5f\160\x61\163\x73\167\x6f\x72\x64\137\145\155\141\151\154\x5f\x69\144\145\156\x74\151\x74\171\x5f\154\x61\142\145\x6c"); goto Qd5V1; GIIpJ: goto caILU; goto ekf3z; o7QCw: caILU: goto beZ51; x7emi: goto IheL_; goto mhxaU; NWbgj: redirect("\x61\165\164\150\x2f\146\157\162\147\157\164\137\160\141\163\163\167\157\162\144", "\x72\x65\x66\162\x65\x73\150"); goto kWn1l; VoGAj: MYyrU: goto evYUt; xfZHN: $this->ion_auth->set_error("\x66\x6f\162\x67\157\164\137\x70\x61\x73\163\x77\157\162\x64\x5f\151\144\145\156\164\151\164\x79\137\156\157\164\x5f\x66\x6f\x75\x6e\x64"); goto b30KW; Q1hML: $this->load->view("\137\164\145\x6d\160\154\x61\x74\145\x73\57\141\165\164\x68\x2f\x5f\x68\x65\141\144\x65\x72", $this->data); goto qerQp; Qd5V1: goto F9v7p; goto h64DH; PcWK7: if ($this->config->item("\x69\144\x65\156\x74\151\x74\x79", "\151\x6f\156\137\x61\x75\164\150") != "\145\155\141\x69\x6c") { goto W8Uoa; } goto ZGCdr; nYWzE: goto O5GyO; goto VoGAj; k2JbU: if ($this->config->item("\x69\x64\x65\156\x74\x69\164\171", "\151\157\156\137\141\x75\x74\x68") != "\145\155\x61\x69\x6c") { goto z6o31; } goto DhCg7; qerQp: $this->load->view("\x61\165\164\150\57\x66\157\162\x67\157\x74\137\x70\x61\x73\x73\167\157\162\x64"); goto aaH1P; ssaAt: O5GyO: goto gjKgE; aaH1P: $this->load->view("\137\164\x65\x6d\x70\154\141\164\x65\x73\57\x61\165\x74\x68\x2f\x5f\146\157\157\164\x65\x72"); goto o7QCw; ekf3z: Iku4J: goto rLv1H; kWn1l: UZ9yt: goto G09kV; kVUA2: $this->session->set_flashdata("\163\165\x63\143\145\163\x73", $this->ion_auth->messages()); goto Afmm5; cDI4y: F9v7p: goto t1VxA; rYCoR: $this->data["\x69\144\x65\156\x74\151\164\x79\137\154\141\x62\145\x6c"] = $this->lang->line("\x66\x6f\x72\x67\157\164\x5f\x70\141\x73\163\x77\157\x72\144\137\x69\144\145\156\164\151\164\x79\x5f\x6c\x61\x62\145\x6c"); goto cDI4y; Pb4vd: $this->data["\164\x69\164\154\145"] = $this->lang->line("\x66\x6f\x72\x67\x6f\x74\x5f\x70\x61\x73\163\167\157\x72\x64\137\150\145\x61\x64\151\156\147"); goto E3y31; CCoMy: if ($forgotten) { goto G7Xj9; } goto xdVFy; beZ51: } public function reset_password($code = NULL) { goto FojOi; VNmaL: $this->session->set_flashdata("\155\145\x73\163\x61\147\145", $this->ion_auth->messages()); goto YnDi2; tHCrm: $this->data["\165\163\145\x72\137\x69\144"] = ["\x6e\x61\x6d\x65" => "\165\163\145\162\x5f\151\x64", "\151\x64" => "\x75\163\x65\162\x5f\x69\x64", "\x74\x79\160\145" => "\x68\151\x64\x64\x65\x6e", "\x76\x61\154\x75\x65" => $user->id]; goto RJXL0; eAGH5: $this->data["\155\151\x6e\x5f\x70\x61\163\163\x77\157\x72\x64\137\x6c\x65\x6e\x67\x74\x68"] = $this->config->item("\155\x69\x6e\x5f\x70\x61\163\x73\167\x6f\162\x64\x5f\154\145\156\147\164\150", "\x69\157\156\x5f\x61\x75\x74\150"); goto AODKX; N2wip: $user = $this->ion_auth->forgotten_password_check($code); goto xl3vi; AODKX: $this->data["\156\x65\167\x5f\x70\141\x73\x73\167\x6f\x72\x64"] = ["\x6e\x61\x6d\x65" => "\156\145\x77", "\x69\x64" => "\x6e\x65\167", "\164\x79\x70\x65" => "\160\141\x73\x73\167\157\x72\144", "\x70\x61\x74\x74\145\162\156" => "\x5e\56\x7b" . $this->data["\155\x69\x6e\x5f\x70\x61\163\x73\x77\157\x72\x64\x5f\x6c\x65\x6e\x67\x74\150"] . "\175\56\x2a\44"]; goto eLIE5; iocvP: LrFaj: goto jP9es; A0jAs: $this->ion_auth->clear_forgotten_password_code($identity); goto gcYy2; tnIzk: $this->load->view("\x5f\164\x65\x6d\160\154\x61\164\145\x73\57\x61\165\x74\150\x2f\x5f\x66\x6f\x6f\x74\x65\162"); goto Se_vZ; DWT0T: vxrbc: goto BWi1B; CQ8hP: $this->session->set_flashdata("\x6d\x65\x73\163\141\147\x65", $this->ion_auth->errors()); goto HlmPT; OOJFT: if ($this->form_validation->run() === FALSE) { goto LrFaj; } goto spFEa; BuohF: oSt5X: goto Eb5xN; spFEa: $identity = $user->{$this->config->item("\151\144\145\156\x74\151\x74\x79", "\151\x6f\156\137\141\x75\164\x68")}; goto v8VD3; sVarP: HIW1T: goto OEqWp; jH8GO: Kbaaf: goto A0jAs; v8VD3: if ($this->_valid_csrf_nonce() === FALSE || $user->id != $this->input->post("\165\x73\x65\x72\137\x69\144")) { goto Kbaaf; } goto biU_4; LBU1N: UBZQR: goto VNmaL; OEqWp: $this->form_validation->set_rules("\156\x65\x77", $this->lang->line("\x72\x65\x73\x65\164\x5f\160\x61\x73\163\x77\x6f\x72\x64\x5f\166\x61\x6c\151\x64\x61\164\151\x6f\x6e\137\x6e\x65\x77\x5f\x70\141\163\x73\167\157\162\144\x5f\154\141\142\x65\x6c"), "\x72\145\161\165\x69\162\145\144\x7c\155\151\156\x5f\154\x65\156\x67\x74\150\x5b" . $this->config->item("\x6d\x69\x6e\137\160\x61\x73\163\x77\x6f\162\x64\137\x6c\145\x6e\x67\164\150", "\x69\157\156\x5f\141\165\x74\150") . "\135\174\x6d\141\164\143\150\145\163\x5b\156\x65\167\x5f\x63\x6f\156\x66\x69\x72\155\135"); goto yA03w; pAVWR: $this->data["\x63\157\144\x65"] = $code; goto GKPTq; gcYy2: show_error($this->lang->line("\145\162\162\x6f\x72\x5f\x63\x73\162\x66")); goto DWT0T; BWi1B: goto lHOII; goto iocvP; GKPTq: $this->load->view("\x5f\164\x65\x6d\x70\154\141\x74\145\163\57\141\x75\164\150\x2f\x5f\150\x65\x61\x64\145\162"); goto rr3qi; o4Z2V: if ($change) { goto UBZQR; } goto CQ8hP; FojOi: if ($code) { goto oSt5X; } goto g6iLP; HlmPT: redirect("\141\165\164\150\x2f\x72\x65\x73\x65\x74\x5f\x70\x61\163\x73\167\x6f\x72\144\x2f" . $code, "\x72\x65\146\162\x65\163\x68"); goto g0Z9n; AqBub: JYsOv: goto s45nc; biU_4: $change = $this->ion_auth->reset_password($identity, $this->input->post("\156\145\167")); goto o4Z2V; jP9es: $this->data["\155\x65\x73\x73\x61\147\x65"] = validation_errors() ? validation_errors() : $this->session->flashdata("\155\x65\163\163\x61\147\x65"); goto eAGH5; g6iLP: show_404(); goto BuohF; eLIE5: $this->data["\x6e\x65\x77\x5f\x70\141\x73\163\x77\x6f\x72\x64\137\x63\157\x6e\x66\x69\x72\155"] = ["\156\141\x6d\x65" => "\x6e\x65\167\137\143\x6f\x6e\146\151\x72\155", "\x69\x64" => "\x6e\145\x77\137\143\x6f\156\146\151\x72\x6d", "\x74\171\x70\x65" => "\x70\141\163\163\x77\157\x72\144", "\160\x61\164\x74\x65\x72\156" => "\x5e\56\x7b" . $this->data["\155\x69\156\137\160\x61\x73\163\x77\x6f\x72\144\137\x6c\x65\x6e\x67\164\x68"] . "\x7d\x2e\x2a\44"]; goto tHCrm; vr1Fj: $this->session->set_flashdata("\155\145\163\x73\141\x67\x65", $this->ion_auth->errors()); goto vd0AA; Eb5xN: $this->data["\x74\x69\164\154\x65"] = $this->lang->line("\x72\145\163\x65\x74\x5f\x70\x61\163\x73\x77\157\x72\144\x5f\x68\x65\x61\x64\x69\156\147"); goto N2wip; rr3qi: $this->load->view("\x61\x75\164\x68\x2f\162\x65\x73\x65\164\x5f\160\x61\x73\163\167\157\x72\144", $this->data); goto tnIzk; vd0AA: redirect("\141\x75\x74\150\x2f\146\157\162\x67\157\164\x5f\x70\141\163\163\167\x6f\x72\x64", "\x72\x65\146\162\x65\163\x68"); goto V1_SM; s45nc: goto vxrbc; goto jH8GO; g0Z9n: goto JYsOv; goto LBU1N; RJXL0: $this->data["\x63\x73\162\x66"] = $this->_get_csrf_nonce(); goto pAVWR; PXjue: nqZiY: goto pnVQR; xl3vi: if ($user) { goto HIW1T; } goto vr1Fj; yA03w: $this->form_validation->set_rules("\156\x65\x77\x5f\143\157\156\x66\151\x72\x6d", $this->lang->line("\162\x65\163\145\x74\x5f\160\x61\x73\163\167\157\162\x64\x5f\x76\x61\x6c\151\x64\x61\x74\151\x6f\x6e\x5f\x6e\145\x77\137\x70\141\163\163\167\x6f\162\x64\137\x63\157\x6e\146\x69\x72\155\137\154\141\142\x65\x6c"), "\162\145\161\x75\151\162\x65\x64"); goto OOJFT; V1_SM: goto nqZiY; goto sVarP; Se_vZ: lHOII: goto PXjue; YnDi2: redirect("\141\x75\x74\150\57\154\x6f\147\x69\x6e", "\x72\x65\146\162\145\x73\x68"); goto AqBub; pnVQR: } public function activate($id, $code = FALSE) { goto LAeQ0; tHx0B: $activation = $this->ion_auth->activate($id, $code); goto v8imv; HmbR6: if ($activation) { goto wA5Hs; } goto lYiLt; J5xkJ: $activation = $this->ion_auth->activate($id); goto RfBrk; EV84N: if ($code !== FALSE) { goto Y3fqk; } goto imDSd; W1IKi: Y3fqk: goto tHx0B; E0TXS: redirect("\x61\x75\164\x68", "\162\x65\x66\162\145\163\x68"); goto NAnTM; imDSd: if (!$this->ion_auth->is_admin()) { goto wDD1m; } goto J5xkJ; TSldl: redirect("\141\165\x74\150\x2f\146\x6f\x72\x67\157\x74\137\x70\x61\x73\163\x77\157\162\144", "\162\145\146\x72\145\163\150"); goto qZOf0; YL8PU: wA5Hs: goto EhNtH; lYiLt: $this->session->set_flashdata("\155\145\163\x73\x61\147\x65", $this->ion_auth->errors()); goto TSldl; EhNtH: $this->session->set_flashdata("\x6d\145\163\163\141\x67\x65", $this->ion_auth->messages()); goto E0TXS; v8imv: Br0mL: goto HmbR6; xXhWt: goto Br0mL; goto W1IKi; qZOf0: goto pwPbV; goto YL8PU; RfBrk: wDD1m: goto xXhWt; NAnTM: pwPbV: goto XD0Gk; LAeQ0: $activation = FALSE; goto EV84N; XD0Gk: } public function deactivate($id = NULL) { goto mf08r; n8M0a: if ($this->form_validation->run() === FALSE) { goto p133D; } goto TlyLq; jv3bU: $this->data["\165\x73\x65\162"] = $this->ion_auth->user($id)->row(); goto UaHr3; xttNL: ZY2E7: goto GnG_Q; YQQCL: goto m1OOh; goto gcKja; fLw9U: $this->form_validation->set_rules("\143\157\156\x66\x69\162\x6d", $this->lang->line("\x64\145\x61\x63\x74\151\166\x61\x74\x65\137\x76\x61\154\151\144\141\x74\x69\157\x6e\x5f\x63\157\156\146\x69\162\155\137\x6c\141\142\145\154"), "\x72\145\x71\x75\x69\x72\x65\x64"); goto dygdk; wAGuP: if (!($this->ion_auth->logged_in() && $this->ion_auth->is_admin())) { goto y7_5K; } goto b4U5s; kPZ81: $this->load->library("\x66\x6f\162\155\x5f\x76\141\154\151\144\x61\x74\151\x6f\156"); goto fLw9U; ncZju: KMULA: goto jkrL6; jkrL6: redirect("\141\165\164\150", "\162\145\146\x72\145\x73\150"); goto YQQCL; mJ9xX: $this->data["\143\x73\x72\x66"] = $this->_get_csrf_nonce(); goto jv3bU; jLkYU: m1OOh: goto nP3AM; dygdk: $this->form_validation->set_rules("\x69\x64", $this->lang->line("\x64\145\x61\x63\x74\151\x76\141\x74\145\137\x76\141\154\x69\x64\x61\x74\x69\x6f\x6e\x5f\x75\163\145\162\x5f\151\144\137\x6c\x61\142\x65\x6c"), "\162\x65\x71\165\x69\162\x65\144\174\x61\154\x70\150\141\137\156\x75\x6d\x65\162\x69\x63"); goto n8M0a; jWXOg: i3k9G: goto wAGuP; b4U5s: $this->ion_auth->deactivate($id); goto uYnzv; TlyLq: if (!($this->input->post("\143\157\156\146\151\x72\155") == "\171\x65\163")) { goto KMULA; } goto p2Avs; UaHr3: $this->_render_page("\141\165\164\x68" . DIRECTORY_SEPARATOR . "\144\x65\x61\143\x74\x69\166\x61\164\145\137\165\x73\145\162", $this->data); goto jLkYU; gcKja: p133D: goto mJ9xX; mf08r: if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) { goto ZY2E7; } goto mbr7a; p2Avs: if (!($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post("\x69\x64"))) { goto i3k9G; } goto BixDh; BixDh: show_error($this->lang->line("\145\x72\x72\x6f\x72\x5f\143\x73\162\x66")); goto jWXOg; mbr7a: show_error("\x59\x6f\x75\40\x6d\x75\163\164\40\x62\x65\40\141\x6e\x20\141\144\x6d\151\156\x69\x73\164\162\x61\x74\157\x72\x20\164\x6f\x20\x76\x69\145\167\x20\164\150\151\x73\40\x70\141\x67\x65\x2e"); goto xttNL; uYnzv: y7_5K: goto ncZju; GnG_Q: $id = (int) $id; goto kPZ81; nP3AM: } public function create_user() { goto codxK; GZXNZ: goto YxsZ9; goto S51pL; qYNun: $this->data["\x70\x61\163\x73\x77\157\x72\x64"] = ["\156\141\x6d\145" => "\x70\x61\x73\x73\167\157\x72\x64", "\151\144" => "\160\141\x73\163\x77\x6f\x72\x64", "\164\x79\x70\145" => "\x70\x61\x73\x73\x77\x6f\x72\x64", "\x76\141\154\x75\x65" => $this->form_validation->set_value("\x70\x61\163\163\x77\x6f\x72\x64")]; goto z_Imh; hNhAO: $this->data["\155\145\x73\163\x61\147\145"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("\155\x65\x73\163\x61\147\x65")); goto Lsod4; paYTC: $this->data["\x65\155\141\x69\x6c"] = ["\x6e\x61\155\x65" => "\x65\155\x61\x69\154", "\151\144" => "\x65\155\141\151\154", "\x74\171\160\x65" => "\x74\145\170\x74", "\x76\x61\154\165\145" => $this->form_validation->set_value("\x65\155\x61\x69\154")]; goto XlQjJ; lHGjh: $this->form_validation->set_rules("\160\141\x73\x73\x77\157\162\x64", $this->lang->line("\x63\162\x65\x61\x74\x65\x5f\165\163\x65\162\x5f\x76\141\x6c\x69\x64\x61\x74\x69\x6f\x6e\137\160\141\x73\163\167\157\162\144\137\154\x61\x62\x65\154"), "\162\145\x71\x75\x69\x72\x65\x64\x7c\x6d\x69\x6e\x5f\154\145\156\x67\164\x68\133" . $this->config->item("\x6d\x69\x6e\137\x70\x61\x73\x73\x77\x6f\162\144\137\x6c\x65\x6e\x67\x74\150", "\x69\x6f\156\137\x61\x75\x74\150") . "\135\174\x6d\141\164\143\x68\x65\x73\133\x70\x61\x73\x73\x77\x6f\162\x64\x5f\143\x6f\156\x66\x69\x72\155\135"); goto j7t4t; F9luG: IGEPd: goto WiWAH; DbyvO: $this->session->set_flashdata("\155\x65\163\163\141\x67\145", $this->ion_auth->messages()); goto wmYly; WiWAH: if ($this->form_validation->run() === TRUE && $this->ion_auth->register($identity, $password, $email, $additional_data)) { goto Cb68l; } goto hNhAO; FmHth: if ($identity_column !== "\145\x6d\141\x69\154") { goto iAui3; } goto UPoGQ; PA7E4: goto ZUPY3; goto jnEtB; fcKzw: $this->data["\x69\144\x65\156\x74\x69\x74\x79\137\x63\157\x6c\165\155\156"] = $identity_column; goto zPXlw; RizJx: ZUPY3: goto Dc0xp; z_Imh: $this->data["\160\141\x73\x73\x77\157\x72\x64\137\x63\x6f\156\x66\151\162\x6d"] = ["\156\x61\155\x65" => "\x70\141\163\x73\167\157\x72\144\137\x63\157\156\x66\151\162\155", "\x69\x64" => "\x70\141\x73\163\167\x6f\x72\144\137\x63\157\x6e\146\x69\x72\155", "\164\171\160\x65" => "\x70\x61\163\163\167\157\162\x64", "\166\141\x6c\165\x65" => $this->form_validation->set_value("\160\x61\x73\163\x77\157\x72\144\137\143\x6f\156\146\x69\x72\155")]; goto fBBMs; vAs94: $tables = $this->config->item("\164\x61\142\154\145\x73", "\151\x6f\156\137\x61\x75\x74\x68"); goto OebMa; ftsZp: $this->form_validation->set_rules("\x69\144\145\x6e\x74\151\164\x79", $this->lang->line("\143\x72\145\x61\164\145\x5f\x75\x73\145\162\137\x76\x61\x6c\151\144\x61\164\151\157\x6e\x5f\x69\144\145\x6e\x74\x69\x74\171\137\154\x61\142\x65\x6c"), "\x74\162\151\x6d\x7c\x72\x65\x71\x75\151\x72\x65\x64\174\x69\163\137\x75\156\x69\161\165\145\133" . $tables["\165\163\145\x72\163"] . "\56" . $identity_column . "\135"); goto mGIIf; JK8vV: $additional_data = ["\146\x69\162\163\164\137\x6e\141\155\145" => $this->input->post("\x66\x69\x72\163\x74\x5f\156\x61\155\145"), "\x6c\141\163\164\x5f\x6e\141\155\145" => $this->input->post("\154\141\x73\164\137\156\141\x6d\145"), "\143\x6f\x6d\160\141\156\171" => $this->input->post("\143\157\155\160\141\x6e\x79"), "\160\x68\x6f\156\x65" => $this->input->post("\x70\x68\x6f\156\145")]; goto F9luG; zPXlw: $this->form_validation->set_rules("\x66\x69\x72\163\x74\x5f\x6e\141\x6d\145", $this->lang->line("\x63\162\x65\x61\164\145\x5f\165\163\145\x72\137\166\141\x6c\x69\x64\x61\164\x69\157\x6e\137\146\156\x61\x6d\x65\x5f\x6c\141\142\145\x6c"), "\164\x72\x69\155\x7c\x72\145\x71\x75\x69\162\145\144"); goto E2Sgr; NHFi0: Rog18: goto vAs94; btFIO: $identity = $identity_column === "\x65\x6d\x61\x69\x6c" ? $email : $this->input->post("\151\x64\145\156\164\x69\x74\x79"); goto AnZzh; vdW_D: $this->data["\160\x68\157\x6e\x65"] = ["\x6e\x61\155\x65" => "\160\150\157\156\145", "\151\x64" => "\x70\x68\x6f\156\145", "\164\171\160\145" => "\164\x65\170\x74", "\x76\x61\154\165\x65" => $this->form_validation->set_value("\160\x68\157\156\x65")]; goto qYNun; itqwA: $this->data["\x69\x64\145\x6e\164\151\164\x79"] = ["\x6e\141\x6d\x65" => "\x69\144\145\x6e\x74\x69\x74\x79", "\x69\144" => "\x69\x64\x65\x6e\x74\x69\x74\171", "\164\171\160\145" => "\164\x65\x78\164", "\166\x61\154\165\x65" => $this->form_validation->set_value("\151\144\145\156\164\x69\x74\x79")]; goto paYTC; mGIIf: $this->form_validation->set_rules("\x65\155\x61\x69\x6c", $this->lang->line("\x63\x72\x65\x61\164\x65\137\165\163\145\x72\x5f\166\x61\154\x69\x64\141\164\151\x6f\156\x5f\145\x6d\x61\x69\154\137\x6c\x61\142\x65\154"), "\x74\x72\151\x6d\174\162\145\161\165\x69\x72\x65\144\x7c\x76\x61\154\151\144\x5f\x65\155\x61\x69\154"); goto DPeJu; Lsod4: $this->data["\x66\151\x72\163\164\x5f\156\141\x6d\145"] = ["\156\141\x6d\x65" => "\146\x69\x72\163\x74\137\x6e\x61\x6d\145", "\x69\x64" => "\146\151\x72\x73\164\x5f\156\141\155\x65", "\164\x79\160\145" => "\164\145\x78\164", "\x76\x61\x6c\165\x65" => $this->form_validation->set_value("\x66\x69\162\x73\164\x5f\x6e\x61\x6d\145")]; goto OBMdK; PbFLi: if (!($this->form_validation->run() === TRUE)) { goto IGEPd; } goto jaWQG; DPeJu: YxsZ9: goto X_D0m; jaWQG: $email = strtolower($this->input->post("\145\x6d\141\151\154")); goto btFIO; jnEtB: Cb68l: goto DbyvO; UPoGQ: $this->form_validation->set_rules("\145\155\x61\x69\x6c", $this->lang->line("\x63\162\145\x61\164\x65\137\x75\163\x65\162\137\x76\141\x6c\151\x64\x61\x74\151\157\156\x5f\x65\x6d\141\x69\x6c\x5f\x6c\141\x62\145\x6c"), "\164\162\x69\x6d\x7c\162\145\161\165\151\x72\145\144\174\166\141\154\x69\x64\x5f\145\155\141\x69\x6c\174\151\163\x5f\x75\x6e\151\x71\x75\145\133" . $tables["\x75\163\145\x72\x73"] . "\x2e\145\155\141\x69\154\135"); goto GZXNZ; QA25y: if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) { goto Rog18; } goto x7YYt; XlQjJ: $this->data["\143\157\x6d\160\x61\156\171"] = ["\x6e\x61\x6d\145" => "\143\x6f\155\160\141\156\x79", "\151\144" => "\x63\x6f\x6d\x70\x61\x6e\x79", "\164\x79\160\145" => "\x74\145\x78\164", "\166\x61\x6c\x75\145" => $this->form_validation->set_value("\143\157\155\x70\141\x6e\171")]; goto vdW_D; x7YYt: redirect("\x61\165\164\150", "\x72\145\x66\x72\x65\x73\x68"); goto NHFi0; j7t4t: $this->form_validation->set_rules("\160\x61\x73\x73\x77\157\x72\144\x5f\143\x6f\x6e\x66\x69\162\155", $this->lang->line("\143\162\x65\141\x74\x65\x5f\x75\163\x65\162\137\166\141\x6c\151\x64\x61\x74\151\157\156\137\160\141\x73\x73\167\x6f\162\x64\137\x63\157\x6e\146\151\x72\x6d\137\x6c\x61\x62\145\154"), "\x72\x65\x71\x75\151\162\x65\x64"); goto PbFLi; OBMdK: $this->data["\154\141\x73\x74\x5f\x6e\141\155\145"] = ["\x6e\141\155\x65" => "\154\x61\x73\164\137\x6e\x61\x6d\145", "\151\x64" => "\x6c\141\163\164\137\156\141\155\x65", "\164\x79\160\145" => "\164\x65\x78\x74", "\x76\x61\154\x75\145" => $this->form_validation->set_value("\154\x61\x73\x74\x5f\156\x61\x6d\x65")]; goto itqwA; S51pL: iAui3: goto ftsZp; E2Sgr: $this->form_validation->set_rules("\x6c\x61\x73\x74\137\x6e\x61\155\145", $this->lang->line("\143\x72\x65\141\164\145\137\x75\163\145\162\137\166\x61\x6c\x69\x64\141\164\151\x6f\156\137\154\156\141\x6d\x65\137\154\141\x62\x65\154"), "\164\162\x69\155\x7c\x72\x65\161\x75\x69\162\x65\x64"); goto FmHth; OebMa: $identity_column = $this->config->item("\x69\144\145\x6e\164\151\x74\171", "\x69\x6f\156\137\x61\x75\164\x68"); goto fcKzw; wmYly: redirect("\141\x75\164\x68", "\162\145\x66\x72\x65\163\150"); goto RizJx; AnZzh: $password = $this->input->post("\160\x61\x73\x73\167\x6f\162\144"); goto JK8vV; codxK: $this->data["\164\x69\164\x6c\145"] = $this->lang->line("\143\x72\x65\x61\x74\145\137\165\x73\145\162\137\x68\x65\141\144\x69\156\147"); goto QA25y; ZVgMu: $this->form_validation->set_rules("\143\157\x6d\x70\141\156\171", $this->lang->line("\x63\162\145\x61\x74\145\x5f\x75\163\x65\x72\x5f\x76\141\x6c\151\144\x61\164\x69\157\156\x5f\143\157\155\160\141\x6e\x79\x5f\154\x61\142\x65\154"), "\164\162\151\155"); goto lHGjh; fBBMs: $this->_render_page("\x61\165\x74\150" . DIRECTORY_SEPARATOR . "\x63\x72\x65\141\164\145\x5f\x75\x73\x65\x72", $this->data); goto PA7E4; X_D0m: $this->form_validation->set_rules("\x70\x68\x6f\156\x65", $this->lang->line("\x63\162\145\141\x74\x65\x5f\x75\x73\145\x72\x5f\x76\x61\154\x69\144\x61\x74\151\157\x6e\x5f\160\150\157\x6e\x65\137\154\x61\x62\145\154"), "\x74\162\x69\155"); goto ZVgMu; Dc0xp: } public function redirectUser() { goto zkgph; VdY1f: redirect("\x61\x75\x74\150", "\x72\x65\146\x72\145\x73\x68"); goto MPBRs; MPBRs: q1ee5: goto QHYTp; QHYTp: redirect("\x2f", "\x72\x65\x66\x72\x65\x73\150"); goto jpOjC; zkgph: if (!$this->ion_auth->is_admin()) { goto q1ee5; } goto VdY1f; jpOjC: } public function edit_user($id) { goto JP61w; Hu_ay: jued3: goto klZwE; x7pYs: $this->form_validation->set_rules("\x63\157\x6d\160\x61\x6e\171", $this->lang->line("\x65\x64\x69\x74\137\x75\x73\145\x72\x5f\x76\x61\154\x69\x64\141\164\151\x6f\x6e\x5f\143\x6f\155\160\x61\x6e\x79\x5f\154\141\142\145\x6c"), "\164\x72\151\x6d"); goto cu2MR; pDO_K: G4NeS: goto eYiXP; FSgwq: if ($this->ion_auth->update($user->id, $data)) { goto XrO53; } goto umzC4; zC0Oo: $this->_render_page("\x61\165\164\150\57\x65\144\x69\164\x5f\x75\163\145\x72", $this->data); goto UvCj0; nhLQj: $this->form_validation->set_rules("\x70\141\x73\163\167\x6f\162\x64\x5f\x63\x6f\156\x66\151\162\155", $this->lang->line("\x65\x64\151\164\137\x75\163\x65\x72\x5f\x76\141\154\151\x64\141\x74\x69\157\156\x5f\160\141\163\163\x77\157\x72\x64\137\143\x6f\156\146\x69\162\155\x5f\154\x61\x62\x65\x6c"), "\x72\145\161\165\151\162\x65\144"); goto HYnpZ; Ww2Pr: $this->data["\x70\x61\x73\163\x77\157\x72\144\x5f\143\157\x6e\x66\151\162\155"] = ["\156\141\x6d\145" => "\x70\141\x73\163\167\x6f\x72\144\137\143\157\x6e\146\151\x72\155", "\x69\144" => "\x70\x61\x73\163\x77\157\162\x64\137\143\157\156\146\x69\x72\155", "\164\x79\x70\x65" => "\160\x61\x73\163\x77\157\x72\144"]; goto zC0Oo; qSqVh: $data["\x70\x61\163\x73\167\x6f\x72\144"] = $this->input->post("\x70\141\x73\163\x77\x6f\x72\144"); goto D4OC9; vT2sE: $this->data["\155\145\163\163\x61\x67\x65"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("\155\145\163\163\x61\x67\x65")); goto wBSOB; umzC4: $this->session->set_flashdata("\x6d\145\163\x73\x61\147\145", $this->ion_auth->errors()); goto qzWF5; Bn7Ym: $this->data["\x66\x69\x72\x73\x74\x5f\x6e\141\x6d\145"] = ["\156\x61\155\145" => "\x66\x69\x72\x73\x74\x5f\x6e\x61\155\145", "\x69\x64" => "\x66\151\162\163\164\x5f\156\x61\x6d\x65", "\x74\171\x70\145" => "\x74\145\170\x74", "\166\x61\154\x75\x65" => $this->form_validation->set_value("\x66\151\x72\x73\164\137\x6e\x61\155\x65", $user->first_name)]; goto SU2Fb; D4OC9: cxDLR: goto GBIq7; PuPnf: $this->form_validation->set_rules("\x70\150\157\156\145", $this->lang->line("\145\144\x69\164\137\x75\x73\145\162\x5f\166\141\x6c\x69\144\141\164\x69\x6f\156\137\160\150\157\156\x65\x5f\154\x61\x62\x65\154"), "\x74\162\151\155"); goto x7pYs; rO_W_: if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin() && !($this->ion_auth->user()->row()->id == $id))) { goto AgTXn; } goto CMPej; hTafQ: if (!$this->input->post("\x70\141\163\163\x77\x6f\x72\x64")) { goto cxDLR; } goto qSqVh; gp3ps: xSWMn: goto FSgwq; eYiXP: LPQHi: goto gp3ps; wBSOB: $this->data["\x75\x73\x65\162"] = $user; goto cubGn; GBIq7: if (!$this->ion_auth->is_admin()) { goto xSWMn; } goto mlVR0; OiJXZ: $this->form_validation->set_rules("\160\141\x73\x73\x77\x6f\x72\x64", $this->lang->line("\x65\x64\151\x74\137\165\163\145\x72\x5f\166\x61\154\x69\x64\141\164\151\x6f\156\x5f\x70\141\x73\x73\167\x6f\x72\x64\137\154\x61\x62\x65\154"), "\162\x65\161\x75\151\x72\145\144\174\155\151\x6e\x5f\154\145\156\x67\164\x68\x5b" . $this->config->item("\x6d\151\x6e\137\160\141\163\x73\x77\x6f\x72\x64\137\154\145\156\x67\x74\150", "\151\157\156\137\x61\165\164\150") . "\135\174\x6d\x61\164\x63\x68\x65\x73\x5b\160\141\163\x73\x77\x6f\162\144\137\x63\x6f\x6e\x66\151\162\155\135"); goto nhLQj; OotOY: $currentGroups = $this->ion_auth->get_users_groups($id)->result(); goto rdqR8; penJ4: if (!(isset($groupData) && !empty($groupData))) { goto LPQHi; } goto s83nU; s83nU: foreach ($groupData as $grp) { $this->ion_auth->add_to_group($grp, $id); RqKJG: } goto pDO_K; Zn6SW: $groupData = $this->input->post("\x67\162\x6f\165\x70\x73"); goto penJ4; ISfMP: goto Br6fh; goto vr5u7; cubGn: $this->data["\x67\x72\x6f\165\x70\163"] = $groups; goto mfeDI; Fxo8_: $this->data["\143\163\162\x66"] = $this->_get_csrf_nonce(); goto vT2sE; SU2Fb: $this->data["\154\x61\x73\164\x5f\156\x61\x6d\x65"] = ["\x6e\141\155\145" => "\x6c\141\x73\164\137\x6e\141\155\x65", "\151\x64" => "\x6c\141\x73\164\x5f\x6e\x61\155\x65", "\x74\171\160\x65" => "\x74\145\170\x74", "\166\141\x6c\165\145" => $this->form_validation->set_value("\154\x61\x73\164\137\156\141\155\x65", $user->last_name)]; goto NMOo0; i_qV_: aeu_X: goto Fxo8_; lWxA0: $this->session->set_flashdata("\155\x65\163\163\x61\x67\x65", $this->ion_auth->messages()); goto f1I0y; vr5u7: XrO53: goto lWxA0; Sprlx: $this->form_validation->set_rules("\154\141\163\164\x5f\x6e\141\x6d\145", $this->lang->line("\x65\144\x69\x74\137\165\x73\x65\162\x5f\x76\141\154\151\144\x61\164\151\x6f\156\137\154\156\x61\155\x65\x5f\x6c\141\x62\x65\x6c"), "\x74\162\151\x6d\174\x72\x65\x71\165\x69\162\x65\x64"); goto PuPnf; kgBX8: show_error($this->lang->line("\145\x72\162\157\x72\x5f\x63\x73\x72\x66")); goto Hu_ay; t3l5W: $this->data["\x70\x68\x6f\x6e\145"] = ["\156\141\155\x65" => "\x70\x68\x6f\x6e\145", "\x69\x64" => "\160\x68\x6f\156\145", "\164\x79\160\145" => "\164\145\x78\x74", "\166\x61\x6c\165\x65" => $this->form_validation->set_value("\160\x68\157\x6e\145", $user->phone)]; goto F9jlW; JP61w: $this->data["\164\151\x74\154\x65"] = $this->lang->line("\x65\144\151\164\137\165\x73\x65\x72\x5f\150\x65\141\144\151\156\147"); goto rO_W_; HYnpZ: dNPZd: goto krGaM; f1I0y: $this->redirectUser(); goto D6AHW; cu2MR: if (!(isset($_POST) && !empty($_POST))) { goto aeu_X; } goto RQrjx; qzWF5: $this->redirectUser(); goto ISfMP; Mgcd2: $user = $this->ion_auth->user($id)->row(); goto zLBIc; Lum1h: AgTXn: goto Mgcd2; RQrjx: if (!($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post("\x69\144"))) { goto jued3; } goto kgBX8; krGaM: if (!($this->form_validation->run() === TRUE)) { goto mqv23; } goto fl65m; D6AHW: Br6fh: goto PfbzT; zLBIc: $groups = $this->ion_auth->groups()->result_array(); goto OotOY; NMOo0: $this->data["\143\157\x6d\x70\141\156\x79"] = ["\156\141\x6d\145" => "\x63\x6f\x6d\160\x61\156\171", "\x69\x64" => "\143\x6f\x6d\x70\x61\x6e\171", "\x74\171\x70\145" => "\164\x65\170\x74", "\166\141\x6c\x75\x65" => $this->form_validation->set_value("\143\x6f\x6d\160\x61\156\171", $user->company)]; goto t3l5W; fl65m: $data = ["\146\151\x72\x73\164\x5f\x6e\x61\155\x65" => $this->input->post("\x66\151\162\x73\164\x5f\156\141\155\x65"), "\x6c\x61\163\x74\137\x6e\x61\155\145" => $this->input->post("\x6c\141\x73\164\x5f\x6e\141\x6d\x65"), "\x63\157\x6d\x70\141\x6e\x79" => $this->input->post("\x63\x6f\155\x70\141\x6e\x79"), "\x70\x68\x6f\156\x65" => $this->input->post("\x70\150\157\156\x65")]; goto hTafQ; klZwE: if (!$this->input->post("\x70\141\x73\163\x77\157\x72\x64")) { goto dNPZd; } goto OiJXZ; mfeDI: $this->data["\143\x75\x72\x72\145\x6e\164\107\162\x6f\165\x70\163"] = $currentGroups; goto Bn7Ym; F9jlW: $this->data["\160\141\x73\163\167\157\x72\x64"] = ["\156\141\155\x65" => "\x70\141\163\x73\167\157\x72\x64", "\x69\144" => "\160\141\x73\163\167\157\x72\x64", "\x74\171\x70\145" => "\160\141\163\x73\167\x6f\162\x64"]; goto Ww2Pr; rdqR8: $this->form_validation->set_rules("\146\151\162\x73\164\137\156\x61\x6d\145", $this->lang->line("\145\144\x69\x74\x5f\x75\163\145\x72\x5f\x76\141\x6c\x69\144\141\164\x69\157\156\x5f\x66\156\141\155\x65\x5f\154\x61\x62\145\154"), "\164\162\x69\155\174\x72\x65\161\x75\x69\x72\x65\x64"); goto Sprlx; mlVR0: $this->ion_auth->remove_from_group('', $id); goto Zn6SW; CMPej: redirect("\141\165\x74\x68", "\162\145\x66\162\145\x73\150"); goto Lum1h; PfbzT: mqv23: goto i_qV_; UvCj0: } public function create_group() { goto rSMZY; KCkx6: goto GeiRS; goto kzMa3; FSQJZ: $this->data["\x6d\x65\x73\x73\x61\147\x65"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("\155\145\x73\163\x61\x67\x65")); goto rhcph; rSMZY: $this->data["\x74\x69\x74\x6c\145"] = $this->lang->line("\x63\162\145\x61\x74\x65\137\147\x72\157\x75\160\137\164\151\164\x6c\x65"); goto ulpP1; DBm7o: $new_group_id = $this->ion_auth->create_group($this->input->post("\x67\162\157\165\160\137\x6e\141\x6d\x65"), $this->input->post("\x64\145\163\143\162\151\x70\x74\x69\157\156")); goto wvnmO; OvXml: redirect("\x61\165\164\x68", "\x72\x65\x66\x72\145\163\150"); goto FqNm6; Gy28z: redirect("\141\165\164\x68", "\x72\x65\x66\x72\145\163\150"); goto bDTSu; LfOit: if (!($this->form_validation->run() === TRUE)) { goto ovUb1; } goto DBm7o; H_gyv: $this->data["\144\145\163\143\162\151\x70\x74\x69\157\x6e"] = ["\x6e\141\155\145" => "\144\145\163\x63\162\x69\160\164\151\x6f\156", "\x69\144" => "\x64\x65\163\143\162\x69\x70\164\x69\157\156", "\164\x79\160\x65" => "\164\x65\x78\164", "\x76\141\x6c\x75\x65" => $this->form_validation->set_value("\144\x65\x73\x63\162\151\x70\x74\x69\157\x6e")]; goto yHlAD; rhcph: $this->data["\147\x72\157\x75\x70\137\x6e\141\155\145"] = ["\156\141\x6d\145" => "\x67\162\157\165\160\137\156\x61\x6d\145", "\x69\144" => "\x67\x72\157\165\160\137\x6e\x61\155\145", "\x74\171\x70\x65" => "\x74\x65\x78\164", "\166\141\154\x75\x65" => $this->form_validation->set_value("\147\x72\x6f\165\160\x5f\x6e\x61\x6d\145")]; goto H_gyv; FqNm6: GeiRS: goto E3GqL; E3GqL: ovUb1: goto FSQJZ; kR1js: $this->session->set_flashdata("\155\145\x73\x73\141\147\145", $this->ion_auth->errors()); goto KCkx6; wvnmO: if ($new_group_id) { goto x7Ofl; } goto kR1js; bDTSu: hb2vL: goto WKdlH; ulpP1: if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) { goto hb2vL; } goto Gy28z; Xbvgg: $this->session->set_flashdata("\155\145\x73\x73\x61\x67\145", $this->ion_auth->messages()); goto OvXml; kzMa3: x7Ofl: goto Xbvgg; yHlAD: $this->_render_page("\x61\165\x74\x68\57\x63\x72\x65\141\164\x65\137\x67\162\x6f\165\x70", $this->data); goto vi3WX; WKdlH: $this->form_validation->set_rules("\147\162\x6f\165\160\137\x6e\141\155\145", $this->lang->line("\143\x72\x65\141\164\x65\x5f\x67\x72\x6f\165\x70\x5f\166\x61\x6c\151\x64\x61\x74\x69\x6f\156\137\156\x61\155\145\x5f\154\141\142\145\154"), "\x74\x72\151\155\174\x72\145\161\165\151\162\x65\144\x7c\141\154\x70\x68\x61\x5f\x64\x61\x73\x68"); goto LfOit; vi3WX: } public function edit_group($id) { goto fVux3; FCE32: QUlPD: goto z8mEf; sm0Gy: $this->data["\164\151\164\154\x65"] = $this->lang->line("\145\144\151\164\x5f\147\x72\157\x75\160\137\x74\x69\164\x6c\145"); goto lFpkY; fVux3: if (!(!$id || empty($id))) { goto cVtxI; } goto W2Cq9; W2Cq9: redirect("\141\165\164\x68", "\162\145\146\162\145\x73\x68"); goto uFv8a; lFpkY: if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) { goto VhrN1; } goto XrqJ7; XrqJ7: redirect("\141\x75\164\x68", "\x72\145\x66\162\145\163\150"); goto RS_uS; yhe56: $this->data["\x67\x72\x6f\x75\160"] = $group; goto OEywW; a0ceW: if ($group_update) { goto IGq3K; } goto ttNxZ; RS_uS: VhrN1: goto WxyYm; WxyYm: $group = $this->ion_auth->group($id)->row(); goto KCRbm; qxOC7: if (!($this->form_validation->run() === TRUE)) { goto QUlPD; } goto YWMoF; ttNxZ: $this->session->set_flashdata("\x6d\145\163\x73\141\147\145", $this->ion_auth->errors()); goto cTotW; xdOO7: $this->data["\147\162\157\x75\x70\x5f\144\145\x73\143\162\151\160\x74\x69\x6f\x6e"] = ["\156\x61\x6d\145" => "\147\162\x6f\165\160\x5f\x64\145\x73\x63\162\x69\160\164\x69\157\x6e", "\151\144" => "\147\x72\x6f\x75\x70\x5f\144\145\x73\x63\x72\151\160\x74\151\x6f\x6e", "\164\171\160\x65" => "\x74\145\170\164", "\x76\141\154\165\x65" => $this->form_validation->set_value("\147\x72\x6f\x75\160\137\144\145\163\x63\162\x69\160\x74\x69\157\156", $group->description)]; goto G0wkt; iVD1N: IGq3K: goto rFW9P; z8mEf: lqXEo: goto tgGL4; cTotW: goto aOBWx; goto iVD1N; YWMoF: $group_update = $this->ion_auth->update_group($id, $_POST["\x67\162\157\x75\160\x5f\x6e\x61\155\x65"], array("\x64\145\x73\x63\x72\x69\x70\x74\151\157\x6e" => $_POST["\147\162\x6f\x75\160\137\144\x65\163\x63\x72\x69\160\x74\x69\x6f\156"])); goto a0ceW; AOq7_: aOBWx: goto FCE32; oCkRM: redirect("\141\x75\x74\150", "\x72\145\146\x72\x65\163\x68"); goto AOq7_; KCRbm: $this->form_validation->set_rules("\x67\x72\157\165\160\x5f\156\141\155\x65", $this->lang->line("\x65\x64\151\x74\x5f\147\x72\157\x75\x70\137\x76\141\x6c\151\144\x61\x74\x69\157\156\137\x6e\141\155\x65\137\154\x61\142\x65\x6c"), "\x74\x72\151\x6d\x7c\162\145\x71\165\151\162\x65\144\x7c\141\x6c\160\150\141\x5f\144\x61\x73\x68"); goto wrzve; uFv8a: cVtxI: goto sm0Gy; wrzve: if (!(isset($_POST) && !empty($_POST))) { goto lqXEo; } goto qxOC7; E1G1c: $this->data["\x67\x72\x6f\165\x70\x5f\156\x61\x6d\x65"]["\162\145\x61\144\x6f\156\x6c\x79"] = "\x72\x65\141\x64\x6f\x6e\x6c\171"; goto rjWed; r0GLA: if (!($this->config->item("\141\x64\155\x69\x6e\137\147\162\x6f\x75\160", "\x69\x6f\x6e\x5f\x61\x75\164\x68") === $group->name)) { goto EI3Uy; } goto E1G1c; tgGL4: $this->data["\155\145\x73\163\141\147\145"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("\x6d\145\x73\163\141\x67\x65")); goto yhe56; G0wkt: $this->_render_page("\141\x75\164\x68" . DIRECTORY_SEPARATOR . "\x65\144\x69\x74\137\x67\x72\157\x75\160", $this->data); goto WLiLE; rjWed: EI3Uy: goto xdOO7; OEywW: $this->data["\147\x72\157\x75\x70\x5f\x6e\x61\155\x65"] = ["\156\x61\155\x65" => "\x67\162\x6f\165\160\137\156\141\x6d\145", "\x69\144" => "\x67\x72\157\x75\x70\137\156\x61\155\x65", "\x74\171\160\145" => "\164\x65\170\x74", "\166\141\x6c\x75\x65" => $this->form_validation->set_value("\x67\x72\157\x75\x70\x5f\156\141\x6d\x65", $group->name)]; goto r0GLA; rFW9P: $this->session->set_flashdata("\155\x65\x73\163\141\x67\145", $this->lang->line("\x65\144\151\164\137\x67\x72\x6f\165\160\137\x73\x61\x76\x65\x64")); goto oCkRM; WLiLE: } public function _get_csrf_nonce() { goto f8Yeo; J85lW: $this->session->set_flashdata("\x63\x73\x72\146\x6b\145\x79", $key); goto s2j72; s2j72: $this->session->set_flashdata("\143\x73\162\146\x76\x61\x6c\165\x65", $value); goto XA5Ez; XA5Ez: return [$key => $value]; goto p267z; WJ6KC: $key = random_string("\141\x6c\x6e\x75\155", 8); goto FAMkL; FAMkL: $value = random_string("\141\154\x6e\x75\x6d", 20); goto J85lW; f8Yeo: $this->load->helper("\163\164\x72\151\156\147"); goto WJ6KC; p267z: } public function _valid_csrf_nonce() { goto WGBHf; emqL8: return FALSE; goto Jqwob; Ihcck: return TRUE; goto EYAvk; EYAvk: UyUes: goto emqL8; SB222: if (!($csrfkey && $csrfkey === $this->session->flashdata("\143\x73\x72\146\166\141\x6c\x75\x65"))) { goto UyUes; } goto Ihcck; WGBHf: $csrfkey = $this->input->post($this->session->flashdata("\143\x73\162\146\x6b\145\171")); goto SB222; Jqwob: } public function _render_page($view, $data = NULL, $returnhtml = FALSE) { goto yiYDx; rwxSY: if (!$returnhtml) { goto aB8zj; } goto k3uJ3; k3uJ3: return $view_html; goto opfUp; sljT5: $view_html = $this->load->view($view, $viewdata, $returnhtml); goto rwxSY; yiYDx: $viewdata = empty($data) ? $this->data : $data; goto sljT5; opfUp: aB8zj: goto AVYoh; AVYoh: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Auth extends CI_Controller
+{
+    public $data = array();
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+        $this->load->library("form_validation");
+        $this->load->helper(["url", "language"]);
+        $this->form_validation->set_error_delimiters($this->config->item("error_start_delimiter", "ion_auth"), $this->config->item("error_end_delimiter", "ion_auth"));
+        $this->lang->load("auth");
+    }
+    public function output_json($data)
+    {
+        $this->output->set_content_type("application/json")->set_output(json_encode($data));
+    }
+    public function index()
+    {
+        $this->load->model("Settings_model", "settings");
+        if (!(count($this->db->list_tables()) == 0)) {
+            goto nl8br;
+        }
+        redirect("install");
+        nl8br:
+        $setting = $this->settings->getSetting();
+        if (!($setting == null)) {
+            goto O1PM3;
+        }
+        redirect("install");
+        O1PM3:
+        if (!$this->ion_auth->logged_in()) {
+            goto NU2EE;
+        }
+        $user_id = $this->ion_auth->user()->row()->id;
+        $group = $this->ion_auth->get_users_groups($user_id)->row()->name;
+        redirect("dashboard");
+        NU2EE:
+        $this->data["setting"] = $setting;
+        $this->data["identity"] = ["name" => "identity", "id" => "identity", "type" => "text", "placeholder" => "Username", "autofocus" => "autofocus", "class" => "form-control", "autocomplete" => "off"];
+        $this->data["password"] = ["name" => "password", "id" => "password", "type" => "password", "placeholder" => "Password", "class" => "form-control"];
+        $this->data["message"] = validation_errors() ? validation_errors() : $this->session->flashdata("message");
+        $this->load->view("_templates/auth/_header", $this->data);
+        $this->load->view("auth/login");
+        $this->load->view("_templates/auth/_footer");
+    }
+    public function cek_login()
+    {
+        $this->form_validation->set_rules("identity", str_replace(":", '', $this->lang->line("login_identity_label")), "required|trim");
+        $this->form_validation->set_rules("password", str_replace(":", '', $this->lang->line("login_password_label")), "required|trim");
+        if ($this->form_validation->run() === TRUE) {
+            $remember = (bool) $this->input->post("remember");
+            if ($this->ion_auth->login($this->input->post("identity"), $this->input->post("password"), $remember)) {
+                $this->cek_akses();
+                goto JBzz7;
+            }
+            if ($this->ion_auth->is_max_login_attempts_exceeded($this->input->post("identity"))) {
+                $data = ["status" => false, "failed" => "Anda sudah 3x melakukan percobaan login, silakan hubungi Administrator", "akses" => "attempts"];
+                goto vGeXp;
+            }
+            $data = ["status" => false, "failed" => "Incorrect Login", "akses" => "no attempts"];
+            vGeXp:
+            $this->output_json($data);
+            JBzz7:
+            goto v7ZAJ;
+        }
+        $invalid = ["identity" => form_error("identity"), "password" => form_error("password")];
+        $data = ["status" => false, "invalid" => $invalid, "akses" => "no valid"];
+        $this->output_json($data);
+        v7ZAJ:
+    }
+    public function cek_akses()
+    {
+        if (!$this->ion_auth->logged_in()) {
+            $status = false;
+            $url = "auth";
+            goto bqB08;
+        }
+        $status = true;
+        $this->load->model("Log_model", "logging");
+        $this->logging->saveLog(1, "Login");
+        $url = "dashboard";
+        bqB08:
+        $data = ["status" => $status, "url" => $url];
+        $this->output_json($data);
+    }
+    public function logout()
+    {
+        $this->ion_auth->logout();
+        redirect("login", "refresh");
+    }
+    public function change_password()
+    {
+        $this->form_validation->set_rules("old", $this->lang->line("change_password_validation_old_password_label"), "required");
+        $this->form_validation->set_rules("new", $this->lang->line("change_password_validation_new_password_label"), "required|min_length[" . $this->config->item("min_password_length", "ion_auth") . "]|matches[new_confirm]");
+        $this->form_validation->set_rules("new_confirm", $this->lang->line("change_password_validation_new_password_confirm_label"), "required");
+        if ($this->ion_auth->logged_in()) {
+            goto oCzo5;
+        }
+        redirect("auth/login", "refresh");
+        oCzo5:
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() === FALSE) {
+            $this->data["message"] = validation_errors() ? validation_errors() : $this->session->flashdata("message");
+            $this->data["min_password_length"] = $this->config->item("min_password_length", "ion_auth");
+            $this->data["old_password"] = ["name" => "old", "id" => "old", "type" => "password"];
+            $this->data["new_password"] = ["name" => "new", "id" => "new", "type" => "password", "pattern" => "^.{" . $this->data["min_password_length"] . "}.*\$"];
+            $this->data["new_password_confirm"] = ["name" => "new_confirm", "id" => "new_confirm", "type" => "password", "pattern" => "^.{" . $this->data["min_password_length"] . "}.*\$"];
+            $this->data["user_id"] = ["name" => "user_id", "id" => "user_id", "type" => "hidden", "value" => $user->id];
+            $this->_render_page("authDIRECTORY_SEPARATORchange_password", $this->data);
+            goto l5rAk;
+        }
+        $identity = $this->session->userdata("identity");
+        $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
+        if ($change) {
+            $this->session->set_flashdata("message", $this->ion_auth->messages());
+            $this->logout();
+            goto ODxnX;
+        }
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        redirect("auth/change_password", "refresh");
+        ODxnX:
+        l5rAk:
+    }
+    public function forgot_password()
+    {
+        $this->data["title"] = $this->lang->line("forgot_password_heading");
+        if ($this->config->item("identity", "ion_auth") != "email") {
+            $this->form_validation->set_rules("identity", $this->lang->line("forgot_password_identity_label"), "required");
+            goto ssaAt;
+        }
+        $this->form_validation->set_rules("identity", $this->lang->line("forgot_password_validation_email_label"), "required|valid_email");
+        ssaAt:
+        if ($this->form_validation->run() === FALSE) {
+            $this->data["type"] = $this->config->item("identity", "ion_auth");
+            $this->data["identity"] = ["name" => "identity", "id" => "identity", "class" => "form-control", "autocomplete" => "off", "autofocus" => "autofocus"];
+            if ($this->config->item("identity", "ion_auth") != "email") {
+                $this->data["identity_label"] = $this->lang->line("forgot_password_identity_label");
+                goto cDI4y;
+            }
+            $this->data["identity_label"] = $this->lang->line("forgot_password_email_identity_label");
+            cDI4y:
+            $this->data["message"] = validation_errors() ? validation_errors() : $this->session->flashdata("message");
+            $this->load->view("_templates/auth/_header", $this->data);
+            $this->load->view("auth/forgot_password");
+            $this->load->view("_templates/auth/_footer");
+            goto o7QCw;
+        }
+        $identity_column = $this->config->item("identity", "ion_auth");
+        $identity = $this->ion_auth->where($identity_column, $this->input->post("identity"))->users()->row();
+        if (!empty($identity)) {
+            goto UZ9yt;
+        }
+        if ($this->config->item("identity", "ion_auth") != "email") {
+            $this->ion_auth->set_error("forgot_password_identity_not_found");
+            goto b30KW;
+        }
+        $this->ion_auth->set_error("forgot_password_email_not_found");
+        b30KW:
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        redirect("auth/forgot_password", "refresh");
+        UZ9yt:
+        $forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item("identity", "ion_auth")});
+        if ($forgotten) {
+            $this->session->set_flashdata("success", $this->ion_auth->messages());
+            redirect("auth/forgot_password", "refresh");
+            goto eXrp2;
+        }
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        redirect("auth/forgot_password", "refresh");
+        eXrp2:
+        o7QCw:
+    }
+    public function reset_password($code = NULL)
+    {
+        if ($code) {
+            goto oSt5X;
+        }
+        show_404();
+        oSt5X:
+        $this->data["title"] = $this->lang->line("reset_password_heading");
+        $user = $this->ion_auth->forgotten_password_check($code);
+        if ($user) {
+            $this->form_validation->set_rules("new", $this->lang->line("reset_password_validation_new_password_label"), "required|min_length[" . $this->config->item("min_password_length", "ion_auth") . "]|matches[new_confirm]");
+            $this->form_validation->set_rules("new_confirm", $this->lang->line("reset_password_validation_new_password_confirm_label"), "required");
+            if ($this->form_validation->run() === FALSE) {
+                $this->data["message"] = validation_errors() ? validation_errors() : $this->session->flashdata("message");
+                $this->data["min_password_length"] = $this->config->item("min_password_length", "ion_auth");
+                $this->data["new_password"] = ["name" => "new", "id" => "new", "type" => "password", "pattern" => "^.{" . $this->data["min_password_length"] . "}.*\$"];
+                $this->data["new_password_confirm"] = ["name" => "new_confirm", "id" => "new_confirm", "type" => "password", "pattern" => "^.{" . $this->data["min_password_length"] . "}.*\$"];
+                $this->data["user_id"] = ["name" => "user_id", "id" => "user_id", "type" => "hidden", "value" => $user->id];
+                $this->data["csrf"] = $this->_get_csrf_nonce();
+                $this->data["code"] = $code;
+                $this->load->view("_templates/auth/_header");
+                $this->load->view("auth/reset_password", $this->data);
+                $this->load->view("_templates/auth/_footer");
+                goto Se_vZ;
+            }
+            $identity = $user->{$this->config->item("identity", "ion_auth")};
+            if ($this->_valid_csrf_nonce() === FALSE || $user->id != $this->input->post("user_id")) {
+                $this->ion_auth->clear_forgotten_password_code($identity);
+                show_error($this->lang->line("error_csrf"));
+                goto DWT0T;
+            }
+            $change = $this->ion_auth->reset_password($identity, $this->input->post("new"));
+            if ($change) {
+                $this->session->set_flashdata("message", $this->ion_auth->messages());
+                redirect("auth/login", "refresh");
+                goto AqBub;
+            }
+            $this->session->set_flashdata("message", $this->ion_auth->errors());
+            redirect("auth/reset_password/" . $code, "refresh");
+            AqBub:
+            DWT0T:
+            Se_vZ:
+            goto PXjue;
+        }
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        redirect("auth/forgot_password", "refresh");
+        PXjue:
+    }
+    public function activate($id, $code = FALSE)
+    {
+        $activation = FALSE;
+        if ($code !== FALSE) {
+            $activation = $this->ion_auth->activate($id, $code);
+            goto v8imv;
+        }
+        if (!$this->ion_auth->is_admin()) {
+            goto wDD1m;
+        }
+        $activation = $this->ion_auth->activate($id);
+        wDD1m:
+        v8imv:
+        if ($activation) {
+            $this->session->set_flashdata("message", $this->ion_auth->messages());
+            redirect("auth", "refresh");
+            goto NAnTM;
+        }
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        redirect("auth/forgot_password", "refresh");
+        NAnTM:
+    }
+    public function deactivate($id = NULL)
+    {
+        if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) {
+            goto ZY2E7;
+        }
+        show_error("You must be an administrator to view this page.");
+        ZY2E7:
+        $id = (int) $id;
+        $this->load->library("form_validation");
+        $this->form_validation->set_rules("confirm", $this->lang->line("deactivate_validation_confirm_label"), "required");
+        $this->form_validation->set_rules("id", $this->lang->line("deactivate_validation_user_id_label"), "required|alpha_numeric");
+        if ($this->form_validation->run() === FALSE) {
+            $this->data["csrf"] = $this->_get_csrf_nonce();
+            $this->data["user"] = $this->ion_auth->user($id)->row();
+            $this->_render_page("authDIRECTORY_SEPARATORdeactivate_user", $this->data);
+            goto jLkYU;
+        }
+        if (!($this->input->post("confirm") == "yes")) {
+            goto KMULA;
+        }
+        if (!($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post("id"))) {
+            goto i3k9G;
+        }
+        show_error($this->lang->line("error_csrf"));
+        i3k9G:
+        if (!($this->ion_auth->logged_in() && $this->ion_auth->is_admin())) {
+            goto y7_5K;
+        }
+        $this->ion_auth->deactivate($id);
+        y7_5K:
+        KMULA:
+        redirect("auth", "refresh");
+        jLkYU:
+    }
+    public function create_user()
+    {
+        $this->data["title"] = $this->lang->line("create_user_heading");
+        if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) {
+            goto Rog18;
+        }
+        redirect("auth", "refresh");
+        Rog18:
+        $tables = $this->config->item("tables", "ion_auth");
+        $identity_column = $this->config->item("identity", "ion_auth");
+        $this->data["identity_column"] = $identity_column;
+        $this->form_validation->set_rules("first_name", $this->lang->line("create_user_validation_fname_label"), "trim|required");
+        $this->form_validation->set_rules("last_name", $this->lang->line("create_user_validation_lname_label"), "trim|required");
+        if ($identity_column !== "email") {
+            $this->form_validation->set_rules("identity", $this->lang->line("create_user_validation_identity_label"), "trim|required|is_unique[" . $tables["users"] . "." . $identity_column . "]");
+            $this->form_validation->set_rules("email", $this->lang->line("create_user_validation_email_label"), "trim|required|valid_email");
+            goto DPeJu;
+        }
+        $this->form_validation->set_rules("email", $this->lang->line("create_user_validation_email_label"), "trim|required|valid_email|is_unique[" . $tables["users"] . ".email]");
+        DPeJu:
+        $this->form_validation->set_rules("phone", $this->lang->line("create_user_validation_phone_label"), "trim");
+        $this->form_validation->set_rules("company", $this->lang->line("create_user_validation_company_label"), "trim");
+        $this->form_validation->set_rules("password", $this->lang->line("create_user_validation_password_label"), "required|min_length[" . $this->config->item("min_password_length", "ion_auth") . "]|matches[password_confirm]");
+        $this->form_validation->set_rules("password_confirm", $this->lang->line("create_user_validation_password_confirm_label"), "required");
+        if (!($this->form_validation->run() === TRUE)) {
+            goto IGEPd;
+        }
+        $email = strtolower($this->input->post("email"));
+        $identity = $identity_column === "email" ? $email : $this->input->post("identity");
+        $password = $this->input->post("password");
+        $additional_data = ["first_name" => $this->input->post("first_name"), "last_name" => $this->input->post("last_name"), "company" => $this->input->post("company"), "phone" => $this->input->post("phone")];
+        IGEPd:
+        if ($this->form_validation->run() === TRUE && $this->ion_auth->register($identity, $password, $email, $additional_data)) {
+            $this->session->set_flashdata("message", $this->ion_auth->messages());
+            redirect("auth", "refresh");
+            goto RizJx;
+        }
+        $this->data["message"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("message"));
+        $this->data["first_name"] = ["name" => "first_name", "id" => "first_name", "type" => "text", "value" => $this->form_validation->set_value("first_name")];
+        $this->data["last_name"] = ["name" => "last_name", "id" => "last_name", "type" => "text", "value" => $this->form_validation->set_value("last_name")];
+        $this->data["identity"] = ["name" => "identity", "id" => "identity", "type" => "text", "value" => $this->form_validation->set_value("identity")];
+        $this->data["email"] = ["name" => "email", "id" => "email", "type" => "text", "value" => $this->form_validation->set_value("email")];
+        $this->data["company"] = ["name" => "company", "id" => "company", "type" => "text", "value" => $this->form_validation->set_value("company")];
+        $this->data["phone"] = ["name" => "phone", "id" => "phone", "type" => "text", "value" => $this->form_validation->set_value("phone")];
+        $this->data["password"] = ["name" => "password", "id" => "password", "type" => "password", "value" => $this->form_validation->set_value("password")];
+        $this->data["password_confirm"] = ["name" => "password_confirm", "id" => "password_confirm", "type" => "password", "value" => $this->form_validation->set_value("password_confirm")];
+        $this->_render_page("authDIRECTORY_SEPARATORcreate_user", $this->data);
+        RizJx:
+    }
+    public function redirectUser()
+    {
+        if (!$this->ion_auth->is_admin()) {
+            goto q1ee5;
+        }
+        redirect("auth", "refresh");
+        q1ee5:
+        redirect("/", "refresh");
+    }
+    public function edit_user($id)
+    {
+        $this->data["title"] = $this->lang->line("edit_user_heading");
+        if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin() && !($this->ion_auth->user()->row()->id == $id))) {
+            goto AgTXn;
+        }
+        redirect("auth", "refresh");
+        AgTXn:
+        $user = $this->ion_auth->user($id)->row();
+        $groups = $this->ion_auth->groups()->result_array();
+        $currentGroups = $this->ion_auth->get_users_groups($id)->result();
+        $this->form_validation->set_rules("first_name", $this->lang->line("edit_user_validation_fname_label"), "trim|required");
+        $this->form_validation->set_rules("last_name", $this->lang->line("edit_user_validation_lname_label"), "trim|required");
+        $this->form_validation->set_rules("phone", $this->lang->line("edit_user_validation_phone_label"), "trim");
+        $this->form_validation->set_rules("company", $this->lang->line("edit_user_validation_company_label"), "trim");
+        if (!(isset($_POST) && !empty($_POST))) {
+            goto aeu_X;
+        }
+        if (!($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post("id"))) {
+            goto jued3;
+        }
+        show_error($this->lang->line("error_csrf"));
+        jued3:
+        if (!$this->input->post("password")) {
+            goto dNPZd;
+        }
+        $this->form_validation->set_rules("password", $this->lang->line("edit_user_validation_password_label"), "required|min_length[" . $this->config->item("min_password_length", "ion_auth") . "]|matches[password_confirm]");
+        $this->form_validation->set_rules("password_confirm", $this->lang->line("edit_user_validation_password_confirm_label"), "required");
+        dNPZd:
+        if (!($this->form_validation->run() === TRUE)) {
+            goto mqv23;
+        }
+        $data = ["first_name" => $this->input->post("first_name"), "last_name" => $this->input->post("last_name"), "company" => $this->input->post("company"), "phone" => $this->input->post("phone")];
+        if (!$this->input->post("password")) {
+            goto cxDLR;
+        }
+        $data["password"] = $this->input->post("password");
+        cxDLR:
+        if (!$this->ion_auth->is_admin()) {
+            goto xSWMn;
+        }
+        $this->ion_auth->remove_from_group('', $id);
+        $groupData = $this->input->post("groups");
+        if (!(isset($groupData) && !empty($groupData))) {
+            goto LPQHi;
+        }
+        foreach ($groupData as $grp) {
+            $this->ion_auth->add_to_group($grp, $id);
+        }
+        LPQHi:
+        xSWMn:
+        if ($this->ion_auth->update($user->id, $data)) {
+            $this->session->set_flashdata("message", $this->ion_auth->messages());
+            $this->redirectUser();
+            goto D6AHW;
+        }
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        $this->redirectUser();
+        D6AHW:
+        mqv23:
+        aeu_X:
+        $this->data["csrf"] = $this->_get_csrf_nonce();
+        $this->data["message"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("message"));
+        $this->data["user"] = $user;
+        $this->data["groups"] = $groups;
+        $this->data["currentGroups"] = $currentGroups;
+        $this->data["first_name"] = ["name" => "first_name", "id" => "first_name", "type" => "text", "value" => $this->form_validation->set_value("first_name", $user->first_name)];
+        $this->data["last_name"] = ["name" => "last_name", "id" => "last_name", "type" => "text", "value" => $this->form_validation->set_value("last_name", $user->last_name)];
+        $this->data["company"] = ["name" => "company", "id" => "company", "type" => "text", "value" => $this->form_validation->set_value("company", $user->company)];
+        $this->data["phone"] = ["name" => "phone", "id" => "phone", "type" => "text", "value" => $this->form_validation->set_value("phone", $user->phone)];
+        $this->data["password"] = ["name" => "password", "id" => "password", "type" => "password"];
+        $this->data["password_confirm"] = ["name" => "password_confirm", "id" => "password_confirm", "type" => "password"];
+        $this->_render_page("auth/edit_user", $this->data);
+    }
+    public function create_group()
+    {
+        $this->data["title"] = $this->lang->line("create_group_title");
+        if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) {
+            goto hb2vL;
+        }
+        redirect("auth", "refresh");
+        hb2vL:
+        $this->form_validation->set_rules("group_name", $this->lang->line("create_group_validation_name_label"), "trim|required|alpha_dash");
+        if (!($this->form_validation->run() === TRUE)) {
+            goto ovUb1;
+        }
+        $new_group_id = $this->ion_auth->create_group($this->input->post("group_name"), $this->input->post("description"));
+        if ($new_group_id) {
+            $this->session->set_flashdata("message", $this->ion_auth->messages());
+            redirect("auth", "refresh");
+            goto FqNm6;
+        }
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        FqNm6:
+        ovUb1:
+        $this->data["message"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("message"));
+        $this->data["group_name"] = ["name" => "group_name", "id" => "group_name", "type" => "text", "value" => $this->form_validation->set_value("group_name")];
+        $this->data["description"] = ["name" => "description", "id" => "description", "type" => "text", "value" => $this->form_validation->set_value("description")];
+        $this->_render_page("auth/create_group", $this->data);
+    }
+    public function edit_group($id)
+    {
+        if (!(!$id || empty($id))) {
+            goto cVtxI;
+        }
+        redirect("auth", "refresh");
+        cVtxI:
+        $this->data["title"] = $this->lang->line("edit_group_title");
+        if (!(!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())) {
+            goto VhrN1;
+        }
+        redirect("auth", "refresh");
+        VhrN1:
+        $group = $this->ion_auth->group($id)->row();
+        $this->form_validation->set_rules("group_name", $this->lang->line("edit_group_validation_name_label"), "trim|required|alpha_dash");
+        if (!(isset($_POST) && !empty($_POST))) {
+            goto lqXEo;
+        }
+        if (!($this->form_validation->run() === TRUE)) {
+            goto QUlPD;
+        }
+        $group_update = $this->ion_auth->update_group($id, $_POST["group_name"], array("description" => $_POST["group_description"]));
+        if ($group_update) {
+            $this->session->set_flashdata("message", $this->lang->line("edit_group_saved"));
+            redirect("auth", "refresh");
+            goto AOq7_;
+        }
+        $this->session->set_flashdata("message", $this->ion_auth->errors());
+        AOq7_:
+        QUlPD:
+        lqXEo:
+        $this->data["message"] = validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata("message"));
+        $this->data["group"] = $group;
+        $this->data["group_name"] = ["name" => "group_name", "id" => "group_name", "type" => "text", "value" => $this->form_validation->set_value("group_name", $group->name)];
+        if (!($this->config->item("admin_group", "ion_auth") === $group->name)) {
+            goto EI3Uy;
+        }
+        $this->data["group_name"]["readonly"] = "readonly";
+        EI3Uy:
+        $this->data["group_description"] = ["name" => "group_description", "id" => "group_description", "type" => "text", "value" => $this->form_validation->set_value("group_description", $group->description)];
+        $this->_render_page("authDIRECTORY_SEPARATORedit_group", $this->data);
+    }
+    public function _get_csrf_nonce()
+    {
+        $this->load->helper("string");
+        $key = random_string("alnum", 8);
+        $value = random_string("alnum", 20);
+        $this->session->set_flashdata("csrfkey", $key);
+        $this->session->set_flashdata("csrfvalue", $value);
+        return [$key => $value];
+    }
+    public function _valid_csrf_nonce()
+    {
+        $csrfkey = $this->input->post($this->session->flashdata("csrfkey"));
+        if (!($csrfkey && $csrfkey === $this->session->flashdata("csrfvalue"))) {
+            return false;
+        }
+        return true;
+    }
+    public function _render_page($view, $data = NULL, $returnhtml = FALSE)
+    {
+        $viewdata = empty($data) ? $this->data : $data;
+        $view_html = $this->load->view($view, $viewdata, $returnhtml);
+        if (!$returnhtml) {
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        return $view_html;
+    }
+}

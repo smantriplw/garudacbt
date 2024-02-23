@@ -1,6 +1,6 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
+defined('BASEPATH') or exit('No direct script access allowed');
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -29,7 +29,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | 7. Models
 |
 */
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Packages
@@ -40,7 +39,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $autoload['packages'] = array();
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Libraries
@@ -60,7 +58,6 @@ $autoload['packages'] = array();
 */
 //$autoload['libraries'] = array();
 $autoload['libraries'] = array('database', 'ion_auth', 'encryption', 'session');
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Drivers
@@ -81,7 +78,6 @@ $autoload['libraries'] = array('database', 'ion_auth', 'encryption', 'session');
 |
 */
 $autoload['drivers'] = array();
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Helper Files
@@ -91,8 +87,7 @@ $autoload['drivers'] = array();
 |	$autoload['helper'] = array('url', 'file');
 */
 //$autoload['helper'] = array();
-$autoload['helper'] = array('url','form');
-
+$autoload['helper'] = array('url', 'form');
 /*
 | -------------------------------------------------------------------
 |  Auto-load Config files
@@ -106,7 +101,6 @@ $autoload['helper'] = array('url','form');
 |
 */
 $autoload['config'] = array();
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Language files
@@ -120,7 +114,6 @@ $autoload['config'] = array();
 |
 */
 $autoload['language'] = array('auth', 'ion_auth');
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Models

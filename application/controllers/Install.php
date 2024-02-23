@@ -1,7 +1,267 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\x42\101\x53\x45\120\101\x54\x48") or exit("\116\157\x20\x64\x69\x72\x65\x63\164\40\x73\x63\x72\x69\x70\x74\40\x61\143\x63\x65\163\x73\40\141\154\154\x6f\x77\x65\x64"); class Install extends CI_Controller { function __construct() { goto Ewc9k; tonIs: $this->load->dbforge(); goto zKbsf; CFHxp: if (!($db["\144\x65\146\x61\x75\x6c\164"]["\144\x61\x74\x61\142\x61\x73\x65"] != '')) { goto if5kg; } goto Y17Jx; plTZQ: $this->load->model("\104\x61\x73\x68\x62\x6f\x61\x72\x64\x5f\x6d\x6f\x64\145\154", "\144\141\x73\x68\x62\x6f\141\162\144"); goto XnQng; Y17Jx: $this->load->database(); goto tonIs; lwcDd: $this->load->model("\x49\x6e\x73\164\x61\x6c\154\x5f\x6d\157\144\x65\154", "\151\156\x73\164\x61\x6c\x6c"); goto plTZQ; zD5Kz: include APPPATH . "\143\x6f\x6e\146\x69\147\57\144\x61\x74\141\142\x61\163\145\x2e\x70\150\x70"; goto CFHxp; zKbsf: if5kg: goto lwcDd; Ewc9k: parent::__construct(); goto zD5Kz; XnQng: } public function output_json($data, $encode = true) { goto NsTxx; NsTxx: if (!$encode) { goto l87de; } goto E9EWK; sdaeE: l87de: goto MaY8f; MaY8f: $this->output->set_content_type("\141\x70\x70\x6c\151\x63\x61\164\x69\157\x6e\57\x6a\x73\x6f\156")->set_output($data); goto vcZa3; E9EWK: $data = json_encode($data); goto sdaeE; vcZa3: } public function index() { goto ivsyD; ivsyD: $res = $this->install->check_installer(); goto Q8k80; sCuZB: ocHCu: goto DyYZA; Q9kr4: xSfcc: goto R1suo; j2T4b: $data = $this->getSaved(); goto YTDyd; NQulZ: goto NERhb; goto Q9kr4; ssT6E: $data["\155\163\147"] = "\142\x65\154\x75\x6d\x20\x61\144\x61\40\x64\x61\x74\x61\x20\x73\x65\x6b\x6f\x6c\141\x68"; goto NQulZ; Q8k80: if ($res == "\x30") { goto ocHCu; } goto E39RL; G_AKF: NERhb: goto j2T4b; HRs26: goto VxEAl; goto sCuZB; c61HO: VxEAl: goto GksEl; eO5i9: if ($res == "\63") { goto ryKTb; } goto ssT6E; dAdKp: goto NERhb; goto lbNZE; lbNZE: ryKTb: goto SjhxV; PR6Wp: $this->load->view("\x69\x6e\163\164\x61\154\154\57\x73\x74\x65\160"); goto VZrGc; SjhxV: $data["\x6d\163\x67"] = "\142\145\154\x75\x6d\40\141\x64\141\40\x61\x64\x6d\151\x6e\x69\x73\164\x72\x61\164\x6f\162"; goto G_AKF; DyYZA: redirect("\165\x70\x64\x61\164\145"); goto c61HO; YTDyd: $data->error = $res; goto wUOt1; R1suo: $data["\x6d\x73\x67"] = "\x73\145\142\x61\x67\x69\141\x6e\x20\x74\141\x62\x65\x6c\40\x62\x65\154\165\155\x20\x64\x69\x62\165\141\x74"; goto dAdKp; wUOt1: $this->load->view("\151\x6e\x73\x74\141\x6c\154\x2f\150\x65\x61\x64\x65\162", ["\144\141\x74\x61" => $data]); goto PR6Wp; VZrGc: $this->load->view("\151\x6e\163\x74\x61\x6c\x6c\x2f\x66\157\157\164\x65\162"); goto HRs26; E39RL: if ($res == "\x32") { goto xSfcc; } goto eO5i9; GksEl: } function getSaved() { goto PTS2N; c90pv: $data["\144\145\x73\x61"] = $setting->desa; goto xp7ai; qbUGo: $data["\x6e\141\x6d\x61\137\x61\x64\x6d\x69\x6e"] = ''; goto UroTo; yR8o_: $current_page = 2; goto lUmK8; R79N9: if (!($admin != null)) { goto gq1QP; } goto D_AYf; OIQJL: $current_page = $admin == null ? 2 : ($setting == null ? 3 : 4); goto XoEDa; e1Ndj: $data["\x70\x61\x73\163\137\x61\x64\x6d\x69\156"] = ''; goto fO09S; FbNqn: $data["\152\x65\x6e\152\141\x6e\147"] = ''; goto kFfWu; lPaM3: $data["\144\x65\163\141"] = ''; goto vTFsE; PTS2N: include APPPATH . "\143\x6f\156\x66\151\x67\x2f\144\141\x74\141\142\141\163\x65\56\160\x68\160"; goto WGQcE; XoEDa: kRb6_: goto mMxtl; vR7MN: $data["\141\x6c\141\155\x61\164"] = $setting->alamat; goto c90pv; fWdA2: $data["\x6b\x6f\x74\x61"] = ''; goto Xh0YF; fARUr: $data["\144\x61\164\141\142\x61\163\145"] = $database; goto qbUGo; kFfWu: $data["\163\x61\164\165\x61\156"] = ''; goto z4suZ; bwlVx: gq1QP: goto gleLk; agq6D: $data["\160\x72\157\166"] = $setting->provinsi; goto w05l8; w05l8: H8aol: goto OIQJL; vpP8g: if (!($setting != null)) { goto H8aol; } goto FsOIE; JJrZ1: goto kRb6_; goto U28Lb; zU6Dd: $data["\163\x65\153\x6f\x6c\x61\150"] = ''; goto FbNqn; x2MCf: $data["\160\x61\x73\x73\137\141\x64\x6d\151\x6e"] = $admin->password; goto bwlVx; lUmK8: if ($this->db->table_exists("\x75\x73\145\x72\163")) { goto ABko3; } goto GagDB; gleLk: $setting = $this->dashboard->getSetting(); goto vpP8g; LPFAz: $data["\x73\141\x74\165\x61\156"] = $setting->satuan_pendidikan; goto TNtfe; WGQcE: $database = $db["\144\x65\146\x61\x75\x6c\x74"]["\x64\x61\x74\x61\142\141\x73\x65"]; goto d9gt7; Xh0YF: $data["\160\162\x6f\x76"] = ''; goto yR8o_; z4suZ: $data["\153\145\x70\x73\145\x6b"] = ''; goto GCzYu; xzI_a: $admin = $this->db->get("\x75\163\x65\x72\163")->row(); goto R79N9; vTFsE: $data["\153\145\x63"] = ''; goto fWdA2; GagDB: $current_page = 2; goto nC9cs; PL5hq: $data["\x70\x61\163\x73\167\x6f\x72\144"] = $db["\144\145\146\141\165\154\164"]["\160\141\163\163\x77\157\x72\144"]; goto fARUr; FsOIE: $data["\141\160\154\151\x6b\141\x73\x69"] = $setting->nama_aplikasi; goto ExmuS; d9gt7: $data["\150\x6f\x73\164\156\x61\x6d\x65"] = $db["\144\x65\146\141\165\x6c\164"]["\150\x6f\163\x74\156\141\155\145"]; goto coXU5; D_AYf: $data["\156\141\x6d\141\x5f\141\144\x6d\x69\x6e"] = $admin->first_name . "\x20" . $admin->last_name; goto dohFi; U28Lb: ABko3: goto xzI_a; UroTo: $data["\165\x73\145\x72\x5f\141\x64\x6d\x69\x6e"] = ''; goto e1Ndj; TNtfe: $data["\153\145\x70\163\145\153"] = $setting->kepsek; goto vR7MN; ExmuS: $data["\x73\145\153\157\x6c\141\150"] = $setting->sekolah; goto PnBqm; xp7ai: $data["\153\145\143"] = $setting->kecamatan; goto sS62p; nC9cs: $data["\155\163\147"] = "\124\141\x62\154\145\x20\x60\x75\163\145\x72\x73\140\x20\x62\145\154\165\155\40\144\151\x62\x75\141\x74"; goto JJrZ1; sS62p: $data["\153\x6f\164\141"] = $setting->kota; goto agq6D; GCzYu: $data["\x61\154\141\155\x61\164"] = ''; goto lPaM3; fO09S: $data["\x61\160\154\x69\x6b\141\163\x69"] = ''; goto zU6Dd; mMxtl: $data["\143\x75\162\x72\145\x6e\164\x5f\x70\141\147\x65"] = $current_page; goto wsHHv; wsHHv: return json_decode(json_encode($data)); goto IskYX; coXU5: $data["\165\163\145\x72\156\x61\x6d\x65"] = $db["\144\x65\x66\x61\165\x6c\164"]["\165\x73\x65\162\156\x61\x6d\x65"]; goto PL5hq; dohFi: $data["\165\x73\145\162\x5f\x61\144\155\151\x6e"] = $admin->username; goto x2MCf; PnBqm: $data["\152\145\x6e\x6a\x61\156\147"] = $setting->jenjang; goto LPFAz; IskYX: } public function steps() { goto OuILN; OuILN: $data = $this->getSaved(); goto gv9HE; lTsVw: $this->load->view("\151\156\x73\164\141\154\x6c\57\146\x6f\157\164\x65\162"); goto ZFD2R; cyKZh: $this->load->view("\x69\x6e\x73\164\x61\x6c\154\57\163\x74\x65\x70"); goto lTsVw; gv9HE: $this->load->view("\x69\x6e\163\164\x61\x6c\x6c\x2f\150\145\x61\144\x65\162", ["\144\x61\x74\141" => $data]); goto cyKZh; ZFD2R: } public function checkDatabase() { goto bAVRI; h_fST: ysLJE: goto nWBLX; qY3aF: $handle = fopen($output_path, "\167\x2b"); goto fPg5F; XYVpL: $data["\150\157\x73\x74\137\x6d\163\147"] = "\142\x65\x68\141\163\x69\154"; goto lnQC3; HIqz7: $new = str_replace("\45\120\101\123\123\127\117\122\104\45", $hostpass, $new); goto uabkY; uabkY: $new = str_replace("\x25\104\101\x54\101\102\101\x53\105\x25", $database, $new); goto qY3aF; b_2xz: $data["\150\157\163\x74"] = false; goto ZNKu1; qUzHb: $new = str_replace("\45\110\x4f\x53\x54\x4e\101\115\105\45", $hostname, $database_file); goto QzZmE; G2ohy: if ($this->validate_host($hostname, $hostuser, $database)) { goto ysLJE; } goto jUyxD; ZNKu1: $data["\150\157\x73\164\137\x6d\x73\x67"] = "\x74\151\144\x61\x6b\x20\x61\x64\x61\40\141\153\x73\x65\x73\40\153\x65\40\x66\151\154\x65\40\x64\141\164\x61\x62\x61\163\145\56\x70\x68\x70\54\x20\x70\x61\x73\164\x69\153\x61\156\x20\160\x65\x72\x6d\x69\163\x73\151\x6f\156\40\x73\165\x64\x61\150\40\144\151\x7a\151\x6e\x6b\141\156"; goto Y_l2v; PbceX: jYACP: goto VcxQg; OsgCy: $data["\144\x61\x74\141\142\141\163\x65"] = true; goto PbceX; SBwBZ: KAovN: goto JT1U0; Mn_gq: $data["\164\141\142\x6c\145"] = $this->create_tables($hostname, $hostuser, $hostpass, $database); goto kzTK9; jUyxD: $data["\150\157\163\x74"] = false; goto f9P8u; vHmYE: $database = $this->input->post("\144\x61\164\141\x62\141\163\x65", true); goto G2ohy; fPg5F: @chmod($output_path, 0777); goto Z1kwb; VcxQg: WzQos: goto SIbpl; f9P8u: $data["\150\x6f\163\164\137\x6d\x73\x67"] = "\164\x69\x64\x61\153\x20\142\157\x6c\145\150\x20\141\x64\x61\x20\171\x61\x6e\147\40\153\157\x73\157\x6e\147"; goto dC5Xv; JT1U0: if (fwrite($handle, $new)) { goto Nmk0j; } goto xI_cA; kzTK9: $data["\x68\x6f\163\164"] = true; goto X1bev; WEkCg: $database_file = file_get_contents($template_path); goto qUzHb; nWBLX: $template_path = "\x2e\57\x61\x73\163\145\164\x73\x2f\x61\160\160\57\x64\x62\57\144\x61\x74\x61\142\141\x73\x65\x2e\160\150\x70"; goto Y9AFG; TRus7: goto jYACP; goto zfxsX; Y_l2v: goto WzQos; goto SBwBZ; Vr1Eh: $data["\150\x6f\163\x74\x5f\x6d\163\x67"] = "\x67\x61\x67\x61\x6c\x20\x6d\145\x6d\142\165\141\x74\x20\x6e\x61\155\141\x20\144\141\164\x61\x62\x61\163\145"; goto TRus7; zfxsX: Nmk0j: goto eQD4e; Mz91n: $this->output_json($data); goto Bxp07; SIbpl: uWB4V: goto Mz91n; xI_cA: $data["\x68\157\163\164"] = false; goto Vr1Eh; dC5Xv: goto uWB4V; goto h_fST; u2XbH: $hostpass = $this->input->post("\x68\x6f\x73\164\x70\x61\163\x73", true); goto vHmYE; eQD4e: $data["\x68\x6f\163\164"] = true; goto XYVpL; NYSdT: $hostuser = $this->input->post("\x68\x6f\x73\164\x75\x73\x65\x72", true); goto u2XbH; Z1kwb: if (is_writable($output_path)) { goto KAovN; } goto b_2xz; bAVRI: $hostname = $this->input->post("\150\157\x73\164\156\x61\x6d\145", true); goto NYSdT; lnQC3: $data["\144\141\x74\141\x62\x61\x73\x65"] = $this->create_database($hostname, $hostuser, $hostpass, $database); goto Mn_gq; QzZmE: $new = str_replace("\45\x55\123\105\122\116\101\x4d\x45\x25", $hostuser, $new); goto HIqz7; X1bev: $data["\x68\157\163\x74\x5f\155\x73\x67"] = "\x73\x75\x6b\x73\145\163"; goto OsgCy; Y9AFG: $output_path = APPPATH . "\143\x6f\156\x66\151\x67\x2f\144\141\164\x61\x62\x61\x73\x65\56\160\150\x70"; goto WEkCg; Bxp07: } public function createDb() { goto WrObR; Fuv2I: $data["\164\141\142\154\x65"] = $this->create_tables($hostname, $hostuser, $hostpass, $database); goto CPf1M; h_2KH: goto mb8Ib; goto ABsPm; SqNBk: $data["\150\x6f\x73\164\137\155\x73\x67"] = "\163\164\145\x70\x20\x73\x61\154\141\150"; goto WCsyl; CPf1M: $data["\150\157\x73\164"] = true; goto WCZim; hvUbP: $data["\164\x61\x62\154\145"] = false; goto h_2KH; WrObR: $page = $this->input->post("\160\x61\x67\x65", true); goto WE5Z5; J06n8: $this->output_json($data); goto FZSZb; EnbiS: $hostuser = $this->input->post("\x68\157\163\164\165\x73\x65\x72", true); goto tK2_x; Fu6yv: $data["\x68\x6f\163\164"] = true; goto SqNBk; WCsyl: $data["\144\x61\164\141\x62\x61\163\x65"] = false; goto hvUbP; tK2_x: $hostpass = $this->input->post("\x68\x6f\x73\x74\160\x61\x73\163", true); goto ZEoSz; sPlPL: $hostname = $this->input->post("\x68\157\x73\x74\156\x61\x6d\145", true); goto EnbiS; WE5Z5: if ($page == "\x30") { goto ruSgX; } goto Fu6yv; teiY3: $data["\144\x61\x74\x61\142\141\x73\x65"] = true; goto clWgC; ABsPm: ruSgX: goto sPlPL; ZEoSz: $database = $this->input->post("\x64\x61\164\x61\x62\141\x73\145", true); goto Fuv2I; WCZim: $data["\150\157\163\164\x5f\155\163\x67"] = "\163\x75\x6b\163\x65\163"; goto teiY3; clWgC: mb8Ib: goto J06n8; FZSZb: } function validate_host($host, $usr, $db) { return !empty($host) && !empty($usr) && !empty($db); } function create_database($hostname, $hostuser, $hostpass, $database) { goto RDAk5; ZXylQ: if (!mysqli_connect_errno()) { goto dOoCk; } goto sGwCv; sGwCv: return false; goto TXEnE; wQ1H1: $mysqli->close(); goto hxnqe; r9ltY: $mysqli->query("\x43\122\105\x41\x54\105\x20\x44\101\124\x41\x42\101\x53\x45\40\x49\x46\x20\x4e\x4f\x54\40\x45\130\111\x53\124\x53\40" . $database); goto wQ1H1; RDAk5: $mysqli = new mysqli($hostname, $hostuser, $hostpass, ''); goto ZXylQ; hxnqe: return true; goto PeP4D; TXEnE: dOoCk: goto r9ltY; PeP4D: } function create_tables($hostname, $hostuser, $hostpass, $database) { goto itv5C; azWWl: $mysqli->multi_query($query); goto fBDpt; b9Ya1: return false; goto vzE5G; F2HVy: return true; goto i6U1N; itv5C: $mysqli = new mysqli($hostname, $hostuser, $hostpass, $database); goto d8nqp; fBDpt: $mysqli->close(); goto F2HVy; vzE5G: u1gRD: goto lyFN8; lyFN8: $query = file_get_contents("\x2e\57\141\163\x73\x65\164\163\57\141\x70\160\57\x64\142\57\155\141\x73\x74\145\x72\56\163\161\x6c"); goto azWWl; d8nqp: if (!mysqli_connect_errno()) { goto u1gRD; } goto b9Ya1; i6U1N: } public function createSetting() { goto DkltG; Db1Vx: $desa = $this->input->post("\144\x65\x73\141", true); goto LvLuQ; ku_LH: $sekolah = $this->input->post("\x6e\x61\x6d\141\137\x73\x65\153\157\x6c\x61\x68", true); goto DfTwr; DkltG: $nama_aplikasi = $this->input->post("\x6e\141\155\141\137\141\160\154\151\x6b\x61\163\151", true); goto ku_LH; i2_Pv: $data["\151\156\163\x65\x72\164"] = $this->db->insert("\x73\x65\164\164\x69\x6e\x67", $insert); goto ZuNjG; lE80n: $satuan_pendidikan = $this->input->post("\163\141\164\165\x61\x6e\137\160\x65\156\144\x69\x64\151\153\141\156", true); goto SuHMo; ZuNjG: $data["\x73\x61\166\x65\144"] = $this->getSaved(); goto WZWvO; bSDDq: $kec = $this->input->post("\x6b\x65\x63", true); goto Db1Vx; nvOaP: $alamat = $this->input->post("\x61\x6c\141\155\x61\164", true); goto hbFSc; G0pTv: $insert = ["\x69\144\x5f\x73\145\164\164\151\156\147" => 1, "\163\x65\153\x6f\154\141\150" => $sekolah, "\152\x65\156\x6a\141\x6e\x67" => $jenjang, "\163\141\x74\165\x61\x6e\x5f\160\145\156\x64\x69\144\x69\x6b\x61\x6e" => $satuan_pendidikan, "\x61\154\x61\155\141\164" => $alamat, "\144\145\163\141" => $desa, "\x6b\157\164\141" => $kota, "\153\x65\x63\141\x6d\141\x74\x61\x6e" => $kec, "\164\x65\x6c\160" => $tlp, "\153\x65\160\x73\x65\x6b" => $kepsek, "\156\141\155\x61\137\x61\160\x6c\151\153\141\163\151" => $nama_aplikasi]; goto i2_Pv; SuHMo: $kepsek = $this->input->post("\153\145\x70\x73\145\153", true); goto nvOaP; DfTwr: $jenjang = $this->input->post("\152\145\156\152\x61\x6e\x67", true); goto lE80n; WZWvO: $this->output_json($data); goto k3QsY; LvLuQ: $tlp = $this->input->post("\x74\154\160", true); goto G0pTv; hbFSc: $kota = $this->input->post("\153\x6f\x74\x61", true); goto bSDDq; k3QsY: } public function createAdmin() { goto j5Exn; cCQBy: $create = $this->ion_auth->register($username, $password, $email, $additional_data, $group); goto EXvye; hmAbs: $username = $this->input->post("\165\x73\145\x72\x6e\141\155\x65", true); goto GTvud; EQ6uO: $this->output_json($data); goto WNM1e; V7v3h: $group = array("\x31"); goto Fmdav; CbhBs: $additional_data = ["\146\151\x72\163\164\137\x6e\x61\x6d\145" => $first_name, "\x6c\x61\x73\164\x5f\x6e\x61\x6d\145" => $last_name]; goto V7v3h; dZH3y: $first_name = $namaAdmin[0]; goto QR28I; j5Exn: $nama = $this->input->post("\x6e\141\155\141\x5f\x6c\x65\x6e\x67\x6b\x61\160", true); goto hmAbs; f9pgM: $namaAdmin = explode("\x20", $nama); goto dZH3y; GTvud: $password = $this->input->post("\160\x61\x73\163\167\157\162\x64", true); goto f9pgM; QR28I: $last_name = end($namaAdmin); goto CbhBs; EXvye: $data["\x61\144\155\151\x6e"] = $create; goto EQ6uO; Fmdav: $email = strtolower($nama) . "\100\x61\x64\155\x69\x6e\x2e\x63\157\155"; goto cCQBy; WNM1e: } public function createApp() { goto m3mZM; e8Wnb: $satuan_pendidikan = $this->input->post("\163\x61\x74\165\141\156", true); goto FWFrk; FYFEY: $create = $this->ion_auth->register($username, $password, $email, $additional_data, $group); goto diX0R; yf0_Q: $data["\141\x64\x6d\x69\156"] = $create; goto TNwBg; xTXNt: $desa = $this->input->post("\x64\145\163\141", true); goto iRObY; Zs_j0: $namaAdmin = explode("\40", $nama); goto qt0Bp; XeReT: $sekolah = $this->input->post("\156\x61\x6d\141\x5f\163\x65\153\x6f\154\141\150", true); goto QoqGe; N8Hk6: $username = $this->input->post("\x75\163\x65\162\x6e\141\x6d\145", true); goto Z0byo; O8Am3: $kec = $this->input->post("\x6b\145\x63", true); goto xTXNt; LyX3P: $last_name = end($namaAdmin); goto fbGpM; Z0byo: $password = $this->input->post("\160\141\x73\x73\x77\157\162\x64", true); goto LDvo1; LDvo1: $nama_aplikasi = $this->input->post("\x6e\x61\x6d\141\x5f\x61\160\154\151\153\x61\163\x69", true); goto XeReT; YJFMC: $email = strtolower($nama) . "\x40\x61\144\x6d\x69\156\x2e\x63\x6f\x6d"; goto FYFEY; m3mZM: $nama = $this->input->post("\x6e\141\x6d\141\x5f\154\145\x6e\x67\153\141\x70", true); goto N8Hk6; dIATh: $alamat = $this->input->post("\141\154\x61\155\141\164", true); goto UDYL0; JhjSD: $insert = ["\151\144\x5f\163\145\164\x74\x69\x6e\x67" => 1, "\x73\145\x6b\157\154\x61\150" => $sekolah, "\152\145\x6e\152\x61\156\x67" => $jenjang, "\163\x61\x74\165\141\156\137\x70\145\x6e\144\151\x64\151\153\141\x6e" => $satuan_pendidikan, "\x61\154\x61\155\141\x74" => $alamat, "\144\x65\x73\141" => $desa, "\x6b\157\164\x61" => $kota, "\153\145\x63\x61\155\x61\164\141\156" => $kec, "\x70\x72\x6f\166\x69\x6e\x73\x69" => $prov, "\x6b\145\160\x73\145\153" => $kepsek, "\156\x61\155\x61\137\141\x70\x6c\x69\153\x61\163\x69" => $nama_aplikasi]; goto Zs_j0; iRObY: $prov = $this->input->post("\x70\162\157\x76", true); goto JhjSD; diX0R: $data["\x69\156\x73\x65\x72\164"] = $this->db->insert("\163\x65\164\x74\x69\156\147", $insert); goto yf0_Q; QoqGe: $jenjang = $this->input->post("\x6a\x65\156\152\141\156\147", true); goto e8Wnb; PgL2U: $group = array("\x31"); goto YJFMC; UDYL0: $kota = $this->input->post("\153\x6f\164\141", true); goto O8Am3; TNwBg: $this->output_json($data); goto QvyQr; fbGpM: $additional_data = ["\x66\151\x72\x73\164\x5f\156\141\155\145" => $first_name, "\x6c\x61\163\x74\x5f\156\x61\155\145" => $last_name]; goto PgL2U; qt0Bp: $first_name = $namaAdmin[0]; goto LyX3P; FWFrk: $kepsek = $this->input->post("\153\145\x70\x73\145\153", true); goto dIATh; QvyQr: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Install extends CI_Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        include "APPPATHconfig/database.php";
+        if (!($db["default"]["database"] != '')) {
+            goto if5kg;
+        }
+        $this->load->database();
+        $this->load->dbforge();
+        if5kg:
+        $this->load->model("Install_model", "install");
+        $this->load->model("Dashboard_model", "dashboard");
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto l87de;
+        }
+        $data = json_encode($data);
+        l87de:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $res = $this->install->check_installer();
+        if ($res == "0") {
+            redirect("update");
+            goto c61HO;
+        }
+        if ($res == "2") {
+            $data["msg"] = "sebagian tabel belum dibuat";
+            goto NERhb;
+        }
+        if ($res == "3") {
+            $data["msg"] = "belum ada administrator";
+            goto G_AKF;
+        }
+        $data["msg"] = "belum ada data sekolah";
+        G_AKF:
+        NERhb:
+        $data = $this->getSaved();
+        $data->error = $res;
+        $this->load->view("install/header", ["data" => $data]);
+        $this->load->view("install/step");
+        $this->load->view("install/footer");
+        c61HO:
+    }
+    function getSaved()
+    {
+        include "APPPATHconfig/database.php";
+        $database = $db["default"]["database"];
+        $data["hostname"] = $db["default"]["hostname"];
+        $data["username"] = $db["default"]["username"];
+        $data["password"] = $db["default"]["password"];
+        $data["database"] = $database;
+        $data["nama_admin"] = '';
+        $data["user_admin"] = '';
+        $data["pass_admin"] = '';
+        $data["aplikasi"] = '';
+        $data["sekolah"] = '';
+        $data["jenjang"] = '';
+        $data["satuan"] = '';
+        $data["kepsek"] = '';
+        $data["alamat"] = '';
+        $data["desa"] = '';
+        $data["kec"] = '';
+        $data["kota"] = '';
+        $data["prov"] = '';
+        $current_page = 2;
+        if ($this->db->table_exists("users")) {
+            $admin = $this->db->get("users")->row();
+            if (!($admin != null)) {
+                goto gq1QP;
+            }
+            $data["nama_admin"] = $admin->first_name . " " . $admin->last_name;
+            $data["user_admin"] = $admin->username;
+            $data["pass_admin"] = $admin->password;
+            gq1QP:
+            $setting = $this->dashboard->getSetting();
+            if (!($setting != null)) {
+                goto H8aol;
+            }
+            $data["aplikasi"] = $setting->nama_aplikasi;
+            $data["sekolah"] = $setting->sekolah;
+            $data["jenjang"] = $setting->jenjang;
+            $data["satuan"] = $setting->satuan_pendidikan;
+            $data["kepsek"] = $setting->kepsek;
+            $data["alamat"] = $setting->alamat;
+            $data["desa"] = $setting->desa;
+            $data["kec"] = $setting->kecamatan;
+            $data["kota"] = $setting->kota;
+            $data["prov"] = $setting->provinsi;
+            H8aol:
+            $current_page = $admin == null ? 2 : ($setting == null ? 3 : 4);
+            goto XoEDa;
+        }
+        $current_page = 2;
+        $data["msg"] = "Table `users` belum dibuat";
+        XoEDa:
+        $data["current_page"] = $current_page;
+        return json_decode(json_encode($data));
+    }
+    public function steps()
+    {
+        $data = $this->getSaved();
+        $this->load->view("install/header", ["data" => $data]);
+        $this->load->view("install/step");
+        $this->load->view("install/footer");
+    }
+    public function checkDatabase()
+    {
+        $hostname = $this->input->post("hostname", true);
+        $hostuser = $this->input->post("hostuser", true);
+        $hostpass = $this->input->post("hostpass", true);
+        $database = $this->input->post("database", true);
+        if ($this->validate_host($hostname, $hostuser, $database)) {
+            $template_path = "./assets/app/db/database.php";
+            $output_path = "APPPATHconfig/database.php";
+            $database_file = file_get_contents($template_path);
+            $new = str_replace("%HOSTNAME%", $hostname, $database_file);
+            $new = str_replace("%USERNAME%", $hostuser, $new);
+            $new = str_replace("%PASSWORD%", $hostpass, $new);
+            $new = str_replace("%DATABASE%", $database, $new);
+            $handle = fopen($output_path, "w+");
+            @chmod($output_path, 0777);
+            if (is_writable($output_path)) {
+                if (fwrite($handle, $new)) {
+                    $data["host"] = true;
+                    $data["host_msg"] = "behasil";
+                    $data["database"] = $this->create_database($hostname, $hostuser, $hostpass, $database);
+                    $data["table"] = $this->create_tables($hostname, $hostuser, $hostpass, $database);
+                    $data["host"] = true;
+                    $data["host_msg"] = "sukses";
+                    $data["database"] = true;
+                    goto PbceX;
+                }
+                $data["host"] = false;
+                $data["host_msg"] = "gagal membuat nama database";
+                PbceX:
+                goto VcxQg;
+            }
+            $data["host"] = false;
+            $data["host_msg"] = "tidak ada akses ke file database.php, pastikan permission sudah dizinkan";
+            VcxQg:
+            goto SIbpl;
+        }
+        $data["host"] = false;
+        $data["host_msg"] = "tidak boleh ada yang kosong";
+        SIbpl:
+        $this->output_json($data);
+    }
+    public function createDb()
+    {
+        $page = $this->input->post("page", true);
+        if ($page == "0") {
+            $hostname = $this->input->post("hostname", true);
+            $hostuser = $this->input->post("hostuser", true);
+            $hostpass = $this->input->post("hostpass", true);
+            $database = $this->input->post("database", true);
+            $data["table"] = $this->create_tables($hostname, $hostuser, $hostpass, $database);
+            $data["host"] = true;
+            $data["host_msg"] = "sukses";
+            $data["database"] = true;
+            goto clWgC;
+        }
+        $data["host"] = true;
+        $data["host_msg"] = "step salah";
+        $data["database"] = false;
+        $data["table"] = false;
+        clWgC:
+        $this->output_json($data);
+    }
+    function validate_host($host, $usr, $db)
+    {
+        return !empty($host) && !empty($usr) && !empty($db);
+    }
+    function create_database($hostname, $hostuser, $hostpass, $database)
+    {
+        $mysqli = new mysqli($hostname, $hostuser, $hostpass, '');
+        if (!mysqli_connect_errno()) {
+            $mysqli->query("CREATE DATABASE IF NOT EXISTS " . $database);
+            $mysqli->close();
+            return true;
+        }
+        return false;
+    }
+    function create_tables($hostname, $hostuser, $hostpass, $database)
+    {
+        $mysqli = new mysqli($hostname, $hostuser, $hostpass, $database);
+        if (!mysqli_connect_errno()) {
+            $query = file_get_contents("./assets/app/db/master.sql");
+            $mysqli->multi_query($query);
+            $mysqli->close();
+            return true;
+        }
+        return false;
+    }
+    public function createSetting()
+    {
+        $nama_aplikasi = $this->input->post("nama_aplikasi", true);
+        $sekolah = $this->input->post("nama_sekolah", true);
+        $jenjang = $this->input->post("jenjang", true);
+        $satuan_pendidikan = $this->input->post("satuan_pendidikan", true);
+        $kepsek = $this->input->post("kepsek", true);
+        $alamat = $this->input->post("alamat", true);
+        $kota = $this->input->post("kota", true);
+        $kec = $this->input->post("kec", true);
+        $desa = $this->input->post("desa", true);
+        $tlp = $this->input->post("tlp", true);
+        $insert = ["id_setting" => 1, "sekolah" => $sekolah, "jenjang" => $jenjang, "satuan_pendidikan" => $satuan_pendidikan, "alamat" => $alamat, "desa" => $desa, "kota" => $kota, "kecamatan" => $kec, "telp" => $tlp, "kepsek" => $kepsek, "nama_aplikasi" => $nama_aplikasi];
+        $data["insert"] = $this->db->insert("setting", $insert);
+        $data["saved"] = $this->getSaved();
+        $this->output_json($data);
+    }
+    public function createAdmin()
+    {
+        $nama = $this->input->post("nama_lengkap", true);
+        $username = $this->input->post("username", true);
+        $password = $this->input->post("password", true);
+        $namaAdmin = explode(" ", $nama);
+        $first_name = $namaAdmin[0];
+        $last_name = end($namaAdmin);
+        $additional_data = ["first_name" => $first_name, "last_name" => $last_name];
+        $group = array("1");
+        $email = strtolower($nama) . "@admin.com";
+        $create = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+        $data["admin"] = $create;
+        $this->output_json($data);
+    }
+    public function createApp()
+    {
+        $nama = $this->input->post("nama_lengkap", true);
+        $username = $this->input->post("username", true);
+        $password = $this->input->post("password", true);
+        $nama_aplikasi = $this->input->post("nama_aplikasi", true);
+        $sekolah = $this->input->post("nama_sekolah", true);
+        $jenjang = $this->input->post("jenjang", true);
+        $satuan_pendidikan = $this->input->post("satuan", true);
+        $kepsek = $this->input->post("kepsek", true);
+        $alamat = $this->input->post("alamat", true);
+        $kota = $this->input->post("kota", true);
+        $kec = $this->input->post("kec", true);
+        $desa = $this->input->post("desa", true);
+        $prov = $this->input->post("prov", true);
+        $insert = ["id_setting" => 1, "sekolah" => $sekolah, "jenjang" => $jenjang, "satuan_pendidikan" => $satuan_pendidikan, "alamat" => $alamat, "desa" => $desa, "kota" => $kota, "kecamatan" => $kec, "provinsi" => $prov, "kepsek" => $kepsek, "nama_aplikasi" => $nama_aplikasi];
+        $namaAdmin = explode(" ", $nama);
+        $first_name = $namaAdmin[0];
+        $last_name = end($namaAdmin);
+        $additional_data = ["first_name" => $first_name, "last_name" => $last_name];
+        $group = array("1");
+        $email = strtolower($nama) . "@admin.com";
+        $create = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+        $data["insert"] = $this->db->insert("setting", $insert);
+        $data["admin"] = $create;
+        $this->output_json($data);
+    }
+}

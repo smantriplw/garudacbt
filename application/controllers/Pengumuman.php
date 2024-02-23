@@ -1,7 +1,292 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Pengumuman extends CI_Controller { public function __construct() { goto e2fpn; piY1Q: if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("\147\x75\162\x75"))) { goto t0ZYw; } goto As9Ke; MQvMD: goto iXSoB; goto Hm9PX; Hm9PX: vWXli: goto Me8m4; krQJ3: $this->load->model("\104\141\163\150\x62\157\x61\x72\144\x5f\155\157\144\x65\154", "\144\141\x73\x68\142\157\141\162\144"); goto NhAAa; mQpYa: t0ZYw: goto MQvMD; e2fpn: parent::__construct(); goto nAumT; NhAAa: $this->load->model("\x4b\145\154\141\163\x5f\x6d\x6f\x64\145\154", "\x6b\145\x6c\x61\x73"); goto oPr3B; ZI9EX: $this->load->model("\120\157\x73\x74\137\155\x6f\x64\145\154", "\x70\x6f\163\164"); goto VjI3X; gwBG7: iXSoB: goto XBsWw; Me8m4: redirect("\x61\x75\164\x68"); goto gwBG7; As9Ke: show_error("\x48\141\x6e\x79\x61\40\x41\144\x6d\151\x6e\x69\x73\164\162\141\x74\157\x72\40\144\x61\156\40\147\x75\x72\165\40\171\141\156\x67\x20\144\x69\x62\x65\162\151\40\150\141\x6b\x20\x75\156\x74\x75\153\x20\155\145\x6e\147\x61\153\x73\x65\163\40\x68\141\x6c\141\155\141\156\40\x69\156\x69\x2c\x20\74\141\x20\x68\x72\145\x66\x3d\x22" . base_url("\144\x61\x73\x68\x62\157\x61\x72\x64") . "\42\76\113\x65\x6d\x62\141\x6c\151\x20\153\145\40\155\145\x6e\165\40\x61\167\x61\154\74\57\x61\76", 403, "\x41\153\163\x65\x73\x20\x54\x65\x72\154\141\162\x61\156\147"); goto mQpYa; nAumT: if (!$this->ion_auth->logged_in()) { goto vWXli; } goto piY1Q; VjI3X: $this->form_validation->set_error_delimiters('', ''); goto Ni76H; oPr3B: $this->load->model("\x44\x72\x6f\160\144\157\x77\156\137\155\x6f\x64\145\154", "\144\162\157\x70\x64\157\167\156"); goto ZI9EX; XBsWw: $this->load->library(["\144\x61\164\x61\x74\141\142\x6c\x65\163", "\x66\x6f\x72\155\137\x76\x61\x6c\151\144\141\x74\x69\x6f\156"]); goto u071Q; u071Q: $this->load->model("\x4d\x61\163\x74\145\162\x5f\155\x6f\x64\145\154", "\x6d\x61\x73\164\x65\x72"); goto krQJ3; Ni76H: } public function output_json($data, $encode = true) { goto rKxTh; rKxTh: if (!$encode) { goto JT1y5; } goto mHnMY; WxQeA: $this->output->set_content_type("\141\x70\160\x6c\x69\x63\x61\x74\x69\157\x6e\57\x6a\x73\157\x6e")->set_output($data); goto jT_YJ; kYS0f: JT1y5: goto WxQeA; mHnMY: $data = json_encode($data); goto kYS0f; jT_YJ: } public function index() { goto QD2aj; yGkq2: $data["\163\x6d\x74\x5f\141\143\164\x69\166\145"] = $smt; goto r8Jba; Pnblc: $this->load->view("\x70\145\156\147\165\155\x75\x6d\141\156\x2f\x64\141\x74\x61"); goto wuBd_; C2LX0: $this->load->view("\137\x74\145\x6d\x70\154\x61\x74\x65\163\x2f\144\141\x73\x68\142\157\x61\162\144\x2f\137\x68\145\141\x64\x65\162", $data); goto Pnblc; MPVv5: $this->load->view("\x6d\x65\x6d\x62\145\x72\163\57\147\165\x72\x75\x2f\x74\145\155\160\154\141\x74\145\x73\x2f\150\x65\141\144\145\162", $data); goto ZTSnt; ZTSnt: $this->load->view("\160\145\156\x67\165\x6d\165\x6d\141\x6e\57\144\141\164\141"); goto Z1xrO; UgbyH: gFdto: goto MHYWg; r8Jba: $data["\x67\165\x72\165\x73"] = $this->dropdown->getAllGuru(); goto ZBpCv; a0P81: $data["\163\165\x62\152\165\144\165\x6c"] = "\120\x65\x6e\x67\165\155\x75\x6d\141\x6e\40\101\x6e\x64\141"; goto avDQj; wuBd_: $this->load->view("\137\x74\x65\x6d\x70\154\141\164\145\x73\x2f\x64\x61\163\150\142\x6f\141\162\x64\57\x5f\146\x6f\157\164\145\162"); goto LYL_U; x0Cck: $data["\x70\145\156\x67\x75\155\x75\x6d\141\x6e\x73"] = $this->post->getPostUser(0); goto C2LX0; XW8a9: $data["\x67\x75\x72\x75"] = $guru; goto Mp1YB; QD2aj: $user = $this->ion_auth->user()->row(); goto XmqxL; SDsFH: $data["\164\160\137\141\143\x74\151\166\145"] = $tp; goto Q3kbS; MHYWg: $data["\x73\x75\142\x6a\x75\x64\165\x6c"] = "\123\x65\155\165\x61\x20\120\145\156\147\x75\x6d\x75\155\x61\x6e"; goto Iaukw; LYL_U: FMc0Q: goto UFFjl; HXQ9x: $data["\x72\x75\156\x6e\x69\x6e\x67\x5f\x74\x65\x78\x74"] = $this->dashboard->getRunningText(); goto ffR1j; ffR1j: if ($this->ion_auth->is_admin()) { goto gFdto; } goto a0P81; Njf2J: $data["\x6b\x65\154\x61\x73"] = $kelas; goto HXQ9x; ZBpCv: $kelas = $this->dropdown->getAllKeyKodeKelas($tp->id_tp, $smt->id_smt); goto Njf2J; Zw7rP: $data["\164\160"] = $this->dashboard->getTahun(); goto SDsFH; mWQRm: $smt = $this->master->getSemesterActive(); goto Zw7rP; iokM0: $tp = $this->master->getTahunActive(); goto mWQRm; XmqxL: $data = ["\165\x73\x65\162" => $user, "\152\165\144\x75\x6c" => "\x50\x65\x6e\x67\x75\x6d\x75\155\x61\156", "\x73\x65\x74\164\x69\x6e\147" => $this->dashboard->getSetting()]; goto iokM0; avDQj: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto XW8a9; Iaukw: $data["\160\x72\157\x66\151\x6c\x65"] = $this->dashboard->getProfileAdmin($user->id); goto x0Cck; Q3kbS: $data["\163\x6d\x74"] = $this->dashboard->getSemester(); goto yGkq2; Mp1YB: $data["\160\145\x6e\147\x75\155\x75\x6d\141\x6e\163"] = $this->post->getPostUser($guru->id_guru); goto MPVv5; nLhBJ: goto FMc0Q; goto UgbyH; Z1xrO: $this->load->view("\x6d\145\x6d\x62\145\x72\x73\57\x67\165\x72\165\57\x74\x65\x6d\x70\154\141\x74\145\x73\57\x66\x6f\157\x74\145\x72"); goto nLhBJ; UFFjl: } public function kepada($kepada, $id_kepada = null) { goto a1BHx; cJJtO: $this->load->view("\x70\x65\x6e\x67\x75\155\x75\155\x61\156\x2f\x64\141\x74\141"); goto rviYF; T3pNZ: $data["\x62\141\x6c\x61\x73\141\x6e\163"] = $balasan; goto leUsh; e2EWy: $this->db->join("\x6d\141\x73\164\x65\x72\137\147\165\x72\165\40\142", "\x61\x2e\144\141\x72\151\75\142\56\x69\x64\137\147\165\162\165", "\154\145\x66\164"); goto Fgicc; MMdNG: $this->load->view("\x5f\x74\x65\155\x70\x6c\x61\x74\x65\163\x2f\x64\x61\x73\x68\x62\157\x61\x72\x64\x2f\x5f\150\145\x61\144\145\162", $data); goto cJJtO; eFrk2: A8BMF: goto V59py; d7j9m: $balasan = []; goto cyVcO; PnHG4: $this->db->from("\x70\157\x73\164\40\x61"); goto e2EWy; Fgicc: $this->db->order_by("\141\x2e\x74\141\x6e\147\147\141\x6c", "\x64\145\x73\143"); goto EZCe8; PxPyf: $comments = []; goto d7j9m; ziuLO: $data["\143\x6f\155\155\x65\x6e\x74\x73"] = $comments; goto T3pNZ; EZCe8: $pengumumans = $this->db->get()->result(); goto PxPyf; zefNi: $data["\160\x72\157\x66\151\154\x65"] = $this->dashboard->getProfileAdmin($user->id); goto MMdNG; p6wnN: if ($kepada === "\163\145\x6d\165\x61\x5f\x73\x69\163\x77\x61") { goto IeDM5; } goto vq51B; a1BHx: $user = $this->ion_auth->user()->row(); goto rLu6d; cyVcO: foreach ($pengumumans as $pengumuman) { goto Wlki3; KvrFm: $this->db->where("\x61\56\151\144\137\x70\x6f\x73\x74", $pengumuman->id_post); goto eOyrM; Wlki3: $this->db->select("\141\56\x2a\x2c\40\142\x2e\x6e\x61\x6d\141\x5f\x67\x75\x72\x75\x2c\x20\142\56\146\x6f\x74\157"); goto VInbQ; eOyrM: $comment = $this->db->get()->result(); goto zDxct; VInbQ: $this->db->from("\160\157\163\164\x5f\x63\157\x6d\x6d\145\x6e\164\163\x20\141"); goto K4OtZ; vrS36: $comments[$pengumuman->id_post] = $comment; goto pfmto; zDxct: foreach ($comment as $comm) { goto Y9RBg; YGjeM: $this->db->where("\x61\56\151\x64\x5f\143\157\155\x6d\145\156\x74", $comm->id_comment); goto WSGzV; Y9RBg: $this->db->select("\141\56\52\54\40\x62\x2e\x6e\x61\x6d\141\x5f\147\x75\162\x75\x2c\x20\142\56\x66\x6f\164\157"); goto b8ikn; oGcpq: JGzMY: goto VGFoz; rjv3L: $this->db->order_by("\x61\x2e\164\x61\156\147\147\x61\x6c", "\144\x65\163\x63"); goto YGjeM; FfTFE: $this->db->join("\155\141\163\x74\145\x72\x5f\x67\x75\x72\165\x20\142", "\x61\x2e\144\141\162\151\x3d\142\x2e\151\x64\x5f\147\165\x72\165", "\x6c\x65\x66\x74"); goto rjv3L; b8ikn: $this->db->from("\x70\157\x73\164\137\162\145\160\154\x79\40\x61"); goto FfTFE; WSGzV: $balasan[$pengumuman->id_post][$comm->id_comment] = $this->db->get()->result(); goto oGcpq; VGFoz: } goto SilI8; K4OtZ: $this->db->join("\155\141\163\164\x65\x72\137\147\165\162\165\40\142", "\141\x2e\x64\141\x72\151\75\x62\x2e\151\x64\137\147\165\x72\165", "\x6c\145\x66\x74"); goto MJoUx; pfmto: kCQDB: goto Cy0Ag; MJoUx: $this->db->order_by("\141\56\164\x61\156\x67\x67\x61\154", "\144\x65\163\143"); goto KvrFm; SilI8: uVE6y: goto vrS36; Cy0Ag: } goto zp36l; X6hgs: IeDM5: goto qs2ex; gNe0s: $data["\x70\145\156\147\x75\x6d\x75\x6d\x61\156\x73"] = $pengumumans; goto ziuLO; kjtFk: goto nEM50; goto X6hgs; nJ6HR: $smt = $this->master->getSemesterActive(); goto W0VhS; moPgF: $data["\163\155\164\x5f\x61\x63\164\x69\x76\x65"] = $smt; goto u5UzZ; HgK7U: $data["\x74\x70\137\141\x63\x74\x69\x76\145"] = $tp; goto LU7ym; V59py: $data["\153\x65\160\x61\x64\x61"] = "\x53\x65\155\165\x61\x20\107\x75\x72\165"; goto kjtFk; QM9x9: goto nEM50; goto eFrk2; FPb4Z: nEM50: goto izDSr; P07yM: $this->load->view("\x70\145\x6e\147\165\155\165\155\141\156\57\144\141\x74\x61"); goto NPyMN; ORfrr: zPWlz: goto ABtdo; qs2ex: $data["\153\145\x70\x61\x64\x61"] = "\123\x65\x6d\x75\141\x20\x53\x69\x73\167\x61"; goto FPb4Z; D92to: $kelas = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt); goto ftHLs; rLu6d: $data = ["\165\163\145\162" => $user, "\x6a\165\144\165\x6c" => "\x50\145\156\x67\165\155\165\x6d\141\x6e", "\x73\165\x62\x6a\x75\x64\x75\x6c" => "\x53\145\155\165\x61\x20\x50\x65\156\x67\165\x6d\165\155\141\x6e", "\163\145\164\x74\x69\x6e\x67" => $this->dashboard->getSetting()]; goto VlmDf; wMAK7: $this->db->select("\141\56\x2a\54\40\x62\x2e\x6e\x61\155\141\137\x67\165\x72\165\54\40\142\56\146\157\x74\x6f"); goto PnHG4; ftHLs: $data["\x6b\145\154\141\x73"] = $kelas; goto wMAK7; zp36l: vBs8G: goto gNe0s; sHGbN: Pcgck: goto zefNi; rviYF: $this->load->view("\x5f\x74\145\155\x70\154\x61\164\145\163\x2f\x64\x61\x73\x68\x62\x6f\141\162\x64\57\x5f\x66\157\157\x74\x65\162"); goto ORfrr; LU7ym: $data["\163\x6d\x74"] = $this->dashboard->getSemester(); goto moPgF; W0VhS: $data["\164\x70"] = $this->dashboard->getTahun(); goto HgK7U; NPyMN: $this->load->view("\x6d\145\155\142\x65\162\x73\x2f\147\165\162\165\x2f\x74\x65\x6d\160\154\x61\164\x65\x73\57\146\157\x6f\x74\145\162"); goto xf_5x; i2A_Z: $data["\147\165\162\x75"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto sgtEV; leUsh: if ($kepada === "\x73\x65\x6d\x75\x61\137\x67\x75\x72\x75") { goto A8BMF; } goto p6wnN; u5UzZ: $data["\x67\165\162\165\163"] = $this->dropdown->getAllGuru(); goto D92to; xf_5x: goto zPWlz; goto sHGbN; sgtEV: $this->load->view("\155\145\155\x62\x65\162\x73\x2f\x67\x75\162\165\57\164\145\155\x70\154\141\x74\145\163\x2f\x68\145\141\144\145\x72", $data); goto P07yM; izDSr: if ($this->ion_auth->is_admin()) { goto Pcgck; } goto i2A_Z; VlmDf: $tp = $this->master->getTahunActive(); goto nJ6HR; vq51B: $data["\153\x65\x70\x61\x64\x61"] = urldecode($kepada); goto QM9x9; ABtdo: } public function getPost() { $post = $this->post->getPostForUser(null); $this->output_json($post); } public function getComment($id_post, $page) { goto roQAZ; ZFDjg: $this->db->order_by("\x61\56\164\141\x6e\x67\x67\x61\x6c", "\x64\145\x73\x63"); goto VBoSw; hnQ84: $this->db->join("\155\x61\x73\x74\145\162\137\147\165\162\x75\x20\x62", "\141\56\x64\141\x72\x69\75\142\56\x69\144\x5f\x67\165\162\165", "\154\145\146\x74"); goto NIYmF; xwdvd: $this->output_json($comment); goto NOC4B; JbHdo: $this->db->query("\x53\105\x54\40\x53\121\x4c\137\x42\x49\x47\137\123\105\x4c\105\103\124\123\x3d\x31"); goto h5fzp; P8i0O: $offset = $page * $perPage; goto JbHdo; VBoSw: $this->db->where("\x61\x2e\151\x64\x5f\x70\x6f\163\164", $id_post); goto WwXlp; NIYmF: $this->db->join("\155\x61\163\164\x65\x72\x5f\x73\x69\163\x77\x61\40\143", "\x61\x2e\x64\x61\162\x69\75\143\56\x69\144\137\x73\x69\163\167\141", "\154\x65\146\164"); goto ZFDjg; h5fzp: $this->db->select("\x61\56\52\x2c\x20\142\56\x6e\x61\x6d\141\x5f\x67\x75\x72\165\x2c\x20\x62\56\x66\157\164\x6f\x2c\40\143\x2e\x6e\141\x6d\x61\40\x61\163\x20\156\141\x6d\x61\137\x73\x69\x73\x77\141\54\40\x63\56\146\157\164\x6f\40\x61\x73\40\x66\x6f\164\x6f\x5f\x73\151\x73\167\x61\54\x20\x28\x53\x45\x4c\105\103\124\40\103\x4f\125\x4e\x54\x28\x70\157\163\164\137\162\145\x70\154\x79\x2e\151\x64\x5f\x72\145\x70\154\x79\x29\x20\x46\x52\117\x4d\x20\160\157\163\x74\137\162\x65\160\154\x79\40\127\x48\x45\x52\x45\40\141\x2e\x69\x64\x5f\x63\157\155\155\x65\156\x74\40\75\40\160\157\163\x74\137\x72\145\160\154\x79\56\151\x64\137\x63\157\155\155\145\x6e\164\51\40\x41\123\x20\152\155\x6c"); goto tVQv_; tVQv_: $this->db->from("\x70\157\x73\x74\x5f\x63\157\155\155\145\x6e\x74\x73\x20\141"); goto hnQ84; roQAZ: $perPage = 5; goto P8i0O; WwXlp: $this->db->limit($perPage, $offset); goto qJatD; qJatD: $comment = $this->db->get()->result(); goto xwdvd; NOC4B: } public function getReplies($id_comment, $page) { goto IknYH; nKu74: $this->db->select("\x61\56\x2a\x2c\40\x62\56\x6e\x61\x6d\x61\x5f\x67\165\162\165\54\x20\x62\x2e\x66\x6f\x74\x6f\x2c\40\x63\x2e\156\141\x6d\x61\x20\x61\x73\x20\x6e\141\155\x61\137\x73\151\163\x77\x61\54\x20\143\x2e\146\x6f\164\157\40\141\x73\40\x66\157\x74\x6f\137\x73\x69\x73\167\x61"); goto xTfnx; tmBVF: $this->db->order_by("\141\x2e\x74\x61\156\147\x67\141\154", "\x64\145\x73\x63"); goto oEuVo; IknYH: $perPage = 5; goto ro4As; TfBuo: $this->db->limit($perPage, $offset); goto eE0eP; sj88J: $this->db->query("\x53\105\124\40\123\x51\114\137\x42\111\107\x5f\123\x45\114\x45\103\x54\123\75\61"); goto nKu74; oEuVo: $this->db->where("\141\x2e\151\x64\137\143\157\x6d\155\x65\x6e\x74", $id_comment); goto TfBuo; imf_2: $this->db->join("\155\x61\163\164\145\162\x5f\x73\x69\x73\167\x61\40\x63", "\141\x2e\x64\x61\162\151\75\x63\56\x69\144\137\163\151\x73\x77\x61", "\x6c\x65\146\164"); goto tmBVF; xTfnx: $this->db->from("\x70\157\x73\x74\x5f\x72\x65\160\154\171\x20\x61"); goto ftP4a; ftP4a: $this->db->join("\155\141\163\164\145\x72\x5f\x67\165\162\165\40\x62", "\x61\56\144\x61\x72\x69\x3d\142\x2e\151\x64\x5f\x67\165\x72\x75", "\x6c\x65\146\164"); goto imf_2; eE0eP: $replies = $this->db->get()->result(); goto BNxYX; BNxYX: $this->output_json($replies); goto J8ZQI; ro4As: $offset = $page * $perPage; goto sj88J; J8ZQI: } public function save() { goto D0kLu; C2xRP: $insert = $this->db->replace("\160\157\x73\164", $data); goto LtRl5; D0kLu: $kepada = json_decode(json_encode($this->input->post("\153\145\x70\141\x64\141\133\135", true))); goto a1QgE; YYfUQ: $data = ["\x6b\x65\160\141\144\x61" => serialize($kepada), "\144\141\162\151" => $dari, "\x64\x61\x72\151\137\x67\x72\157\165\x70" => $dari == "\x30" ? "\x31" : "\x32", "\x74\145\170\x74" => $this->input->post("\x74\x65\x78\x74"), "\164\141\156\147\147\141\154" => date("\131\x2d\x6d\55\144\40\110\x3a\151\72\x73"), "\x75\160\144\141\164\145\x64" => date("\x59\x2d\x6d\x2d\144\x20\x48\72\151\72\163")]; goto C2xRP; a1QgE: $dari = $this->input->post("\x64\x61\x72\x69"); goto YYfUQ; LtRl5: $this->output_json($insert); goto FnmZW; FnmZW: } public function saveKomentar() { goto EwphL; lmwWc: $this->db->join("\155\141\x73\x74\x65\162\x5f\163\x69\x73\167\x61\x20\143", "\x61\56\144\x61\x72\x69\x3d\x63\56\151\144\x5f\x73\151\x73\x77\141", "\x6c\x65\x66\x74"); goto Gs3vt; q8HEm: $dari = $guru->id_guru; goto AT1J9; Gs3vt: $this->db->order_by("\x61\56\x74\141\x6e\x67\x67\x61\154", "\x64\145\163\143"); goto Dg0dG; AZQo6: $this->output_json($comment); goto j0iok; peG70: $user = $this->ion_auth->user()->row(); goto RBBQH; zPLE7: $comment = $this->db->get()->result(); goto AZQo6; X8z_K: if ($this->ion_auth->is_admin()) { goto lQvE0; } goto peG70; AT1J9: $dari_group = 2; goto StrBS; guMu2: $data = ["\x69\144\x5f\x70\157\x73\x74" => $this->input->post("\151\144\x5f\x70\x6f\163\x74"), "\x64\x61\162\151" => $dari, "\x64\x61\x72\x69\137\x67\x72\x6f\x75\x70" => $dari_group, "\164\145\x78\164" => $this->input->post("\164\x65\x78\164")]; goto tCJcq; aEgsr: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto q8HEm; Dg0dG: $this->db->where("\141\x2e\x69\144\137\143\x6f\155\x6d\145\156\164", $id); goto zPLE7; StrBS: lQvE0: goto guMu2; tCJcq: $insert = $this->db->replace("\x70\x6f\x73\164\x5f\x63\x6f\155\x6d\145\x6e\164\x73", $data); goto CbwPC; UdP6L: $this->db->select("\x61\56\52\x2c\40\x62\x2e\x6e\x61\x6d\141\137\x67\165\x72\165\54\40\x62\56\x66\157\164\x6f\54\40\143\56\x6e\x61\155\141\x20\141\163\40\x6e\x61\x6d\x61\137\x73\151\163\167\x61\54\x20\x63\x2e\146\157\x74\x6f\40\x61\163\40\x66\157\164\x6f\137\x73\151\x73\x77\x61\x2c\40\50\x53\x45\x4c\105\103\x54\x20\103\117\x55\x4e\x54\50\x70\x6f\163\x74\x5f\162\145\160\x6c\x79\x2e\x69\144\137\162\x65\160\x6c\171\51\40\x46\x52\117\115\x20\x70\x6f\163\164\x5f\x72\x65\160\154\x79\x20\127\110\105\x52\x45\x20\x61\56\x69\x64\x5f\x63\x6f\155\x6d\x65\156\x74\x20\x3d\x20\160\157\x73\164\137\x72\x65\x70\154\x79\x2e\x69\144\137\x63\157\155\x6d\145\x6e\x74\x29\40\101\123\40\152\155\154"); goto Zxji3; ZoGnf: $dari_group = 1; goto X8z_K; RBBQH: $tp = $this->master->getTahunActive(); goto wstTt; r3mCG: $this->db->join("\155\x61\163\164\145\162\x5f\147\x75\162\x75\x20\x62", "\141\56\x64\141\x72\x69\x3d\x62\56\151\144\137\147\165\162\165", "\x6c\x65\146\164"); goto lmwWc; b6Q6S: $this->db->query("\123\x45\124\40\123\121\x4c\x5f\102\x49\107\137\123\105\114\x45\103\x54\x53\75\x31"); goto UdP6L; EwphL: $dari = "\x30"; goto ZoGnf; wstTt: $smt = $this->master->getSemesterActive(); goto aEgsr; Zxji3: $this->db->from("\x70\157\x73\164\137\143\157\x6d\155\x65\156\164\x73\x20\x61"); goto r3mCG; CbwPC: $id = $this->db->insert_id(); goto b6Q6S; j0iok: } public function saveBalasan() { goto mHWW2; L6NnX: $this->db->join("\155\141\163\164\x65\162\137\163\151\x73\167\141\40\143", "\x61\56\x64\x61\162\151\75\143\x2e\x69\144\x5f\x73\151\x73\167\141", "\x6c\145\x66\164"); goto fbniV; ZjWsz: $this->output_json($replies); goto gD3AE; r1Qdr: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto MOhn0; ZVM0H: $this->db->query("\123\105\x54\40\123\x51\x4c\x5f\102\111\107\137\123\105\114\x45\x43\x54\x53\x3d\61"); goto huy0V; lAk9S: $this->db->where("\141\56\151\x64\x5f\x72\145\x70\154\171", $id); goto eWLUw; MOhn0: $dari = $guru->id_guru; goto K72aw; fQxQc: $this->db->join("\x6d\141\x73\x74\145\162\x5f\x67\x75\x72\x75\40\x62", "\141\x2e\144\x61\162\x69\75\x62\x2e\151\144\x5f\147\165\162\165", "\154\145\146\164"); goto L6NnX; AW91U: if ($this->ion_auth->is_admin()) { goto qtWlZ; } goto nsRVb; mHWW2: $dari = "\x30"; goto xttuf; dsZyK: $this->db->from("\x70\x6f\163\164\137\x72\145\160\154\171\x20\141"); goto fQxQc; nsRVb: $user = $this->ion_auth->user()->row(); goto b7Sj9; eWLUw: $replies = $this->db->get()->result(); goto ZjWsz; BsJwc: $data = ["\151\144\x5f\143\x6f\155\x6d\x65\x6e\164" => $this->input->post("\x69\144\x5f\143\157\155\x6d\145\156\x74"), "\x64\141\162\x69" => $dari, "\x64\x61\x72\151\137\x67\162\x6f\x75\160" => $dari_group, "\164\145\x78\164" => $this->input->post("\164\145\170\164")]; goto M8wFN; huy0V: $this->db->select("\x61\56\52\x2c\x20\x62\x2e\156\x61\155\x61\137\x67\x75\162\165\x2c\x20\142\56\x66\157\x74\157\x2c\40\143\56\156\x61\x6d\141\40\x61\163\40\x6e\141\155\141\137\x73\x69\163\x77\x61\54\x20\x63\56\x66\x6f\164\157\40\141\x73\40\x66\x6f\x74\157\x5f\163\x69\x73\x77\141"); goto dsZyK; IkEa6: $id = $this->db->insert_id(); goto ZVM0H; F2Ru4: $smt = $this->master->getSemesterActive(); goto r1Qdr; K72aw: $dari_group = 2; goto hibsZ; b7Sj9: $tp = $this->master->getTahunActive(); goto F2Ru4; M8wFN: $insert = $this->db->replace("\160\x6f\163\164\x5f\162\145\x70\x6c\x79", $data); goto IkEa6; hibsZ: qtWlZ: goto BsJwc; fbniV: $this->db->order_by("\x61\x2e\x74\x61\x6e\147\x67\141\154", "\x64\145\163\x63"); goto lAk9S; xttuf: $dari_group = 1; goto AW91U; gD3AE: } public function hapusPost($id_post) { goto VL2vK; f7Way: yagVk: goto hpj7u; HwAkA: foreach ($comments as $comment) { goto ENQvo; dHrGE: $deleted["\142\x61\x6c\141\x73\141\x6e"] = $this->db->delete("\160\157\x73\164\137\x72\145\x70\154\171"); goto KvwE3; KvwE3: AC7Zh: goto hR3Q1; ENQvo: $this->db->where("\x69\144\x5f\x63\157\x6d\155\x65\156\x74", $comment->id_comment); goto dHrGE; hR3Q1: } goto f7Way; YZ8oK: $this->output_json($deleted); goto zK85q; hpj7u: $this->db->where("\x69\144\137\x70\157\x73\164", $id_post); goto O8rFe; dg3FG: $deleted = $this->db->delete("\160\157\163\x74"); goto lDawy; VL2vK: $this->db->trans_start(); goto EAaHz; eubOZ: $this->db->where("\151\144\x5f\x70\x6f\x73\164", $id_post); goto dg3FG; lDawy: sDDRd: goto BJPIj; O8rFe: if (!$this->db->delete("\x70\157\x73\164\x5f\143\157\x6d\155\x65\x6e\164\x73")) { goto sDDRd; } goto eubOZ; EAaHz: $comments = $this->post->getIdComments($id_post); goto HwAkA; BJPIj: $this->db->trans_complete(); goto YZ8oK; zK85q: } public function hapusKomentar($id_comment) { goto HA3ZE; HA3ZE: $this->db->trans_start(); goto kESJS; i2tO_: $deleted["\x6b\157\155\x65\156\164\x61\162"] = $this->db->delete("\x70\157\x73\x74\x5f\143\157\x6d\x6d\x65\x6e\164\x73"); goto JCqbB; AwWk8: $this->output_json($deleted); goto Gxpmk; W4ZlA: $deleted["\142\141\x6c\141\x73\x61\156"] = $this->db->delete("\160\157\163\x74\137\162\145\160\x6c\x79"); goto hU99Y; JCqbB: $this->db->where("\151\x64\137\143\157\155\155\145\x6e\164", $id_comment); goto W4ZlA; hU99Y: $this->db->trans_complete(); goto AwWk8; kESJS: $this->db->where("\151\x64\137\143\157\x6d\155\x65\x6e\x74", $id_comment); goto i2tO_; Gxpmk: } public function hapusBalasan($id_reply) { goto NVBjk; hW2jS: $this->db->where("\x69\x64\x5f\x72\x65\160\x6c\171", $id_reply); goto gygFl; gygFl: $deleted["\x62\141\154\141\163\141\x6e"] = $this->db->delete("\x70\x6f\x73\x74\137\162\145\x70\154\x79"); goto kxbfV; kxbfV: $this->db->trans_complete(); goto Fg6Xs; NVBjk: $this->db->trans_start(); goto hW2jS; Fg6Xs: $this->output_json($deleted); goto eYxCi; eYxCi: } public function getRunningText() { $data["\x72\165\156\156\151\156\147\137\x74\x65\170\164"] = $this->dashboard->getRunningText(); $this->output_json($data); } public function saveRunningText() { goto h7mj6; h7mj6: $input = json_decode($this->input->post("\x74\x65\x78\x74", true)); goto e78YA; Z203Z: $data["\x73\164\x61\164\165\163"] = $updates; goto NIApa; NIApa: $this->output_json($data); goto Ho1Jh; qvz02: foreach ($input as $d) { goto ZEJU8; p4vaX: array_push($updates, $update); goto jYHce; ZEJU8: $data = ["\151\144\137\164\145\170\164" => $d->id_text, "\164\145\x78\x74" => $d->text]; goto GH_r2; GH_r2: $update = $this->db->replace("\x72\165\x6e\156\x69\156\147\137\x74\145\170\164", $data); goto p4vaX; jYHce: D2Dx_: goto UK1C1; UK1C1: } goto YxAHq; e78YA: $updates = []; goto qvz02; YxAHq: Ohm6R: goto Z203Z; Ho1Jh: } public function hapusRunningText($id) { goto nF75E; GEQTT: $deleted = $this->db->delete("\162\165\156\156\151\156\147\x5f\x74\145\x78\x74"); goto sIEJj; sIEJj: $this->output_json($deleted); goto E2opi; nF75E: $this->db->where("\x69\144\x5f\x74\145\170\164", $id); goto GEQTT; E2opi: } }
+class Pengumuman extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto gwBG7;
+        }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto t0ZYw;
+        }
+        show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        t0ZYw:
+        gwBG7:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Kelas_model", "kelas");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->load->model("Post_model", "post");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto JT1y5;
+        }
+        $data = json_encode($data);
+        JT1y5:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Pengumuman", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $data["gurus"] = $this->dropdown->getAllGuru();
+        $kelas = $this->dropdown->getAllKeyKodeKelas($tp->id_tp, $smt->id_smt);
+        $data["kelas"] = $kelas;
+        $data["running_text"] = $this->dashboard->getRunningText();
+        if ($this->ion_auth->is_admin()) {
+            $data["subjudul"] = "Semua Pengumuman";
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $data["pengumumans"] = $this->post->getPostUser(0);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("pengumuman/data");
+            $this->load->view("_templates/dashboard/_footer");
+            goto LYL_U;
+        }
+        $data["subjudul"] = "Pengumuman Anda";
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $data["guru"] = $guru;
+        $data["pengumumans"] = $this->post->getPostUser($guru->id_guru);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("pengumuman/data");
+        $this->load->view("members/guru/templates/footer");
+        LYL_U:
+    }
+    public function kepada($kepada, $id_kepada = null)
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Pengumuman", "subjudul" => "Semua Pengumuman", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $data["gurus"] = $this->dropdown->getAllGuru();
+        $kelas = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
+        $data["kelas"] = $kelas;
+        $this->db->select("a.*, b.nama_guru, b.foto");
+        $this->db->from("post a");
+        $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+        $this->db->order_by("a.tanggal", "desc");
+        $pengumumans = $this->db->get()->result();
+        $comments = [];
+        $balasan = [];
+        foreach ($pengumumans as $pengumuman) {
+            $this->db->select("a.*, b.nama_guru, b.foto");
+            $this->db->from("post_comments a");
+            $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+            $this->db->order_by("a.tanggal", "desc");
+            $this->db->where("a.id_post", $pengumuman->id_post);
+            $comment = $this->db->get()->result();
+            foreach ($comment as $comm) {
+                $this->db->select("a.*, b.nama_guru, b.foto");
+                $this->db->from("post_reply a");
+                $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+                $this->db->order_by("a.tanggal", "desc");
+                $this->db->where("a.id_comment", $comm->id_comment);
+                $balasan[$pengumuman->id_post][$comm->id_comment] = $this->db->get()->result();
+            }
+            $comments[$pengumuman->id_post] = $comment;
+        }
+        $data["pengumumans"] = $pengumumans;
+        $data["comments"] = $comments;
+        $data["balasans"] = $balasan;
+        if ($kepada === "semua_guru") {
+            $data["kepada"] = "Semua Guru";
+            goto nEM50;
+        }
+        if ($kepada === "semua_siswa") {
+            $data["kepada"] = "Semua Siswa";
+            goto FPb4Z;
+        }
+        $data["kepada"] = urldecode($kepada);
+        FPb4Z:
+        nEM50:
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("pengumuman/data");
+            $this->load->view("_templates/dashboard/_footer");
+            goto ORfrr;
+        }
+        $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("pengumuman/data");
+        $this->load->view("members/guru/templates/footer");
+        ORfrr:
+    }
+    public function getPost()
+    {
+        $post = $this->post->getPostForUser(null);
+        $this->output_json($post);
+    }
+    public function getComment($id_post, $page)
+    {
+        $perPage = 5;
+        $offset = $page * $perPage;
+        $this->db->query("SET SQL_BIG_SELECTS=1");
+        $this->db->select("a.*, b.nama_guru, b.foto, c.nama as nama_siswa, c.foto as foto_siswa, (SELECT COUNT(post_reply.id_reply) FROM post_reply WHERE a.id_comment = post_reply.id_comment) AS jml");
+        $this->db->from("post_comments a");
+        $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+        $this->db->join("master_siswa c", "a.dari=c.id_siswa", "left");
+        $this->db->order_by("a.tanggal", "desc");
+        $this->db->where("a.id_post", $id_post);
+        $this->db->limit($perPage, $offset);
+        $comment = $this->db->get()->result();
+        $this->output_json($comment);
+    }
+    public function getReplies($id_comment, $page)
+    {
+        $perPage = 5;
+        $offset = $page * $perPage;
+        $this->db->query("SET SQL_BIG_SELECTS=1");
+        $this->db->select("a.*, b.nama_guru, b.foto, c.nama as nama_siswa, c.foto as foto_siswa");
+        $this->db->from("post_reply a");
+        $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+        $this->db->join("master_siswa c", "a.dari=c.id_siswa", "left");
+        $this->db->order_by("a.tanggal", "desc");
+        $this->db->where("a.id_comment", $id_comment);
+        $this->db->limit($perPage, $offset);
+        $replies = $this->db->get()->result();
+        $this->output_json($replies);
+    }
+    public function save()
+    {
+        $kepada = json_decode(json_encode($this->input->post("kepada[]", true)));
+        $dari = $this->input->post("dari");
+        $data = ["kepada" => serialize($kepada), "dari" => $dari, "dari_group" => $dari == "0" ? "1" : "2", "text" => $this->input->post("text"), "tanggal" => date("Y-m-d H:i:s"), "updated" => date("Y-m-d H:i:s")];
+        $insert = $this->db->replace("post", $data);
+        $this->output_json($insert);
+    }
+    public function saveKomentar()
+    {
+        $dari = "0";
+        $dari_group = 1;
+        if ($this->ion_auth->is_admin()) {
+            goto lQvE0;
+        }
+        $user = $this->ion_auth->user()->row();
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $dari = $guru->id_guru;
+        $dari_group = 2;
+        lQvE0:
+        $data = ["id_post" => $this->input->post("id_post"), "dari" => $dari, "dari_group" => $dari_group, "text" => $this->input->post("text")];
+        $insert = $this->db->replace("post_comments", $data);
+        $id = $this->db->insert_id();
+        $this->db->query("SET SQL_BIG_SELECTS=1");
+        $this->db->select("a.*, b.nama_guru, b.foto, c.nama as nama_siswa, c.foto as foto_siswa, (SELECT COUNT(post_reply.id_reply) FROM post_reply WHERE a.id_comment = post_reply.id_comment) AS jml");
+        $this->db->from("post_comments a");
+        $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+        $this->db->join("master_siswa c", "a.dari=c.id_siswa", "left");
+        $this->db->order_by("a.tanggal", "desc");
+        $this->db->where("a.id_comment", $id);
+        $comment = $this->db->get()->result();
+        $this->output_json($comment);
+    }
+    public function saveBalasan()
+    {
+        $dari = "0";
+        $dari_group = 1;
+        if ($this->ion_auth->is_admin()) {
+            goto qtWlZ;
+        }
+        $user = $this->ion_auth->user()->row();
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $dari = $guru->id_guru;
+        $dari_group = 2;
+        qtWlZ:
+        $data = ["id_comment" => $this->input->post("id_comment"), "dari" => $dari, "dari_group" => $dari_group, "text" => $this->input->post("text")];
+        $insert = $this->db->replace("post_reply", $data);
+        $id = $this->db->insert_id();
+        $this->db->query("SET SQL_BIG_SELECTS=1");
+        $this->db->select("a.*, b.nama_guru, b.foto, c.nama as nama_siswa, c.foto as foto_siswa");
+        $this->db->from("post_reply a");
+        $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
+        $this->db->join("master_siswa c", "a.dari=c.id_siswa", "left");
+        $this->db->order_by("a.tanggal", "desc");
+        $this->db->where("a.id_reply", $id);
+        $replies = $this->db->get()->result();
+        $this->output_json($replies);
+    }
+    public function hapusPost($id_post)
+    {
+        $this->db->trans_start();
+        $comments = $this->post->getIdComments($id_post);
+        foreach ($comments as $comment) {
+            $this->db->where("id_comment", $comment->id_comment);
+            $deleted["balasan"] = $this->db->delete("post_reply");
+        }
+        $this->db->where("id_post", $id_post);
+        if (!$this->db->delete("post_comments")) {
+            goto sDDRd;
+        }
+        $this->db->where("id_post", $id_post);
+        $deleted = $this->db->delete("post");
+        sDDRd:
+        $this->db->trans_complete();
+        $this->output_json($deleted);
+    }
+    public function hapusKomentar($id_comment)
+    {
+        $this->db->trans_start();
+        $this->db->where("id_comment", $id_comment);
+        $deleted["komentar"] = $this->db->delete("post_comments");
+        $this->db->where("id_comment", $id_comment);
+        $deleted["balasan"] = $this->db->delete("post_reply");
+        $this->db->trans_complete();
+        $this->output_json($deleted);
+    }
+    public function hapusBalasan($id_reply)
+    {
+        $this->db->trans_start();
+        $this->db->where("id_reply", $id_reply);
+        $deleted["balasan"] = $this->db->delete("post_reply");
+        $this->db->trans_complete();
+        $this->output_json($deleted);
+    }
+    public function getRunningText()
+    {
+        $data["running_text"] = $this->dashboard->getRunningText();
+        $this->output_json($data);
+    }
+    public function saveRunningText()
+    {
+        $input = json_decode($this->input->post("text", true));
+        $updates = [];
+        foreach ($input as $d) {
+            $data = ["id_text" => $d->id_text, "text" => $d->text];
+            $update = $this->db->replace("running_text", $data);
+            array_push($updates, $update);
+        }
+        $data["status"] = $updates;
+        $this->output_json($data);
+    }
+    public function hapusRunningText($id)
+    {
+        $this->db->where("id_text", $id);
+        $deleted = $this->db->delete("running_text");
+        $this->output_json($deleted);
+    }
+}

@@ -1,7 +1,111 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Walicatatan extends CI_Controller { public function __construct() { goto P_PFr; L5XH2: goto iGMvr; goto AtSuX; zzEkl: uVr1C: goto L5XH2; VPQVy: if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("\x67\165\162\x75"))) { goto uVr1C; } goto wB6vx; c7zfF: $this->load->model("\104\141\163\150\x62\x6f\141\x72\x64\x5f\155\x6f\x64\145\154", "\144\141\x73\x68\142\157\x61\162\x64"); goto SdXrc; P_PFr: parent::__construct(); goto Inty4; A93Kc: $this->load->model("\x4d\x61\163\164\145\x72\x5f\155\x6f\144\x65\x6c", "\155\x61\163\x74\145\x72"); goto c7zfF; AtSuX: kg7Q_: goto sscBM; SdXrc: $this->load->model("\x4b\145\154\141\163\x5f\155\x6f\144\x65\154", "\153\145\x6c\x61\x73"); goto Wy2cA; aVbT0: iGMvr: goto eW3Pf; Inty4: if (!$this->ion_auth->logged_in()) { goto kg7Q_; } goto VPQVy; sscBM: redirect("\141\x75\x74\x68"); goto aVbT0; wB6vx: show_error("\110\x61\x6e\171\141\40\101\144\x6d\151\156\151\x73\x74\162\141\x74\157\162\x20\144\x61\x6e\40\x67\165\162\x75\x20\171\x61\156\x67\40\144\x69\142\x65\x72\151\40\150\141\x6b\40\x75\156\164\165\153\x20\155\x65\156\x67\x61\153\x73\x65\163\40\150\141\x6c\x61\155\x61\x6e\x20\x69\156\151\x2c\x20\x3c\x61\x20\x68\x72\x65\146\75\42" . base_url("\144\x61\163\150\142\x6f\x61\162\x64") . "\x22\x3e\113\145\155\142\x61\154\151\x20\x6b\145\x20\x6d\145\156\165\40\x61\167\x61\154\74\57\x61\x3e", 403, "\101\x6b\x73\145\163\x20\124\145\x72\x6c\141\162\141\156\147"); goto zzEkl; Wy2cA: $this->load->model("\x44\162\157\x70\144\x6f\167\x6e\x5f\x6d\157\x64\145\154", "\x64\x72\157\x70\144\x6f\167\156"); goto Mrpgj; Mrpgj: $this->form_validation->set_error_delimiters('', ''); goto jkjAd; eW3Pf: $this->load->library(["\144\x61\164\141\164\x61\x62\154\x65\163", "\146\157\162\x6d\137\166\x61\x6c\x69\144\141\x74\151\x6f\x6e"]); goto A93Kc; jkjAd: } public function output_json($data, $encode = true) { goto cctaY; cctaY: if (!$encode) { goto IqPTr; } goto PVgzI; PVgzI: $data = json_encode($data); goto Ih36A; Ih36A: IqPTr: goto CPYuj; CPYuj: $this->output->set_content_type("\x61\x70\x70\154\x69\x63\141\164\151\x6f\x6e\57\152\x73\x6f\156")->set_output($data); goto Qhv04; Qhv04: } public function index() { goto Aznz5; XvPoD: $tp = $this->master->getTahunActive(); goto dR5Uw; q_JBI: $data["\x63\x61\x74\x61\x74\141\x6e\x5f\153\x65\x6c\141\163"] = $this->kelas->getCatatanKelas($guru->wali_kelas, $tp->id_tp, $smt->id_smt); goto F8cbT; f2MJ0: $data = ["\x75\163\145\162" => $user, "\152\165\x64\x75\154" => "\103\x61\164\x61\164\141\x6e\40\127\141\154\x69\40\113\145\x6c\x61\x73", "\x73\165\x62\x6a\x75\x64\165\154" => "\103\141\164\141\164\141\156\40\x4b\x65\154\141\x73", "\x73\145\x74\x74\151\x6e\x67" => $this->dashboard->getSetting()]; goto XvPoD; F8cbT: $data["\143\141\164\x61\x74\141\156\x5f\x73\151\163\167\141"] = $this->kelas->getCatatanSiswa($tp->id_tp, $smt->id_smt, $guru->wali_kelas); goto dZBOe; pMglv: $data["\x73\x6d\164"] = $this->dashboard->getSemester(); goto VWO5z; ODp2t: $data["\x74\x70"] = $this->dashboard->getTahun(); goto DDtWn; Ir4Ig: $data["\147\x75\x72\x75"] = $guru; goto q_JBI; dZBOe: $this->load->view("\155\x65\155\142\x65\162\163\57\x67\165\162\165\57\x74\x65\x6d\x70\x6c\x61\x74\145\x73\x2f\x68\145\141\x64\145\162", $data); goto k14cN; DDtWn: $data["\164\160\x5f\x61\x63\x74\151\x76\145"] = $tp; goto pMglv; tgGaK: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto Ir4Ig; k14cN: $this->load->view("\155\145\x6d\142\x65\x72\x73\x2f\147\x75\162\165\57\167\x61\x6c\x69\57\x63\x61\x74\x61\x74\x61\156"); goto OBjOK; Aznz5: $user = $this->ion_auth->user()->row(); goto f2MJ0; VWO5z: $data["\x73\x6d\164\x5f\141\143\164\151\166\x65"] = $smt; goto tgGaK; dR5Uw: $smt = $this->master->getSemesterActive(); goto ODp2t; OBjOK: $this->load->view("\155\145\155\142\x65\162\163\x2f\147\x75\x72\165\57\164\x65\x6d\x70\154\x61\164\x65\x73\x2f\146\157\157\164\145\162"); goto voLEn; voLEn: } public function siswa() { goto ij1ip; KZYOk: $data["\x67\x75\x72\x75"] = $guru; goto V8uTu; UrOr1: $data["\164\160"] = $this->dashboard->getTahun(); goto aVW_N; Agbfa: $smt = $this->master->getSemesterActive(); goto UrOr1; OIsiA: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto KZYOk; ij1ip: $id_siswa = $this->input->get("\151\144\x5f\x73\151\x73\167\141"); goto W7ErY; HPPVe: $data["\163\155\164"] = $this->dashboard->getSemester(); goto ckjBu; aVW_N: $data["\164\x70\137\x61\x63\x74\x69\x76\145"] = $tp; goto HPPVe; V8uTu: $data["\x73\151\163\167\x61"] = $this->master->getSiswaById($id_siswa); goto cU2S6; fW25V: $data = ["\x75\163\145\x72" => $user, "\152\x75\x64\x75\x6c" => "\x43\141\164\141\x74\141\156\x20\x53\151\163\167\x61", "\163\165\142\152\x75\144\165\x6c" => "\x43\x61\164\x61\x74\141\x6e\x20\123\x69\163\167\141", "\x73\145\164\164\x69\156\147" => $this->dashboard->getSetting()]; goto oLVUg; g4C7R: $this->load->view("\x6d\145\155\142\x65\x72\x73\x2f\x67\x75\x72\165\57\164\145\x6d\160\x6c\x61\164\145\163\57\150\x65\x61\x64\x65\x72", $data); goto HMFCS; W7ErY: $id_kelas = $this->input->get("\151\144\x5f\153\x65\x6c\141\x73"); goto nGvBS; nGvBS: $user = $this->ion_auth->user()->row(); goto fW25V; HQ81y: $data["\x69\144\x5f\x6b\145\154\141\x73"] = $id_kelas; goto g4C7R; ckjBu: $data["\163\x6d\x74\137\x61\143\x74\151\x76\145"] = $smt; goto OIsiA; HMFCS: $this->load->view("\155\x65\155\x62\145\x72\163\57\147\x75\162\x75\x2f\x77\x61\x6c\151\57\160\x65\162\x73\151\163\167\141"); goto dc0Jm; oLVUg: $tp = $this->master->getTahunActive(); goto Agbfa; cU2S6: $data["\x63\141\164\141\164\x61\156\137\x73\151\163\167\141"] = $this->kelas->getAllCatatanSiswa($id_siswa, $tp->id_tp, $smt->id_smt); goto HQ81y; dc0Jm: $this->load->view("\155\x65\155\x62\x65\x72\x73\57\x67\x75\x72\x75\57\x74\145\x6d\160\154\141\x74\145\163\57\146\157\x6f\164\145\162"); goto GxQO3; GxQO3: } public function saveCatatanKelas() { goto aLTwg; xJY4f: $data = ["\x69\144\137\164\160" => $tp->id_tp, "\x69\x64\x5f\x73\x6d\x74" => $smt->id_smt, "\x74\171\x70\x65" => "\x31", "\154\145\x76\x65\x6c" => $level, "\151\x64\137\153\x65\x6c\x61\x73" => $guru->wali_kelas, "\x74\x65\x78\x74" => $text, "\162\145\x61\144\x69\x6e\147" => serialize([])]; goto PfYeC; pX3eP: $level = $this->input->post("\x6c\145\166\145\x6c", true); goto xJY4f; oWddv: $smt = $this->dashboard->getSemesterActive(); goto Yx0DD; MYGWK: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto Ha8pS; Ha8pS: $text = $this->input->post("\164\145\x78\x74", true); goto pX3eP; aLTwg: $tp = $this->dashboard->getTahunActive(); goto oWddv; Yx0DD: $user = $this->ion_auth->user()->row(); goto MYGWK; im86S: $this->output_json($insert); goto SuzPR; PfYeC: $insert = $this->master->create("\153\145\x6c\141\163\x5f\x63\141\164\x61\164\141\x6e\x5f\x77\x61\x6c\151", $data); goto im86S; SuzPR: } public function saveCatatanSiswa() { goto zxtsW; u1ORD: $user = $this->ion_auth->user()->row(); goto qKshS; WHJnQ: $smt = $this->dashboard->getSemesterActive(); goto u1ORD; zxtsW: $tp = $this->dashboard->getTahunActive(); goto WHJnQ; fpjde: $level = $this->input->post("\x6c\145\x76\x65\x6c", true); goto Oexk8; DjWoC: $insert = $this->master->create("\153\x65\154\x61\163\x5f\x63\141\x74\141\x74\x61\x6e\137\167\141\x6c\x69", $data); goto YYvl5; qKshS: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto dwjVQ; wkJDO: $text = $this->input->post("\164\145\170\164", true); goto fpjde; Oexk8: $data = ["\151\144\137\x74\x70" => $tp->id_tp, "\151\x64\x5f\163\155\164" => $smt->id_smt, "\x74\171\x70\x65" => "\x32", "\154\x65\166\145\154" => $level, "\x69\144\137\153\145\x6c\x61\x73" => $guru->wali_kelas, "\151\144\137\163\x69\163\167\141" => $id_siswa, "\164\145\x78\x74" => $text, "\x72\145\141\x64\x69\x6e\x67" => serialize([])]; goto DjWoC; YYvl5: $this->output_json($insert); goto EucpX; dwjVQ: $id_siswa = $this->input->post("\x69\144\137\x73\151\x73\x77\x61"); goto wkJDO; EucpX: } public function updateCatatanKelas() { } public function hapus($id_catatan) { $delete = $this->master->delete("\153\x65\154\141\x73\x5f\x63\x61\x74\x61\x74\141\156\x5f\167\141\x6c\x69", $id_catatan, "\x69\x64\x5f\143\141\164\x61\x74\141\156"); $this->output_json($delete); } }
+class Walicatatan extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto aVbT0;
+        }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto uVr1C;
+        }
+        show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        uVr1C:
+        aVbT0:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Kelas_model", "kelas");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto IqPTr;
+        }
+        $data = json_encode($data);
+        IqPTr:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Catatan Wali Kelas", "subjudul" => "Catatan Kelas", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $data["guru"] = $guru;
+        $data["catatan_kelas"] = $this->kelas->getCatatanKelas($guru->wali_kelas, $tp->id_tp, $smt->id_smt);
+        $data["catatan_siswa"] = $this->kelas->getCatatanSiswa($tp->id_tp, $smt->id_smt, $guru->wali_kelas);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("members/guru/wali/catatan");
+        $this->load->view("members/guru/templates/footer");
+    }
+    public function siswa()
+    {
+        $id_siswa = $this->input->get("id_siswa");
+        $id_kelas = $this->input->get("id_kelas");
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Catatan Siswa", "subjudul" => "Catatan Siswa", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $data["guru"] = $guru;
+        $data["siswa"] = $this->master->getSiswaById($id_siswa);
+        $data["catatan_siswa"] = $this->kelas->getAllCatatanSiswa($id_siswa, $tp->id_tp, $smt->id_smt);
+        $data["id_kelas"] = $id_kelas;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("members/guru/wali/persiswa");
+        $this->load->view("members/guru/templates/footer");
+    }
+    public function saveCatatanKelas()
+    {
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $user = $this->ion_auth->user()->row();
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $text = $this->input->post("text", true);
+        $level = $this->input->post("level", true);
+        $data = ["id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "type" => "1", "level" => $level, "id_kelas" => $guru->wali_kelas, "text" => $text, "reading" => serialize([])];
+        $insert = $this->master->create("kelas_catatan_wali", $data);
+        $this->output_json($insert);
+    }
+    public function saveCatatanSiswa()
+    {
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $user = $this->ion_auth->user()->row();
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $id_siswa = $this->input->post("id_siswa");
+        $text = $this->input->post("text", true);
+        $level = $this->input->post("level", true);
+        $data = ["id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "type" => "2", "level" => $level, "id_kelas" => $guru->wali_kelas, "id_siswa" => $id_siswa, "text" => $text, "reading" => serialize([])];
+        $insert = $this->master->create("kelas_catatan_wali", $data);
+        $this->output_json($insert);
+    }
+    public function updateCatatanKelas()
+    {
+    }
+    public function hapus($id_catatan)
+    {
+        $delete = $this->master->delete("kelas_catatan_wali", $id_catatan, "id_catatan");
+        $this->output_json($delete);
+    }
+}

@@ -1,7 +1,267 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\x42\x41\123\x45\120\101\124\110") or exit("\116\x6f\40\144\151\x72\x65\143\x74\x20\x73\143\x72\151\x70\x74\x20\x61\143\x63\145\x73\x73\40\x61\154\154\x6f\x77\145\144"); class Userguru extends CI_Controller { public function __construct() { goto Cnwei; L74MI: $this->load->library(["\x64\141\x74\x61\164\x61\x62\x6c\x65\x73", "\146\x6f\162\155\137\x76\x61\x6c\151\x64\x61\164\x69\157\156"]); goto b_z2H; rJiLb: goto h3w5S; goto S0dIU; cfLwl: $this->load->model("\x44\141\x73\x68\x62\x6f\x61\x72\144\x5f\x6d\x6f\144\145\x6c", "\x64\141\x73\x68\142\x6f\141\162\x64"); goto vco3g; QD5YY: redirect("\141\x75\x74\150"); goto lCgJb; vco3g: $this->form_validation->set_error_delimiters('', ''); goto O7HcH; Cnwei: parent::__construct(); goto omR2n; UuuKi: zNkS0: goto rJiLb; oyYn9: if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("\x67\165\x72\x75"))) { goto zNkS0; } goto i5iI7; lCgJb: h3w5S: goto L74MI; S0dIU: M6jn5: goto QD5YY; GLLzM: $this->load->model("\115\141\163\164\145\162\x5f\155\157\144\145\154", "\155\141\163\x74\x65\162"); goto cfLwl; omR2n: if (!$this->ion_auth->logged_in()) { goto M6jn5; } goto oyYn9; b_z2H: $this->load->model("\x55\163\x65\x72\x73\137\x6d\x6f\x64\x65\154", "\x75\163\145\162\x73"); goto GLLzM; i5iI7: show_error("\x48\141\156\171\141\x20\x41\x64\x6d\x69\x6e\x69\163\x74\162\x61\x74\157\x72\40\x79\x61\x6e\x67\x20\x64\151\142\x65\x72\151\x20\150\141\x6b\40\x75\156\164\x75\x6b\40\x6d\145\x6e\147\141\153\x73\x65\163\40\x68\141\x6c\141\x6d\x61\156\40\151\156\151\54\40\x3c\141\x20\150\162\145\x66\75\x22" . base_url("\144\x61\x73\x68\x62\x6f\x61\162\144") . "\42\76\113\145\x6d\142\x61\x6c\x69\40\153\145\x20\x6d\x65\x6e\x75\40\141\167\x61\154\74\x2f\x61\76", 403, "\101\x6b\x73\145\x73\x20\124\x65\x72\154\x61\162\141\x6e\147"); goto UuuKi; O7HcH: } public function output_json($data, $encode = true) { goto SDW96; d6Iv9: $this->output->set_content_type("\x61\160\160\154\151\x63\141\x74\151\157\156\57\152\163\157\156")->set_output($data); goto kGRe2; SDW96: if (!$encode) { goto yUma1; } goto Kq6XM; Kq6XM: $data = json_encode($data); goto e8iEv; e8iEv: yUma1: goto d6Iv9; kGRe2: } public function data() { goto pthw6; z5QKs: $smt = $this->dashboard->getSemesterActive(); goto JxW0x; JxW0x: $this->output_json($this->users->getUserGuru($tp->id_tp, $smt->id_smt), false); goto ur2cZ; pthw6: $tp = $this->dashboard->getTahunActive(); goto z5QKs; ur2cZ: } public function index() { goto MB8a8; SOj25: $group = $this->ion_auth->get_users_groups($user->id)->row()->name; goto twhTg; aowqv: uwNAA: goto Uq5Y2; Uq5Y2: $data["\x74\160"] = $this->dashboard->getTahun(); goto y0xob; rPe0G: $id = $this->users->getGuruByUsername($user->username); goto uj62r; twhTg: $data = ["\165\x73\145\162" => $user, "\152\x75\x64\165\x6c" => "\125\x73\145\x72\x20\115\141\x6e\141\147\x65\155\145\156\x74", "\163\x75\x62\x6a\165\x64\165\154" => "\104\x61\x74\x61\x20\x55\x73\145\x72\x20\x47\x75\x72\165", "\x70\x72\x6f\146\x69\154\x65" => $this->dashboard->getProfileAdmin($user->id), "\163\x65\164\x74\x69\156\x67" => $this->dashboard->getSetting()]; goto tZpGt; oEjpl: $data["\163\x6d\164\x5f\141\x63\164\151\166\145"] = $this->dashboard->getSemesterActive(); goto gqzNg; JUDqz: $this->load->view("\165\x73\x65\x72\163\57\147\165\162\165\x2f\x64\141\164\141"); goto uDpEl; MB8a8: $user = $this->ion_auth->user()->row(); goto SOj25; ZQUOU: $data["\x73\155\x74"] = $this->dashboard->getSemester(); goto oEjpl; uj62r: $this->edit($id->id_guru); goto mCDs8; gqzNg: $this->load->view("\137\x74\x65\155\x70\154\141\x74\145\x73\57\144\x61\x73\x68\x62\x6f\141\162\144\57\137\x68\145\141\144\x65\x72", $data); goto JUDqz; uDpEl: $this->load->view("\137\x74\x65\155\x70\x6c\x61\164\145\163\57\144\x61\163\x68\142\157\141\x72\144\x2f\137\x66\x6f\x6f\x74\145\162"); goto j9ZeI; mCDs8: goto G2JFs; goto aowqv; j9ZeI: G2JFs: goto glUiS; tZpGt: if ($group === "\141\144\155\151\x6e") { goto uwNAA; } goto rPe0G; y0xob: $data["\164\160\x5f\x61\x63\164\151\x76\145"] = $this->dashboard->getTahunActive(); goto ZQUOU; glUiS: } public function activate($id) { goto icVKP; PFWT5: $nama = explode("\x20", $guru->nama_guru); goto NQRJV; DlqDU: goto QUWuM; goto puZEV; icVKP: $guru = $this->users->getDataGuru($id); goto PFWT5; kng5v: $last_name = count($nama) > 2 ? $nama[1] : end($nama); goto y4Prg; y4Prg: $username = trim($guru->username); goto hXiSC; Wao4P: $group = array("\x32"); goto TMQfC; rjB05: $email = strtolower($guru->username) . "\100\x67\165\x72\x75\56\x63\157\155"; goto Etvfv; SzE1X: $data = ["\x73\164\x61\x74\165\163" => false, "\x6d\163\147" => "\125\163\145\162\156\141\155\x65\x20" . $username . "\40\x74\x69\x64\141\153\x20\x74\x65\x72\163\x65\x64\151\141\40\x28\163\x75\x64\141\x68\40\144\151\x67\x75\156\141\x6b\141\x6e\51\x2e"]; goto QPlIr; QPlIr: QUWuM: goto xUpej; j6iGJ: goto gxv8M; goto z_Klh; TuipL: $id_user = $this->ion_auth->register($username, $password, $email, $additional_data, $group); goto lc1U1; Etvfv: $additional_data = ["\146\x69\x72\x73\x74\137\156\141\155\145" => $first_name, "\154\x61\163\x74\137\156\x61\x6d\145" => $last_name]; goto Wao4P; o9X5Z: $this->db->set("\x69\x64\x5f\x75\163\145\162", $id_user); goto KI8d1; cXPND: $data = ["\163\164\141\164\x75\163" => false, "\155\163\x67" => "\125\163\x65\162\x6e\x61\155\145\x20" . $email . "\40\164\x69\144\x61\153\40\164\145\x72\163\145\144\151\141\40\50\163\165\144\x61\150\x20\x64\x69\147\165\x6e\x61\153\141\x6e\x29\56"]; goto OINRc; z_Klh: d8kd1: goto cXPND; puZEV: x8Za1: goto SzE1X; lc1U1: $data = ["\163\x74\141\164\165\163" => true, "\x6d\163\147" => "\x41\153\x75\x6e\x20" . $guru->nama_guru . "\40\x64\151\141\153\164\151\x66\153\141\x6e\56"]; goto o9X5Z; TMQfC: if ($this->ion_auth->username_check($username)) { goto x8Za1; } goto DXB29; xUpej: $data["\x70\x61\163\163"] = $password; goto GRJvC; NQRJV: $first_name = $nama[0]; goto kng5v; GRJvC: $this->output_json($data); goto AQPED; KI8d1: $this->db->where("\151\x64\137\x67\165\x72\x75", $id); goto TRHcs; hXiSC: $password = trim($guru->password); goto rjB05; TRHcs: $this->db->update("\x6d\x61\x73\x74\x65\x72\x5f\x67\165\162\165"); goto j6iGJ; OINRc: gxv8M: goto DlqDU; DXB29: if ($this->ion_auth->email_check($email)) { goto d8kd1; } goto TuipL; AQPED: } public function deactivate($id = NULL) { goto fi3IA; REKCI: if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) { goto ngeri; } goto BRnR6; QEnwu: goto ejNgg; goto gs6bc; BRnR6: $data = ["\x73\x74\x61\164\x75\x73" => false, "\x6d\x73\x67" => "\101\x6e\x64\x61\x20\142\x75\153\x61\156\x20\141\x64\155\151\156\x2e"]; goto QEnwu; ZB2o_: $deleted = $this->ion_auth->delete_user($id); goto tn4kK; eayuk: goto Rmt8D; goto BmSVk; j_IQu: $id = (int) $id; goto REKCI; p94GQ: $data = ["\163\164\141\164\165\x73" => false, "\155\163\147" => "\x59\157\x75\x20\x6d\165\163\164\x20\142\145\x20\x61\156\40\141\144\155\x69\156\x69\x73\x74\162\x61\164\157\162\x20\164\x6f\40\x76\151\145\167\x20\164\x68\151\x73\x20\x70\x61\147\x65\56"]; goto mN066; BmSVk: jCiRJ: goto p94GQ; wvQ1V: $this->output_json($data); goto zZYWd; mN066: Rmt8D: goto wvQ1V; tn4kK: $data = ["\163\x74\x61\164\x75\163" => $deleted, "\x6d\163\x67" => "\x74\x65\x6c\141\x68\40\x64\151\156\x6f\x6e\x61\153\164\151\146\x6b\x61\156\56"]; goto G2uHp; fi3IA: if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) { goto jCiRJ; } goto j_IQu; gs6bc: ngeri: goto ZB2o_; G2uHp: ejNgg: goto eayuk; zZYWd: } public function aktifkanSemua() { goto uDi4w; OlCKr: $jum = 0; goto z9dpF; z9dpF: foreach ($guruAktif as $guru) { goto rYdMv; Oe2LR: goto LgDYd; goto YsrPf; bbsa9: $this->activate($guru->id_guru); goto lVuAJ; vcW__: LgDYd: goto k6IEh; CCGDO: Tnymh: goto Oe2LR; lVuAJ: goto wntkZ; goto CCGDO; rYdMv: if ($guru->aktif > 0) { goto Tnymh; } goto bbsa9; YsrPf: wntkZ: goto dB4Sf; dB4Sf: $jum += 1; goto vcW__; k6IEh: } goto PqqWi; ppNG_: $data = ["\x73\x74\141\x74\165\163" => true, "\152\x75\155\x6c\x61\150" => $jum, "\x6d\163\x67" => $jum . "\x20\107\165\162\165\40\x64\x69\141\x6b\x74\151\x66\x6b\141\156\x2e"]; goto wKJ0E; wKJ0E: $this->output_json($data); goto MWihr; PqqWi: geEby: goto ppNG_; uDi4w: $guruAktif = $this->users->getGuruAktif(); goto OlCKr; MWihr: } public function nonaktifkanSemua() { goto b3e56; YJvh2: foreach ($guruAktif as $guru) { goto pT3AJ; z_nlk: goto BPMcV; goto F09K4; WREv3: $jum += 1; goto ZC2wH; F09K4: AFRDh: goto Jf6PO; pT3AJ: if ($guru->aktif > 0) { goto AFRDh; } goto lXvjo; lXvjo: goto ljCig; goto z_nlk; Jf6PO: $del = $this->deactivate($guru->id, ''); goto uxj5g; vfjtJ: BPMcV: goto WREv3; uxj5g: $this->output_json($del); goto vfjtJ; ZC2wH: ljCig: goto VkRNB; VkRNB: } goto EIuAo; zbGix: $jum = 0; goto YJvh2; fEho7: $this->output_json($data); goto MYshs; b3e56: $guruAktif = $this->users->getGuruAktif(); goto zbGix; EIuAo: HKlHb: goto uO_kL; uO_kL: $data = ["\163\x74\x61\164\x75\x73" => true, "\152\165\155\x6c\x61\150" => $jum, "\x6d\x73\x67" => $jum . "\40\x47\x75\x72\x75\40\144\x69\156\157\156\x61\153\164\151\x66\x6b\141\156\x2e"]; goto fEho7; MYshs: } public function edit($id) { goto i2A_E; v3QPN: $group = $this->ion_auth->get_users_groups($user->id)->row()->name; goto oUoX2; i2A_E: $tp = $this->dashboard->getTahunActive(); goto dT52p; sLU0g: $data["\x6c\x65\166\x65\x6c\163"] = $this->users->getLevelGuru(); goto Mcbxg; uaNTQ: $this->load->view("\165\163\x65\x72\x73\x2f\x67\x75\x72\x75\x2f\x65\144\x69\x74"); goto TrymZ; U32NF: $data["\160\x72\x6f\x66\151\154\145"] = $this->dashboard->getProfileAdmin($user->id); goto BR2sq; aplEl: $data["\x73\x6d\x74"] = $this->dashboard->getSemester(); goto oZgtH; jc6Kb: $data["\165\x73\145\162\163"] = $users; goto u2j0q; ILlRk: $this->load->view("\165\163\x65\x72\163\57\147\165\x72\165\x2f\x65\x64\151\x74"); goto WAlYJ; WAlYJ: $this->load->view("\155\145\155\x62\x65\x72\163\x2f\147\165\162\x75\x2f\164\x65\x6d\160\154\141\x74\145\163\57\146\x6f\x6f\164\x65\x72"); goto ou8kT; ou8kT: goto mI0ug; goto kBZZe; beNjo: $data["\x74\160\x5f\141\143\x74\151\166\x65"] = $tp; goto aplEl; FX8BP: $user = $this->ion_auth->user()->row(); goto lLpga; QONfJ: $guru = $this->users->getDetailGuru($id); goto FyMzP; kBZZe: dOEGw: goto U32NF; kfxTk: mI0ug: goto Kuk84; oUoX2: if ($group === "\x61\144\155\151\156") { goto dOEGw; } goto SUTGE; u2j0q: $data["\x67\x75\x72\x75"] = $guru; goto lw0Do; dT52p: $smt = $this->dashboard->getSemesterActive(); goto QONfJ; TrymZ: $this->load->view("\x5f\x74\x65\155\160\154\141\x74\145\163\x2f\x64\141\163\150\142\157\141\x72\144\57\x5f\146\157\157\164\145\162"); goto kfxTk; DEDZi: $data["\x6d\x61\x70\145\154\x73"] = $this->users->getMapel(); goto sLU0g; lLpga: $data = ["\x75\x73\x65\162" => $user, "\152\165\x64\165\x6c" => "\x55\163\x65\162\40\115\141\156\141\147\145\155\x65\x6e\x74", "\x73\165\x62\152\165\144\x75\154" => "\105\144\151\x74\x20\x44\x61\164\141\x20\x55\x73\x65\162", "\163\x65\164\x74\x69\x6e\147" => $this->dashboard->getSetting()]; goto jc6Kb; SUTGE: $this->load->view("\x6d\x65\155\x62\x65\162\163\57\147\165\162\165\x2f\x74\145\155\160\154\141\164\x65\x73\x2f\150\145\141\x64\x65\162", $data); goto ILlRk; FcHz5: $data["\153\145\x6c\x61\x73\163"] = $this->users->getKelas($tp->id_tp, $smt->id_smt); goto DEDZi; lw0Do: $data["\164\x70"] = $this->dashboard->getTahun(); goto beNjo; Mcbxg: $this->load->view("\137\x74\145\x6d\x70\x6c\x61\x74\145\x73\57\144\x61\x73\x68\142\x6f\x61\162\144\x2f\x5f\150\145\141\x64\x65\x72", $data); goto uaNTQ; FyMzP: $users = $this->users->getUsers($guru->username); goto FX8BP; oZgtH: $data["\163\155\x74\x5f\x61\x63\x74\x69\x76\x65"] = $smt; goto v3QPN; BR2sq: $data["\147\x72\157\165\x70\x73"] = $this->ion_auth->groups()->result(); goto FcHz5; Kuk84: } public function editLogin() { goto yUjHC; A8ilF: $nama = explode("\40", $guru->nama_guru); goto e14Hg; kKS64: $pass = $this->input->post("\x6e\x65\167", true); goto M3tBX; yUjHC: $id_guru = $this->input->post("\x69\144\137\x67\165\162\x75", true); goto WXQg5; Md7I3: $this->form_validation->set_rules("\156\x65\167", $this->lang->line("\x63\x68\x61\156\x67\145\137\160\x61\163\x73\x77\x6f\x72\144\x5f\x76\141\x6c\x69\x64\141\164\151\x6f\156\x5f\x6e\x65\167\137\x70\141\x73\163\x77\157\x72\144\137\x6c\141\x62\x65\x6c"), "\162\x65\x71\165\151\x72\145\x64\174\x6d\151\x6e\137\154\x65\x6e\147\x74\150\x5b" . $this->config->item("\x6d\x69\x6e\137\x70\141\163\x73\x77\157\162\x64\137\154\x65\x6e\x67\x74\150", "\x69\157\x6e\x5f\x61\165\164\150") . "\x5d\174\x6d\141\x74\x63\x68\x65\x73\x5b\156\145\167\x5f\x63\157\x6e\146\151\162\x6d\135"); goto fEfWo; aN4ju: $status = false; goto r8b6X; N4lrc: $last_name = end($nama); goto ki2SO; X1m1e: $this->db->where("\x69\x64\x5f\x67\165\x72\165", $id_guru); goto k96Ub; xWOmZ: $data["\x74\x65\x78\164"] = $msg; goto D9nGM; fRaL2: goto Nc6_k; goto l4jCo; xUxFD: $this->db->set("\160\x61\x73\163\167\157\x72\x64", $password); goto fZjmL; S5UWe: if ($deleted) { goto DK0L8; } goto aN4ju; D9nGM: goto g4DR6; goto pyRx2; I08bU: g4DR6: goto G42PG; uAoee: $data = ["\x73\164\x61\x74\165\x73" => false, "\145\x72\162\157\162\163" => ["\165\x73\145\162\x6e\141\155\x65" => "\125\163\x65\162\156\x61\x6d\x65\x20\x73\165\144\141\150\x20\x64\151\147\x75\156\x61\153\141\156"]]; goto jI8k0; WXQg5: $username = $this->input->post("\165\x73\145\162\x6e\141\x6d\x65", true); goto kKS64; IkF6c: $guru = $this->db->get_where("\x6d\141\x73\x74\x65\x72\137\147\x75\162\165", "\151\144\x5f\x67\x75\162\165\75\42" . $id_guru . "\x22")->row(); goto A8ilF; F2Yii: $this->form_validation->set_rules("\x6f\x6c\144", $this->lang->line("\x63\150\x61\156\147\x65\x5f\160\141\163\163\x77\157\162\144\x5f\x76\x61\154\x69\144\141\164\151\x6f\x6e\x5f\x6f\154\x64\137\160\x61\x73\163\x77\157\162\144\x5f\154\141\x62\145\154"), "\162\x65\161\165\151\x72\145\x64"); goto Md7I3; GbL4o: $deleted = $this->ion_auth->delete_user((int) $user_guru->id); goto rDDmy; TP7kM: $id_user = $this->ion_auth->register($username, $password, $email, $additional_data, $group); goto o9E1z; fZjmL: $this->db->set("\x69\144\137\x75\x73\x65\162", $id_user); goto X1m1e; fEfWo: $this->form_validation->set_rules("\156\145\x77\137\143\x6f\x6e\146\x69\x72\155", $this->lang->line("\x63\150\x61\x6e\x67\x65\137\160\x61\163\163\167\157\162\144\x5f\x76\141\154\151\144\141\x74\151\x6f\x6e\137\x6e\145\x77\x5f\x70\x61\163\x73\167\157\162\x64\x5f\143\x6f\156\x66\x69\x72\x6d\137\154\x61\142\145\154"), "\162\x65\x71\165\151\162\145\144"); goto kLqG8; sHE57: if ($this->form_validation->run() === FALSE) { goto AisyP; } goto IkF6c; lpwvT: $deleted = true; goto Qvfm3; o9E1z: $this->db->set("\165\x73\x65\162\156\141\155\145", $username); goto xUxFD; pP0OW: $data["\163\164\x61\164\165\x73"] = $status; goto xWOmZ; pyRx2: kMx9U: goto uAoee; jI8k0: goto g4DR6; goto qnsjd; Owa3k: $msg = $status ? "\125\160\x64\x61\164\x65\x20\x62\145\162\150\x61\x73\x69\154" : "\107\x61\147\x61\x6c\x20\x6d\145\156\x67\x67\141\156\x74\x69\x20\x75\x73\145\162\x6e\x61\x6d\145\x2f\160\x61\163\163\x73\167\x6f\162\144"; goto ZGZqJ; l4jCo: DK0L8: goto TP7kM; Thc0a: $group = array("\x32"); goto sL3Na; Qvfm3: if (!($user_guru != null)) { goto gCysJ; } goto GbL4o; k96Ub: $status = $this->db->update("\155\x61\163\164\145\x72\137\147\165\162\x75"); goto Owa3k; ZGZqJ: Nc6_k: goto pP0OW; r8b6X: $msg = "\107\141\x67\x61\x6c\x20\155\145\156\x67\147\x61\x6e\164\x69\40\x75\x73\x65\x72\156\x61\x6d\145\57\160\141\x73\x73\x73\x77\x6f\162\144"; goto fRaL2; sL3Na: $user_guru = $this->db->get_where("\x75\163\x65\x72\x73", "\145\155\x61\x69\x6c\x3d\42" . $email . "\x22")->row(); goto lpwvT; ki2SO: $username = trim($username); goto p2LZH; p2LZH: $password = trim($pass); goto QlTx2; QlTx2: $email = strtolower($username) . "\100\147\x75\162\165\x2e\x63\157\x6d"; goto kd2N2; G42PG: $this->output_json($data); goto VlOxJ; e14Hg: $first_name = $nama[0]; goto N4lrc; qnsjd: AisyP: goto EkWKk; M3tBX: $guru_lain = $this->master->getUserIdGuruByUsername($username); goto F2Yii; kLqG8: if ($guru_lain && $guru_lain->id_guru != $id_guru) { goto kMx9U; } goto sHE57; kd2N2: $additional_data = ["\146\151\162\163\164\x5f\156\x61\155\x65" => $first_name, "\x6c\141\x73\x74\x5f\156\x61\x6d\x65" => $last_name]; goto Thc0a; EkWKk: $data = ["\163\164\x61\x74\x75\163" => false, "\x65\x72\162\157\x72\x73" => ["\157\154\144" => form_error("\157\154\144"), "\x6e\x65\167" => form_error("\156\x65\167"), "\x6e\145\167\x5f\143\157\x6e\146\151\162\x6d" => form_error("\x6e\x65\x77\x5f\x63\x6f\156\x66\x69\x72\x6d")]]; goto I08bU; rDDmy: gCysJ: goto S5UWe; VlOxJ: } function buangspasi($teks) { goto ISrni; A5wwS: vqzAt: goto vT61G; v96Q2: $remove[] = "\x20"; goto cm2Mt; sh7zt: return $hasil; goto QyLGj; ISrni: $teks = trim($teks); goto YQSrl; JlGg1: $remove[] = "\47"; goto Vjt1j; cm2Mt: $hasil = str_replace($remove, '', $teks); goto beaw8; eCwZK: J5T9E: goto sh7zt; YQSrl: $hasil = $teks; goto A5wwS; vT61G: if (!strpos($teks, "\x20")) { goto J5T9E; } goto JlGg1; beaw8: goto vqzAt; goto eCwZK; Vjt1j: $remove[] = "\56"; goto v96Q2; QyLGj: } private function registerGuru($username, $password, $email, $additional_data, $group) { goto EKNrn; b1X0t: $data["\151\x64"] = $reg; goto NHJPu; EKNrn: $reg = $this->ion_auth->register($username, $password, $email, $additional_data, $group); goto tURfh; cYkY_: return $data; goto sAvTU; GfZAV: $data["\163\x74\x61\x74\x75\163"] = false; goto nisN1; NHJPu: if (!($reg == false)) { goto V4cKA; } goto GfZAV; tURfh: $data["\x73\x74\141\x74\x75\x73"] = true; goto b1X0t; nisN1: V4cKA: goto cYkY_; sAvTU: } public function reset_login() { goto GPdah; GPdah: $username = $this->input->get("\x75\163\x65\162\156\x61\x6d\145", true); goto UPIrC; dt8GV: $data = ["\163\164\x61\x74\x75\x73" => false, "\155\x73\147" => "\131\157\165\40\155\x75\x73\x74\40\x62\x65\x20\141\156\40\x61\x64\155\151\x6e\151\x73\x74\162\141\x74\157\x72\40\164\157\x20\x76\x69\x65\167\x20\164\x68\x69\163\40\160\x61\x67\145\56"]; goto GMmZr; smHkQ: $this->output_json($data, true); goto q_dWx; tXo4k: if ($this->db->delete("\x6c\x6f\x67\x69\156\137\x61\164\164\x65\x6d\x70\x74\163")) { goto aCPFR; } goto LYQRq; UPIrC: if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) { goto jyH09; } goto pzcuA; FAZOT: goto tw2iu; goto cuixk; pzcuA: $this->db->where("\x6c\x6f\x67\x69\x6e", $username); goto tXo4k; cuixk: aCPFR: goto OG7Wj; IUsdR: tw2iu: goto J7XxR; J7XxR: goto ufuyM; goto Jg23f; GMmZr: ufuyM: goto smHkQ; LYQRq: $data = ["\x73\x74\x61\x74\x75\x73" => false, "\155\x73\147" => "\x20\x67\141\x67\141\x6c\x20\144\x69\x72\145\x73\x65\164"]; goto FAZOT; Jg23f: jyH09: goto dt8GV; OG7Wj: $data = ["\x73\164\141\x74\x75\163" => true, "\155\x73\147" => "\40\x62\145\x72\150\141\x73\151\154\x20\144\x69\162\x65\163\145\x74"]; goto IUsdR; q_dWx: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Userguru extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto lCgJb;
+        }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto zNkS0;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        zNkS0:
+        lCgJb:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Users_model", "users");
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto yUma1;
+        }
+        $data = json_encode($data);
+        yUma1:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function data()
+    {
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $this->output_json($this->users->getUserGuru($tp->id_tp, $smt->id_smt), false);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $group = $this->ion_auth->get_users_groups($user->id)->row()->name;
+        $data = ["user" => $user, "judul" => "User Management", "subjudul" => "Data User Guru", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
+        if ($group === "admin") {
+            $data["tp"] = $this->dashboard->getTahun();
+            $data["tp_active"] = $this->dashboard->getTahunActive();
+            $data["smt"] = $this->dashboard->getSemester();
+            $data["smt_active"] = $this->dashboard->getSemesterActive();
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("users/guru/data");
+            $this->load->view("_templates/dashboard/_footer");
+            goto j9ZeI;
+        }
+        $id = $this->users->getGuruByUsername($user->username);
+        $this->edit($id->id_guru);
+        j9ZeI:
+    }
+    public function activate($id)
+    {
+        $guru = $this->users->getDataGuru($id);
+        $nama = explode(" ", $guru->nama_guru);
+        $first_name = $nama[0];
+        $last_name = count($nama) > 2 ? $nama[1] : end($nama);
+        $username = trim($guru->username);
+        $password = trim($guru->password);
+        $email = strtolower($guru->username) . "@guru.com";
+        $additional_data = ["first_name" => $first_name, "last_name" => $last_name];
+        $group = array("2");
+        if ($this->ion_auth->username_check($username)) {
+            $data = ["status" => false, "msg" => "Username " . $username . " tidak tersedia (sudah digunakan)."];
+            goto QPlIr;
+        }
+        if ($this->ion_auth->email_check($email)) {
+            $data = ["status" => false, "msg" => "Username " . $email . " tidak tersedia (sudah digunakan)."];
+            goto OINRc;
+        }
+        $id_user = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+        $data = ["status" => true, "msg" => "Akun " . $guru->nama_guru . " diaktifkan."];
+        $this->db->set("id_user", $id_user);
+        $this->db->where("id_guru", $id);
+        $this->db->update("master_guru");
+        OINRc:
+        QPlIr:
+        $data["pass"] = $password;
+        $this->output_json($data);
+    }
+    public function deactivate($id = NULL)
+    {
+        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+            $data = ["status" => false, "msg" => "You must be an administrator to view this page."];
+            goto mN066;
+        }
+        $id = (int) $id;
+        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+            $deleted = $this->ion_auth->delete_user($id);
+            $data = ["status" => $deleted, "msg" => "telah dinonaktifkan."];
+            goto G2uHp;
+        }
+        $data = ["status" => false, "msg" => "Anda bukan admin."];
+        G2uHp:
+        mN066:
+        $this->output_json($data);
+    }
+    public function aktifkanSemua()
+    {
+        $guruAktif = $this->users->getGuruAktif();
+        $jum = 0;
+        foreach ($guruAktif as $guru) {
+            if ($guru->aktif > 0) {
+                goto LgDYd;
+            }
+            $this->activate($guru->id_guru);
+            $jum += 1;
+            LgDYd:
+        }
+        $data = ["status" => true, "jumlah" => $jum, "msg" => $jum . " Guru diaktifkan."];
+        $this->output_json($data);
+    }
+    public function nonaktifkanSemua()
+    {
+        $guruAktif = $this->users->getGuruAktif();
+        $jum = 0;
+        foreach ($guruAktif as $guru) {
+            if ($guru->aktif > 0) {
+                $del = $this->deactivate($guru->id, '');
+                $this->output_json($del);
+                $jum += 1;
+                goto ZC2wH;
+            }
+            ZC2wH:
+        }
+        $data = ["status" => true, "jumlah" => $jum, "msg" => $jum . " Guru dinonaktifkan."];
+        $this->output_json($data);
+    }
+    public function edit($id)
+    {
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $guru = $this->users->getDetailGuru($id);
+        $users = $this->users->getUsers($guru->username);
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "User Management", "subjudul" => "Edit Data User", "setting" => $this->dashboard->getSetting()];
+        $data["users"] = $users;
+        $data["guru"] = $guru;
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $group = $this->ion_auth->get_users_groups($user->id)->row()->name;
+        if ($group === "admin") {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $data["groups"] = $this->ion_auth->groups()->result();
+            $data["kelass"] = $this->users->getKelas($tp->id_tp, $smt->id_smt);
+            $data["mapels"] = $this->users->getMapel();
+            $data["levels"] = $this->users->getLevelGuru();
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("users/guru/edit");
+            $this->load->view("_templates/dashboard/_footer");
+            goto kfxTk;
+        }
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("users/guru/edit");
+        $this->load->view("members/guru/templates/footer");
+        kfxTk:
+    }
+    public function editLogin()
+    {
+        $id_guru = $this->input->post("id_guru", true);
+        $username = $this->input->post("username", true);
+        $pass = $this->input->post("new", true);
+        $guru_lain = $this->master->getUserIdGuruByUsername($username);
+        $this->form_validation->set_rules("old", $this->lang->line("change_password_validation_old_password_label"), "required");
+        $this->form_validation->set_rules("new", $this->lang->line("change_password_validation_new_password_label"), "required|min_length[" . $this->config->item("min_password_length", "ion_auth") . "]|matches[new_confirm]");
+        $this->form_validation->set_rules("new_confirm", $this->lang->line("change_password_validation_new_password_confirm_label"), "required");
+        if ($guru_lain && $guru_lain->id_guru != $id_guru) {
+            $data = ["status" => false, "errors" => ["username" => "Username sudah digunakan"]];
+            goto g4DR6;
+        }
+        if ($this->form_validation->run() === FALSE) {
+            $data = ["status" => false, "errors" => ["old" => form_error("old"), "new" => form_error("new"), "new_confirm" => form_error("new_confirm")]];
+            goto I08bU;
+        }
+        $guru = $this->db->get_where("master_guru", "id_guru=\"" . $id_guru . "\"")->row();
+        $nama = explode(" ", $guru->nama_guru);
+        $first_name = $nama[0];
+        $last_name = end($nama);
+        $username = trim($username);
+        $password = trim($pass);
+        $email = strtolower($username) . "@guru.com";
+        $additional_data = ["first_name" => $first_name, "last_name" => $last_name];
+        $group = array("2");
+        $user_guru = $this->db->get_where("users", "email=\"" . $email . "\"")->row();
+        $deleted = true;
+        if (!($user_guru != null)) {
+            goto gCysJ;
+        }
+        $deleted = $this->ion_auth->delete_user((int) $user_guru->id);
+        gCysJ:
+        if ($deleted) {
+            $id_user = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+            $this->db->set("username", $username);
+            $this->db->set("password", $password);
+            $this->db->set("id_user", $id_user);
+            $this->db->where("id_guru", $id_guru);
+            $status = $this->db->update("master_guru");
+            $msg = $status ? "Update berhasil" : "Gagal mengganti username/passsword";
+            goto ZGZqJ;
+        }
+        $status = false;
+        $msg = "Gagal mengganti username/passsword";
+        ZGZqJ:
+        $data["status"] = $status;
+        $data["text"] = $msg;
+        I08bU:
+        g4DR6:
+        $this->output_json($data);
+    }
+    function buangspasi($teks)
+    {
+        $teks = trim($teks);
+        $hasil = $teks;
+        vqzAt:
+        if (!strpos($teks, " ")) {
+            return $hasil;
+        }
+        $remove[] = "'";
+        $remove[] = ".";
+        $remove[] = " ";
+        $hasil = str_replace($remove, '', $teks);
+        goto vqzAt;
+    }
+    private function registerGuru($username, $password, $email, $additional_data, $group)
+    {
+        $reg = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+        $data["status"] = true;
+        $data["id"] = $reg;
+        if (!($reg == false)) {
+            goto V4cKA;
+        }
+        $data["status"] = false;
+        V4cKA:
+        return $data;
+    }
+    public function reset_login()
+    {
+        $username = $this->input->get("username", true);
+        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+            $data = ["status" => false, "msg" => "You must be an administrator to view this page."];
+            goto GMmZr;
+        }
+        $this->db->where("login", $username);
+        if ($this->db->delete("login_attempts")) {
+            $data = ["status" => true, "msg" => " berhasil direset"];
+            goto IUsdR;
+        }
+        $data = ["status" => false, "msg" => " gagal direset"];
+        IUsdR:
+        GMmZr:
+        $this->output_json($data, true);
+    }
+}

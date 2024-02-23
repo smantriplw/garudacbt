@@ -1,7 +1,790 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Bukurapor extends CI_Controller { public function __construct() { goto vySz_; KWUy4: goto b_Qma; goto iZ08j; dmelt: if (!$this->ion_auth->logged_in()) { goto zGvPk; } goto e_Wns; Iv4df: $this->load->library(["\144\141\x74\141\x74\141\x62\154\x65\x73", "\146\157\x72\155\137\x76\x61\x6c\151\x64\141\x74\151\x6f\x6e"]); goto wE77Z; iZ08j: zGvPk: goto NlQxg; NlQxg: redirect("\x61\165\x74\x68"); goto ATcMo; LaT4l: show_error("\x48\x61\x6e\x79\x61\x20\101\144\155\x69\x6e\151\163\164\x72\x61\164\157\x72\x20\171\x61\156\x67\x20\x64\x69\x62\145\x72\151\40\150\x61\x6b\x20\165\x6e\164\165\153\x20\155\145\156\147\141\x6b\163\145\x73\40\150\x61\x6c\141\155\x61\x6e\x20\151\x6e\x69\54\40\74\x61\x20\150\x72\x65\146\x3d\42" . base_url("\144\x61\x73\x68\142\x6f\141\162\x64") . "\42\x3e\x4b\x65\155\142\141\x6c\x69\40\153\x65\40\x6d\x65\x6e\x75\x20\141\167\141\x6c\74\x2f\x61\x3e", 403, "\101\x6b\163\x65\x73\40\124\x65\162\154\141\162\x61\156\x67"); goto GhTvd; GhTvd: JRUq5: goto KWUy4; ATcMo: b_Qma: goto Iv4df; wE77Z: $this->form_validation->set_error_delimiters('', ''); goto jakJJ; e_Wns: if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("\147\165\x72\165"))) { goto JRUq5; } goto LaT4l; vySz_: parent::__construct(); goto dmelt; jakJJ: } public function output_json($data, $encode = true) { goto P4h9X; I89P3: $this->output->set_content_type("\141\160\160\154\x69\143\x61\x74\151\x6f\156\x2f\x6a\163\157\156")->set_output($data); goto K5GDJ; nizQy: OrF07: goto I89P3; P4h9X: if (!$encode) { goto OrF07; } goto wRbNf; wRbNf: $data = json_encode($data); goto nizQy; K5GDJ: } public function index() { goto jA1A0; NKLu0: $data["\163\151\x73\167\141\x73"] = $siswas; goto e52Ue; j4i6C: $total = $this->dashboard->total("\142\165\153\x75\x5f\156\x69\154\141\151"); goto ihQ9Z; KmCOj: $data["\162\141\160\157\162"] = $settingRapor; goto tSVHu; uI4Ug: if (count($nilai_sikap) > 0) { goto jzwRs; } goto WGhAS; mepOJ: $data["\x73\x6d\x74\137\141\143\164\x69\x76\x65"] = $this->dashboard->getSemesterActive(); goto JoOo0; jA1A0: $this->load->model("\x44\x61\163\150\142\157\141\162\x64\x5f\x6d\x6f\x64\145\x6c", "\x64\x61\x73\x68\x62\x6f\x61\x72\144"); goto jrFub; N4nQL: $data["\164\160\137\156\x61\x6d\x65"] = $id_tp != null ? $this->dashboard->getTahunById($id_tp) : null; goto Px1kA; anQG1: sPE2n: goto uxe3H; ihQ9Z: if (!($total > 0)) { goto MRcIH; } goto f2nkI; fyTFU: goto mGKxC; goto JmG6r; teHHz: $data["\x6e\x69\154\x61\x69\x5f\162\141\160\157\x72"] = $nilai_rapor; goto vvaK_; QbmoQ: KEjVo: goto EYbXj; Kzyjb: $data["\x61\142\x73\145\156\x73\151"] = $absensi; goto Tvkvh; f2nkI: $this->restoreNilai(); goto QrkXz; QrkXz: MRcIH: goto kQb5W; QgVRh: $data["\x70\162\157\x66\151\x6c\145"] = $this->dashboard->getProfileAdmin($user->id); goto vzzlf; JaLBC: nk1oD: goto qcmCa; XB4um: if (!($kelas != null)) { goto m9ATZ; } goto q_pFp; nf8co: goto YKnFz; goto ZgwlX; qcmCa: $i++; goto otAdT; i_KyE: $mapels = []; goto XrFqd; DNWBM: $i = 0; goto okFTy; PUvZz: $kategori_mapel = $this->master->getKategoriKelompokMapel(); goto UF9jM; e2yGC: $this->load->view("\162\x61\x70\x6f\x72\x2f\141\x72\x73\x69\x70\162\x61\x70\157\x72"); goto Kd3s1; QjQXe: $data["\153\153\x6d"] = $kkm; goto KmCOj; fWDta: $this->load->view("\x6d\x65\155\x62\x65\x72\163\x2f\x67\165\x72\x75\57\x74\x65\155\160\x6c\141\164\x65\163\x2f\146\157\157\164\145\x72"); goto agHek; WMRJS: $nf = $this->rapor->getFisikKelas($id_kelas, $siswa->id_siswa, $id_tp, $id_smt); goto cFvXk; FfXab: if ($id_smt === "\x31") { goto qEmdv; } goto SWfi5; V0efk: HwdiO: goto SszpE; D_AVx: $this->load->model("\115\x61\x73\164\145\162\137\155\x6f\x64\x65\154", "\155\x61\163\x74\x65\162"); goto A7ELb; ZQjyO: $other = "\x32"; goto LmJvp; uxe3H: $data["\x67\x75\162\x75"] = $kelas == null ? '' : $this->dashboard->getDataGuruById($kelas->id_guru, $id_tp, $id_smt); goto slBhX; ZFXLN: $absensi[$id_siswa] = isset($catatans[$id_siswa]) ? $catatans[$id_siswa] : ["\156\x69\154\141\x69" => $dummyAbsen]; goto s1NG2; WGhAS: $sikap[$id_siswa][1] = ["\x64\145\163\153\x72\151\x70\163\x69" => '', "\x70\x72\x65\x64\151\153\141\164" => $dummySikap]; goto e9gt6; hGdMf: $tp_active = $this->dashboard->getTahunActive(); goto gL4mw; RjdR2: $fisik[$siswa->id_siswa] = $nf != null ? ["\153\x6f\156\144\x69\163\151" => unserialize($nf->kondisi), "\163\155\x74" . $nf->id_smt => ["\164\x69\x6e\147\147\151" => $nf->tinggi, "\142\145\162\141\x74" => $nf->berat], "\x73\x6d\x74" . $other => ["\x74\151\156\147\x67\x69" => $nf2 != null ? $nf2->tinggi : '', "\142\145\x72\x61\x74" => $nf2 != null ? $nf2->berat : '']] : $dummyFisik; goto J6pGR; UFyq3: m9ATZ: goto IhaOR; LmJvp: pyRca: goto Em0WD; XawYi: $setting = $this->dashboard->getSetting(); goto PchqS; agHek: goto WMEZS; goto anQG1; Lwo6A: EgWeL: goto Iykne; dIi3z: $id_smt = $this->input->get("\163\x6d\164", true); goto s4aEk; wTTG3: if ($this->ion_auth->is_admin()) { goto sPE2n; } goto h3jN8; Kd3s1: $this->load->view("\x5f\x74\x65\155\x70\x6c\x61\164\145\x73\x2f\x64\141\163\150\142\x6f\x61\x72\144\x2f\x5f\x66\157\157\164\145\x72"); goto kmA8R; hHnL4: $dummySikap = ["\160\x72\x65\x64\151\153\x61\164" => '']; goto uI4Ug; pnFqZ: bK44O: goto DNWBM; C5mNH: goto pyRca; goto sNHrj; z22Ev: $this->load->model("\113\x65\154\141\163\137\155\x6f\144\x65\154", "\153\145\x6c\x61\163"); goto X6fTw; SszpE: $dummyDesks = ["\x72\x61\x6e\153\x69\156\x67" => '', "\x72\141\x6e\153\137\144\x65\x73\153\x72\151\160\163\151" => '', "\160\x31" => '', "\160\61\x5f\x64\145\x73\153" => '', "\x70\62" => '', "\x70\x32\x5f\144\145\163\153" => '', "\x70\x33" => '', "\160\63\x5f\x64\145\163\153" => '']; goto fL2xc; pwtpo: $ekstras = $this->kelas->getKelasEkskul($id_kelas, $id_tp, $id_smt); goto UFyq3; okFTy: a84qx: goto m4Rm1; JlZS3: $data["\x73\x6d\164"] = $this->dashboard->getSemester(); goto mepOJ; SdfhL: goto BJCZh; goto QbmoQ; e52Ue: $data["\153\145\x6c\x61\163"] = $kelas != null ? $kelas->nama_kelas : ''; goto Kftk9; PgxEe: $kelases = $this->kelas->getAllKelas(); goto apmlj; v6KDS: cxlh6: goto tEqnY; LrDnc: $data["\x67\x75\162\165"] = $guru; goto GzdSw; qLpNw: $data["\x6b\145\x6c\x6f\x6d\x70\157\153\163"] = $kelompoks; goto lXbie; e94Tx: $nilai_rapor = $this->rapor->getNilaiRaporByKelas($id_kelas, $id_tp, $id_smt); goto ANG5w; ceW4Y: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp_active->id_tp, $smt_active->id_smt); goto EgIIf; u6l_u: $kkm = $this->rapor->getAllKkmRaporAkhir($id_kelas, $id_tp, $id_smt); goto nTACh; FSXEf: if (!$kelases) { goto cxlh6; } goto bzsmq; oh_qd: $data["\155\x61\160\145\154\x5f\145\153\x73\164\x72\141"] = $mapelEkstra; goto QjQXe; vzzlf: $this->load->view("\137\x74\145\155\x70\154\141\164\145\x73\x2f\x64\141\x73\150\x62\157\141\x72\x64\x2f\137\150\145\141\144\145\x72", $data); goto e2yGC; h3jN8: if ($id_tp != null && $id_smt != null) { goto LjRkl; } goto hGdMf; thv96: $siswas = $this->rapor->getDetailSiswa($id_kelas, $id_tp, $id_smt); goto PUvZz; IhaOR: $settingRapor = $this->rapor->getRaporSetting($id_tp, $id_smt); goto mgvIZ; ZgwlX: jzwRs: goto K1pMQ; fL2xc: $dummyAbsen = ["\163" => "\40\55\40", "\x69" => "\x20\55\x20", "\x61" => "\x20\x2d\40", "\163\x61\x72\141\x6e" => '']; goto V59e3; A7ELb: if (!$this->db->table_exists("\142\165\153\x75\x5f\156\x69\154\x61\151")) { goto KO9li; } goto j4i6C; oi42j: $id_siswa = $siswa->id_siswa; goto hHnL4; LXR01: $data["\x6b\x65\x6c\x61\x73\145\163"] = []; goto SdfhL; JmG6r: LjRkl: goto ybpBW; PchqS: $data = ["\x75\x73\145\162" => $user, "\152\165\x64\165\x6c" => "\113\x75\155\x70\165\x6c\x61\156\40\116\x69\x6c\141\x69\x20\x52\141\x70\x6f\x72", "\x73\165\x62\x6a\165\x64\x75\x6c" => "\116\151\154\141\x69\x20\x52\141\x70\157\162\40\123\151\x73\x77\x61", "\163\x65\164\x74\151\156\x67" => $setting]; goto PgxEe; Tvkvh: $data["\146\151\163\x69\x6b"] = $fisik; goto AQbzJ; sNHrj: qEmdv: goto ZQjyO; AQbzJ: $data["\156\151\154\141\151\x5f\145\153\x73\164\162\x61"] = $nilaiEkstra; goto oh_qd; jrFub: $this->load->model("\x52\x61\x70\157\x72\137\155\x6f\144\145\x6c", "\x72\141\160\x6f\162"); goto z22Ev; TZRGc: $fisik = []; goto z_LcU; afJW2: $data["\x6b\154\x73\x5f\x73\145\154\145\x63\x74\x65\x64"] = $id_kelas; goto N4nQL; jrYG8: $this->load->view("\155\x65\x6d\142\x65\162\x73\x2f\147\x75\x72\x75\57\x74\x65\155\x70\x6c\141\164\x65\163\x2f\150\145\141\144\x65\x72", $data); goto IfdiT; ANG5w: $prestasis = $this->rapor->getPrestasiByKelas($id_kelas, $id_tp, $id_smt); goto whYAi; zCbr0: $absensi = []; goto ARN6n; apmlj: $all_kls = []; goto FSXEf; K1pMQ: foreach ($nilai_sikap as $nls) { goto t4KYj; O0Q12: qo9PW: goto wpk0l; cu_bT: if (!($nls->id_siswa == $id_siswa && $nls->jenis == "\x32")) { goto ZEZaU; } goto RWBUw; zx5oG: jaYmW: goto cu_bT; t4KYj: if (!($nls->id_siswa == $id_siswa && $nls->jenis == "\61")) { goto jaYmW; } goto r4VXq; RWBUw: $sikap[$id_siswa][2] = ["\x64\145\x73\x6b\x72\151\x70\163\151" => $nls == null ? '' : $nls->deskripsi, "\160\x72\x65\x64\x69\153\x61\164" => $nls == null ? $dummySikap : unserialize($nls->nilai)]; goto UjVZc; r4VXq: $sikap[$id_siswa][1] = ["\x64\145\x73\153\162\x69\x70\163\151" => $nls == null ? '' : $nls->deskripsi, "\x70\x72\x65\x64\x69\x6b\x61\x74" => $nls == null ? $dummySikap : unserialize($nls->nilai)]; goto zx5oG; UjVZc: ZEZaU: goto O0Q12; wpk0l: } goto nLM7f; slBhX: if ($id_tp != null && $id_smt != null) { goto KEjVo; } goto LXR01; mgvIZ: $sikap = []; goto v0xn9; e9gt6: $sikap[$id_siswa][2] = ["\x64\x65\163\x6b\162\151\x70\163\x69" => '', "\x70\162\145\144\x69\153\x61\164" => $dummySikap]; goto nf8co; oZBu1: $data["\153\145\154\141\x73\145\x73"] = []; goto fyTFU; whYAi: $catatans = $this->rapor->getCatatanWaliByKelas($id_kelas, $id_tp, $id_smt); goto ACaeP; otAdT: goto a84qx; goto QCx8M; Em0WD: $nilai_sikap = $this->rapor->getNilaiSikapByKelas($id_kelas, $id_tp, $id_smt); goto e94Tx; IfdiT: $this->load->view("\162\141\160\x6f\x72\57\x61\162\163\x69\x70\x72\141\160\157\162"); goto fWDta; JoOo0: $data["\x74\160\137\x73\145\154\x65\x63\164\x65\144"] = $id_tp; goto cS0Wp; ARN6n: $mapelEkstra = []; goto Ekk4N; lXbie: $data["\163\151\x6b\x61\x70"] = $sikap; goto xJdvx; cFvXk: $nf2 = $this->rapor->getFisikKelas($id_kelas, $siswa->id_siswa, $id_tp, $other); goto RjdR2; nLM7f: FfTj0: goto Q7eMS; z_LcU: $desks = []; goto zCbr0; kskgB: BJCZh: goto ZmjJ0; kQb5W: KO9li: goto c9JUf; eJLZI: $data["\x74\x70\x5f\141\143\x74\151\x76\145"] = $this->dashboard->getTahunActive(); goto JlZS3; xJdvx: $data["\x6e\x69\x6c\x61\151"] = $nilai; goto teHHz; kldEI: $user = $this->ion_auth->user()->row(); goto XawYi; tSVHu: $data["\156\x61\x69\153"] = $this->rapor->getKenaikanRapor($id_kelas, $id_tp, $id_smt); goto wTTG3; V59e3: $desks[$id_siswa] = isset($prestasis[$id_siswa]) ? $prestasis[$id_siswa] : $dummyDesks; goto ZFXLN; QCx8M: XxviE: goto u6l_u; Q7eMS: YKnFz: goto HyUa9; UF9jM: $arrk = []; goto ipDY2; cS0Wp: $data["\163\x6d\164\137\x73\x65\154\x65\x63\x74\x65\144"] = $id_smt; goto afJW2; kmA8R: WMEZS: goto SZZa2; m4Rm1: if (!($i < count($siswas))) { goto XxviE; } goto a3Q3X; Iykne: $mapels = $this->master->getAllStatusMapel(empty($arrk) ? null : $arrk, isset($jurusan->mapel_peminatan) ? $jurusan->mapel_peminatan : null); goto pwtpo; o5Oxr: $kelompoks = $this->master->getKodeKelompokMapel(); goto thv96; EgIIf: $data["\x67\x75\x72\x75"] = $guru; goto oZBu1; c9JUf: $id_tp = $this->input->get("\x74\160", true); goto dIi3z; X6fTw: $this->load->model("\x44\x72\157\160\x64\x6f\167\x6e\x5f\x6d\157\x64\145\154", "\144\x72\x6f\160\x64\157\167\156"); goto D_AVx; gL4mw: $smt_active = $this->dashboard->getSemesterActive(); goto ceW4Y; ACaeP: foreach ($catatans as $catatan) { $catatan->nilai = unserialize($catatan->nilai); DxLcb: } goto pnFqZ; Px1kA: $data["\x73\155\x74\137\156\141\155\x65"] = $id_smt != null ? $this->dashboard->getSemesterById($id_smt) : null; goto NKLu0; ybpBW: $guru = $this->dashboard->getDataGuruByUserId($user->id, $id_tp, $id_smt); goto LrDnc; J6pGR: foreach ($ekstras as $ext) { goto eSLNV; VJ1Xy: QM8SZ: goto BsZjG; G5uHt: foreach ($arrEkstra as $ar) { goto jJsaV; rlrtb: if (!($id_ekstra != null)) { goto SORAa; } goto VU46p; hCuTH: $nilaiEkstra[$id_siswa][$id_ekstra] = $ne == null ? $dummyEkstra : $ne; goto eas0U; jJsaV: $id_ekstra = $ar->ekstra; goto tZhFf; eas0U: SORAa: goto Z2w3s; VU46p: $ne = $this->rapor->getEkstraKelas($id_ekstra, $siswa->id_siswa, $id_tp, $id_smt); goto hCuTH; Z2w3s: QHyAD: goto M4NE0; tZhFf: $mapelEkstra[$id_ekstra] = $this->kelas->getEkskulById($id_ekstra); goto rlrtb; M4NE0: } goto VJ1Xy; BsZjG: V0OOk: goto Un_qh; eSLNV: $dummyEkstra = ["\144\x65\x73\153\x72\151\160\x73\151" => '', "\156\x69\154\141\x69" => '', "\160\162\x65\144\x69\x6b\x61\x74" => '']; goto HIDTN; HIDTN: $arrEkstra = json_decode(json_encode(unserialize($ext->ekstra))); goto G5uHt; Un_qh: } goto RAuVf; RAuVf: b91eZ: goto JaLBC; XrFqd: $kelompoks = []; goto PnYTM; s1NG2: $dummyFisik = ["\153\x6f\x6e\144\151\163\x69" => ["\x74\x65\154\151\156\x67\x61" => '', "\x6d\141\164\141" => '', "\x67\x69\147\x69" => '', "\x6c\x61\151\x6e" => ''], "\163\x6d\x74" . $id_smt => ["\x74\x69\x6e\147\x67\x69" => '', "\142\x65\x72\141\x74" => '', "\164\x70" => $id_tp], "\x73\x6d\x74" . $other => ["\x74\151\156\147\x67\x69" => '', "\x62\x65\x72\141\x74" => '', "\x74\160" => $id_tp]]; goto WMRJS; GXpDs: mGKxC: goto A9b4F; SWfi5: $other = "\61"; goto C5mNH; GzdSw: $data["\153\145\x6c\x61\163\145\163"] = $this->dropdown->getAllKelasByArrayId($id_tp, $id_smt, $guru->wali_kelas); goto GXpDs; Ekk4N: $nilaiEkstra = []; goto FfXab; EYbXj: $data["\x6b\145\154\141\163\x65\x73"] = $this->dropdown->getAllKelas($id_tp, $id_smt); goto kskgB; PnYTM: $kelas = isset($all_kls[$id_tp]) && isset($all_kls[$id_tp][$id_smt]) && isset($all_kls[$id_tp][$id_smt][$id_kelas]) ? $all_kls[$id_tp][$id_smt][$id_kelas] : null; goto XB4um; ipDY2: foreach ($kategori_mapel as $kk => $km) { goto DeRJa; tx2Bg: BS9gC: goto fT05t; Dv0iU: array_push($arrk, $km->kode_kel_mapel); goto tx2Bg; fT05t: rJ1AN: goto wn8e5; DeRJa: if (in_array($km, $arrk)) { goto BS9gC; } goto Dv0iU; wn8e5: } goto Lwo6A; bzsmq: foreach ($kelases as $key => $row) { $all_kls[$row->id_tp][$row->id_smt][$row->id_kelas] = $row; YS24T: } goto Jogdw; Kftk9: $data["\154\166\x6c\x5f\x6b\145\154\x61\x73"] = $kelas != null ? $kelas->level_id : ''; goto ES35C; Jogdw: rTfe2: goto v6KDS; a3Q3X: $siswa = $siswas[$i]; goto oi42j; A9b4F: $data["\152\x61\142\141\164\x61\x6e"] = $this->master->getAllJabatanGuru($guru->id_guru); goto jrYG8; q_pFp: $jurusan = $this->kelas->getJurusanById($kelas->id_jurusan); goto o5Oxr; nTACh: $data["\x74\160"] = $this->dashboard->getTahun(); goto eJLZI; vvaK_: $data["\144\x65\163\153\162\151\x70\163\151"] = $desks; goto Kzyjb; s4aEk: $id_kelas = $this->input->get("\153\x6c\163", true); goto kldEI; ES35C: $data["\x6d\141\x70\x65\154\x73"] = $mapels; goto qLpNw; ZmjJ0: $data["\x6a\141\x62\x61\164\x61\x6e"] = null; goto QgVRh; tEqnY: $siswas = []; goto i_KyE; v0xn9: $nilai = []; goto TZRGc; HyUa9: foreach ($mapels as $mapel) { goto nvIjn; Fwb21: $key_mapel = array_search($mapel->id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt, array_column($nilai_rapor, "\151\144\137\156\151\x6c\141\151\137\x68\x61\x72\151\141\x6e")); goto doQnY; TQwQM: $nr = $nilai_rapor[$key_mapel]; goto wqfNz; nvIjn: $dummyNilai = ["\x70\x5f\x64\x65\x73\x6b\162\151\160\163\151" => '', "\153\x5f\162\x61\164\x61\x5f\162\x61\x74\141" => '', "\153\137\144\145\163\x6b\x72\151\160\163\x69" => '', "\153\x5f\160\x72\145\144\x69\x6b\x61\x74" => '', "\156\151\x6c\x61\151" => '', "\x70\162\145\144\x69\153\x61\164" => '']; goto Fwb21; doQnY: if (!($key_mapel !== false)) { goto xD84J; } goto TQwQM; n1_Z7: xD84J: goto RgBl8; wqfNz: $nilai[$id_siswa][$mapel->id_mapel] = $nr; goto n1_Z7; RgBl8: uhreq: goto rMXHQ; rMXHQ: } goto V0efk; SZZa2: } public function editNilaiRapor() { goto Qlfdu; ojIFi: $this->load->model("\x44\141\163\150\142\x6f\x61\x72\x64\137\x6d\x6f\x64\145\x6c", "\x64\141\163\x68\142\157\141\162\144"); goto qZ_tx; xLBi5: $this->load->view("\x5f\164\145\155\x70\x6c\x61\x74\x65\163\57\x64\x61\163\150\x62\x6f\x61\x72\x64\57\137\146\x6f\157\x74\145\162"); goto hcDFm; YJ7ht: if ($mode == "\x33") { goto jqdYn; } goto Buv1G; qiE8z: $tp = $this->dashboard->getTahunActive(); goto WbkYd; r4fqi: $data["\x73\155\164"] = $arrSmt; goto MYJ7d; LgHzy: jqdYn: goto ZoWzW; XOd8j: $data["\155\x6f\x64\x65"] = $mode; goto pfjQf; Wut5m: $data = ["\x75\x73\145\x72" => $user, "\x6a\x75\x64\x75\x6c" => "\102\x75\x6b\165\40\111\x6e\x64\x75\x6b", "\163\x75\x62\x6a\x75\144\x75\x6c" => "\x42\x75\153\x75\40\111\156\x64\x75\153", "\x73\145\x74\164\151\x6e\147" => $setting]; goto n82fF; ODPG9: $id_tp = $this->input->get("\x74\160", true); goto NxO2f; b85fK: pxgj9: goto d9b6X; oEAJf: if ($mode == "\x31") { goto pxgj9; } goto v0tta; H6JgT: $data["\145\170\164\x72\141"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt); goto BT0Ew; shUNt: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto aU2qk; ougYK: if ($this->ion_auth->is_admin()) { goto iFowz; } goto shUNt; BT0Ew: EQ3vr: goto ougYK; uuMnM: $data["\x73\151\163\x77\x61"] = $this->rapor->getDetailSiswaById($id_siswa, $id_tp, $id_smt); goto oEAJf; WbkYd: $smt = $this->dashboard->getSemesterActive(); goto Xg6sx; Buv1G: if ($mode == "\x34") { goto WRZDH; } goto tAYCj; IEFQC: iFowz: goto je2yv; RElhq: $data["\x70\x65\156\147\x65\x74\141\150\x75\141\x6e"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt); goto ECbL_; GY6aN: $data["\x74\x70\137\x61\x63\x74\x69\x76\x65"] = $tp; goto r4fqi; AYLuZ: $data["\164\x70"] = $arrTp; goto GY6aN; UMC0h: OsEBD: goto RElhq; DCFxW: $this->load->view("\162\x61\160\157\162\57\x65\x64\x69\x74\162\141\x70\x6f\x72"); goto xLBi5; yLgfF: $this->load->view("\x6d\x65\x6d\142\x65\162\163\x2f\x67\x75\162\165\57\x74\145\x6d\160\x6c\141\x74\x65\163\x2f\146\x6f\157\x74\x65\x72"); goto ScQ2k; je2yv: $data["\160\162\x6f\x66\x69\154\x65"] = $this->dashboard->getProfileAdmin($user->id); goto GCN4I; ZYylg: $this->load->view("\x6d\145\155\142\x65\162\x73\57\x67\x75\162\x75\x2f\164\145\155\160\154\141\164\145\163\x2f\150\x65\141\144\145\162", $data); goto LUF3M; Xg6sx: $id_siswa = $this->input->get("\x73\x69\x73\167\x61", true); goto ODPG9; Jfh9V: $setting = $this->dashboard->getSetting(); goto Wut5m; ScQ2k: goto nufAP; goto IEFQC; MYJ7d: $data["\163\155\164\x5f\141\143\164\151\166\145"] = $smt; goto uuMnM; lmtBf: $arrSmt = $this->dashboard->getSemester(); goto qiE8z; CtXN1: $data["\x74\160\137\163\x65\x6c"] = $id_tp != null ? $this->dashboard->getTahunById($id_tp) : null; goto iWjPr; LUF3M: $this->load->view("\x72\141\x70\x6f\162\57\145\144\x69\164\x72\141\160\157\162"); goto yLgfF; V3qil: $mode = $this->input->get("\155\157\x64\x65", true); goto CtXN1; UX4sr: WRZDH: goto H6JgT; iWjPr: $data["\x73\x6d\164\137\163\145\154"] = $id_smt != null ? $this->dashboard->getSemesterById($id_smt) : null; goto XOd8j; d9b6X: $data["\x73\x69\153\141\x70"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt); goto QmBB0; aU2qk: $data["\147\165\162\x75"] = $guru; goto ZYylg; NxO2f: $id_smt = $this->input->get("\x73\155\164", true); goto V3qil; Qlfdu: $this->load->model("\x52\x61\160\x6f\162\137\x6d\157\144\145\154", "\162\x61\x70\x6f\162"); goto ojIFi; pfjQf: $data["\151\x64\x5f\163\151\163\x77\141"] = $id_siswa; goto AYLuZ; n82fF: $arrTp = $this->dashboard->getTahun(); goto lmtBf; hcDFm: nufAP: goto Wvg31; gJnL3: goto EQ3vr; goto UX4sr; qZ_tx: $user = $this->ion_auth->user()->row(); goto Jfh9V; ECbL_: goto EQ3vr; goto LgHzy; v0tta: if ($mode == "\x32") { goto OsEBD; } goto YJ7ht; QmBB0: goto EQ3vr; goto UMC0h; GCN4I: $this->load->view("\x5f\x74\145\155\x70\154\x61\164\x65\163\57\x64\141\163\150\x62\x6f\141\162\144\57\x5f\150\x65\141\x64\x65\x72", $data); goto DCFxW; tAYCj: goto EQ3vr; goto b85fK; ZoWzW: $data["\x6b\x65\164\145\x72\141\x6d\160\x69\x6c\x61\156"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt); goto gJnL3; Wvg31: } public function getDataKelas() { goto Ss3sA; k4eC_: $id_kelas = $this->input->get("\153\154\x73", true); goto Xi_3j; yUaIw: $kelass = $this->dropdown->getAllKelasByArrayId($id_tp, $id_smt, [$id_kelas]); goto g3CMV; Ss3sA: $this->load->model("\x44\162\157\x70\144\x6f\167\156\x5f\x6d\x6f\144\145\154", "\x64\x72\157\160\144\x6f\x77\156"); goto Plrp1; eX1xS: $id_smt = $this->input->get("\x73\x6d\x74", true); goto k4eC_; EU3Oj: $id_tp = $this->input->get("\x74\160", true); goto eX1xS; GNcbO: $guru = $this->dashboard->getDataGuruByUserId($user->id, $id_tp, $id_smt); goto XrW_f; GI8Hi: haWG6: goto GAL2f; JlNnl: bTH_I: goto Kvi0Q; BbpGD: $this->load->model("\x44\141\163\150\x62\157\x61\x72\144\x5f\155\x6f\144\145\154", "\x64\141\163\150\x62\x6f\x61\162\x64"); goto LOMTD; m1Ax1: goto haWG6; goto JlNnl; g3CMV: $jabatan_guru = $this->master->getAllJabatanGuru($guru->id_guru); goto m1Ax1; XrW_f: $nguru[$guru->id_guru] = $guru->nama_guru; goto yUaIw; Gi2k0: $jabatan_guru = null; goto BbpGD; GAL2f: $this->output_json(["\x6b\145\154\141\x73" => $kelass, "\152\x61\x62\x61\x74\x61\x6e" => $jabatan_guru]); goto z4x7K; Kvi0Q: $kelass = $this->dropdown->getAllKelas($id_tp, $id_smt); goto GI8Hi; LOMTD: if ($this->ion_auth->is_admin()) { goto bTH_I; } goto GNcbO; Plrp1: $this->load->model("\x4d\141\163\164\145\162\x5f\155\x6f\x64\145\x6c", "\x6d\141\163\164\145\162"); goto EU3Oj; Xi_3j: $user = $this->ion_auth->user()->row(); goto Gi2k0; z4x7K: } public function backupNilai() { goto ziKRC; Ah5nT: $this->db->trans_start(); goto qjsVm; YbJMB: $res["\x69\x6e\x73\145\x72\x74"] = $insert; goto Q3Dpn; TamIm: $nilai_hpas = []; goto xXwn3; WUxKu: $this->load->model("\104\x61\163\x68\142\157\141\x72\144\137\155\x6f\144\x65\154", "\x64\141\163\150\x62\157\141\x72\x64"); goto bqpQv; IALM3: $nilai_ekstra = []; goto YmUTy; PhpcL: $nilai_extra = $this->rapor->getAllNilaiEkstra(); goto exTt6; VBZH0: $smts = $this->dashboard->getSemester(); goto lsWeS; BR5Lp: $kelas_ekstra = $this->rapor->getAllEkstra(); goto cDjhY; hY8bg: $this->db->trans_complete(); goto HlvMt; ZkREd: $this->output_json($res); goto Z_fgS; HOA71: $all_nilai = []; goto BR5Lp; urGi6: $ids_siswa = []; goto dRwWH; HoMgD: zARwC: goto Ah5nT; xXwn3: $nilai_nr = []; goto IALM3; B3U3U: FL2eW: goto Agyff; sPmS9: $res["\x61\x6c\154\x5f\156\151\x6c\x61\151"] = $all_nilai; goto YbJMB; XX0PN: ca0F0: goto hY8bg; HlvMt: $res["\156\x69\x6c\x61\x69\137\x65\x6b\163\x74\162\141"] = $mapels; goto sPmS9; ziKRC: $this->load->model("\x52\x61\x70\157\162\137\155\x6f\144\145\154", "\x72\141\x70\x6f\x72"); goto WUxKu; YmUTy: foreach ($nilai_rapor as $nilai) { goto uXbwu; zRj3g: $spiritual = isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][1]) ? $nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][1] : null; goto oMktH; gBn8M: if (!isset($rapor_fisik[$nilai->id_siswa])) { goto jGkVI; } goto t931u; oMktH: $sosial = isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][2]) ? $nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][2] : null; goto MtjsK; CK6h7: $kkm_mapel = isset($all_kkm[1]) && isset($all_kkm[1][$nilai->id_mapel]) ? $all_kkm[1][$nilai->id_mapel] : null; goto LYDPS; vqGz3: QGJXs: goto IPvhm; IZC_4: $nilai_ekstra = []; goto GiK49; br_8r: $sosial = null; goto tW4Un; t931u: $fisik[] = $rapor_fisik[$nilai->id_siswa][$nilai->id_tp][$nilai->id_smt]; goto v_W7S; mUDuL: if (!(isset($kkms[$nilai->id_tp]) && isset($kkms[$nilai->id_tp][$nilai->id_smt]) && isset($kkms[$nilai->id_tp][$nilai->id_smt][$nilai->id_kelas]))) { goto SfxFF; } goto x_2eJ; IPvhm: $spiritual = null; goto br_8r; VdVQX: $all_nilai[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa] = ["\165\151\144" => $nilai->uid, "\x69\144\137\163\151\163\167\x61" => $nilai->id_siswa, "\x74\x70" => $nilai->tahun, "\163\155\x74" => $nilai->nama_smt, "\153\x65\x6c\x61\163" => $nilai->nama_kelas, "\x6c\x65\166\145\x6c" => $nilai->level_id, "\x77\141\x6c\151\137\153\145\154\x61\x73" => $nilai->nama_guru, "\x6a\165\x72\x75\x73\141\x6e" => $nilai->nama_jurusan, "\x68\x70\x68" => serialize(isset($nilai_hph[$nilai->id_siswa]) ? $nilai_hph[$nilai->id_siswa] : []), "\150\160\164\163" => serialize(isset($nilai_hpts[$nilai->id_siswa]) ? $nilai_hpts[$nilai->id_siswa] : []), "\150\160\x61\x73" => serialize(isset($nilai_hpas[$nilai->id_siswa]) ? $nilai_hpas[$nilai->id_siswa] : []), "\x6e\x69\x6c\x61\x69\137\162\141\160\x6f\x72" => serialize(isset($nilai_nr[$nilai->id_siswa]) ? $nilai_nr[$nilai->id_siswa] : []), "\145\x6b\163\164\162\141" => serialize(isset($nilai_ekstra[$nilai->id_siswa]) ? $nilai_ekstra[$nilai->id_siswa] : ''), "\x73\160\162\x69\164\165\141\154" => $spiritual == null ? serialize([]) : serialize(["\x64\145\163\153" => $spiritual->deskripsi, "\156\151\154\141\x69" => unserialize($spiritual->nilai)["\160\x72\145\144\151\x6b\x61\x74"]]), "\x73\x6f\163\151\141\154" => $sosial == null ? serialize([]) : serialize(["\x64\145\163\x6b" => $sosial->deskripsi, "\156\x69\x6c\x61\151" => unserialize($sosial->nilai)["\160\162\x65\x64\x69\153\141\164"]]), "\162\141\156\153" => serialize(["\x72\x61\x6e\153" => $nilai->ranking, "\x73\141\162\141\156" => $nilai->rank_deskripsi]), "\x70\x72\x65\x73\164\x61\x73\x69" => serialize([["\156\151\x6c\x61\151" => $nilai->p1, "\x64\145\x73\153" => $nilai->p1_desk], ["\x6e\x69\x6c\141\x69" => $nilai->p2, "\x64\145\163\153" => $nilai->p2_desk], ["\156\151\154\x61\151" => $nilai->p3, "\x64\x65\x73\153" => $nilai->p3_desk]]), "\x61\x62\x73\x65\x6e" => $nilai->absen != null ? $nilai->absen : serialize([]), "\163\x61\x72\x61\156" => $nilai->saran != null ? $nilai->saran : "\x2d", "\x66\x69\163\x69\x6b" => serialize($fisik), "\156\x61\x69\153" => $nilai->naik != null ? $nilai->naik : "\x31", "\x73\145\x74\x74\151\x6e\x67\137\162\141\160\157\x72" => serialize((array) $setting_rapor[$nilai->id_tp][$nilai->id_smt]), "\163\x65\x74\x74\x69\x6e\147\137\155\141\x70\x65\x6c" => serialize((array) $mapels)]; goto bhhWz; tW4Un: if (!(isset($nilai_sikap[$nilai->id_tp]) && isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt]) && isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa]))) { goto xidUg; } goto zRj3g; vkYPE: foreach ($mapels as $mapel) { goto HBBFK; QdskS: $nilai_hpas[$nilai->id_siswa][] = ["\151\144\x5f\155\x61\x70\145\x6c" => $nilai->id_mapel, "\155\x61\x70\145\x6c" => $nilai->mapel, "\x6b\153\155" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "\x6e\x69\x6c\141\x69" => $nilai->nilai_pas]; goto pxmfg; HBBFK: if (!($mapel->id_mapel == $nilai->id_mapel)) { goto JALdv; } goto VV_lA; pxmfg: $nilai_nr[$nilai->id_siswa][] = ["\x69\144\x5f\155\x61\160\145\x6c" => $nilai->id_mapel, "\155\141\x70\x65\154" => $nilai->mapel, "\153\153\155" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "\156\151\154\x61\x69" => $nilai->nilai_rapor, "\x70\x72\145\x64" => $nilai->rapor_predikat]; goto CB15R; VV_lA: $nilai_hph[$nilai->id_siswa][] = ["\x69\x64\137\155\141\x70\x65\x6c" => $nilai->id_mapel, "\155\x61\x70\145\154" => $nilai->mapel, "\153\x6b\x6d" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "\160\x5f\156\151\154\x61\151" => $nilai->p_rata_rata, "\160\137\160\x72\145\x64" => $nilai->p_predikat, "\160\x5f\x64\145\163\153" => $nilai->p_deskripsi, "\x6b\x5f\156\x69\x6c\141\151" => $nilai->k_rata_rata, "\x6b\x5f\160\x72\145\x64" => $nilai->k_predikat, "\153\137\x64\x65\163\x6b" => $nilai->k_deskripsi]; goto VzjKY; VzjKY: $nilai_hpts[$nilai->id_siswa][] = ["\x69\144\137\155\x61\160\x65\154" => $nilai->id_mapel, "\155\x61\160\145\154" => $nilai->mapel, "\153\x6b\x6d" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "\x6e\151\x6c\141\x69" => $nilai->nilai_pts, "\160\x72\x65\x64" => $nilai->pts_predikat]; goto QdskS; CB15R: JALdv: goto Xg60U; Xg60U: WSyW8: goto mvM7i; mvM7i: } goto ULYW1; lLjmx: $all_kkm = []; goto mUDuL; MtjsK: xidUg: goto n12m8; GiK49: if (!(isset($nilai_extra[$nilai->id_tp]) && isset($nilai_extra[$nilai->id_tp][$nilai->id_smt]) && isset($nilai_extra[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa]))) { goto QGJXs; } goto be9Z0; bhhWz: PnVod: goto il5Mf; dPv30: OaJa5: goto vqGz3; tBaRb: $kkm_mapel = null; goto lLjmx; LYDPS: SfxFF: goto vkYPE; n12m8: $fisik = []; goto gBn8M; be9Z0: foreach ($nilai_extra[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa] as $ekstra) { goto R6xL8; Vd10L: $nilai_ekstra[$nilai->id_siswa][] = ["\155\x61\160\x65\x6c" => $ekstra->kode_ekstra, "\x69\x64\x5f\x65\153\163\x74\162\141" => $ekstra->id_ekstra, "\x6e\141\x6d\x61\x5f\x65\x6b\163\x74\x72\141" => $ekstra->nama_ekstra, "\x6b\x6b\x6d" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : $kkm_ekstra, "\156\151\x6c\x61\151" => $ekstra->nilai, "\x70\x72\145\144" => $ekstra->predikat, "\144\145\163\x6b" => $ekstra->deskripsi]; goto iYWtp; R6xL8: $kkm_ekstra = ''; goto goTYp; SProa: n0koo: goto Vd10L; goTYp: if (!(isset($all_kkm[2]) && isset($all_kkm[2][$ekstra->id_ekstra]))) { goto n0koo; } goto LxPBC; LxPBC: $kkm_ekstra = $all_kkm[2][$ekstra->id_ekstra]->kkm; goto SProa; iYWtp: fy7Up: goto WYnZF; WYnZF: } goto dPv30; ULYW1: LOFwO: goto IZC_4; uXbwu: $kkm_tunggal = $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm_tunggal == "\x31"; goto tBaRb; x_2eJ: $all_kkm = $kkms[$nilai->id_tp][$nilai->id_smt][$nilai->id_kelas]; goto CK6h7; v_W7S: jGkVI: goto VdVQX; il5Mf: } goto B3U3U; dRwWH: foreach ($tps as $tp) { goto b515Z; PVHOR: b_pGx: goto K3a3A; b515Z: foreach ($smts as $smt) { goto o3ErX; psAsd: foreach ($all_nilai[$tp->id_tp][$smt->id_smt] as $nilai) { goto Yi11_; wVAWe: $insert[] = $nilai; goto FfKet; LPOku: JaAeD: goto ATBv1; r5_0Y: if ($this->rapor->exists($nilai["\165\x69\x64"], $nilai["\x74\160"], $nilai["\x73\155\x74"], $nilai["\x6b\x65\154\141\163"])) { goto gLRqI; } goto wVAWe; Yi11_: $ids_siswa[$nilai["\x69\x64\x5f\163\151\163\167\141"]] = $nilai["\151\144\x5f\x73\151\163\x77\x61"]; goto r5_0Y; FfKet: gLRqI: goto LPOku; ATBv1: } goto JJr9A; JJr9A: xt3we: goto bXsns; o3ErX: if (!(isset($all_nilai[$tp->id_tp]) && isset($all_nilai[$tp->id_tp][$smt->id_smt]))) { goto eAyfW; } goto psAsd; bXsns: eAyfW: goto nLpmO; nLpmO: ghyxZ: goto NfwMj; NfwMj: } goto PVHOR; K3a3A: Yob28: goto Agixh; Agixh: } goto HoMgD; lsWeS: $gurus = $this->master->getAllWaliKelas(); goto mbvVx; bqpQv: $this->load->model("\115\x61\163\x74\145\162\x5f\x6d\x6f\144\x65\x6c", "\x6d\141\x73\x74\145\x72"); goto UUPZv; emGgo: $nilai_hph = []; goto xs0Am; DeNeQ: $nilai_rapor = $this->rapor->getAllNilaiRapor(); goto PhpcL; UUPZv: $setting = $this->dashboard->getSetting(); goto Nnaeg; Agyff: $insert = []; goto urGi6; mbvVx: $mapels = $this->master->getAllMapel(); goto HOA71; xs0Am: $nilai_hpts = []; goto TamIm; qjsVm: if (!(count($insert) > 0)) { goto ca0F0; } goto VI1mt; EwmCC: $rapor_fisik = $this->rapor->getAllFisik(); goto emGgo; Q3Dpn: $res["\151\144\163"] = $ids_siswa; goto ZkREd; Nnaeg: $tps = $this->dashboard->getTahun(); goto VBZH0; VI1mt: $this->db->insert_batch("\142\x75\153\x75\137\x6e\151\x6c\141\x69", $insert); goto FRgb4; exTt6: $nilai_sikap = $this->rapor->getAllNilaiSikap(); goto EwmCC; cDjhY: $setting_rapor = $this->rapor->getAllRaporSetting(); goto a_L3Z; a_L3Z: $kkms = $this->rapor->getAllKkm(); goto DeNeQ; FRgb4: $this->rapor->deleteNilaiRapor(); goto XX0PN; Z_fgS: } public function restoreNilai() { goto Ridgl; FUlV9: v15Ts: goto p6Fe7; d3KhN: $this->load->model("\x4d\x61\163\x74\x65\162\137\x6d\157\x64\x65\154", "\155\x61\163\x74\x65\162"); goto lF2eb; G3NGT: $hpas = []; goto A_dWQ; YaLoV: return $res; goto A9bFB; g7yWi: $this->load->model("\122\141\160\157\162\x5f\155\x6f\x64\x65\x6c", "\x72\141\160\x6f\162"); goto fxbjw; EN_oe: $this->db->trans_complete(); goto YaLoV; FjaWW: jpb4g: goto fXw8M; w7Wye: $ekstra = []; goto SjCYe; nW2rD: $absen = []; goto rrtCw; km3st: $hpts = []; goto G3NGT; uTnqK: if (!(count($hph_insert) > 0)) { goto q6EtD; } goto qnulL; O2zs9: v79B6: goto W560v; FXwQ_: if (!(count($spritual_insert) > 0)) { goto YhFpJ; } goto bh9hh; L8CDz: q6EtD: goto FXwQ_; fxbjw: $this->load->model("\113\x65\154\141\x73\x5f\x6d\157\x64\x65\x6c", "\153\x65\x6c\141\x73"); goto d3KhN; UsFUX: wRMMi: goto GiMOu; R3C7r: foreach ($siswas as $id => $siswa) { goto a2Qgd; xl8ee: foreach ($fisik[$tp->id_tp][$smt->id_smt][$id][$id_kelas] as $value) { $value->kondisi = unserialize($value->kondisi); Gx73_: } goto o2DeG; MWh_w: $hpts[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->hpts); goto JGCLa; QNYo2: $rank[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->rank); goto BMcjn; Voqtw: Xw7al: goto s0RmT; EXU0q: foreach ($kelass as $kelas) { goto F7rY3; F7rY3: if (!($kelas->id_tp == $tp->id_tp && $kelas->id_smt == $smt->id_smt && $kelas->nama_kelas == $siswa->kelas)) { goto ARH8k; } goto cDcp5; pmvMp: ARH8k: goto mWjXf; cDcp5: $id_kelas = $kelas->id_kelas; goto pmvMp; mWjXf: wCmO6: goto zmq5g; zmq5g: } goto Voqtw; J9Clq: F2PuQ: goto c0E9G; AspS8: $absen[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = ["\156\x69\x6c\141\x69" => $siswa->absen, "\x64\145\x73\x6b\x72\151\x70\x73\x69" => $siswa->saran]; goto Eb5Zl; o2DeG: xjrH7: goto J9Clq; JGCLa: $hpas[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->hpas); goto aSI7F; eY_7t: $tp = $tps[$index_tp]; goto eaVl7; Z4QXM: $smt = $smts[$index_smt]; goto fApsN; Eb5Zl: $fisik[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->fisik); goto xl8ee; s0RmT: $hph[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->hph); goto MWh_w; aSI7F: $nilai_rapor[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->nilai_rapor); goto b8HhW; xm5LH: $sosial[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->sosial); goto QNYo2; ME797: $spritual[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->spritual); goto xm5LH; b8HhW: $ekstra[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->ekstra); goto ME797; a2Qgd: $index_tp = array_search($siswa->tp, array_column($tps, "\x74\141\150\x75\156")); goto eY_7t; eaVl7: $index_smt = array_search($siswa->smt, array_column($smts, "\156\x61\155\141\x5f\x73\155\164")); goto Z4QXM; fApsN: $id_kelas = ''; goto EXU0q; BMcjn: $prestasi[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->prestasi); goto AspS8; c0E9G: } goto UsFUX; YNxLM: $absen_insert = []; goto w3ZqD; lF2eb: $tps = $this->dashboard->getTahun(); goto fvmet; bh9hh: $res += $this->db->insert_batch("\x72\141\160\x6f\162\137\x6e\x69\x6c\x61\x69\137\163\151\x6b\141\160", $spritual_insert); goto Wiert; jB1GJ: if (!(count($hpas_insert) > 0)) { goto jk_y0; } goto MiDI9; Kak2f: uKprX: goto jB1GJ; xfBC6: $res += $this->db->insert_batch("\162\141\x70\x6f\162\x5f\143\x61\164\141\x74\x61\x6e\x5f\167\141\x6c\x69", $absen_insert); goto MTI6C; oFRCC: $rank = []; goto OZCim; Wiert: YhFpJ: goto m4GJr; SjCYe: $spritual = []; goto gm8Dt; c9Zgd: $ekstra_insert = []; goto WqFRz; eaIoG: NEyqV: goto EN_oe; W560v: if (!$res) { goto NEyqV; } goto FCMvp; X7CTr: $mapels = $this->master->getAllMapel(); goto bwq5w; rrtCw: $fisik = []; goto R3C7r; v1aZC: foreach ($tps as $tp) { goto WCk11; fYiRw: OaXep: goto jf5Db; WCk11: foreach ($smts as $smt) { goto qEkmU; iUzc8: qfCQT: goto yiCzh; qEkmU: if (!(isset($hph[$tp->id_tp]) && isset($hph[$tp->id_tp][$smt->id_smt]))) { goto b5UDH; } goto gqeC7; P2XX3: if (!(isset($sosial[$tp->id_tp]) && isset($sosial[$tp->id_tp][$smt->id_smt]))) { goto uHqbF; } goto li23S; m5Gzd: DKwIg: goto yuu5j; hrrC0: if (!(isset($hpts[$tp->id_tp]) && isset($hpts[$tp->id_tp][$smt->id_smt]))) { goto VNHdo; } goto X1c3t; yuu5j: nxbWy: goto P2XX3; oFwQ4: j34mt: goto Xduq8; ydak1: rtHqa: goto N3OLE; X1c3t: foreach ($hpts[$tp->id_tp][$smt->id_smt] as $id => $pht) { goto jOttY; FXIbt: d15Oc: goto pUxAE; jOttY: foreach ($pht as $kls => $nilai) { goto lbcZx; Ehmf9: R0bIs: goto UEC3H; UEC3H: ZBUPK: goto sfu_a; lbcZx: foreach ($nilai as $ph) { goto dV1VK; Bwsw3: WHEcg: goto EMGcH; ZAs43: $hpts_insert[] = $vals; goto Bwsw3; dV1VK: $vals = ["\151\x64\137\x6e\151\154\x61\x69\137\160\x74\163" => $ph["\x69\144\x5f\x6d\x61\x70\x65\x6c"] . $kls . $id . $tp->id_tp . $smt->id_smt, "\151\144\x5f\163\x69\x73\x77\141" => $id, "\151\x64\x5f\155\141\160\145\x6c" => $ph["\x69\144\x5f\x6d\x61\160\x65\154"], "\151\x64\137\153\x65\x6c\141\163" => $kls, "\x69\x64\x5f\164\x70" => $tp->id_tp, "\151\x64\137\163\155\164" => $smt->id_smt, "\156\151\154\x61\x69" => $ph["\156\x69\x6c\141\x69"], "\x70\162\x65\x64\x69\x6b\x61\164" => $ph["\160\162\145\x64"]]; goto ZAs43; EMGcH: } goto Ehmf9; sfu_a: } goto l4aq7; l4aq7: o4qqK: goto FXIbt; pUxAE: } goto p4dna; yiCzh: if (!(isset($ekstra[$tp->id_tp]) && isset($ekstra[$tp->id_tp][$smt->id_smt]))) { goto YUCD6; } goto wqpVL; R_cdP: if (!(isset($rank[$tp->id_tp]) && isset($rank[$tp->id_tp][$smt->id_smt]))) { goto fo6jY; } goto b3_lq; aoQ0l: Xz4L8: goto iUzc8; dgX5H: MTKwN: goto oFwQ4; N3OLE: YUCD6: goto w3r01; p4dna: sObdV: goto Mz31a; gqeC7: foreach ($hph[$tp->id_tp][$smt->id_smt] as $id => $phs) { goto F0Nys; YaCQR: Hdd3z: goto U9jtG; U9jtG: leqCU: goto JNDet; F0Nys: foreach ($phs as $kls => $nilai) { goto SZ4R9; oZ_Hz: xe6tg: goto NxPMh; SZ4R9: foreach ($nilai as $ph) { goto dXxHY; zlmlB: $k_rata = (int) $ph["\153\137\156\151\x6c\141\151"]; goto uHNOL; DOg26: $hph_insert[] = $vals; goto gVDlw; dXxHY: $p_rata = (int) $ph["\160\x5f\156\151\x6c\x61\x69"]; goto zlmlB; uHNOL: $vals = ["\151\144\137\156\151\154\141\151\137\150\141\x72\x69\141\x6e" => $ph["\151\144\x5f\x6d\141\x70\x65\x6c"] . $kls . $id . $tp->id_tp . $smt->id_smt, "\x69\x64\x5f\163\151\163\167\x61" => $id, "\x69\x64\x5f\155\141\x70\x65\x6c" => $ph["\x69\144\x5f\x6d\x61\160\x65\154"], "\151\144\137\x6b\x65\154\141\163" => $kls, "\151\x64\137\x74\x70" => $tp->id_tp, "\151\x64\x5f\x73\155\x74" => $smt->id_smt, "\160\x5f\x72\141\x74\141\x5f\x72\141\x74\141" => $p_rata, "\x70\61" => $p_rata + 1, "\x70\x32" => $p_rata - 1, "\160\x33" => $p_rata, "\160\x34" => '', "\x70\65" => '', "\160\66" => '', "\160\67" => '', "\160\x38" => '', "\x70\x5f\x70\162\x65\x64\x69\153\141\x74" => $ph["\x70\x5f\x70\162\145\x64"], "\x70\x5f\144\145\163\x6b\162\x69\x70\163\151" => $ph["\x70\137\x64\145\163\x6b"], "\153\137\162\x61\164\x61\137\x72\x61\164\x61" => $k_rata, "\x6b\61" => $k_rata + 1, "\153\x32" => $k_rata - 1, "\x6b\x33" => $k_rata, "\x6b\64" => '', "\153\x35" => '', "\x6b\x36" => '', "\x6b\67" => '', "\153\70" => '', "\x6b\x5f\160\162\x65\x64\x69\153\x61\164" => $ph["\x6b\x5f\160\x72\x65\144"], "\x6b\137\144\145\x73\153\x72\x69\x70\x73\x69" => $ph["\x6b\x5f\x64\x65\x73\153"], "\152\155\x6c" => '']; goto DOg26; gVDlw: vCozw: goto AlnJ0; AlnJ0: } goto oZ_Hz; NxPMh: cHGHr: goto ib2VA; ib2VA: } goto YaCQR; JNDet: } goto ZW1FK; r6GTA: fo6jY: goto c4UlQ; Tnw09: DjNyK: goto r6GTA; ZW1FK: WbIlG: goto DYUKy; w3r01: if (!(isset($spritual[$tp->id_tp]) && isset($spritual[$tp->id_tp][$smt->id_smt]))) { goto nxbWy; } goto amZTy; Mz31a: VNHdo: goto UiOad; c4UlQ: if (!(isset($absen[$tp->id_tp]) && isset($absen[$tp->id_tp][$smt->id_smt]))) { goto MTKwN; } goto UKyU3; UKyU3: foreach ($absen[$tp->id_tp][$smt->id_smt] as $id => $pht) { goto DhpbB; DhpbB: foreach ($pht as $kls => $nilai) { goto IybAR; gmfrC: $absen_insert[] = $vals; goto af45S; af45S: fm4eC: goto off88; IybAR: $vals = ["\151\144\x5f\143\x61\164\x61\164\141\x6e\137\167\141\154\x69" => $kls . $id . $tp->id_tp . $smt->id_smt, "\x69\144\x5f\163\x69\163\x77\x61" => $id, "\x69\144\137\x6b\145\x6c\141\x73" => $kls, "\x69\x64\137\x74\x70" => $tp->id_tp, "\x69\x64\137\163\155\164" => $smt->id_smt, "\x6e\x69\154\141\151" => $nilai["\x6e\151\154\x61\x69"], "\x64\145\x73\153\162\x69\160\x73\x69" => $nilai["\144\x65\x73\153\162\151\x70\x73\x69"]]; goto gmfrC; off88: } goto KaOrr; azOYd: Nph5N: goto O0bfi; KaOrr: jBZAB: goto azOYd; O0bfi: } goto TQ7nU; amZTy: foreach ($spritual[$tp->id_tp][$smt->id_smt] as $id => $pht) { goto BqPtN; xD1bM: w1VUR: goto PvKob; pByxe: fqO0T: goto xD1bM; BqPtN: foreach ($pht as $kls => $nilai) { goto Uxdm3; Uxdm3: $vals = ["\151\144\137\x6e\x69\x6c\x61\x69\x5f\163\151\x6b\141\x70" => $kls . $id . $tp->id_tp . $smt->id_smt . "\x31", "\151\144\x5f\x73\x69\163\167\141" => $id, "\x69\144\x5f\x6b\x65\154\x61\163" => $kls, "\151\144\x5f\164\x70" => $tp->id_tp, "\151\144\x5f\163\155\x74" => $smt->id_smt, "\152\x65\156\x69\x73" => "\x31", "\x6e\151\x6c\141\x69" => serialize(["\160\162\145\x64\151\x6b\x61\x74" => $nilai["\x6e\x69\x6c\x61\x69"], "\x73\154\61" => '', "\x73\154\x32" => '', "\163\154\63" => '', "\x6d\x62\61" => '', "\x6d\x62\x32" => '', "\x6d\142\63" => '']), "\x64\x65\x73\x6b\x72\151\x70\163\x69" => $nilai["\x64\x65\163\153"]]; goto YUorG; YUorG: $spritual_insert[] = $vals; goto DGwtx; DGwtx: Se6lE: goto gRO8Q; gRO8Q: } goto pByxe; PvKob: } goto m5Gzd; E2Zvg: foreach ($hpas[$tp->id_tp][$smt->id_smt] as $id => $pha) { goto X4uuS; DNGaF: TzUEi: goto ZCGjO; X4uuS: foreach ($pha as $kls => $nilai) { goto dSfUc; KvZen: jLXuC: goto wdVcx; wdVcx: AzwoG: goto fVIAu; dSfUc: foreach ($nilai as $ph) { goto Wj2x4; v76tn: $index = array_search($ph["\151\x64\x5f\x6d\x61\160\145\154"], array_column($nr, "\x69\x64\x5f\x6d\x61\160\x65\154")); goto KBx0k; q4Aa5: yO0XR: goto pdW5R; zrIOZ: $vals = ["\151\x64\x5f\156\x69\x6c\141\151\x5f\141\x6b\x68\151\x72" => $ph["\151\144\137\x6d\x61\x70\145\x6c"] . $kls . $id . $tp->id_tp . $smt->id_smt, "\151\x64\137\x73\x69\x73\x77\x61" => $id, "\151\x64\x5f\x6d\x61\x70\145\x6c" => $ph["\151\144\137\155\141\x70\x65\154"], "\x69\144\137\153\x65\x6c\x61\x73" => $kls, "\151\144\137\164\160" => $tp->id_tp, "\x69\x64\137\x73\155\x74" => $smt->id_smt, "\156\x69\x6c\x61\x69" => $ph["\156\151\x6c\x61\x69"], "\x61\153\150\x69\x72" => $hnr["\156\151\154\x61\x69"], "\160\x72\145\x64\151\153\141\x74" => $hnr["\160\162\x65\x64"]]; goto GUe7Q; GUe7Q: $hpas_insert[] = $vals; goto q4Aa5; KBx0k: $hnr = $nr[$index]; goto zrIOZ; Wj2x4: $nr = $nilai_rapor[$tp->id_tp][$smt->id_smt][$id][$kls]; goto v76tn; pdW5R: } goto KvZen; fVIAu: } goto ZknIP; ZknIP: CyXGs: goto DNGaF; ZCGjO: } goto aoQ0l; DYUKy: b5UDH: goto hrrC0; UiOad: if (!(isset($hpas[$tp->id_tp]) && isset($hpas[$tp->id_tp][$smt->id_smt]))) { goto qfCQT; } goto E2Zvg; TQ7nU: KGBN6: goto dgX5H; li23S: foreach ($sosial[$tp->id_tp][$smt->id_smt] as $id => $pht) { goto TT0oE; KO7N7: pD0hz: goto J86l2; TT0oE: foreach ($pht as $kls => $nilai) { goto moXof; qqVEz: $sosial_insert[] = $vals; goto iPyYI; moXof: $vals = ["\x69\x64\137\x6e\151\x6c\x61\151\x5f\x73\x69\153\141\x70" => $kls . $id . $tp->id_tp . $smt->id_smt . "\62", "\x69\x64\x5f\163\x69\163\x77\141" => $id, "\x69\x64\x5f\x6b\145\x6c\141\x73" => $kls, "\x69\x64\x5f\x74\x70" => $tp->id_tp, "\x69\144\137\163\x6d\x74" => $smt->id_smt, "\x6a\x65\156\151\163" => "\x32", "\156\x69\154\x61\x69" => serialize(["\160\162\145\144\x69\x6b\x61\164" => $nilai["\156\x69\154\141\151"], "\x73\x6c\x31" => '', "\x73\154\62" => '', "\163\154\63" => '', "\x6d\142\x31" => '', "\155\142\62" => '', "\155\x62\x33" => '']), "\144\145\163\x6b\162\x69\x70\x73\151" => $nilai["\144\145\x73\153"]]; goto qqVEz; iPyYI: KniMF: goto R8AeS; R8AeS: } goto nnHP8; nnHP8: i3fIG: goto KO7N7; J86l2: } goto rm35o; b3_lq: foreach ($rank[$tp->id_tp][$smt->id_smt] as $id => $pht) { goto bwu2J; jatGh: KHp1r: goto a_Hbf; bwu2J: foreach ($pht as $kls => $nilai) { goto WuKmN; WuKmN: $prt = $prestasi[$tp->id_tp][$smt->id_smt][$id][$kls]; goto UbCx5; JD5lF: $rank_insert[] = $vals; goto kInwC; kInwC: bESYk: goto jLVx8; UbCx5: $vals = ["\151\x64\137\162\141\x6e\x6b\x69\x6e\x67" => $kls . $id . $tp->id_tp . $smt->id_smt, "\151\x64\x5f\x73\151\x73\167\x61" => $id, "\x69\x64\x5f\153\x65\154\141\x73" => $kls, "\151\144\x5f\x74\160" => $tp->id_tp, "\x69\x64\137\163\155\164" => $smt->id_smt, "\162\x61\156\x6b\151\x6e\x67" => $nilai["\x72\141\x6e\153"], "\144\x65\x73\153\162\151\160\163\x69" => $nilai["\x73\141\162\141\x6e"], "\160\x31" => $prt[0]["\x6e\x69\154\x61\x69"], "\160\x31\x5f\144\145\x73\153" => $prt[0]["\x64\x65\x73\x6b"], "\x70\x32" => $prt[1]["\x6e\x69\154\141\x69"], "\160\62\x5f\144\145\x73\x6b" => $prt[1]["\x64\145\x73\x6b"], "\x70\63" => $prt[2]["\156\x69\154\141\x69"], "\160\63\137\144\145\163\x6b" => $prt[2]["\144\x65\163\153"]]; goto JD5lF; jLVx8: } goto Q04Fs; Q04Fs: yF7HV: goto jatGh; a_Hbf: } goto Tnw09; QZRp1: uHqbF: goto R_cdP; rm35o: qGUVy: goto QZRp1; wqpVL: foreach ($ekstra[$tp->id_tp][$smt->id_smt] as $id => $pha) { goto JzMc1; JzMc1: foreach ($pha as $kls => $nilai) { goto tu3tF; BoCkw: eQD81: goto mv8oy; O7aiN: foreach ($nilai as $ph) { goto bL8jF; fEs1j: J6Pe8: goto lT5wx; g4MWt: $ekstra_insert[] = $vals; goto fEs1j; bL8jF: $vals = ["\151\x64\137\156\151\x6c\141\x69\x5f\145\x6b\163\164\x72\141" => $ph["\151\144\137\x65\x6b\163\x74\x72\x61"] . $kls . $id . $tp->id_tp . $smt->id_smt, "\x69\x64\137\x73\151\x73\167\141" => $id, "\151\x64\137\145\x6b\x73\164\162\141" => $ph["\151\x64\137\145\153\x73\164\x72\141"], "\151\144\137\x6b\x65\154\x61\163" => $kls, "\151\x64\137\x74\x70" => $tp->id_tp, "\x69\x64\137\163\x6d\164" => $smt->id_smt, "\x6e\x69\x6c\x61\151" => $ph["\x6e\x69\x6c\x61\151"], "\x70\x72\x65\x64\x69\153\141\164" => $ph["\160\x72\145\x64"], "\144\145\x73\153\162\x69\x70\x73\151" => $ph["\x64\145\x73\153"]]; goto g4MWt; lT5wx: } goto LiLfY; tu3tF: if (!($nilai != '')) { goto eQD81; } goto O7aiN; LiLfY: cKZzs: goto BoCkw; mv8oy: pr3MS: goto eU_Al; eU_Al: } goto S1h9y; MPHFk: yIIg4: goto KVsJP; S1h9y: breAg: goto MPHFk; KVsJP: } goto ydak1; Xduq8: } goto j3VGR; j3VGR: cj4oY: goto fYiRw; jf5Db: } goto FUlV9; ocBn7: $res += $this->db->insert_batch("\x72\141\160\x6f\162\x5f\x6e\x69\154\x61\x69\x5f\163\x69\x6b\x61\x70", $sosial_insert); goto O2zs9; IUwad: if (!(count($ekstra_insert) > 0)) { goto uKprX; } goto pIEQu; m4GJr: if (!(count($sosial_insert) > 0)) { goto v79B6; } goto ocBn7; JrVGL: $sosial_insert = []; goto jD0oQ; DyX01: $res += $this->db->insert_batch("\x72\141\160\x6f\x72\x5f\160\x72\x65\x73\x74\x61\163\151", $rank_insert); goto FjaWW; MiDI9: $res += $this->db->insert_batch("\162\x61\160\157\162\x5f\x6e\151\x6c\141\151\137\x61\153\150\151\162", $hpas_insert); goto MKOSA; A_dWQ: $nilai_rapor = []; goto w7Wye; dckZO: $res += $this->db->insert_batch("\x72\141\160\x6f\162\137\x6e\151\154\x61\151\137\160\x74\x73", $hpts_insert); goto J5Asf; WqFRz: $spritual_insert = []; goto JrVGL; fXw8M: if (!(count($absen_insert) > 0)) { goto ph799; } goto xfBC6; qnulL: $res += $this->db->insert_batch("\x72\141\x70\157\162\x5f\x6e\x69\x6c\141\x69\137\150\141\162\151\x61\156", $hph_insert); goto L8CDz; bwq5w: $siswas = $this->rapor->getDataKumpulanRapor(); goto RUJsi; GiMOu: $hph_insert = []; goto b4y6d; ONu2h: $hpas_insert = []; goto c9Zgd; u3_ZG: if (!(count($hpts_insert) > 0)) { goto O7Dzp; } goto dckZO; YSI0d: if (!(count($rank_insert) > 0)) { goto jpb4g; } goto DyX01; nXVmA: $hph = []; goto km3st; b4y6d: $hpts_insert = []; goto ONu2h; Ridgl: $this->load->model("\104\141\x73\150\x62\157\141\x72\x64\x5f\155\157\x64\145\154", "\x64\141\163\x68\x62\x6f\x61\162\144"); goto g7yWi; MTI6C: ph799: goto IUwad; jD0oQ: $rank_insert = []; goto YNxLM; pIEQu: $res += $this->db->insert_batch("\162\141\x70\157\x72\137\x6e\x69\x6c\141\151\137\x65\153\x73\x74\x72\141", $ekstra_insert); goto Kak2f; MKOSA: jk_y0: goto u3_ZG; gm8Dt: $sosial = []; goto oFRCC; OZCim: $prestasi = []; goto nW2rD; RUJsi: $kelass = $this->kelas->getAllKelas(); goto nXVmA; qt_lr: $gurus = $this->master->getAllWaliKelas(); goto X7CTr; J5Asf: O7Dzp: goto uTnqK; p6Fe7: $this->db->trans_start(); goto YvKSf; YvKSf: $res = 0; goto YSI0d; w3ZqD: $fisik_insert = []; goto v1aZC; fvmet: $smts = $this->dashboard->getSemester(); goto qt_lr; FCMvp: $this->db->empty_table("\142\x75\x6b\165\x5f\156\151\x6c\141\x69"); goto eaIoG; A9bFB: } public function edit() { goto fXcio; M2Lhd: $semester = $this->input->get("\163\x65\155\x65\x73\164\x65\162", true); goto S4sOK; OREBX: $this->load->view("\x5f\x74\145\155\x70\154\x61\164\145\x73\57\x64\x61\x73\x68\x62\x6f\141\x72\144\57\137\x68\145\141\x64\145\162", $data); goto BC1kk; QxFci: $data["\160\x72\157\x66\x69\x6c\x65"] = $this->dashboard->getProfileAdmin($user->id); goto OREBX; DMYWF: goto Mr1Kx; goto a9Z_P; TgF9P: foreach ($siswas as $siswa) { goto Lixgi; aMHLd: $siswa->fisik = unserialize($siswa->fisik); goto y01FR; NCDhQ: $siswa->absen = unserialize($siswa->absen); goto aMHLd; NBZ3v: $siswa->prestasi = unserialize($siswa->prestasi); goto NCDhQ; SxuV3: $siswa->hpas = unserialize($siswa->hpas); goto czbhf; Zysfq: $siswa->spritual = unserialize($siswa->spritual); goto sNk98; czbhf: $siswa->nilai_rapor = unserialize($siswa->nilai_rapor); goto eCZF4; vnrQQ: $siswa->setting_mapel = unserialize($siswa->setting_mapel); goto c9R3b; sNk98: $siswa->sosial = unserialize($siswa->sosial); goto rl41Y; JF3nZ: $siswa->setting_rapor = unserialize($siswa->setting_rapor); goto vnrQQ; rl41Y: $siswa->rank = unserialize($siswa->rank); goto NBZ3v; y01FR: foreach ($siswa->fisik as $value) { $value->kondisi = unserialize($value->kondisi); ksV8o: } goto XAUpA; eCZF4: $siswa->ekstra = unserialize($siswa->ekstra); goto Zysfq; XAUpA: gQN3B: goto JF3nZ; Lixgi: $siswa->hph = unserialize($siswa->hph); goto aGEDR; c9R3b: lhUJ1: goto sVsmL; aGEDR: $siswa->hpts = unserialize($siswa->hpts); goto SxuV3; sVsmL: } goto F0eK3; iaDF1: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto pu2u8; BC1kk: $this->load->view("\x73\x65\164\x74\151\156\147\x2f\144\x61\x74\x61\162\141\x70\x6f\x72"); goto irPOq; CFNaQ: $data = ["\165\163\x65\162" => $user, "\152\165\144\165\x6c" => "\x45\144\151\164\40\116\151\154\x61\x69", "\163\x75\142\152\x75\x64\x75\154" => "\116\151\154\141\151\40\x52\141\x70\x6f\x72\40\x4b\145\x6c\141\163\x20" . $kelas . "\x2c\x20\x54\120\x3a" . $tahun . "\54\40\123\x4d\x54\x3a" . $semester, "\163\x65\x74\164\151\x6e\x67" => $setting]; goto Qd0qj; A0L5U: $tahun = $this->input->get("\x74\x61\150\x75\x6e", true); goto M2Lhd; hPcTC: if ($this->ion_auth->is_admin()) { goto sApCn; } goto iaDF1; JR2fN: $data["\163\155\164"] = $this->dashboard->getSemester(); goto uMIqw; XQpB1: $this->load->view("\x6d\x65\x6d\142\x65\162\163\57\147\x75\x72\x75\x2f\x74\x65\155\x70\x6c\141\x74\x65\x73\57\150\x65\141\x64\x65\162", $data); goto JivbI; a9Z_P: sApCn: goto QxFci; wvlBt: $setting = $this->dashboard->getSetting(); goto CFNaQ; S4sOK: $user = $this->ion_auth->user()->row(); goto wvlBt; irPOq: $this->load->view("\x5f\164\x65\x6d\x70\154\141\164\145\163\57\144\x61\163\x68\x62\x6f\x61\162\x64\57\x5f\x66\x6f\157\x74\x65\162"); goto jftBs; fXcio: $this->load->model("\x44\x61\163\x68\x62\157\141\x72\x64\x5f\x6d\x6f\144\x65\154", "\144\141\163\x68\142\157\x61\x72\x64"); goto qJrFp; f4qTg: $siswas = $this->rapor->getDataKumpulanRapor($kelas, $tahun, $semester); goto TgF9P; jftBs: Mr1Kx: goto QVdDI; Qd0qj: $tp = $this->dashboard->getTahunActive(); goto H8i6Q; F0eK3: ADG9C: goto cnqzp; Z_s0n: $kelas = $this->input->get("\153\x65\x6c\141\163", true); goto A0L5U; pu2u8: $nguru[$guru->id_guru] = $guru->nama_guru; goto D_pNm; cnqzp: $data["\163\151\x73\167\141\163"] = $siswas; goto hPcTC; H8i6Q: $smt = $this->dashboard->getSemesterActive(); goto wGUJN; JivbI: $this->load->view("\x73\x65\x74\x74\151\x6e\147\57\x64\x61\x74\x61\162\141\160\157\162"); goto e3o97; D_pNm: $data["\x67\165\162\165"] = $guru; goto XQpB1; L9n1F: $data["\164\x70\x5f\x61\x63\164\151\x76\x65"] = $tp; goto JR2fN; e3o97: $this->load->view("\x6d\145\x6d\142\x65\x72\x73\57\147\x75\x72\x75\57\164\145\x6d\160\154\x61\164\145\x73\57\146\x6f\157\x74\145\162"); goto DMYWF; qJrFp: $this->load->model("\x52\x61\160\x6f\162\137\x6d\157\x64\145\154", "\x72\x61\x70\x6f\x72"); goto Z_s0n; wGUJN: $data["\x74\160"] = $this->dashboard->getTahun(); goto L9n1F; uMIqw: $data["\163\x6d\164\x5f\x61\x63\x74\x69\x76\x65"] = $smt; goto f4qTg; QVdDI: } public function ledger() { goto un87V; vOkV0: $data = ["\165\163\x65\x72" => $user, "\x6a\165\144\165\154" => "\105\144\x69\x74\40\x4e\x69\154\x61\151", "\x73\x75\x62\x6a\x75\144\x75\x6c" => "\x4e\x69\154\141\151\x20\x52\x61\x70\x6f\x72\40\113\x65\154\x61\x73\40" . $kelas . "\x2c\40\x54\120\x3a" . $tahun . "\54\40\x53\115\124\72" . $semester, "\163\145\164\164\x69\156\x67" => $setting]; goto i1SAx; p6Wka: $this->load->view("\x5f\164\x65\155\x70\154\x61\164\145\x73\57\144\141\163\150\x62\157\x61\162\x64\57\x5f\x66\157\x6f\164\x65\x72"); goto mVxE7; g1yCC: $data["\163\x6d\x74\137\x61\x63\x74\151\x76\x65"] = $smt; goto o72IJ; GWlKI: $this->load->view("\x6d\145\155\142\x65\162\x73\x2f\x67\165\x72\165\x2f\x74\x65\x6d\x70\x6c\141\164\145\163\x2f\x66\157\x6f\x74\145\162"); goto gmiua; biknK: foreach ($siswas as $siswa) { goto Z0jHL; K7c1K: $siswa->rank = unserialize($siswa->rank); goto KpfjJ; O68YQ: $siswa->hpas = unserialize($siswa->hpas); goto L5IH1; YxVoS: CM21x: goto R08OA; UsGhq: Mr0Tt: goto D3aTD; MbRj5: $siswa->hpts = unserialize($siswa->hpts); goto O68YQ; Z0jHL: $siswa->hph = unserialize($siswa->hph); goto MbRj5; R08OA: $siswa->setting_rapor = unserialize($siswa->setting_rapor); goto NmTzz; KpfjJ: $siswa->prestasi = unserialize($siswa->prestasi); goto L2voX; X1tFd: $siswa->fisik = unserialize($siswa->fisik); goto EFJL2; d0Kgz: $siswa->ekstra = unserialize($siswa->ekstra); goto HbiX3; sfYOi: $siswa->sosial = unserialize($siswa->sosial); goto K7c1K; NmTzz: $siswa->setting_mapel = unserialize($siswa->setting_mapel); goto UsGhq; EFJL2: foreach ($siswa->fisik as $value) { $value->kondisi = unserialize($value->kondisi); raGcE: } goto YxVoS; HbiX3: $siswa->spritual = unserialize($siswa->spritual); goto sfYOi; L5IH1: $siswa->nilai_rapor = unserialize($siswa->nilai_rapor); goto d0Kgz; L2voX: $siswa->absen = unserialize($siswa->absen); goto X1tFd; D3aTD: } goto ZVMm7; Dl8LA: $kelas = $this->input->get("\x6b\x65\154\141\x73", true); goto x0R9y; FVe1B: AO7KU: goto ifoJG; sxC2S: $data["\147\165\162\x75"] = $guru; goto z6_zk; JEHU5: $semester = $this->input->get("\x73\x65\155\x65\163\x74\145\x72", true); goto ICVVx; o72IJ: $siswas = $this->rapor->getDataKumpulanRapor($kelas, $tahun, $semester); goto biknK; YM0ul: $nguru[$guru->id_guru] = $guru->nama_guru; goto sxC2S; jdDVD: $data["\x73\155\x74"] = $this->dashboard->getSemester(); goto g1yCC; gmiua: goto KQTP_; goto FVe1B; ZVMm7: mc0WH: goto La5R9; nNCuP: $this->load->model("\122\x61\160\157\162\137\155\157\x64\145\154", "\x72\x61\160\157\162"); goto Dl8LA; ueOgM: $data["\164\160"] = $this->dashboard->getTahun(); goto A3OHd; i1SAx: $tp = $this->dashboard->getTahunActive(); goto gKsdS; oH2ec: $setting = $this->dashboard->getSetting(); goto vOkV0; z6_zk: $this->load->view("\x6d\x65\x6d\142\x65\x72\163\57\147\x75\x72\165\x2f\x74\x65\x6d\x70\x6c\x61\164\145\x73\x2f\150\145\x61\x64\145\x72", $data); goto jeckU; mVxE7: KQTP_: goto LeOy4; gKsdS: $smt = $this->dashboard->getSemesterActive(); goto ueOgM; ifoJG: $data["\x70\162\x6f\146\151\154\145"] = $this->dashboard->getProfileAdmin($user->id); goto DRyFk; ICVVx: $user = $this->ion_auth->user()->row(); goto oH2ec; jeckU: $this->load->view("\x73\x65\x74\164\x69\156\x67\x2f\x64\x61\164\x61\x72\141\160\x6f\x72"); goto GWlKI; A3OHd: $data["\164\160\x5f\141\143\164\151\166\x65"] = $tp; goto jdDVD; YGCcT: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto YM0ul; La5R9: $data["\x73\x69\x73\167\x61\x73"] = $siswas; goto YKqAP; YKqAP: if ($this->ion_auth->is_admin()) { goto AO7KU; } goto YGCcT; un87V: $this->load->model("\x44\141\x73\150\142\157\141\162\x64\x5f\155\157\x64\x65\x6c", "\144\x61\163\x68\x62\x6f\x61\x72\144"); goto nNCuP; DRyFk: $this->load->view("\137\x74\x65\155\x70\154\x61\x74\145\163\x2f\x64\141\163\x68\x62\157\x61\162\144\x2f\137\150\145\141\144\x65\x72", $data); goto eiUdC; eiUdC: $this->load->view("\163\x65\164\x74\151\156\147\57\x64\141\164\x61\x72\x61\160\x6f\162"); goto p6Wka; x0R9y: $tahun = $this->input->get("\164\141\x68\x75\156", true); goto JEHU5; LeOy4: } public function dkn() { goto YLWoC; vgQ7S: $data["\x67\165\x72\x75"] = $guru; goto TiUya; w9mNC: $siswas = $this->rapor->getDataKumpulanRapor($kelas, $tahun, $semester); goto MUIFS; b12rM: $tp = $this->dashboard->getTahunActive(); goto BN7AY; wGI5i: $data["\x74\x70\x5f\141\143\x74\151\166\145"] = $tp; goto vliYe; vmuM0: goto p8TSS; goto zrr0m; OpfIX: $data["\164\x70"] = $this->dashboard->getTahun(); goto wGI5i; MUIFS: foreach ($siswas as $siswa) { goto Z8xFo; Rlhzn: $siswa->prestasi = unserialize($siswa->prestasi); goto BQ0Zd; wDgQF: $siswa->fisik = unserialize($siswa->fisik); goto Fbcge; opRoe: $siswa->ekstra = unserialize($siswa->ekstra); goto tsGj8; CiIpW: $siswa->setting_mapel = unserialize($siswa->setting_mapel); goto Dt2yS; qUXTf: $siswa->nilai_rapor = unserialize($siswa->nilai_rapor); goto opRoe; c0_hQ: $siswa->sosial = unserialize($siswa->sosial); goto hmBrb; Dt2yS: qZP5r: goto twOne; vUuXC: $siswa->setting_rapor = unserialize($siswa->setting_rapor); goto CiIpW; hmBrb: $siswa->rank = unserialize($siswa->rank); goto Rlhzn; Z8xFo: $siswa->hph = unserialize($siswa->hph); goto l68Me; dIxR5: $siswa->hpas = unserialize($siswa->hpas); goto qUXTf; pZkqN: Mf_96: goto vUuXC; BQ0Zd: $siswa->absen = unserialize($siswa->absen); goto wDgQF; l68Me: $siswa->hpts = unserialize($siswa->hpts); goto dIxR5; tsGj8: $siswa->spritual = unserialize($siswa->spritual); goto c0_hQ; Fbcge: foreach ($siswa->fisik as $value) { $value->kondisi = unserialize($value->kondisi); pDPyi: } goto pZkqN; twOne: } goto Y49HP; vliYe: $data["\x73\155\x74"] = $this->dashboard->getSemester(); goto Y9L7M; zrr0m: Hktsp: goto YahjW; oc9Ov: p8TSS: goto qnXsa; YqRTk: $data["\163\x69\x73\x77\141\163"] = $siswas; goto rYBd9; BMjUr: $this->load->model("\122\x61\x70\157\162\137\x6d\157\x64\x65\x6c", "\x72\x61\x70\x6f\x72"); goto mxGVx; g8Njs: $user = $this->ion_auth->user()->row(); goto atmG2; HhNZC: $data = ["\165\163\145\162" => $user, "\x6a\165\x64\165\x6c" => "\105\x64\151\x74\x20\x4e\x69\x6c\x61\x69", "\163\x75\142\x6a\x75\144\165\154" => "\116\151\154\x61\x69\x20\x52\x61\x70\x6f\x72\40\113\x65\154\x61\163\40" . $kelas . "\54\40\124\x50\72" . $tahun . "\x2c\x20\123\x4d\124\72" . $semester, "\163\x65\164\x74\151\156\x67" => $setting]; goto b12rM; hXT_Y: $nguru[$guru->id_guru] = $guru->nama_guru; goto vgQ7S; YLWoC: $this->load->model("\x44\141\x73\150\x62\157\141\162\144\137\x6d\157\x64\145\x6c", "\x64\141\x73\x68\142\x6f\141\162\144"); goto BMjUr; E1r5U: $tahun = $this->input->get("\164\x61\150\x75\x6e", true); goto Wf4SN; TiUya: $this->load->view("\155\145\x6d\x62\x65\162\163\57\147\165\162\x75\57\x74\x65\x6d\x70\x6c\x61\x74\x65\x73\57\150\x65\x61\x64\145\162", $data); goto wAeyl; o_Jad: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto hXT_Y; wAeyl: $this->load->view("\163\145\x74\164\x69\x6e\x67\57\144\x61\164\141\162\x61\160\x6f\x72"); goto JmF3d; Y49HP: mXSuq: goto YqRTk; rYBd9: if ($this->ion_auth->is_admin()) { goto Hktsp; } goto o_Jad; atmG2: $setting = $this->dashboard->getSetting(); goto HhNZC; Wf4SN: $semester = $this->input->get("\x73\x65\x6d\x65\163\x74\145\162", true); goto g8Njs; mxGVx: $kelas = $this->input->get("\153\145\x6c\x61\163", true); goto E1r5U; vWZpj: $this->load->view("\137\164\145\x6d\160\x6c\x61\164\145\x73\x2f\x64\x61\163\x68\142\157\141\162\144\57\x5f\150\x65\141\x64\x65\162", $data); goto r82f7; BN7AY: $smt = $this->dashboard->getSemesterActive(); goto OpfIX; JmF3d: $this->load->view("\x6d\x65\x6d\x62\x65\x72\x73\57\x67\x75\x72\x75\x2f\x74\145\x6d\160\154\x61\x74\x65\163\57\x66\x6f\157\164\145\x72"); goto vmuM0; r82f7: $this->load->view("\163\x65\164\164\x69\x6e\x67\x2f\144\141\x74\141\162\141\160\157\x72"); goto zY6a9; zY6a9: $this->load->view("\137\164\145\x6d\x70\x6c\141\x74\145\163\x2f\x64\141\x73\x68\142\x6f\141\162\144\x2f\x5f\x66\x6f\x6f\x74\145\x72"); goto oc9Ov; Y9L7M: $data["\163\155\164\137\x61\x63\164\151\x76\145"] = $smt; goto w9mNC; YahjW: $data["\160\162\157\146\x69\x6c\145"] = $this->dashboard->getProfileAdmin($user->id); goto vWZpj; qnXsa: } function group_by($key, $data) { goto bLbIH; XpGs6: foreach ($data as $val) { goto l2D_W; FuhfN: $result[$val->{$key}][] = $val; goto Ax3Cv; gPv9Y: FKxGJ: goto FuhfN; Ax3Cv: rZExp: goto P9zK4; CAgLi: goto rZExp; goto gPv9Y; l2D_W: if (array_key_exists($key, $val)) { goto FKxGJ; } goto JoZHg; P9zK4: yyYlM: goto O1zib; JoZHg: $result[''][] = $val; goto CAgLi; O1zib: } goto MEXrJ; MEXrJ: A7z5x: goto L4k2a; L4k2a: return $result; goto ZbJRE; bLbIH: $result = array(); goto XpGs6; ZbJRE: } }
+class Bukurapor extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto ATcMo;
+        }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto JRUq5;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        JRUq5:
+        ATcMo:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto OrF07;
+        }
+        $data = json_encode($data);
+        OrF07:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Rapor_model", "rapor");
+        $this->load->model("Kelas_model", "kelas");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->load->model("Master_model", "master");
+        if (!$this->db->table_exists("buku_nilai")) {
+            goto KO9li;
+        }
+        $total = $this->dashboard->total("buku_nilai");
+        if (!($total > 0)) {
+            goto MRcIH;
+        }
+        $this->restoreNilai();
+        MRcIH:
+        KO9li:
+        $id_tp = $this->input->get("tp", true);
+        $id_smt = $this->input->get("smt", true);
+        $id_kelas = $this->input->get("kls", true);
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Kumpulan Nilai Rapor", "subjudul" => "Nilai Rapor Siswa", "setting" => $setting];
+        $kelases = $this->kelas->getAllKelas();
+        $all_kls = [];
+        if (!$kelases) {
+            goto cxlh6;
+        }
+        foreach ($kelases as $key => $row) {
+            $all_kls[$row->id_tp][$row->id_smt][$row->id_kelas] = $row;
+        }
+        cxlh6:
+        $siswas = [];
+        $mapels = [];
+        $kelompoks = [];
+        $kelas = isset($all_kls[$id_tp]) && isset($all_kls[$id_tp][$id_smt]) && isset($all_kls[$id_tp][$id_smt][$id_kelas]) ? $all_kls[$id_tp][$id_smt][$id_kelas] : null;
+        if (!($kelas != null)) {
+            goto m9ATZ;
+        }
+        $jurusan = $this->kelas->getJurusanById($kelas->id_jurusan);
+        $kelompoks = $this->master->getKodeKelompokMapel();
+        $siswas = $this->rapor->getDetailSiswa($id_kelas, $id_tp, $id_smt);
+        $kategori_mapel = $this->master->getKategoriKelompokMapel();
+        $arrk = [];
+        foreach ($kategori_mapel as $kk => $km) {
+            if (in_array($km, $arrk)) {
+                goto BS9gC;
+            }
+            array_push($arrk, $km->kode_kel_mapel);
+            BS9gC:
+        }
+        $mapels = $this->master->getAllStatusMapel(empty($arrk) ? null : $arrk, isset($jurusan->mapel_peminatan) ? $jurusan->mapel_peminatan : null);
+        $ekstras = $this->kelas->getKelasEkskul($id_kelas, $id_tp, $id_smt);
+        m9ATZ:
+        $settingRapor = $this->rapor->getRaporSetting($id_tp, $id_smt);
+        $sikap = [];
+        $nilai = [];
+        $fisik = [];
+        $desks = [];
+        $absensi = [];
+        $mapelEkstra = [];
+        $nilaiEkstra = [];
+        if ($id_smt === "1") {
+            $other = "2";
+            goto LmJvp;
+        }
+        $other = "1";
+        LmJvp:
+        $nilai_sikap = $this->rapor->getNilaiSikapByKelas($id_kelas, $id_tp, $id_smt);
+        $nilai_rapor = $this->rapor->getNilaiRaporByKelas($id_kelas, $id_tp, $id_smt);
+        $prestasis = $this->rapor->getPrestasiByKelas($id_kelas, $id_tp, $id_smt);
+        $catatans = $this->rapor->getCatatanWaliByKelas($id_kelas, $id_tp, $id_smt);
+        foreach ($catatans as $catatan) {
+            $catatan->nilai = unserialize($catatan->nilai);
+        }
+        $i = 0;
+        a84qx:
+        if (!($i < count($siswas))) {
+            $kkm = $this->rapor->getAllKkmRaporAkhir($id_kelas, $id_tp, $id_smt);
+            $data["tp"] = $this->dashboard->getTahun();
+            $data["tp_active"] = $this->dashboard->getTahunActive();
+            $data["smt"] = $this->dashboard->getSemester();
+            $data["smt_active"] = $this->dashboard->getSemesterActive();
+            $data["tp_selected"] = $id_tp;
+            $data["smt_selected"] = $id_smt;
+            $data["kls_selected"] = $id_kelas;
+            $data["tp_name"] = $id_tp != null ? $this->dashboard->getTahunById($id_tp) : null;
+            $data["smt_name"] = $id_smt != null ? $this->dashboard->getSemesterById($id_smt) : null;
+            $data["siswas"] = $siswas;
+            $data["kelas"] = $kelas != null ? $kelas->nama_kelas : '';
+            $data["lvl_kelas"] = $kelas != null ? $kelas->level_id : '';
+            $data["mapels"] = $mapels;
+            $data["kelompoks"] = $kelompoks;
+            $data["sikap"] = $sikap;
+            $data["nilai"] = $nilai;
+            $data["nilai_rapor"] = $nilai_rapor;
+            $data["deskripsi"] = $desks;
+            $data["absensi"] = $absensi;
+            $data["fisik"] = $fisik;
+            $data["nilai_ekstra"] = $nilaiEkstra;
+            $data["mapel_ekstra"] = $mapelEkstra;
+            $data["kkm"] = $kkm;
+            $data["rapor"] = $settingRapor;
+            $data["naik"] = $this->rapor->getKenaikanRapor($id_kelas, $id_tp, $id_smt);
+            if ($this->ion_auth->is_admin()) {
+                $data["guru"] = $kelas == null ? '' : $this->dashboard->getDataGuruById($kelas->id_guru, $id_tp, $id_smt);
+                if ($id_tp != null && $id_smt != null) {
+                    $data["kelases"] = $this->dropdown->getAllKelas($id_tp, $id_smt);
+                    goto kskgB;
+                }
+                $data["kelases"] = [];
+                kskgB:
+                $data["jabatan"] = null;
+                $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+                $this->load->view("_templates/dashboard/_header", $data);
+                $this->load->view("rapor/arsiprapor");
+                $this->load->view("_templates/dashboard/_footer");
+                goto kmA8R;
+            }
+            if ($id_tp != null && $id_smt != null) {
+                $guru = $this->dashboard->getDataGuruByUserId($user->id, $id_tp, $id_smt);
+                $data["guru"] = $guru;
+                $data["kelases"] = $this->dropdown->getAllKelasByArrayId($id_tp, $id_smt, $guru->wali_kelas);
+                goto GXpDs;
+            }
+            $tp_active = $this->dashboard->getTahunActive();
+            $smt_active = $this->dashboard->getSemesterActive();
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp_active->id_tp, $smt_active->id_smt);
+            $data["guru"] = $guru;
+            $data["kelases"] = [];
+            GXpDs:
+            $data["jabatan"] = $this->master->getAllJabatanGuru($guru->id_guru);
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("rapor/arsiprapor");
+            $this->load->view("members/guru/templates/footer");
+            kmA8R:
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        $siswa = $siswas[$i];
+        $id_siswa = $siswa->id_siswa;
+        $dummySikap = ["predikat" => ''];
+        if (count($nilai_sikap) > 0) {
+            foreach ($nilai_sikap as $nls) {
+                if (!($nls->id_siswa == $id_siswa && $nls->jenis == "1")) {
+                    goto jaYmW;
+                }
+                $sikap[$id_siswa][1] = ["deskripsi" => $nls == null ? '' : $nls->deskripsi, "predikat" => $nls == null ? $dummySikap : unserialize($nls->nilai)];
+                jaYmW:
+                if (!($nls->id_siswa == $id_siswa && $nls->jenis == "2")) {
+                    goto ZEZaU;
+                }
+                $sikap[$id_siswa][2] = ["deskripsi" => $nls == null ? '' : $nls->deskripsi, "predikat" => $nls == null ? $dummySikap : unserialize($nls->nilai)];
+                ZEZaU:
+            }
+            goto Q7eMS;
+        }
+        $sikap[$id_siswa][1] = ["deskripsi" => '', "predikat" => $dummySikap];
+        $sikap[$id_siswa][2] = ["deskripsi" => '', "predikat" => $dummySikap];
+        Q7eMS:
+        foreach ($mapels as $mapel) {
+            $dummyNilai = ["p_deskripsi" => '', "k_rata_rata" => '', "k_deskripsi" => '', "k_predikat" => '', "nilai" => '', "predikat" => ''];
+            $key_mapel = array_search($mapel->id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt, array_column($nilai_rapor, "id_nilai_harian"));
+            if (!($key_mapel !== false)) {
+                goto xD84J;
+            }
+            $nr = $nilai_rapor[$key_mapel];
+            $nilai[$id_siswa][$mapel->id_mapel] = $nr;
+            xD84J:
+        }
+        $dummyDesks = ["ranking" => '', "rank_deskripsi" => '', "p1" => '', "p1_desk" => '', "p2" => '', "p2_desk" => '', "p3" => '', "p3_desk" => ''];
+        $dummyAbsen = ["s" => " - ", "i" => " - ", "a" => " - ", "saran" => ''];
+        $desks[$id_siswa] = isset($prestasis[$id_siswa]) ? $prestasis[$id_siswa] : $dummyDesks;
+        $absensi[$id_siswa] = isset($catatans[$id_siswa]) ? $catatans[$id_siswa] : ["nilai" => $dummyAbsen];
+        $dummyFisik = ["kondisi" => ["telinga" => '', "mata" => '', "gigi" => '', "lain" => ''], "smt" . $id_smt => ["tinggi" => '', "berat" => '', "tp" => $id_tp], "smt" . $other => ["tinggi" => '', "berat" => '', "tp" => $id_tp]];
+        $nf = $this->rapor->getFisikKelas($id_kelas, $siswa->id_siswa, $id_tp, $id_smt);
+        $nf2 = $this->rapor->getFisikKelas($id_kelas, $siswa->id_siswa, $id_tp, $other);
+        $fisik[$siswa->id_siswa] = $nf != null ? ["kondisi" => unserialize($nf->kondisi), "smt" . $nf->id_smt => ["tinggi" => $nf->tinggi, "berat" => $nf->berat], "smt" . $other => ["tinggi" => $nf2 != null ? $nf2->tinggi : '', "berat" => $nf2 != null ? $nf2->berat : '']] : $dummyFisik;
+        foreach ($ekstras as $ext) {
+            $dummyEkstra = ["deskripsi" => '', "nilai" => '', "predikat" => ''];
+            $arrEkstra = json_decode(json_encode(unserialize($ext->ekstra)));
+            foreach ($arrEkstra as $ar) {
+                $id_ekstra = $ar->ekstra;
+                $mapelEkstra[$id_ekstra] = $this->kelas->getEkskulById($id_ekstra);
+                if (!($id_ekstra != null)) {
+                    goto SORAa;
+                }
+                $ne = $this->rapor->getEkstraKelas($id_ekstra, $siswa->id_siswa, $id_tp, $id_smt);
+                $nilaiEkstra[$id_siswa][$id_ekstra] = $ne == null ? $dummyEkstra : $ne;
+                SORAa:
+            }
+        }
+        $i++;
+        goto a84qx;
+    }
+    public function editNilaiRapor()
+    {
+        $this->load->model("Rapor_model", "rapor");
+        $this->load->model("Dashboard_model", "dashboard");
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Buku Induk", "subjudul" => "Buku Induk", "setting" => $setting];
+        $arrTp = $this->dashboard->getTahun();
+        $arrSmt = $this->dashboard->getSemester();
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $id_siswa = $this->input->get("siswa", true);
+        $id_tp = $this->input->get("tp", true);
+        $id_smt = $this->input->get("smt", true);
+        $mode = $this->input->get("mode", true);
+        $data["tp_sel"] = $id_tp != null ? $this->dashboard->getTahunById($id_tp) : null;
+        $data["smt_sel"] = $id_smt != null ? $this->dashboard->getSemesterById($id_smt) : null;
+        $data["mode"] = $mode;
+        $data["id_siswa"] = $id_siswa;
+        $data["tp"] = $arrTp;
+        $data["tp_active"] = $tp;
+        $data["smt"] = $arrSmt;
+        $data["smt_active"] = $smt;
+        $data["siswa"] = $this->rapor->getDetailSiswaById($id_siswa, $id_tp, $id_smt);
+        if ($mode == "1") {
+            $data["sikap"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt);
+            goto EQ3vr;
+        }
+        if ($mode == "2") {
+            $data["pengetahuan"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt);
+            goto EQ3vr;
+        }
+        if ($mode == "3") {
+            $data["keterampilan"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt);
+            goto EQ3vr;
+        }
+        if ($mode == "4") {
+            $data["extra"] = $this->rapor->getNilaiSikapBySiswa($id_siswa, $id_tp, $id_smt);
+            goto BT0Ew;
+        }
+        BT0Ew:
+        EQ3vr:
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("rapor/editrapor");
+            $this->load->view("_templates/dashboard/_footer");
+            goto hcDFm;
+        }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $data["guru"] = $guru;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("rapor/editrapor");
+        $this->load->view("members/guru/templates/footer");
+        hcDFm:
+    }
+    public function getDataKelas()
+    {
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->load->model("Master_model", "master");
+        $id_tp = $this->input->get("tp", true);
+        $id_smt = $this->input->get("smt", true);
+        $id_kelas = $this->input->get("kls", true);
+        $user = $this->ion_auth->user()->row();
+        $jabatan_guru = null;
+        $this->load->model("Dashboard_model", "dashboard");
+        if ($this->ion_auth->is_admin()) {
+            $kelass = $this->dropdown->getAllKelas($id_tp, $id_smt);
+            goto GI8Hi;
+        }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $id_tp, $id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $kelass = $this->dropdown->getAllKelasByArrayId($id_tp, $id_smt, [$id_kelas]);
+        $jabatan_guru = $this->master->getAllJabatanGuru($guru->id_guru);
+        GI8Hi:
+        $this->output_json(["kelas" => $kelass, "jabatan" => $jabatan_guru]);
+    }
+    public function backupNilai()
+    {
+        $this->load->model("Rapor_model", "rapor");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Master_model", "master");
+        $setting = $this->dashboard->getSetting();
+        $tps = $this->dashboard->getTahun();
+        $smts = $this->dashboard->getSemester();
+        $gurus = $this->master->getAllWaliKelas();
+        $mapels = $this->master->getAllMapel();
+        $all_nilai = [];
+        $kelas_ekstra = $this->rapor->getAllEkstra();
+        $setting_rapor = $this->rapor->getAllRaporSetting();
+        $kkms = $this->rapor->getAllKkm();
+        $nilai_rapor = $this->rapor->getAllNilaiRapor();
+        $nilai_extra = $this->rapor->getAllNilaiEkstra();
+        $nilai_sikap = $this->rapor->getAllNilaiSikap();
+        $rapor_fisik = $this->rapor->getAllFisik();
+        $nilai_hph = [];
+        $nilai_hpts = [];
+        $nilai_hpas = [];
+        $nilai_nr = [];
+        $nilai_ekstra = [];
+        foreach ($nilai_rapor as $nilai) {
+            $kkm_tunggal = $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm_tunggal == "1";
+            $kkm_mapel = null;
+            $all_kkm = [];
+            if (!(isset($kkms[$nilai->id_tp]) && isset($kkms[$nilai->id_tp][$nilai->id_smt]) && isset($kkms[$nilai->id_tp][$nilai->id_smt][$nilai->id_kelas]))) {
+                goto SfxFF;
+            }
+            $all_kkm = $kkms[$nilai->id_tp][$nilai->id_smt][$nilai->id_kelas];
+            $kkm_mapel = isset($all_kkm[1]) && isset($all_kkm[1][$nilai->id_mapel]) ? $all_kkm[1][$nilai->id_mapel] : null;
+            SfxFF:
+            foreach ($mapels as $mapel) {
+                if (!($mapel->id_mapel == $nilai->id_mapel)) {
+                    goto JALdv;
+                }
+                $nilai_hph[$nilai->id_siswa][] = ["id_mapel" => $nilai->id_mapel, "mapel" => $nilai->mapel, "kkm" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "p_nilai" => $nilai->p_rata_rata, "p_pred" => $nilai->p_predikat, "p_desk" => $nilai->p_deskripsi, "k_nilai" => $nilai->k_rata_rata, "k_pred" => $nilai->k_predikat, "k_desk" => $nilai->k_deskripsi];
+                $nilai_hpts[$nilai->id_siswa][] = ["id_mapel" => $nilai->id_mapel, "mapel" => $nilai->mapel, "kkm" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "nilai" => $nilai->nilai_pts, "pred" => $nilai->pts_predikat];
+                $nilai_hpas[$nilai->id_siswa][] = ["id_mapel" => $nilai->id_mapel, "mapel" => $nilai->mapel, "kkm" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "nilai" => $nilai->nilai_pas];
+                $nilai_nr[$nilai->id_siswa][] = ["id_mapel" => $nilai->id_mapel, "mapel" => $nilai->mapel, "kkm" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : ($kkm_mapel == null ? '' : $kkm_mapel->kkm), "nilai" => $nilai->nilai_rapor, "pred" => $nilai->rapor_predikat];
+                JALdv:
+            }
+            $nilai_ekstra = [];
+            if (!(isset($nilai_extra[$nilai->id_tp]) && isset($nilai_extra[$nilai->id_tp][$nilai->id_smt]) && isset($nilai_extra[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa]))) {
+                goto QGJXs;
+            }
+            foreach ($nilai_extra[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa] as $ekstra) {
+                $kkm_ekstra = '';
+                if (!(isset($all_kkm[2]) && isset($all_kkm[2][$ekstra->id_ekstra]))) {
+                    goto n0koo;
+                }
+                $kkm_ekstra = $all_kkm[2][$ekstra->id_ekstra]->kkm;
+                n0koo:
+                $nilai_ekstra[$nilai->id_siswa][] = ["mapel" => $ekstra->kode_ekstra, "id_ekstra" => $ekstra->id_ekstra, "nama_ekstra" => $ekstra->nama_ekstra, "kkm" => $kkm_tunggal ? $setting_rapor[$nilai->id_tp][$nilai->id_smt]->kkm : $kkm_ekstra, "nilai" => $ekstra->nilai, "pred" => $ekstra->predikat, "desk" => $ekstra->deskripsi];
+            }
+            QGJXs:
+            $spiritual = null;
+            $sosial = null;
+            if (!(isset($nilai_sikap[$nilai->id_tp]) && isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt]) && isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa]))) {
+                goto xidUg;
+            }
+            $spiritual = isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][1]) ? $nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][1] : null;
+            $sosial = isset($nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][2]) ? $nilai_sikap[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa][2] : null;
+            xidUg:
+            $fisik = [];
+            if (!isset($rapor_fisik[$nilai->id_siswa])) {
+                goto jGkVI;
+            }
+            $fisik[] = $rapor_fisik[$nilai->id_siswa][$nilai->id_tp][$nilai->id_smt];
+            jGkVI:
+            $all_nilai[$nilai->id_tp][$nilai->id_smt][$nilai->id_siswa] = ["uid" => $nilai->uid, "id_siswa" => $nilai->id_siswa, "tp" => $nilai->tahun, "smt" => $nilai->nama_smt, "kelas" => $nilai->nama_kelas, "level" => $nilai->level_id, "wali_kelas" => $nilai->nama_guru, "jurusan" => $nilai->nama_jurusan, "hph" => serialize(isset($nilai_hph[$nilai->id_siswa]) ? $nilai_hph[$nilai->id_siswa] : []), "hpts" => serialize(isset($nilai_hpts[$nilai->id_siswa]) ? $nilai_hpts[$nilai->id_siswa] : []), "hpas" => serialize(isset($nilai_hpas[$nilai->id_siswa]) ? $nilai_hpas[$nilai->id_siswa] : []), "nilai_rapor" => serialize(isset($nilai_nr[$nilai->id_siswa]) ? $nilai_nr[$nilai->id_siswa] : []), "ekstra" => serialize(isset($nilai_ekstra[$nilai->id_siswa]) ? $nilai_ekstra[$nilai->id_siswa] : ''), "spritual" => $spiritual == null ? serialize([]) : serialize(["desk" => $spiritual->deskripsi, "nilai" => unserialize($spiritual->nilai)["predikat"]]), "sosial" => $sosial == null ? serialize([]) : serialize(["desk" => $sosial->deskripsi, "nilai" => unserialize($sosial->nilai)["predikat"]]), "rank" => serialize(["rank" => $nilai->ranking, "saran" => $nilai->rank_deskripsi]), "prestasi" => serialize([["nilai" => $nilai->p1, "desk" => $nilai->p1_desk], ["nilai" => $nilai->p2, "desk" => $nilai->p2_desk], ["nilai" => $nilai->p3, "desk" => $nilai->p3_desk]]), "absen" => $nilai->absen != null ? $nilai->absen : serialize([]), "saran" => $nilai->saran != null ? $nilai->saran : "-", "fisik" => serialize($fisik), "naik" => $nilai->naik != null ? $nilai->naik : "1", "setting_rapor" => serialize((array) $setting_rapor[$nilai->id_tp][$nilai->id_smt]), "setting_mapel" => serialize((array) $mapels)];
+        }
+        $insert = [];
+        $ids_siswa = [];
+        foreach ($tps as $tp) {
+            foreach ($smts as $smt) {
+                if (!(isset($all_nilai[$tp->id_tp]) && isset($all_nilai[$tp->id_tp][$smt->id_smt]))) {
+                    goto eAyfW;
+                }
+                foreach ($all_nilai[$tp->id_tp][$smt->id_smt] as $nilai) {
+                    $ids_siswa[$nilai["id_siswa"]] = $nilai["id_siswa"];
+                    if ($this->rapor->exists($nilai["uid"], $nilai["tp"], $nilai["smt"], $nilai["kelas"])) {
+                        goto gLRqI;
+                    }
+                    $insert[] = $nilai;
+                    gLRqI:
+                }
+                eAyfW:
+            }
+        }
+        $this->db->trans_start();
+        if (!(count($insert) > 0)) {
+            goto ca0F0;
+        }
+        $this->db->insert_batch("buku_nilai", $insert);
+        $this->rapor->deleteNilaiRapor();
+        ca0F0:
+        $this->db->trans_complete();
+        $res["nilai_ekstra"] = $mapels;
+        $res["all_nilai"] = $all_nilai;
+        $res["insert"] = $insert;
+        $res["ids"] = $ids_siswa;
+        $this->output_json($res);
+    }
+    public function restoreNilai()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Rapor_model", "rapor");
+        $this->load->model("Kelas_model", "kelas");
+        $this->load->model("Master_model", "master");
+        $tps = $this->dashboard->getTahun();
+        $smts = $this->dashboard->getSemester();
+        $gurus = $this->master->getAllWaliKelas();
+        $mapels = $this->master->getAllMapel();
+        $siswas = $this->rapor->getDataKumpulanRapor();
+        $kelass = $this->kelas->getAllKelas();
+        $hph = [];
+        $hpts = [];
+        $hpas = [];
+        $nilai_rapor = [];
+        $ekstra = [];
+        $spritual = [];
+        $sosial = [];
+        $rank = [];
+        $prestasi = [];
+        $absen = [];
+        $fisik = [];
+        foreach ($siswas as $id => $siswa) {
+            $index_tp = array_search($siswa->tp, array_column($tps, "tahun"));
+            $tp = $tps[$index_tp];
+            $index_smt = array_search($siswa->smt, array_column($smts, "nama_smt"));
+            $smt = $smts[$index_smt];
+            $id_kelas = '';
+            foreach ($kelass as $kelas) {
+                if (!($kelas->id_tp == $tp->id_tp && $kelas->id_smt == $smt->id_smt && $kelas->nama_kelas == $siswa->kelas)) {
+                    goto ARH8k;
+                }
+                $id_kelas = $kelas->id_kelas;
+                ARH8k:
+            }
+            $hph[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->hph);
+            $hpts[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->hpts);
+            $hpas[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->hpas);
+            $nilai_rapor[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->nilai_rapor);
+            $ekstra[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->ekstra);
+            $spritual[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->spritual);
+            $sosial[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->sosial);
+            $rank[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->rank);
+            $prestasi[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->prestasi);
+            $absen[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = ["nilai" => $siswa->absen, "deskripsi" => $siswa->saran];
+            $fisik[$tp->id_tp][$smt->id_smt][$id][$id_kelas] = unserialize($siswa->fisik);
+            foreach ($fisik[$tp->id_tp][$smt->id_smt][$id][$id_kelas] as $value) {
+                $value->kondisi = unserialize($value->kondisi);
+            }
+        }
+        $hph_insert = [];
+        $hpts_insert = [];
+        $hpas_insert = [];
+        $ekstra_insert = [];
+        $spritual_insert = [];
+        $sosial_insert = [];
+        $rank_insert = [];
+        $absen_insert = [];
+        $fisik_insert = [];
+        foreach ($tps as $tp) {
+            foreach ($smts as $smt) {
+                if (!(isset($hph[$tp->id_tp]) && isset($hph[$tp->id_tp][$smt->id_smt]))) {
+                    goto b5UDH;
+                }
+                foreach ($hph[$tp->id_tp][$smt->id_smt] as $id => $phs) {
+                    foreach ($phs as $kls => $nilai) {
+                        foreach ($nilai as $ph) {
+                            $p_rata = (int) $ph["p_nilai"];
+                            $k_rata = (int) $ph["k_nilai"];
+                            $vals = ["id_nilai_harian" => $ph["id_mapel"] . $kls . $id . $tp->id_tp . $smt->id_smt, "id_siswa" => $id, "id_mapel" => $ph["id_mapel"], "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "p_rata_rata" => $p_rata, "p1" => $p_rata + 1, "p2" => $p_rata - 1, "p3" => $p_rata, "p4" => '', "p5" => '', "p6" => '', "p7" => '', "p8" => '', "p_predikat" => $ph["p_pred"], "p_deskripsi" => $ph["p_desk"], "k_rata_rata" => $k_rata, "k1" => $k_rata + 1, "k2" => $k_rata - 1, "k3" => $k_rata, "k4" => '', "k5" => '', "k6" => '', "k7" => '', "k8" => '', "k_predikat" => $ph["k_pred"], "k_deskripsi" => $ph["k_desk"], "jml" => ''];
+                            $hph_insert[] = $vals;
+                        }
+                    }
+                }
+                b5UDH:
+                if (!(isset($hpts[$tp->id_tp]) && isset($hpts[$tp->id_tp][$smt->id_smt]))) {
+                    goto VNHdo;
+                }
+                foreach ($hpts[$tp->id_tp][$smt->id_smt] as $id => $pht) {
+                    foreach ($pht as $kls => $nilai) {
+                        foreach ($nilai as $ph) {
+                            $vals = ["id_nilai_pts" => $ph["id_mapel"] . $kls . $id . $tp->id_tp . $smt->id_smt, "id_siswa" => $id, "id_mapel" => $ph["id_mapel"], "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "nilai" => $ph["nilai"], "predikat" => $ph["pred"]];
+                            $hpts_insert[] = $vals;
+                        }
+                    }
+                }
+                VNHdo:
+                if (!(isset($hpas[$tp->id_tp]) && isset($hpas[$tp->id_tp][$smt->id_smt]))) {
+                    goto qfCQT;
+                }
+                foreach ($hpas[$tp->id_tp][$smt->id_smt] as $id => $pha) {
+                    foreach ($pha as $kls => $nilai) {
+                        foreach ($nilai as $ph) {
+                            $nr = $nilai_rapor[$tp->id_tp][$smt->id_smt][$id][$kls];
+                            $index = array_search($ph["id_mapel"], array_column($nr, "id_mapel"));
+                            $hnr = $nr[$index];
+                            $vals = ["id_nilai_akhir" => $ph["id_mapel"] . $kls . $id . $tp->id_tp . $smt->id_smt, "id_siswa" => $id, "id_mapel" => $ph["id_mapel"], "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "nilai" => $ph["nilai"], "akhir" => $hnr["nilai"], "predikat" => $hnr["pred"]];
+                            $hpas_insert[] = $vals;
+                        }
+                    }
+                }
+                qfCQT:
+                if (!(isset($ekstra[$tp->id_tp]) && isset($ekstra[$tp->id_tp][$smt->id_smt]))) {
+                    goto YUCD6;
+                }
+                foreach ($ekstra[$tp->id_tp][$smt->id_smt] as $id => $pha) {
+                    foreach ($pha as $kls => $nilai) {
+                        if (!($nilai != '')) {
+                            goto eQD81;
+                        }
+                        foreach ($nilai as $ph) {
+                            $vals = ["id_nilai_ekstra" => $ph["id_ekstra"] . $kls . $id . $tp->id_tp . $smt->id_smt, "id_siswa" => $id, "id_ekstra" => $ph["id_ekstra"], "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "nilai" => $ph["nilai"], "predikat" => $ph["pred"], "deskripsi" => $ph["desk"]];
+                            $ekstra_insert[] = $vals;
+                        }
+                        eQD81:
+                    }
+                }
+                YUCD6:
+                if (!(isset($spritual[$tp->id_tp]) && isset($spritual[$tp->id_tp][$smt->id_smt]))) {
+                    goto nxbWy;
+                }
+                foreach ($spritual[$tp->id_tp][$smt->id_smt] as $id => $pht) {
+                    foreach ($pht as $kls => $nilai) {
+                        $vals = ["id_nilai_sikap" => $kls . $id . $tp->id_tp . $smt->id_smt . "1", "id_siswa" => $id, "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "jenis" => "1", "nilai" => serialize(["predikat" => $nilai["nilai"], "sl1" => '', "sl2" => '', "sl3" => '', "mb1" => '', "mb2" => '', "mb3" => '']), "deskripsi" => $nilai["desk"]];
+                        $spritual_insert[] = $vals;
+                    }
+                }
+                nxbWy:
+                if (!(isset($sosial[$tp->id_tp]) && isset($sosial[$tp->id_tp][$smt->id_smt]))) {
+                    goto uHqbF;
+                }
+                foreach ($sosial[$tp->id_tp][$smt->id_smt] as $id => $pht) {
+                    foreach ($pht as $kls => $nilai) {
+                        $vals = ["id_nilai_sikap" => $kls . $id . $tp->id_tp . $smt->id_smt . "2", "id_siswa" => $id, "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "jenis" => "2", "nilai" => serialize(["predikat" => $nilai["nilai"], "sl1" => '', "sl2" => '', "sl3" => '', "mb1" => '', "mb2" => '', "mb3" => '']), "deskripsi" => $nilai["desk"]];
+                        $sosial_insert[] = $vals;
+                    }
+                }
+                uHqbF:
+                if (!(isset($rank[$tp->id_tp]) && isset($rank[$tp->id_tp][$smt->id_smt]))) {
+                    goto fo6jY;
+                }
+                foreach ($rank[$tp->id_tp][$smt->id_smt] as $id => $pht) {
+                    foreach ($pht as $kls => $nilai) {
+                        $prt = $prestasi[$tp->id_tp][$smt->id_smt][$id][$kls];
+                        $vals = ["id_ranking" => $kls . $id . $tp->id_tp . $smt->id_smt, "id_siswa" => $id, "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "ranking" => $nilai["rank"], "deskripsi" => $nilai["saran"], "p1" => $prt[0]["nilai"], "p1_desk" => $prt[0]["desk"], "p2" => $prt[1]["nilai"], "p2_desk" => $prt[1]["desk"], "p3" => $prt[2]["nilai"], "p3_desk" => $prt[2]["desk"]];
+                        $rank_insert[] = $vals;
+                    }
+                }
+                fo6jY:
+                if (!(isset($absen[$tp->id_tp]) && isset($absen[$tp->id_tp][$smt->id_smt]))) {
+                    goto MTKwN;
+                }
+                foreach ($absen[$tp->id_tp][$smt->id_smt] as $id => $pht) {
+                    foreach ($pht as $kls => $nilai) {
+                        $vals = ["id_catatan_wali" => $kls . $id . $tp->id_tp . $smt->id_smt, "id_siswa" => $id, "id_kelas" => $kls, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "nilai" => $nilai["nilai"], "deskripsi" => $nilai["deskripsi"]];
+                        $absen_insert[] = $vals;
+                    }
+                }
+                MTKwN:
+            }
+        }
+        $this->db->trans_start();
+        $res = 0;
+        if (!(count($rank_insert) > 0)) {
+            goto jpb4g;
+        }
+        $res += $this->db->insert_batch("rapor_prestasi", $rank_insert);
+        jpb4g:
+        if (!(count($absen_insert) > 0)) {
+            goto ph799;
+        }
+        $res += $this->db->insert_batch("rapor_catatan_wali", $absen_insert);
+        ph799:
+        if (!(count($ekstra_insert) > 0)) {
+            goto uKprX;
+        }
+        $res += $this->db->insert_batch("rapor_nilai_ekstra", $ekstra_insert);
+        uKprX:
+        if (!(count($hpas_insert) > 0)) {
+            goto jk_y0;
+        }
+        $res += $this->db->insert_batch("rapor_nilai_akhir", $hpas_insert);
+        jk_y0:
+        if (!(count($hpts_insert) > 0)) {
+            goto O7Dzp;
+        }
+        $res += $this->db->insert_batch("rapor_nilai_pts", $hpts_insert);
+        O7Dzp:
+        if (!(count($hph_insert) > 0)) {
+            goto q6EtD;
+        }
+        $res += $this->db->insert_batch("rapor_nilai_harian", $hph_insert);
+        q6EtD:
+        if (!(count($spritual_insert) > 0)) {
+            goto YhFpJ;
+        }
+        $res += $this->db->insert_batch("rapor_nilai_sikap", $spritual_insert);
+        YhFpJ:
+        if (!(count($sosial_insert) > 0)) {
+            goto v79B6;
+        }
+        $res += $this->db->insert_batch("rapor_nilai_sikap", $sosial_insert);
+        v79B6:
+        if (!$res) {
+            goto NEyqV;
+        }
+        $this->db->empty_table("buku_nilai");
+        NEyqV:
+        $this->db->trans_complete();
+        return $res;
+    }
+    public function edit()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Rapor_model", "rapor");
+        $kelas = $this->input->get("kelas", true);
+        $tahun = $this->input->get("tahun", true);
+        $semester = $this->input->get("semester", true);
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Edit Nilai", "subjudul" => "Nilai Rapor Kelas " . $kelas . ", TP:" . $tahun . ", SMT:" . $semester, "setting" => $setting];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $siswas = $this->rapor->getDataKumpulanRapor($kelas, $tahun, $semester);
+        foreach ($siswas as $siswa) {
+            $siswa->hph = unserialize($siswa->hph);
+            $siswa->hpts = unserialize($siswa->hpts);
+            $siswa->hpas = unserialize($siswa->hpas);
+            $siswa->nilai_rapor = unserialize($siswa->nilai_rapor);
+            $siswa->ekstra = unserialize($siswa->ekstra);
+            $siswa->spritual = unserialize($siswa->spritual);
+            $siswa->sosial = unserialize($siswa->sosial);
+            $siswa->rank = unserialize($siswa->rank);
+            $siswa->prestasi = unserialize($siswa->prestasi);
+            $siswa->absen = unserialize($siswa->absen);
+            $siswa->fisik = unserialize($siswa->fisik);
+            foreach ($siswa->fisik as $value) {
+                $value->kondisi = unserialize($value->kondisi);
+            }
+            $siswa->setting_rapor = unserialize($siswa->setting_rapor);
+            $siswa->setting_mapel = unserialize($siswa->setting_mapel);
+        }
+        $data["siswas"] = $siswas;
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("setting/datarapor");
+            $this->load->view("_templates/dashboard/_footer");
+            goto jftBs;
+        }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $data["guru"] = $guru;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("setting/datarapor");
+        $this->load->view("members/guru/templates/footer");
+        jftBs:
+    }
+    public function ledger()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Rapor_model", "rapor");
+        $kelas = $this->input->get("kelas", true);
+        $tahun = $this->input->get("tahun", true);
+        $semester = $this->input->get("semester", true);
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Edit Nilai", "subjudul" => "Nilai Rapor Kelas " . $kelas . ", TP:" . $tahun . ", SMT:" . $semester, "setting" => $setting];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $siswas = $this->rapor->getDataKumpulanRapor($kelas, $tahun, $semester);
+        foreach ($siswas as $siswa) {
+            $siswa->hph = unserialize($siswa->hph);
+            $siswa->hpts = unserialize($siswa->hpts);
+            $siswa->hpas = unserialize($siswa->hpas);
+            $siswa->nilai_rapor = unserialize($siswa->nilai_rapor);
+            $siswa->ekstra = unserialize($siswa->ekstra);
+            $siswa->spritual = unserialize($siswa->spritual);
+            $siswa->sosial = unserialize($siswa->sosial);
+            $siswa->rank = unserialize($siswa->rank);
+            $siswa->prestasi = unserialize($siswa->prestasi);
+            $siswa->absen = unserialize($siswa->absen);
+            $siswa->fisik = unserialize($siswa->fisik);
+            foreach ($siswa->fisik as $value) {
+                $value->kondisi = unserialize($value->kondisi);
+            }
+            $siswa->setting_rapor = unserialize($siswa->setting_rapor);
+            $siswa->setting_mapel = unserialize($siswa->setting_mapel);
+        }
+        $data["siswas"] = $siswas;
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("setting/datarapor");
+            $this->load->view("_templates/dashboard/_footer");
+            goto mVxE7;
+        }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $data["guru"] = $guru;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("setting/datarapor");
+        $this->load->view("members/guru/templates/footer");
+        mVxE7:
+    }
+    public function dkn()
+    {
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Rapor_model", "rapor");
+        $kelas = $this->input->get("kelas", true);
+        $tahun = $this->input->get("tahun", true);
+        $semester = $this->input->get("semester", true);
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Edit Nilai", "subjudul" => "Nilai Rapor Kelas " . $kelas . ", TP:" . $tahun . ", SMT:" . $semester, "setting" => $setting];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $siswas = $this->rapor->getDataKumpulanRapor($kelas, $tahun, $semester);
+        foreach ($siswas as $siswa) {
+            $siswa->hph = unserialize($siswa->hph);
+            $siswa->hpts = unserialize($siswa->hpts);
+            $siswa->hpas = unserialize($siswa->hpas);
+            $siswa->nilai_rapor = unserialize($siswa->nilai_rapor);
+            $siswa->ekstra = unserialize($siswa->ekstra);
+            $siswa->spritual = unserialize($siswa->spritual);
+            $siswa->sosial = unserialize($siswa->sosial);
+            $siswa->rank = unserialize($siswa->rank);
+            $siswa->prestasi = unserialize($siswa->prestasi);
+            $siswa->absen = unserialize($siswa->absen);
+            $siswa->fisik = unserialize($siswa->fisik);
+            foreach ($siswa->fisik as $value) {
+                $value->kondisi = unserialize($value->kondisi);
+            }
+            $siswa->setting_rapor = unserialize($siswa->setting_rapor);
+            $siswa->setting_mapel = unserialize($siswa->setting_mapel);
+        }
+        $data["siswas"] = $siswas;
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("setting/datarapor");
+            $this->load->view("_templates/dashboard/_footer");
+            goto oc9Ov;
+        }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $data["guru"] = $guru;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("setting/datarapor");
+        $this->load->view("members/guru/templates/footer");
+        oc9Ov:
+    }
+    function group_by($key, $data)
+    {
+        $result = array();
+        foreach ($data as $val) {
+            if (array_key_exists($key, $val)) {
+                $result[$val->{$key}][] = $val;
+                goto Ax3Cv;
+            }
+            $result[''][] = $val;
+            Ax3Cv:
+        }
+        return $result;
+    }
+}

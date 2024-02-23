@@ -1,7 +1,100 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Cbtnomorpeserta extends CI_Controller { public function __construct() { goto TLF_f; PnfT6: $this->load->model("\x44\162\x6f\160\144\157\x77\156\x5f\x6d\x6f\144\x65\154", "\144\x72\x6f\x70\144\157\x77\x6e"); goto Zt5zH; WncFR: redirect("\x61\165\164\150"); goto j9brA; nI4My: show_error("\110\x61\156\171\x61\x20\x41\144\155\x69\156\151\163\x74\162\x61\x74\157\x72\40\171\141\156\x67\x20\x64\x69\x62\145\162\151\40\x68\x61\x6b\40\165\156\164\165\153\40\x6d\x65\156\147\x61\153\163\145\163\x20\150\141\154\141\155\x61\x6e\40\x69\x6e\151\x2c\40\74\x61\40\150\x72\145\146\75\42" . base_url("\144\x61\x73\x68\142\157\x61\x72\144") . "\42\76\x4b\x65\x6d\x62\141\x6c\151\40\153\145\40\x6d\x65\x6e\x75\40\x61\x77\141\x6c\x3c\x2f\x61\76", 403, "\101\153\x73\x65\x73\x20\x54\145\162\154\x61\162\141\156\x67"); goto dJ6ge; JHG21: $this->load->model("\103\x62\x74\137\x6d\x6f\x64\x65\x6c", "\143\x62\x74"); goto PnfT6; Ha3sG: $this->load->library("\x75\x70\154\157\x61\144"); goto NMJgH; imqj8: $this->load->model("\x44\x61\163\150\142\157\x61\162\144\x5f\x6d\157\x64\x65\154", "\x64\141\x73\150\142\x6f\141\162\144"); goto JHG21; NMJgH: $this->load->model("\115\x61\163\x74\x65\x72\137\x6d\x6f\144\x65\x6c", "\155\141\x73\164\x65\x72"); goto imqj8; Zt5zH: $this->form_validation->set_error_delimiters('', ''); goto aS7bh; DW5kV: if ($this->ion_auth->is_admin()) { goto VPlf5; } goto nI4My; TLF_f: parent::__construct(); goto k7KPA; j9brA: w1woh: goto dbv4C; dbv4C: $this->load->library(["\x64\x61\164\141\164\x61\x62\154\145\x73", "\146\157\x72\155\x5f\x76\141\x6c\151\x64\x61\x74\x69\x6f\156"]); goto Ha3sG; s6FF8: QCjGD: goto WncFR; dJ6ge: VPlf5: goto xw1BN; k7KPA: if (!$this->ion_auth->logged_in()) { goto QCjGD; } goto DW5kV; xw1BN: goto w1woh; goto s6FF8; aS7bh: } public function output_json($data, $encode = true) { goto ywWCf; ZqfTc: $this->output->set_content_type("\141\x70\160\154\x69\143\x61\x74\151\157\156\57\x6a\x73\157\156")->set_output($data); goto gLJCn; UUTLS: qRdoP: goto ZqfTc; ywWCf: if (!$encode) { goto qRdoP; } goto Pb2BJ; Pb2BJ: $data = json_encode($data); goto UUTLS; gLJCn: } public function index() { goto A3bBx; TadT0: $this->load->view("\x63\142\x74\x2f\x6e\x6f\x6d\157\162\x70\145\163\145\x72\164\141\x2f\x64\141\x74\x61"); goto jMt_c; fc651: $data["\164\x70\x5f\x61\x63\164\x69\x76\145"] = $tp; goto XetpW; cW_l8: $tp = $this->dashboard->getTahunActive(); goto us_jk; lV0Qn: $data["\163\x6d\x74\137\x61\x63\x74\151\166\x65"] = $smt; goto y3yWs; rOuPm: $data["\153\x65\x6c\141\163"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt); goto hB7_6; A3bBx: $user = $this->ion_auth->user()->row(); goto SOrW4; y3yWs: $data["\x6a\x61\x64\167\141\x6c"] = $this->dropdown->getAllJadwal($tp->id_tp, $smt->id_smt); goto rOuPm; YiKbp: $data["\163\145\163\151"] = $this->dropdown->getAllSesi(); goto NR6X_; jMt_c: $this->load->view("\137\164\x65\155\160\154\141\x74\x65\163\x2f\144\141\163\150\142\x6f\x61\162\144\x2f\137\146\x6f\x6f\x74\145\x72"); goto Lb7ck; lcorY: $data["\x74\160"] = $this->dashboard->getTahun(); goto fc651; NR6X_: $this->load->view("\x5f\x74\145\x6d\160\154\141\164\145\163\x2f\x64\x61\x73\150\x62\x6f\x61\x72\144\x2f\137\150\x65\141\144\x65\162", $data); goto TadT0; SOrW4: $data = ["\x75\x73\145\x72" => $user, "\152\x75\x64\165\154" => "\116\157\155\157\x72\x20\x50\x65\163\145\x72\164\x61", "\x73\x75\x62\x6a\165\144\x75\154" => "\x47\x65\x6e\x65\x72\x61\x74\145\x20\116\x6f\x6d\x6f\162\40\120\x65\x73\x65\x72\x74\x61\x20\125\x6a\x69\141\x6e", "\x70\162\x6f\146\151\x6c\145" => $this->dashboard->getProfileAdmin($user->id), "\x73\145\x74\164\x69\x6e\x67" => $this->dashboard->getSetting()]; goto cW_l8; XetpW: $data["\x73\x6d\x74"] = $this->dashboard->getSemester(); goto lV0Qn; hB7_6: $data["\162\165\x61\156\147"] = $this->dropdown->getAllRuang(); goto YiKbp; us_jk: $smt = $this->dashboard->getSemesterActive(); goto lcorY; Lb7ck: } public function saveNomor() { goto XrtYN; vPGze: foreach ($input as $in) { goto fSG0u; fSG0u: $nomorAda = isset($arrNomor[$in->id]) ? $arrNomor[$in->id] : null; goto lWwBV; zCgW0: SIh5e: goto EQdwV; t3SM4: $update = $this->db->replace("\143\142\164\137\156\157\155\x6f\x72\x5f\x70\145\x73\145\162\164\141", $insert); goto jkPry; vMVJq: B8uhp: goto ctHK9; EQdwV: juZPT: goto UyLcl; lWwBV: if ($nomorAda != null && $nomorAda->nomor_peserta == $in->nomor && $nomorAda->id_siswa != $in->id) { goto B8uhp; } goto YDp_Y; ctHK9: $update = false; goto zCgW0; YDp_Y: $insert = ["\151\x64\137\156\157\155\157\x72" => $in->id . $tp->id_tp, "\151\144\x5f\163\151\163\167\x61" => $in->id, "\x69\144\137\164\160" => $tp->id_tp, "\x6e\x6f\155\x6f\x72\137\x70\x65\x73\x65\162\164\x61" => $in->nomor]; goto t3SM4; jkPry: goto SIh5e; goto vMVJq; UyLcl: } goto O3_9K; O3_9K: n1rZ9: goto hWUDO; eKRf5: $arrNomor = $this->cbt->getAllNomorPeserta(); goto oNqvj; XrtYN: $input = json_decode($this->input->post("\x73\151\x73\x77\x61", true)); goto eKRf5; oNqvj: $tp = $this->dashboard->getTahunActive(); goto iXDEC; hWUDO: $this->output_json($update); goto B59Jj; iXDEC: $update = false; goto vPGze; B59Jj: } public function resetNomor() { goto KCC5N; GuVFN: eyyE3: goto nijqX; KT6ps: $this->output_json($res); goto YE3BJ; pdv2P: $tp = $this->dashboard->getTahunActive(); goto c4mFm; c4mFm: $smt = $this->dashboard->getSemesterActive(); goto w6vw2; w6vw2: $siswas = $this->cbt->getSiswaByKelasArray($tp->id_tp, $smt->id_smt, $input); goto qdPiv; qdPiv: foreach ($siswas as $siswa) { goto AkJxL; dB2aL: BDYKw: goto A7V9L; AkJxL: $insert = ["\x69\x64\x5f\156\x6f\x6d\157\x72" => $siswa->id_siswa . $tp->id_tp, "\x69\x64\x5f\x73\151\x73\167\x61" => $siswa->id_siswa, "\151\x64\137\164\160" => $tp->id_tp, "\x6e\x6f\155\x6f\x72\x5f\x70\145\x73\x65\x72\x74\x61" => '']; goto fJzqs; fJzqs: $update = $this->db->replace("\x63\x62\x74\137\x6e\x6f\155\157\162\137\x70\145\x73\145\162\164\141", $insert); goto dB2aL; A7V9L: } goto GuVFN; nijqX: $res["\x73\164\x61\164\165\x73"] = $update; goto KT6ps; KCC5N: $input = json_decode($this->input->get("\x6b\145\154\x61\163", true)); goto pdv2P; YE3BJ: } public function getSiswaKelas($arr_kelas) { goto p_IiZ; ip9Ap: $data["\x73\x69\163\167\x61"] = $siswas; goto ueiNF; lLeAe: $siswas = $this->cbt->getSiswaByKelasArray($tp->id_tp, $smt->id_smt, $kelas); goto ML45C; ueiNF: $data["\x6e\x6f\x6d\x6f\162"] = $arrNomor; goto NPQYH; p_IiZ: $tp = $this->dashboard->getTahunActive(); goto oh51M; oh51M: $smt = $this->dashboard->getSemesterActive(); goto KevZV; NPQYH: $this->output_json($data); goto C_xWd; ML45C: $arrNomor = $this->cbt->getAllNomorPeserta(); goto ip9Ap; KevZV: $kelas = json_decode(urldecode($arr_kelas)); goto lLeAe; C_xWd: } }
+class Cbtnomorpeserta extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto j9brA;
+        }
+        if ($this->ion_auth->is_admin()) {
+            goto VPlf5;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        VPlf5:
+        j9brA:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->library("upload");
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Cbt_model", "cbt");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto qRdoP;
+        }
+        $data = json_encode($data);
+        qRdoP:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Nomor Peserta", "subjudul" => "Generate Nomor Peserta Ujian", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $data["jadwal"] = $this->dropdown->getAllJadwal($tp->id_tp, $smt->id_smt);
+        $data["kelas"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
+        $data["ruang"] = $this->dropdown->getAllRuang();
+        $data["sesi"] = $this->dropdown->getAllSesi();
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("cbt/nomorpeserta/data");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function saveNomor()
+    {
+        $input = json_decode($this->input->post("siswa", true));
+        $arrNomor = $this->cbt->getAllNomorPeserta();
+        $tp = $this->dashboard->getTahunActive();
+        $update = false;
+        foreach ($input as $in) {
+            $nomorAda = isset($arrNomor[$in->id]) ? $arrNomor[$in->id] : null;
+            if ($nomorAda != null && $nomorAda->nomor_peserta == $in->nomor && $nomorAda->id_siswa != $in->id) {
+                $update = false;
+                goto zCgW0;
+            }
+            $insert = ["id_nomor" => $in->id . $tp->id_tp, "id_siswa" => $in->id, "id_tp" => $tp->id_tp, "nomor_peserta" => $in->nomor];
+            $update = $this->db->replace("cbt_nomor_peserta", $insert);
+            zCgW0:
+        }
+        $this->output_json($update);
+    }
+    public function resetNomor()
+    {
+        $input = json_decode($this->input->get("kelas", true));
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $siswas = $this->cbt->getSiswaByKelasArray($tp->id_tp, $smt->id_smt, $input);
+        foreach ($siswas as $siswa) {
+            $insert = ["id_nomor" => $siswa->id_siswa . $tp->id_tp, "id_siswa" => $siswa->id_siswa, "id_tp" => $tp->id_tp, "nomor_peserta" => ''];
+            $update = $this->db->replace("cbt_nomor_peserta", $insert);
+        }
+        $res["status"] = $update;
+        $this->output_json($res);
+    }
+    public function getSiswaKelas($arr_kelas)
+    {
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $kelas = json_decode(urldecode($arr_kelas));
+        $siswas = $this->cbt->getSiswaByKelasArray($tp->id_tp, $smt->id_smt, $kelas);
+        $arrNomor = $this->cbt->getAllNomorPeserta();
+        $data["siswa"] = $siswas;
+        $data["nomor"] = $arrNomor;
+        $this->output_json($data);
+    }
+}

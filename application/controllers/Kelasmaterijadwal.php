@@ -1,7 +1,198 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Kelasmaterijadwal extends CI_Controller { public function __construct() { goto F7hhX; o2Nvd: $this->load->model("\x43\142\164\137\155\x6f\x64\145\154", "\143\142\x74"); goto Wn80h; xDDZA: $this->load->library(["\x64\x61\164\141\x74\141\x62\154\145\163", "\146\x6f\162\155\x5f\166\141\x6c\x69\x64\141\x74\x69\157\156"]); goto TpTnF; kjTpg: $this->load->model("\104\162\157\160\144\x6f\167\156\x5f\155\x6f\x64\x65\154", "\144\162\157\160\x64\x6f\167\x6e"); goto uKZ1P; Wn80h: $this->load->model("\114\x6f\x67\137\155\157\144\x65\x6c", "\x6c\157\x67\x67\x69\x6e\147"); goto nTqPQ; FBK4p: kiB6L: goto xDDZA; uKZ1P: $this->form_validation->set_error_delimiters('', ''); goto SFEIy; TpTnF: $this->load->model("\115\141\x73\x74\145\162\137\155\x6f\x64\145\154", "\155\x61\x73\164\x65\x72"); goto jrfOU; F7hhX: parent::__construct(); goto wMRUN; wMRUN: if ($this->ion_auth->logged_in()) { goto kiB6L; } goto c5g_3; jrfOU: $this->load->model("\104\141\163\x68\x62\157\x61\x72\x64\x5f\x6d\157\x64\145\x6c", "\x64\141\163\150\142\157\141\x72\144"); goto o2Nvd; c5g_3: redirect("\141\165\164\x68"); goto FBK4p; nTqPQ: $this->load->model("\x4b\145\x6c\x61\x73\x5f\155\x6f\144\145\x6c", "\153\145\x6c\x61\x73"); goto kjTpg; SFEIy: } public function output_json($data, $encode = true) { goto Bp5g7; rfayQ: $data = json_encode($data); goto KS5Z0; Bp5g7: if (!$encode) { goto Io2bH; } goto rfayQ; KS5Z0: Io2bH: goto O2N6B; O2N6B: $this->output->set_content_type("\x61\160\x70\154\151\x63\141\164\151\157\156\x2f\152\163\157\x6e")->set_output($data); goto OEUTq; OEUTq: } public function index() { goto e3TrF; nsrOP: $data["\163\x6d\164\137\x61\x63\164\x69\166\145"] = $smt; goto okybD; i_cxR: $this->load->view("\155\145\x6d\142\145\x72\163\x2f\x67\165\162\x75\x2f\164\145\x6d\160\154\141\164\x65\163\57\x66\157\x6f\x74\145\162"); goto she0U; Kp1er: jX8Em: goto Nuhib; cwGs0: $data["\163\155\x74"] = $this->dashboard->getSemester(); goto nsrOP; CIqNg: $this->load->view("\x6d\x65\155\x62\145\162\163\x2f\x67\165\x72\165\x2f\164\x65\155\160\x6c\x61\x74\145\x73\x2f\x68\145\x61\144\145\x72", $data); goto icSUQ; e3TrF: $user = $this->ion_auth->user()->row(); goto WPqpi; eKHz0: $this->load->view("\x5f\x74\145\x6d\x70\x6c\x61\164\145\x73\x2f\144\x61\163\150\x62\157\141\x72\144\x2f\137\150\145\x61\144\145\162", $data); goto ok43p; olAJj: $tahun = explode("\x2f", $tp->tahun); goto uywxD; t1OAf: if ($this->ion_auth->is_admin()) { goto jX8Em; } goto y_xH5; WG7Ok: $data["\x62\x6c\156\x5f\163\x65\154\x65\x63\164\145\x64"] = $bln; goto FG7gZ; okW2y: goto WiiX0; goto uMSKN; gDtp1: $data["\x74\x68\156\x5f\163\145\x6c\145\143\164\x65\144"] = $tp->tahun; goto iX4EB; uywxD: $thn = $smt->id_smt == "\61" ? $tahun[0] : $tahun[1]; goto WG7Ok; Nuhib: $data["\160\162\157\146\x69\154\145"] = $this->dashboard->getProfileAdmin($user->id); goto eKHz0; UO_28: $data["\x6a\155\154\x4d\141\x70\x65\x6c"] = []; goto gDtp1; h0l3z: $data["\x74\x70\137\141\x63\164\x69\x76\x65"] = $tp; goto cwGs0; gfinX: $data["\164\160"] = $this->dashboard->getTahun(); goto h0l3z; okybD: $data["\x6b\145\x6c\141\163"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt); goto MCLKk; iX4EB: $bln = $smt->id_smt == "\x31" ? "\67" : "\61"; goto olAJj; ok43p: $this->load->view("\x6b\145\154\x61\x73\57\155\x61\164\x65\162\151\x6a\x61\x64\x77\141\154\57\x64\x61\x74\141"); goto hQesm; YgQxg: $smt = $this->dashboard->getSemesterActive(); goto gfinX; oh9gh: $data["\152\x6d\154\111\163\x74"] = []; goto UO_28; y_xH5: if ($this->ion_auth->in_group("\147\x75\x72\x75")) { goto jD3_M; } goto UAM66; icSUQ: $this->load->view("\153\145\x6c\141\163\x2f\x6d\141\x74\145\x72\151\152\141\144\167\x61\x6c\57\x64\141\x74\x61"); goto i_cxR; Tvo1W: $data["\147\x75\x72\x75"] = $guru; goto CIqNg; she0U: WiiX0: goto WWwPD; hQesm: $this->load->view("\x5f\164\x65\155\160\154\x61\164\x65\x73\57\144\x61\163\150\x62\157\x61\x72\x64\57\137\x66\x6f\157\164\x65\162"); goto okW2y; Zj3op: $data["\x6d\x65\164\x68\x6f\x64"] = ''; goto oh9gh; uMSKN: jD3_M: goto NpZWn; FG7gZ: $data["\144\141\x74\145\137\163\x65\154\x65\143\164\145\x64"] = $thn . "\x2d" . $bln . "\x2d" . date("\x64"); goto t1OAf; NpZWn: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto Tvo1W; MCLKk: $data["\x69\144\x5f\153\x65\154\141\163"] = "\60"; goto Zj3op; WPqpi: $data = ["\x75\x73\145\x72" => $user, "\152\165\144\165\154" => "\112\141\x64\x77\x61\154\40\x50\145\x6c\x61\152\141\x72\141\x6e", "\163\165\142\x6a\x75\144\x75\x6c" => "\x53\145\x74\x20\x4a\141\x64\x77\141\154\40\120\145\x6c\141\x6a\141\x72\x61\156", "\163\145\x74\x74\151\156\147" => $this->dashboard->getSetting()]; goto x96Dz; UAM66: goto WiiX0; goto Kp1er; x96Dz: $tp = $this->dashboard->getTahunActive(); goto YgQxg; WWwPD: } public function kelas() { goto P6osF; axarX: $data["\157\160\x73\x69\137\155\141\164\x65\162\151"] = $this->kelas->getAllMateriByKelas($tp->id_tp, $smt->id_smt); goto ebstC; ObsOi: $data["\163\155\164\x5f\x61\143\x74\151\x76\145"] = $smt; goto FEDl6; eKRZk: $kelas = $this->input->get("\153\145\x6c\x61\x73"); goto V0TCS; ZMa8N: $this->load->view("\137\164\145\155\x70\x6c\x61\x74\145\x73\x2f\x64\141\x73\150\142\157\x61\162\x64\x2f\137\x68\145\141\x64\145\x72", $data); goto Enqja; hiORk: goto kTW9T; goto ibbj2; PXDya: $smt = $this->dashboard->getSemesterActive(); goto bg9el; TWLsf: $data["\x62\x6c\x6e\x5f\x73\145\x6c\145\143\x74\x65\144"] = $bulan; goto jw_Nk; ZLPiR: $data["\164\x68\156\137\x73\x65\154\x65\143\164\145\144"] = $tahun; goto TWLsf; UOUFx: $i = 0; goto oMVYZ; ebstC: $semua_materi = $this->kelas->getAllJadwalMateriByKelas($tp->id_tp, $smt->id_smt); goto ZdEap; Ym_Zy: goto ye20Y; goto nfgRV; sEqL9: $bulan = $this->input->get("\x62\165\154\x61\x6e"); goto eKRZk; TxNfP: $data["\x6d\x65\164\x68\x6f\144"] = "\145\x64\x69\x74"; goto CrvtP; PI1SX: $data["\167\145\x65\153"] = $week; goto axarX; V4Eyz: znMqJ: goto UyM2T; eSbdS: DOWZx: goto Dq86o; ZdEap: $data["\x64\145\164\141\x69\x6c\x5f\x6a\141\x64\167\x61\154\x5f\x6d\x61\164\x65\162\x69"] = isset($semua_materi[1]) ? $semua_materi[1] : []; goto Qibxd; l5_WU: $data["\x74\160\137\141\x63\164\151\166\x65"] = $tp; goto ENLDL; nfgRV: O3TkX: goto iVVWs; tZLUl: $week = [date("\x59\x2d\x6d\x2d\144", strtotime("\155\157\156\x64\x61\171\x20\x74\x68\151\x73\40\167\145\145\x6b", strtotime($date))), date("\x59\55\155\55\x64", strtotime("\164\x75\x65\163\x64\x61\171\40\164\x68\151\163\x20\167\x65\145\153", strtotime($date))), date("\x59\x2d\x6d\x2d\144", strtotime("\x77\145\144\x6e\x65\163\144\x61\171\x20\164\x68\151\x73\x20\167\x65\x65\x6b", strtotime($date))), date("\x59\x2d\155\x2d\x64", strtotime("\x74\150\x75\162\163\144\141\x79\x20\164\150\151\163\40\167\x65\145\153", strtotime($date))), date("\131\x2d\x6d\55\144", strtotime("\146\162\x69\144\141\171\40\x74\x68\151\163\40\167\x65\x65\153", strtotime($date))), date("\x59\x2d\155\55\144", strtotime("\x73\141\x74\165\x72\144\x61\x79\40\x74\x68\x69\163\40\167\x65\145\153", strtotime($date)))]; goto ZLPiR; P6osF: $tahun = $this->input->get("\x74\141\x68\165\x6e"); goto sEqL9; F4TRq: $user = $this->ion_auth->user()->row(); goto jwc1M; Qibxd: $data["\144\145\164\141\x69\x6c\137\x6a\141\144\167\141\154\137\164\165\x67\x61\x73"] = isset($semua_materi[2]) ? $semua_materi[2] : []; goto z2h9v; hsVjw: $data["\x6d\145\164\150\157\144"] = "\x61\144\144"; goto V4Eyz; dr8fW: $data = ["\165\x73\x65\162" => $user, "\152\x75\x64\165\x6c" => "\112\x61\x64\167\x61\x6c\40\x4d\x61\164\x65\x72\151\x20\57\40\x54\x75\x67\x61\x73", "\163\165\x62\x6a\165\x64\x75\154" => "\123\145\x74\40\x4a\x61\144\167\141\x6c\40\115\141\164\x65\162\151\40\x2f\x20\x54\x75\147\x61\163", "\163\x65\164\x74\x69\156\147" => $setting]; goto xrTJg; rSK0n: $jadwal_mapel[] = ["\x6a\141\x64\x77\141\x6c" => $this->kelas->getDummyJadwalMapel($tp->id_tp, $smt->id_smt, $i + 1, $kelas)]; goto pPN_M; ENLDL: $data["\x73\155\164"] = $this->dashboard->getSemester(); goto ObsOi; sRetT: $i++; goto hiORk; fM0nq: if ($jadk == null) { goto O3TkX; } goto MWD8X; WSeaF: $jadk = $this->kelas->getJadwalKbm($tp->id_tp, $smt->id_smt, $kelas); goto fM0nq; M1YVO: goto V0LsN; goto bW0i5; FEDl6: $data["\153\x65\154\141\x73"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt); goto WSeaF; LmM0m: $this->load->view("\155\145\x6d\x62\145\162\163\x2f\147\x75\162\x75\57\x74\x65\155\x70\x6c\x61\164\145\163\x2f\146\157\157\x74\145\x72"); goto pllhn; RrA3k: $jadm = $this->kelas->getJadwalMapelGroupJam($tp->id_tp, $smt->id_smt, $kelas); goto h89j8; HJBAB: $this->load->view("\153\x65\x6c\x61\163\x2f\155\141\164\145\x72\151\152\141\144\167\x61\154\x2f\144\x61\164\x61"); goto LmM0m; HUNwJ: $data["\x67\x75\162\x75"] = $this->dashboard->getDetailGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto yQsQN; UyM2T: $data["\x6a\141\x64\x77\x61\x6c\137\155\141\160\145\x6c"] = $jadwal_mapel; goto JtUoD; Enqja: $this->load->view("\x6b\x65\154\141\163\57\x6d\141\x74\145\x72\151\152\141\x64\167\x61\154\57\144\x61\x74\141"); goto ubMoH; jwc1M: $setting = $this->dashboard->getSetting(); goto dr8fW; MWD8X: $data["\x6a\x61\144\167\141\x6c\137\153\x62\155"] = $jadk; goto Ym_Zy; mxA59: if (!($i < $jml_mapel)) { goto uB81T; } goto rSK0n; h89j8: $jml_mapel = $jadk == null ? 1 : $jadk->kbm_jml_mapel_hari; goto kybDB; ubMoH: $this->load->view("\x5f\164\x65\x6d\160\154\141\164\x65\x73\57\144\x61\163\x68\x62\157\x61\x72\x64\x2f\x5f\x66\x6f\x6f\x74\145\x72"); goto M1YVO; m_1Fv: VOhv4: goto TxNfP; iVVWs: $data["\152\141\144\x77\141\154\x5f\x6b\142\x6d"] = json_decode(json_encode(["\151\x64\x5f\x74\160" => $tp->tahun, "\151\x64\x5f\163\155\164" => $smt->smt, "\x69\144\137\153\x65\x6c\141\x73" => $kelas, "\153\142\155\137\152\x61\155\x5f\160\x65\x6c" => '', "\153\x62\155\137\x6a\141\x6d\137\x6d\x75\x6c\x61\x69" => '', "\153\x62\155\x5f\152\155\x6c\137\155\141\160\145\154\x5f\x68\x61\x72\x69" => '', "\151\163\x74\151\x72\x61\x68\141\x74" => serialize([]), "\x61\x64\x61" => false])); goto r0Ubd; r0Ubd: ye20Y: goto pVqev; CrvtP: goto znMqJ; goto KOW2Q; ibbj2: uB81T: goto hsVjw; oMVYZ: kTW9T: goto mxA59; xrTJg: $tp = $this->dashboard->getTahunActive(); goto PXDya; V0TCS: $date = $this->input->get("\144\x61\x74\x65"); goto F4TRq; jw_Nk: $data["\144\x61\x74\145\137\163\x65\154\145\x63\164\x65\144"] = $date; goto PI1SX; pPN_M: vy0SV: goto sRetT; JtUoD: $data["\x6d\x61\160\x65\x6c\163"] = $this->master->getAllMapel(); goto tZLUl; kybDB: if ($jadm == null) { goto O8k_U; } goto JgYfU; KOW2Q: O8k_U: goto UOUFx; Dq86o: $data["\160\162\x6f\x66\x69\x6c\x65"] = $this->dashboard->getProfileAdmin($user->id); goto ZMa8N; yQsQN: $this->load->view("\155\x65\x6d\x62\x65\162\x73\x2f\x67\165\162\165\57\x74\145\155\x70\154\x61\164\x65\163\x2f\150\145\x61\144\x65\x72", $data); goto HJBAB; JXsnk: if ($this->ion_auth->in_group("\x67\x75\162\165")) { goto bGZ9L; } goto VnFks; pllhn: V0LsN: goto mc4ef; z2h9v: if ($this->ion_auth->is_admin()) { goto DOWZx; } goto JXsnk; VnFks: goto V0LsN; goto eSbdS; pVqev: $data["\x69\144\x5f\153\x65\154\141\163"] = $kelas; goto RrA3k; bW0i5: bGZ9L: goto HUNwJ; JgYfU: foreach ($jadm as $j) { $jadwal_mapel[] = ["\x6a\x61\144\x77\141\x6c" => $this->kelas->getJadwalMapelByHari($tp->id_tp, $smt->id_smt, $j->jam_ke, $kelas)]; tRSd0: } goto m_1Fv; bg9el: $data["\164\160"] = $this->dashboard->getTahun(); goto l5_WU; mc4ef: } public function setJadwal() { goto oGnPT; qn3IK: yHL8c: goto j8OJo; aJhL4: $data["\x73\164\141\164\165\x73"] = $update; goto q5jS3; WQchf: $this->logging->saveLog(3, "\x6d\x65\162\165\142\141\x68\40\152\x61\144\167\x61\154\x20\x70\145\154\141\152\141\x72\141\156"); goto aJhL4; wFhMN: $i++; goto pIefm; smJNL: $id_kelas = $this->input->post("\x69\x64\137\153\x65\154\141\163", true); goto i9fOm; q5jS3: $this->output_json($data); goto nKasO; j8OJo: if (!($i < 5)) { goto Tk2s3; } goto eFurr; i9fOm: $insert = ["\x69\144\137\x6b\x62\x6d" => $id_tp . $id_smt . $id_kelas, "\x69\144\x5f\164\x70" => $id_tp, "\x69\x64\x5f\x73\155\164" => $id_smt, "\x69\x64\x5f\x6b\145\154\141\163" => $id_kelas, "\153\x62\x6d\x5f\x6a\x61\x6d\x5f\160\x65\x6c" => $this->input->post("\152\141\155\137\155\x61\x70\145\x6c", true), "\153\x62\x6d\x5f\152\x61\x6d\x5f\155\165\x6c\x61\151" => $this->input->post("\152\141\x6d\x5f\x6d\165\x6c\x61\x69", true), "\x6b\x62\x6d\x5f\x6a\155\x6c\137\x6d\141\x70\145\x6c\x5f\x68\141\162\x69" => $this->input->post("\x6a\x6d\154\137\155\x61\160\145\154", true), "\151\x73\164\151\162\x61\x68\x61\x74" => serialize($istirahat)]; goto bI_vP; oGnPT: $istirahat = []; goto GEuU0; CgTVE: $durasi = $this->input->post("\x64\x75\x72\x5f\x69\163\164" . $i, true); goto xv46v; HG468: xw042: goto wFhMN; xv46v: if (!$jamke) { goto oH2OS; } goto cmCGq; bI_vP: $update = $this->db->replace("\x6b\145\154\141\x73\x5f\x6a\141\144\x77\x61\154\x5f\x6b\x62\x6d", $insert); goto WQchf; GEuU0: $i = 1; goto qn3IK; cmCGq: $istirahat[] = ["\151\163\x74" => $jamke, "\144\165\x72" => $durasi]; goto qbMfk; eFurr: $jamke = $this->input->post("\x69\x73\x74" . $i, true); goto CgTVE; fE2Es: $id_smt = $this->master->getSemesterActive()->id_smt; goto smJNL; wEBFo: $id_tp = $this->master->getTahunActive()->id_tp; goto fE2Es; pIefm: goto yHL8c; goto iM8yY; iM8yY: Tk2s3: goto wEBFo; qbMfk: oH2OS: goto HG468; nKasO: } public function setMapel() { goto DIzsj; AHPkC: $this->output_json($res); goto y53lF; qSaaW: foreach ($input as $d) { goto L3U1M; OiOFG: $update = $this->db->replace("\x6b\x65\154\x61\x73\137\x6a\x61\144\x77\141\x6c\137\x6d\x61\x70\x65\x6c", $data); goto x3eOi; x3eOi: N_HzO: goto XRHnB; L3U1M: $data = ["\151\144\x5f\x6a\141\144\x77\141\154" => $d->id_tp . $d->id_smt . $id_kelas . $d->id_hari . $d->jam_ke, "\151\x64\137\x74\160" => $d->id_tp, "\x69\144\x5f\x73\x6d\x74" => $d->id_smt, "\151\144\x5f\x6b\x65\154\141\163" => $id_kelas, "\x69\x64\137\x68\141\x72\x69" => $d->id_hari, "\152\x61\155\137\153\145" => $d->jam_ke, "\x69\144\137\x6d\141\160\145\x6c" => $d->id_mapel]; goto OiOFG; XRHnB: } goto EboOS; VXJ7i: $res["\x73\x74\x61\x74\x75\x73"] = $update; goto AHPkC; DIzsj: $input = json_decode($this->input->post("\x64\141\x74\141", true)); goto zbFNC; zbFNC: $id_kelas = $this->input->post("\x69\x64\137\x6b\145\x6c\x61\x73", true); goto qSaaW; EboOS: TuyEj: goto VXJ7i; y53lF: } public function saveJadwal() { goto hYela; nMbBi: $this->output_json($update); goto Ep3JD; jyMp7: foreach ($input_tugas as $im) { goto M0PPd; M0PPd: $insert = ["\x6a\145\156\x69\163" => "\x32", "\x69\144\137\x6b\152\x6d" => $im->id_kjm, "\x69\144\x5f\164\x70" => $im->id_tp, "\x69\144\x5f\x73\x6d\164" => $im->id_smt, "\x69\144\137\153\145\154\141\163" => $im->id_kelas, "\x69\x64\137\x6d\141\164\145\x72\x69" => $im->id_materi, "\x69\x64\137\155\x61\x70\145\x6c" => $im->id_mapel, "\152\141\x64\167\141\154\137\x6d\x61\164\145\x72\151" => $im->jadwal_materi]; goto G0flF; IgbxJ: Fb2iR: goto AvFyF; G0flF: $update = $this->db->replace("\x6b\145\x6c\141\x73\x5f\x6a\x61\x64\x77\x61\154\137\155\x61\164\145\162\x69", $insert); goto IgbxJ; AvFyF: } goto rK96G; rK96G: vTTMt: goto Jg6hd; lZJnT: X9u2G: goto jyMp7; XEKlL: foreach ($input_materi as $im) { goto coyim; FfoOW: $update = $this->db->replace("\x6b\145\x6c\141\x73\137\152\141\x64\x77\141\x6c\x5f\155\x61\x74\145\x72\151", $insert); goto wvKUU; coyim: $insert = ["\152\x65\x6e\151\x73" => "\61", "\x69\144\x5f\153\x6a\155" => $im->id_kjm, "\151\144\x5f\164\160" => $im->id_tp, "\x69\144\x5f\x73\x6d\164" => $im->id_smt, "\x69\144\x5f\x6b\x65\154\x61\x73" => $im->id_kelas, "\151\144\x5f\x6d\141\164\x65\162\151" => $im->id_materi, "\x69\x64\x5f\x6d\x61\160\145\x6c" => $im->id_mapel, "\152\x61\x64\x77\141\154\x5f\155\x61\x74\x65\162\x69" => $im->jadwal_materi]; goto FfoOW; wvKUU: NTwPX: goto RYjQF; RYjQF: } goto lZJnT; D0GjK: $input_tugas = json_decode($this->input->post("\x74\165\x67\x61\163", true)); goto XEKlL; hYela: $input_materi = json_decode($this->input->post("\155\x61\x74\x65\x72\151", true)); goto D0GjK; Jg6hd: $this->logging->saveLog(3, "\155\145\x72\x75\x62\x61\x68\x20\x6a\141\x64\x77\141\154\40\155\x61\x74\x65\x72\x69\x20\x64\141\156\x20\164\165\x67\141\x73"); goto nMbBi; Ep3JD: } }
+class Kelasmaterijadwal extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->ion_auth->logged_in()) {
+            goto kiB6L;
+        }
+        redirect("auth");
+        kiB6L:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Cbt_model", "cbt");
+        $this->load->model("Log_model", "logging");
+        $this->load->model("Kelas_model", "kelas");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto Io2bH;
+        }
+        $data = json_encode($data);
+        Io2bH:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Jadwal Pelajaran", "subjudul" => "Set Jadwal Pelajaran", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $data["kelas"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
+        $data["id_kelas"] = "0";
+        $data["method"] = '';
+        $data["jmlIst"] = [];
+        $data["jmlMapel"] = [];
+        $data["thn_selected"] = $tp->tahun;
+        $bln = $smt->id_smt == "1" ? "7" : "1";
+        $tahun = explode("/", $tp->tahun);
+        $thn = $smt->id_smt == "1" ? $tahun[0] : $tahun[1];
+        $data["bln_selected"] = $bln;
+        $data["date_selected"] = $thn . "-" . $bln . "-" . date("d");
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("kelas/materijadwal/data");
+            $this->load->view("_templates/dashboard/_footer");
+            goto WiiX0;
+        }
+        if ($this->ion_auth->in_group("guru")) {
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $data["guru"] = $guru;
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("kelas/materijadwal/data");
+            $this->load->view("members/guru/templates/footer");
+            goto she0U;
+        }
+        she0U:
+        WiiX0:
+    }
+    public function kelas()
+    {
+        $tahun = $this->input->get("tahun");
+        $bulan = $this->input->get("bulan");
+        $kelas = $this->input->get("kelas");
+        $date = $this->input->get("date");
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Jadwal Materi / Tugas", "subjudul" => "Set Jadwal Materi / Tugas", "setting" => $setting];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $data["kelas"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
+        $jadk = $this->kelas->getJadwalKbm($tp->id_tp, $smt->id_smt, $kelas);
+        if ($jadk == null) {
+            $data["jadwal_kbm"] = json_decode(json_encode(["id_tp" => $tp->tahun, "id_smt" => $smt->smt, "id_kelas" => $kelas, "kbm_jam_pel" => '', "kbm_jam_mulai" => '', "kbm_jml_mapel_hari" => '', "istirahat" => serialize([]), "ada" => false]));
+            goto r0Ubd;
+        }
+        $data["jadwal_kbm"] = $jadk;
+        r0Ubd:
+        $data["id_kelas"] = $kelas;
+        $jadm = $this->kelas->getJadwalMapelGroupJam($tp->id_tp, $smt->id_smt, $kelas);
+        $jml_mapel = $jadk == null ? 1 : $jadk->kbm_jml_mapel_hari;
+        if ($jadm == null) {
+            $i = 0;
+            kTW9T:
+            if (!($i < $jml_mapel)) {
+                $data["method"] = "add";
+                goto V4Eyz;
+            }
+            $jadwal_mapel[] = ["jadwal" => $this->kelas->getDummyJadwalMapel($tp->id_tp, $smt->id_smt, $i + 1, $kelas)];
+            $i++;
+            goto kTW9T;
+        }
+        foreach ($jadm as $j) {
+            $jadwal_mapel[] = ["jadwal" => $this->kelas->getJadwalMapelByHari($tp->id_tp, $smt->id_smt, $j->jam_ke, $kelas)];
+        }
+        $data["method"] = "edit";
+        V4Eyz:
+        $data["jadwal_mapel"] = $jadwal_mapel;
+        $data["mapels"] = $this->master->getAllMapel();
+        $week = [date("Y-m-d", strtotime("monday this week", strtotime($date))), date("Y-m-d", strtotime("tuesday this week", strtotime($date))), date("Y-m-d", strtotime("wednesday this week", strtotime($date))), date("Y-m-d", strtotime("thursday this week", strtotime($date))), date("Y-m-d", strtotime("friday this week", strtotime($date))), date("Y-m-d", strtotime("saturday this week", strtotime($date)))];
+        $data["thn_selected"] = $tahun;
+        $data["bln_selected"] = $bulan;
+        $data["date_selected"] = $date;
+        $data["week"] = $week;
+        $data["opsi_materi"] = $this->kelas->getAllMateriByKelas($tp->id_tp, $smt->id_smt);
+        $semua_materi = $this->kelas->getAllJadwalMateriByKelas($tp->id_tp, $smt->id_smt);
+        $data["detail_jadwal_materi"] = isset($semua_materi[1]) ? $semua_materi[1] : [];
+        $data["detail_jadwal_tugas"] = isset($semua_materi[2]) ? $semua_materi[2] : [];
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("kelas/materijadwal/data");
+            $this->load->view("_templates/dashboard/_footer");
+            goto V0LsN;
+        }
+        if ($this->ion_auth->in_group("guru")) {
+            $data["guru"] = $this->dashboard->getDetailGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("kelas/materijadwal/data");
+            $this->load->view("members/guru/templates/footer");
+            goto pllhn;
+        }
+        pllhn:
+        V0LsN:
+    }
+    public function setJadwal()
+    {
+        $istirahat = [];
+        $i = 1;
+        yHL8c:
+        if (!($i < 5)) {
+            $id_tp = $this->master->getTahunActive()->id_tp;
+            $id_smt = $this->master->getSemesterActive()->id_smt;
+            $id_kelas = $this->input->post("id_kelas", true);
+            $insert = ["id_kbm" => $id_tp . $id_smt . $id_kelas, "id_tp" => $id_tp, "id_smt" => $id_smt, "id_kelas" => $id_kelas, "kbm_jam_pel" => $this->input->post("jam_mapel", true), "kbm_jam_mulai" => $this->input->post("jam_mulai", true), "kbm_jml_mapel_hari" => $this->input->post("jml_mapel", true), "istirahat" => serialize($istirahat)];
+            $update = $this->db->replace("kelas_jadwal_kbm", $insert);
+            $this->logging->saveLog(3, "merubah jadwal pelajaran");
+            $data["status"] = $update;
+            $this->output_json($data);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
+        $jamke = $this->input->post("ist" . $i, true);
+        $durasi = $this->input->post("dur_ist" . $i, true);
+        if (!$jamke) {
+            goto oH2OS;
+        }
+        $istirahat[] = ["ist" => $jamke, "dur" => $durasi];
+        oH2OS:
+        $i++;
+        goto yHL8c;
+    }
+    public function setMapel()
+    {
+        $input = json_decode($this->input->post("data", true));
+        $id_kelas = $this->input->post("id_kelas", true);
+        foreach ($input as $d) {
+            $data = ["id_jadwal" => $d->id_tp . $d->id_smt . $id_kelas . $d->id_hari . $d->jam_ke, "id_tp" => $d->id_tp, "id_smt" => $d->id_smt, "id_kelas" => $id_kelas, "id_hari" => $d->id_hari, "jam_ke" => $d->jam_ke, "id_mapel" => $d->id_mapel];
+            $update = $this->db->replace("kelas_jadwal_mapel", $data);
+        }
+        $res["status"] = $update;
+        $this->output_json($res);
+    }
+    public function saveJadwal()
+    {
+        $input_materi = json_decode($this->input->post("materi", true));
+        $input_tugas = json_decode($this->input->post("tugas", true));
+        foreach ($input_materi as $im) {
+            $insert = ["jenis" => "1", "id_kjm" => $im->id_kjm, "id_tp" => $im->id_tp, "id_smt" => $im->id_smt, "id_kelas" => $im->id_kelas, "id_materi" => $im->id_materi, "id_mapel" => $im->id_mapel, "jadwal_materi" => $im->jadwal_materi];
+            $update = $this->db->replace("kelas_jadwal_materi", $insert);
+        }
+        foreach ($input_tugas as $im) {
+            $insert = ["jenis" => "2", "id_kjm" => $im->id_kjm, "id_tp" => $im->id_tp, "id_smt" => $im->id_smt, "id_kelas" => $im->id_kelas, "id_materi" => $im->id_materi, "id_mapel" => $im->id_mapel, "jadwal_materi" => $im->jadwal_materi];
+            $update = $this->db->replace("kelas_jadwal_materi", $insert);
+        }
+        $this->logging->saveLog(3, "merubah jadwal materi dan tugas");
+        $this->output_json($update);
+    }
+}

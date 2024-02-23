@@ -1,7 +1,126 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Kelasabsensiharian extends CI_Controller { public function __construct() { goto CEagN; ELTWU: if (!$this->ion_auth->logged_in()) { goto WeGit; } goto Kxhf2; Czf1k: goto Idfjz; goto VdDyB; Mrsp1: show_error("\110\141\156\x79\141\x20\101\144\155\151\x6e\x69\163\x74\162\x61\164\157\162\x20\x79\141\156\x67\40\144\x69\142\x65\162\x69\x20\x68\141\153\40\x75\156\164\x75\x6b\40\x6d\x65\156\147\x61\x6b\x73\145\163\x20\150\x61\x6c\x61\155\x61\156\x20\x69\x6e\151\54\x20\x3c\x61\x20\150\162\145\x66\75\42" . base_url("\x64\141\x73\x68\142\x6f\x61\x72\x64") . "\x22\x3e\113\145\155\x62\x61\x6c\x69\x20\153\145\x20\155\x65\156\x75\x20\141\x77\141\x6c\74\x2f\x61\76", 403, "\101\x6b\x73\145\163\x20\124\145\x72\x6c\x61\x72\x61\x6e\x67"); goto svpl7; VdDyB: WeGit: goto vqSff; VmWqk: $this->form_validation->set_error_delimiters('', ''); goto kcsla; svpl7: dRJdm: goto Czf1k; SLz2B: $this->load->model("\x4d\141\x73\164\x65\162\137\155\x6f\144\145\154", "\155\141\x73\x74\145\x72"); goto tVZQB; MSATO: $this->load->model("\x4b\145\154\141\x73\137\x6d\157\x64\145\x6c", "\x6b\x65\x6c\141\163"); goto VmWqk; tVZQB: $this->load->model("\x44\x61\x73\150\142\157\x61\162\x64\137\155\157\x64\x65\x6c", "\x64\141\163\x68\x62\157\x61\162\x64"); goto KQR5O; vqSff: redirect("\x61\x75\x74\x68"); goto PF8ku; CEagN: parent::__construct(); goto ELTWU; KQR5O: $this->load->model("\x44\162\x6f\x70\144\157\x77\156\137\x6d\157\144\145\x6c", "\144\162\x6f\160\x64\157\167\x6e"); goto MSATO; Kxhf2: if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("\147\x75\x72\165"))) { goto dRJdm; } goto Mrsp1; PF8ku: Idfjz: goto KqaFb; KqaFb: $this->load->library(["\144\141\164\141\x74\141\142\154\x65\163", "\x66\x6f\x72\x6d\137\166\141\x6c\151\x64\141\164\151\157\x6e"]); goto SLz2B; kcsla: } public function output_json($data, $encode = true) { goto kMKhG; M3wkQ: XG9b4: goto FgQgn; I5f73: $data = json_encode($data); goto M3wkQ; FgQgn: $this->output->set_content_type("\x61\x70\x70\x6c\x69\143\141\164\x69\x6f\x6e\x2f\x6a\163\x6f\x6e")->set_output($data); goto SnlYj; kMKhG: if (!$encode) { goto XG9b4; } goto I5f73; SnlYj: } public function index() { goto xfUkR; kX68M: $data["\147\x75\162\x75"] = $this->dropdown->getAllGuru(); goto yKJ6D; in3de: $data["\x69\144\x5f\147\165\x72\165"] = $guru->id_guru; goto AWMdL; yKJ6D: $this->load->view("\x5f\x74\145\x6d\x70\x6c\x61\x74\145\x73\57\144\141\163\x68\x62\157\x61\162\x64\57\137\x68\145\x61\x64\145\x72", $data); goto Gyhgh; rcTLa: $data["\163\155\164"] = $this->dashboard->getSemester(); goto BtwcW; kZRyM: $smt = $this->master->getSemesterActive(); goto xJIl0; fr0Jn: goto pfjez; goto Kcv6k; qAPBn: $data["\147\x75\x72\x75"] = $guru; goto in3de; xJIl0: $data["\164\x70"] = $this->dashboard->getTahun(); goto cW4rm; zKyod: $data["\160\162\x6f\146\x69\154\x65"] = $this->dashboard->getProfileAdmin($user->id); goto kX68M; AWMdL: $this->load->view("\x6d\145\155\142\x65\162\x73\57\147\x75\162\x75\x2f\x74\145\x6d\160\x6c\141\x74\x65\x73\x2f\150\x65\141\144\145\162", $data); goto hVpgU; Gyhgh: $this->load->view("\x6b\145\x6c\x61\x73\x2f\141\x62\163\145\156\x68\141\162\x69\x61\x6e\57\144\x61\x74\x61"); goto zFiSm; AWWr6: pfjez: goto pkheq; lmMYF: $tp = $this->master->getTahunActive(); goto kZRyM; xfUkR: $user = $this->ion_auth->user()->row(); goto bURia; bURia: $data = ["\x75\x73\145\x72" => $user, "\x6a\165\144\x75\154" => "\113\x65\150\141\x64\x69\162\141\x6e\x20\110\x61\162\151\141\156\40\x53\x69\163\167\141", "\x73\165\x62\x6a\165\144\165\x6c" => "\x44\141\x74\141\x20\113\x65\150\141\x64\x69\162\x61\x6e\40\x53\151\x73\x77\x61", "\x73\145\x74\x74\x69\x6e\x67" => $this->dashboard->getSetting()]; goto lmMYF; AlSqL: $data["\x6b\145\x6c\141\x73"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt); goto SuBfh; hVpgU: $this->load->view("\153\x65\154\x61\x73\57\x61\x62\163\x65\x6e\150\141\162\151\141\x6e\57\x64\x61\164\141"); goto E2jKI; zFiSm: $this->load->view("\137\164\145\x6d\160\154\x61\164\x65\163\57\144\141\x73\150\x62\157\141\x72\x64\57\137\x66\157\x6f\164\x65\162"); goto AWWr6; ZK7Y4: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto Rv9Gd; SuBfh: $data["\155\x61\x70\145\x6c"] = $this->dropdown->getAllMapel(); goto ZT5Lc; BtwcW: $data["\x73\155\164\137\x61\x63\164\x69\x76\145"] = $smt; goto AlSqL; Rv9Gd: $nguru[$guru->id_guru] = $guru->nama_guru; goto qAPBn; ZT5Lc: if ($this->ion_auth->is_admin()) { goto mnHCw; } goto ZK7Y4; cW4rm: $data["\164\x70\x5f\x61\143\x74\x69\166\145"] = $tp; goto rcTLa; Kcv6k: mnHCw: goto zKyod; E2jKI: $this->load->view("\x6d\x65\x6d\142\145\x72\163\57\x67\x75\162\x75\57\164\145\155\x70\154\141\x74\145\x73\57\x66\157\x6f\164\x65\x72"); goto fr0Jn; pkheq: } public function loadAbsensi() { goto f_YZL; OSAGg: oLjwR: goto lnCu0; aFp_K: if (!(count($arrIdMapel) > 0)) { goto Kvoxd; } goto SZknu; ZpPA4: $id_tp = $this->master->getTahunActive()->id_tp; goto s6jCh; TveMo: $arrIdMapel = []; goto C2wRQ; XHSTo: $log = []; goto C84EM; KJzyT: foreach ($jadwal_materi as $jmtr) { goto I3Wad; ujBxS: sN1ax: goto DLTDJ; DLTDJ: v4MPw: goto Clksp; I3Wad: foreach ($jmtr as $jam) { goto Vp2QH; dtUpK: P4A0C: goto zsDqR; Vp2QH: foreach ($jam as $jns) { array_push($arrIdKjm, $jns->id_kjm); R9lqp: } goto dtUpK; zsDqR: zPeAS: goto zLnLw; zLnLw: } goto ujBxS; Clksp: } goto zmaPP; f_YZL: $id_kelas = $this->input->post("\x6b\x65\154\x61\x73", true); goto dkr3z; GoXv0: $istirahat = unserialize($info->istirahat); goto LQF0c; EvBDf: $siswa = $this->kelas->getKelasSiswa($id_kelas, $id_tp, $id_smt); goto XHSTo; vcej3: $jadwal = $this->dashboard->loadJadwalHariIni($id_tp, $id_smt, $id_kelas, $hari); goto TveMo; z2kdS: $bulan = $this->input->post("\x62\x6c\156", true); goto IMvHp; CvP7z: $istirahat = []; goto njFEz; C2wRQ: foreach ($jadwal as $jd) { array_push($arrIdMapel, $jd->id_mapel); pSYF_: } goto xiN7R; LQF0c: aza3y: goto vcej3; s6jCh: $id_smt = $this->master->getSemesterActive()->id_smt; goto phAhW; JVF4D: $jadwal_materi = []; goto aFp_K; dkr3z: $tahun = $this->input->post("\164\150\156", true); goto z2kdS; hFtfA: Kvoxd: goto dE9Xr; dE9Xr: $arrIdKjm = []; goto KJzyT; lnCu0: JauBe: goto YE5Oc; xiN7R: OC94v: goto JVF4D; CyN79: $hari = $this->input->post("\150\141\x72\151", true); goto ZpPA4; YE5Oc: $this->output_json(array("\x74\145\163\164" => [$id_kelas, $tahun . "\55" . $bulan . "\x2d" . $tanggal, $arrIdMapel], "\154\x6f\x67" => $log, "\151\x6e\x66\157" => $info, "\x6a\141\144\167\141\154" => $jadwal, "\x6d\x61\164\x65\162\x69" => $jadwal_materi, "\151\x73\164\151\162\x61\150\x61\164" => $istirahat)); goto fN46s; URjpM: if ($info != null) { goto bMoOG; } goto CvP7z; SZknu: $jadwal_materi = $this->kelas->getAllMateriByTgl($id_kelas, $tahun . "\x2d" . $bulan . "\x2d" . $tanggal, $arrIdMapel); goto hFtfA; PREYC: $tanggal = str_pad($tanggal, 2, "\60", STR_PAD_LEFT); goto AL0u0; njFEz: goto aza3y; goto oHr9F; oHr9F: bMoOG: goto GoXv0; Wy3NM: foreach ($siswa as $s) { goto INvEZ; NFiJw: $log[$s->id_siswa] = ["\156\x61\155\x61" => $s->nama, "\156\151\163" => $s->nis, "\153\x65\154\x61\x73" => $s->nama_kelas, "\163\164\141\x74\x75\x73" => $status]; goto An0uZ; cvdck: q3loa: goto Vmsbz; INvEZ: $status_materi = []; goto yaNRF; MUz8J: icniH: goto NFiJw; sKykO: $status_materi = $this->kelas->getRekapStatusMateri($s->id_siswa, $arrIdKjm); goto cvdck; Vmsbz: $status = []; goto Nf8m7; An0uZ: QAT10: goto df7pu; yaNRF: if (!(count($arrIdKjm) > 0)) { goto q3loa; } goto sKykO; Nf8m7: foreach ($status_materi as $stat) { $status[$stat->jam_ke][$stat->id_mapel][$stat->jenis] = $stat; PSmxC: } goto MUz8J; df7pu: } goto OSAGg; AL0u0: $info = $this->dashboard->getJadwalKbm($id_tp, $id_smt, $id_kelas); goto URjpM; IMvHp: $tanggal = $this->input->post("\x74\147\154", true); goto CyN79; zmaPP: XPWbQ: goto EvBDf; C84EM: if (!($info != null)) { goto JauBe; } goto Wy3NM; phAhW: $bulan = str_pad($bulan, 2, "\x30", STR_PAD_LEFT); goto PREYC; fN46s: } }
+class Kelasabsensiharian extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto PF8ku;
+        }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto dRJdm;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        dRJdm:
+        PF8ku:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Master_model", "master");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->load->model("Kelas_model", "kelas");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto XG9b4;
+        }
+        $data = json_encode($data);
+        XG9b4:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Kehadiran Harian Siswa", "subjudul" => "Data Kehadiran Siswa", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->master->getTahunActive();
+        $smt = $this->master->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $data["kelas"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
+        $data["mapel"] = $this->dropdown->getAllMapel();
+        if ($this->ion_auth->is_admin()) {
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $data["guru"] = $this->dropdown->getAllGuru();
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("kelas/absenharian/data");
+            $this->load->view("_templates/dashboard/_footer");
+            goto AWWr6;
+        }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $data["guru"] = $guru;
+        $data["id_guru"] = $guru->id_guru;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("kelas/absenharian/data");
+        $this->load->view("members/guru/templates/footer");
+        AWWr6:
+    }
+    public function loadAbsensi()
+    {
+        $id_kelas = $this->input->post("kelas", true);
+        $tahun = $this->input->post("thn", true);
+        $bulan = $this->input->post("bln", true);
+        $tanggal = $this->input->post("tgl", true);
+        $hari = $this->input->post("hari", true);
+        $id_tp = $this->master->getTahunActive()->id_tp;
+        $id_smt = $this->master->getSemesterActive()->id_smt;
+        $bulan = str_pad($bulan, 2, "0", STR_PAD_LEFT);
+        $tanggal = str_pad($tanggal, 2, "0", STR_PAD_LEFT);
+        $info = $this->dashboard->getJadwalKbm($id_tp, $id_smt, $id_kelas);
+        if ($info != null) {
+            $istirahat = unserialize($info->istirahat);
+            goto LQF0c;
+        }
+        $istirahat = [];
+        LQF0c:
+        $jadwal = $this->dashboard->loadJadwalHariIni($id_tp, $id_smt, $id_kelas, $hari);
+        $arrIdMapel = [];
+        foreach ($jadwal as $jd) {
+            array_push($arrIdMapel, $jd->id_mapel);
+        }
+        $jadwal_materi = [];
+        if (!(count($arrIdMapel) > 0)) {
+            goto Kvoxd;
+        }
+        $jadwal_materi = $this->kelas->getAllMateriByTgl($id_kelas, $tahun . "-" . $bulan . "-" . $tanggal, $arrIdMapel);
+        Kvoxd:
+        $arrIdKjm = [];
+        foreach ($jadwal_materi as $jmtr) {
+            foreach ($jmtr as $jam) {
+                foreach ($jam as $jns) {
+                    array_push($arrIdKjm, $jns->id_kjm);
+                }
+            }
+        }
+        $siswa = $this->kelas->getKelasSiswa($id_kelas, $id_tp, $id_smt);
+        $log = [];
+        if (!($info != null)) {
+            goto JauBe;
+        }
+        foreach ($siswa as $s) {
+            $status_materi = [];
+            if (!(count($arrIdKjm) > 0)) {
+                goto q3loa;
+            }
+            $status_materi = $this->kelas->getRekapStatusMateri($s->id_siswa, $arrIdKjm);
+            q3loa:
+            $status = [];
+            foreach ($status_materi as $stat) {
+                $status[$stat->jam_ke][$stat->id_mapel][$stat->jenis] = $stat;
+            }
+            $log[$s->id_siswa] = ["nama" => $s->nama, "nis" => $s->nis, "kelas" => $s->nama_kelas, "status" => $status];
+        }
+        JauBe:
+        $this->output_json(array("test" => [$id_kelas, $tahun . "-" . $bulan . "-" . $tanggal, $arrIdMapel], "log" => $log, "info" => $info, "jadwal" => $jadwal, "materi" => $jadwal_materi, "istirahat" => $istirahat));
+    }
+}

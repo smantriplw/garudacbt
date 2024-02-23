@@ -1,7 +1,139 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\102\x41\123\x45\120\x41\x54\x48") or exit("\116\x6f\x20\144\151\162\145\143\x74\40\163\x63\162\x69\x70\164\40\141\x63\143\145\163\x73\x20\141\x6c\x6c\157\167\145\144"); class Dbmanager extends CI_Controller { public function __construct() { goto yQxiq; nn2qJ: YNpDy: goto Izw4O; WMOah: $this->load->model("\x44\141\163\150\142\x6f\x61\x72\x64\137\x6d\x6f\x64\x65\x6c", "\x64\141\x73\150\x62\157\141\x72\x64"); goto yIf7_; GYcTb: show_error("\x48\x61\156\171\141\x20\x41\x64\x6d\x69\x6e\40\171\x61\x6e\x67\x20\x62\157\154\x65\x68\40\155\x65\x6e\x67\141\x6b\x73\145\163\40\x68\141\x6c\x61\155\141\156\40\151\x6e\x69", 403, "\x41\153\163\145\x73\x20\144\x69\154\141\x72\141\x6e\x67"); goto nn2qJ; OdHIi: j_9FR: goto TAosH; yIf7_: $this->load->helper("\x64\151\x72\145\143\x74\157\x72\x79"); goto IWE5E; dKKaA: $this->load->model("\x53\x65\164\164\x69\x6e\x67\163\x5f\155\x6f\144\145\154", "\x73\145\164\164\x69\x6e\x67\163"); goto WMOah; TAosH: $this->load->library("\x75\x70\x6c\x6f\141\144"); goto dKKaA; Izw4O: goto j_9FR; goto ioUva; lSQTl: redirect("\141\165\164\150"); goto OdHIi; TP8pt: if ($this->ion_auth->is_admin()) { goto YNpDy; } goto GYcTb; kS63N: if (!$this->ion_auth->logged_in()) { goto taKPZ; } goto TP8pt; yQxiq: parent::__construct(); goto kS63N; ioUva: taKPZ: goto lSQTl; IWE5E: } public function output_json($data, $encode = true) { goto uuWPU; W2f6b: $this->output->set_content_type("\141\160\x70\154\x69\143\141\x74\151\x6f\x6e\x2f\152\x73\x6f\156")->set_output($data); goto PNKU0; tuAR9: NaBzp: goto W2f6b; uuWPU: if (!$encode) { goto NaBzp; } goto mCi_d; mCi_d: $data = json_encode($data); goto tuAR9; PNKU0: } public function index() { goto vReCD; OII9T: JoV3o: goto X3bI3; OOcjx: $data["\x74\141\x62\x6c\x65\x73"] = $this->db->list_tables(); goto gLmWj; vReCD: $user = $this->ion_auth->user()->row(); goto fL7b5; nGBpz: $data["\163\155\164\137\141\143\164\x69\166\145"] = $this->dashboard->getSemesterActive(); goto tSSXv; N73w6: $this->load->view("\137\164\x65\x6d\x70\x6c\141\x74\145\x73\x2f\x64\x61\x73\150\x62\x6f\x61\x72\x64\x2f\x5f\146\x6f\x6f\164\145\162"); goto eJF3i; QSpUM: $data["\x74\x70"] = $this->dashboard->getTahun(); goto FnjIf; VA2HG: $data["\x73\x6d\164"] = $this->dashboard->getSemester(); goto nGBpz; fL7b5: $data = ["\x75\163\145\162" => $user, "\x6a\x75\x64\165\154" => "\x42\141\143\x6b\165\160\40\x64\x61\x6e\x20\122\x65\x73\164\x6f\162\145", "\163\x75\x62\x6a\165\144\165\x6c" => "\x42\x61\x63\x6b\x75\x70\40\123\x65\155\165\x61\x20\x44\141\x74\x61\142\141\163\x65\x20\x64\141\x6e\x20\106\x69\154\x65", "\x70\x72\157\x66\x69\154\145" => $this->dashboard->getProfileAdmin($user->id), "\x73\145\164\164\151\x6e\x67" => $this->dashboard->getSetting()]; goto QSpUM; GmAmI: $arrFile = []; goto cH1ds; FnjIf: $data["\164\160\137\x61\143\x74\x69\x76\145"] = $this->dashboard->getTahunActive(); goto VA2HG; cH1ds: foreach ($list as $key => $value) { goto VXFyL; x67V5: RaydT: goto N203R; jbrEr: $nama = $nfile[0]; goto MXudR; VXFyL: $nfile = explode("\56", $value); goto jbrEr; tkL06: $tgl = filemtime("\x2e\x2f\x62\141\143\x6b\165\160\163\57" . $value); goto m5gkS; MXudR: $type = $nfile[1]; goto tkL06; DuBKI: $arrFile[$key] = ["\x74\x79\160\x65" => $type, "\x6e\x61\x6d\141" => $nama, "\164\x67\154" => $tgl, "\x73\151\172\145" => $size, "\x73\162\143" => $value]; goto x67V5; m5gkS: $size = $this->formatSizeUnits(filesize("\x2e\x2f\142\x61\143\x6b\x75\160\163\x2f" . $value)); goto DuBKI; N203R: } goto OII9T; gLmWj: $this->load->view("\x5f\x74\x65\x6d\x70\154\x61\164\x65\163\x2f\144\x61\163\x68\x62\157\x61\x72\x64\57\x5f\x68\x65\141\x64\x65\x72", $data); goto UzmlK; UzmlK: $this->load->view("\x73\145\164\x74\151\x6e\x67\x2f\144\142"); goto N73w6; tSSXv: $list = directory_map("\x2e\x2f\142\141\143\153\165\160\x73\57"); goto GmAmI; X3bI3: $data["\154\x69\163\x74"] = $arrFile; goto OOcjx; eJF3i: } public function manage() { goto N0DMa; lsIX6: foreach ($tables as $table) { $data_tables[$table] = $this->settings->toJSON($table); BN9_S: } goto RrYQs; glYXx: $data["\x73\x6d\164\137\x61\143\x74\151\166\x65"] = $this->dashboard->getSemesterActive(); goto C1wE1; RJnpw: $data["\x73\155\x74"] = $this->dashboard->getSemester(); goto glYXx; RrYQs: JkYS4: goto q4Itj; XX5FR: $this->load->view("\163\145\x74\x74\151\x6e\x67\x2f\155\x61\x6e\141\x67\145"); goto NJstw; N0DMa: $user = $this->ion_auth->user()->row(); goto qFU0L; NJstw: $this->load->view("\137\x74\145\x6d\160\x6c\x61\x74\145\x73\x2f\x64\141\163\150\142\157\x61\x72\x64\57\137\146\157\157\x74\145\x72"); goto Mw73O; q4Itj: $data["\164\141\x62\x6c\145\x73"] = $data_tables; goto UCkaY; l18sJ: $tables = $this->db->list_tables(); goto lsIX6; Bx99S: $data["\164\x70"] = $this->dashboard->getTahun(); goto q2VKp; C1wE1: $data_tables = []; goto l18sJ; qFU0L: $data = ["\165\163\145\162" => $user, "\x6a\165\x64\x75\154" => "\x42\145\x72\163\151\x68\153\x61\156\x20\x44\141\164\x61", "\x73\165\x62\x6a\165\144\165\x6c" => "\x48\141\x70\x75\x73\40\104\x61\x74\141", "\160\x72\157\146\151\x6c\145" => $this->dashboard->getProfileAdmin($user->id), "\163\x65\164\164\x69\156\147" => $this->dashboard->getSetting()]; goto Bx99S; UCkaY: $this->load->view("\137\x74\145\155\160\x6c\141\x74\145\x73\x2f\x64\x61\x73\150\142\157\x61\162\144\x2f\x5f\150\x65\141\144\145\x72", $data); goto XX5FR; q2VKp: $data["\164\160\x5f\x61\x63\164\151\166\x65"] = $this->dashboard->getTahunActive(); goto RJnpw; Mw73O: } public function truncate() { goto J44Cd; J44Cd: $tables = $this->db->list_tables(); goto mGVEo; Dun0i: $this->output_json(["\163\164\141\164\165\163" => true]); goto HCOOM; mGVEo: $this->settings->truncate($tables); goto Dun0i; HCOOM: } public function backupDb() { goto eVQ9z; MnivV: $this->load->helper("\146\x69\x6c\x65"); goto gu5Ps; sfr8F: $prefs = ["\164\141\142\154\x65\163" => $this->db->list_tables(), "\151\147\x6e\x6f\162\145" => array(), "\146\x6f\162\x6d\x61\164" => "\172\x69\160", "\x66\x69\154\145\x6e\141\x6d\145" => "\142\141\x63\153\165\160\x2e\x73\161\154", "\141\144\x64\x5f\144\162\x6f\x70" => TRUE, "\x61\x64\x64\137\x69\x6e\x73\x65\x72\x74" => TRUE, "\156\x65\167\x6c\x69\x6e\x65" => "\12"]; goto eVfDf; wQvCt: $this->output_json(["\x74\171\160\145" => "\144\141\x74\x61\142\x61\x73\145", "\x6d\x65\163\163\x61\147\145" => "\x44\141\164\x61\x62\x61\x73\145\x20\142\x65\x72\150\x61\163\151\154\x20\x64\x69\142\141\x63\153\165\x70"]); goto j2Who; eVfDf: $backup = $this->dbutil->backup($prefs); goto MnivV; gu5Ps: write_file("\x2e\x2f\142\141\x63\x6b\165\x70\163\57\x62\x61\143\153\x75\160\x2d\144\142\x2d" . date("\131\x2d\155\55\x64\x2d\110\x2d\151\55\x73") . "\56\x73\x71\x6c\x2e\172\x69\x70", $backup); goto wQvCt; eVQ9z: $this->load->dbutil(); goto kOZw8; kOZw8: $this->dbutil->optimize_database(); goto sfr8F; j2Who: } public function backupData() { goto aR6nM; aR6nM: $this->load->library("\172\x69\x70"); goto xCOtX; OIuh5: $this->zip->archive("\56\x2f\x62\x61\x63\153\165\160\163\57\142\141\x63\x6b\165\160\x2d\146\151\x6c\145\55" . date("\131\x2d\155\55\x64\x2d\110\x2d\151\x2d\163") . "\x2e\x7a\151\160"); goto EKCM0; EKCM0: $this->output_json(["\x74\171\160\x65" => "\146\x69\154\x65", "\x6d\x65\163\163\x61\147\145" => "\106\x69\x6c\x65\40\144\x61\x74\141\40\x62\x65\x72\150\141\163\151\x6c\x20\x64\151\142\141\x63\153\x75\x70"]); goto XIKJZ; xCOtX: $this->zip->read_dir("\165\x70\x6c\x6f\141\x64\x73"); goto OIuh5; XIKJZ: } public function hapusBackup($src) { goto dymNU; REyRa: $this->output_json(["\163\x74\141\164\x75\x73" => false, "\155\x65\163\x73\141\147\145" => "\x47\x61\147\x61\154\x20\x6d\x65\x6e\147\x68\x61\x70\165\x73\40\x62\141\x63\153\165\x70"]); goto Ybyo6; bTTLc: JZola: goto i_WPt; yh1Nf: e64Ob: goto Ir921; Ybyo6: goto e64Ob; goto bTTLc; dymNU: if (unlink("\x2e\57\x62\141\143\x6b\165\x70\x73\x2f" . $src)) { goto JZola; } goto REyRa; i_WPt: $this->output_json(["\163\164\141\164\x75\163" => true, "\x6d\x65\x73\x73\141\147\x65" => "\x42\x61\x63\x6b\x75\x70\x20\x62\x65\x72\x68\141\163\151\154\x20\144\151\x68\141\x70\165\x73"]); goto yh1Nf; Ir921: } function formatSizeUnits($bytes) { goto JfOmx; Q24c6: u7FSS: goto F8w92; i1DZt: return $bytes; goto EhBnB; X1h6P: w4ys0: goto yGoZc; g4jLr: if ($bytes > 1) { goto w4ys0; } goto CL35M; ugc8Y: goto H1LgM; goto FrGaI; JfOmx: if ($bytes >= 1073741824) { goto u7FSS; } goto zJIQa; F8w92: $bytes = number_format($bytes / 1073741824, 2) . "\40\107\x42"; goto QV0LW; FrGaI: FLbQ8: goto SkdkK; zJIQa: if ($bytes >= 1048576) { goto Fc2a_; } goto fG2v8; RxRUA: goto H1LgM; goto Q24c6; Zc1ro: $bytes = number_format($bytes / 1024, 2) . "\40\113\x42"; goto Cq_HV; QV0LW: goto H1LgM; goto U_P38; Cq_HV: goto H1LgM; goto X1h6P; yGoZc: $bytes = $bytes . "\40\x62\171\164\145\163"; goto ugc8Y; eYND6: $bytes = "\60\40\142\171\x74\x65\x73"; goto RxRUA; CL35M: if ($bytes == 1) { goto FLbQ8; } goto eYND6; VdpIj: $bytes = number_format($bytes / 1048576, 2) . "\x20\x4d\x42"; goto Ud1O8; U_P38: Fc2a_: goto VdpIj; ro0GU: H1LgM: goto i1DZt; SkdkK: $bytes = $bytes . "\40\x62\x79\x74\145"; goto ro0GU; Ud1O8: goto H1LgM; goto sqPmG; fG2v8: if ($bytes >= 1024) { goto LbdtF; } goto g4jLr; sqPmG: LbdtF: goto Zc1ro; EhBnB: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Dbmanager extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto OdHIi;
+        }
+        if ($this->ion_auth->is_admin()) {
+            goto YNpDy;
+        }
+        show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
+        YNpDy:
+        OdHIi:
+        $this->load->library("upload");
+        $this->load->model("Settings_model", "settings");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->helper("directory");
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto NaBzp;
+        }
+        $data = json_encode($data);
+        NaBzp:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Backup dan Restore", "subjudul" => "Backup Semua Database dan File", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $this->dashboard->getTahunActive();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $this->dashboard->getSemesterActive();
+        $list = directory_map("./backups/");
+        $arrFile = [];
+        foreach ($list as $key => $value) {
+            $nfile = explode(".", $value);
+            $nama = $nfile[0];
+            $type = $nfile[1];
+            $tgl = filemtime("./backups/" . $value);
+            $size = $this->formatSizeUnits(filesize("./backups/" . $value));
+            $arrFile[$key] = ["type" => $type, "nama" => $nama, "tgl" => $tgl, "size" => $size, "src" => $value];
+        }
+        $data["list"] = $arrFile;
+        $data["tables"] = $this->db->list_tables();
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("setting/db");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function manage()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "Bersihkan Data", "subjudul" => "Hapus Data", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $this->dashboard->getTahunActive();
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $this->dashboard->getSemesterActive();
+        $data_tables = [];
+        $tables = $this->db->list_tables();
+        foreach ($tables as $table) {
+            $data_tables[$table] = $this->settings->toJSON($table);
+        }
+        $data["tables"] = $data_tables;
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("setting/manage");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function truncate()
+    {
+        $tables = $this->db->list_tables();
+        $this->settings->truncate($tables);
+        $this->output_json(["status" => true]);
+    }
+    public function backupDb()
+    {
+        $this->load->dbutil();
+        $this->dbutil->optimize_database();
+        $prefs = ["tables" => $this->db->list_tables(), "ignore" => array(), "format" => "zip", "filename" => "backup.sql", "add_drop" => TRUE, "add_insert" => TRUE, "newline" => "\n"];
+        $backup = $this->dbutil->backup($prefs);
+        $this->load->helper("file");
+        write_file("./backups/backup-db-" . date("Y-m-d-H-i-s") . ".sql.zip", $backup);
+        $this->output_json(["type" => "database", "message" => "Database berhasil dibackup"]);
+    }
+    public function backupData()
+    {
+        $this->load->library("zip");
+        $this->zip->read_dir("uploads");
+        $this->zip->archive("./backups/backup-file-" . date("Y-m-d-H-i-s") . ".zip");
+        $this->output_json(["type" => "file", "message" => "File data berhasil dibackup"]);
+    }
+    public function hapusBackup($src)
+    {
+        if (unlink("./backups/" . $src)) {
+            $this->output_json(["status" => true, "message" => "Backup berhasil dihapus"]);
+            goto yh1Nf;
+        }
+        $this->output_json(["status" => false, "message" => "Gagal menghapus backup"]);
+        yh1Nf:
+    }
+    function formatSizeUnits($bytes)
+    {
+        if ($bytes >= 1073741824) {
+            $bytes = number_format($bytes / 1073741824, 2) . " GB";
+            goto H1LgM;
+        }
+        if ($bytes >= 1048576) {
+            $bytes = number_format($bytes / 1048576, 2) . " MB";
+            goto H1LgM;
+        }
+        if ($bytes >= 1024) {
+            $bytes = number_format($bytes / 1024, 2) . " KB";
+            goto H1LgM;
+        }
+        if ($bytes > 1) {
+            $bytes .= " bytes";
+            goto H1LgM;
+        }
+        if ($bytes == 1) {
+            $bytes .= " byte";
+            goto ro0GU;
+        }
+        $bytes = "0 bytes";
+        ro0GU:
+        H1LgM:
+        return $bytes;
+    }
+}

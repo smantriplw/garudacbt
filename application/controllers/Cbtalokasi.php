@@ -1,7 +1,130 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- class Cbtalokasi extends CI_Controller { public function __construct() { goto yuRCr; Dk4ZN: y_nuM: goto XMogP; a329v: show_error("\x48\141\156\x79\141\40\101\x64\x6d\x69\x6e\x69\x73\x74\162\x61\164\157\162\40\x79\x61\156\x67\x20\x64\151\142\145\x72\151\x20\x68\x61\x6b\x20\x75\x6e\164\165\x6b\x20\x6d\145\156\x67\141\x6b\163\x65\163\x20\150\141\154\x61\x6d\x61\156\x20\151\156\151\54\40\x3c\x61\x20\x68\162\145\146\x3d\x22" . base_url("\144\x61\x73\150\x62\x6f\x61\x72\144") . "\x22\x3e\x4b\145\155\142\x61\x6c\x69\40\x6b\145\x20\155\145\x6e\165\40\x61\167\x61\x6c\x3c\57\141\x3e", 403, "\101\153\x73\145\x73\40\x54\145\x72\154\141\x72\x61\x6e\x67"); goto Dk4ZN; NWqb_: $this->form_validation->set_error_delimiters('', ''); goto E7iGr; yuRCr: parent::__construct(); goto Us7bq; exQBt: redirect("\x61\165\164\x68"); goto m_c2i; BpOZs: if ($this->ion_auth->is_admin()) { goto y_nuM; } goto a329v; Us7bq: if (!$this->ion_auth->logged_in()) { goto ZBT5f; } goto BpOZs; ozvHR: ZBT5f: goto exQBt; xMoH2: $this->load->library(["\x64\141\x74\x61\164\141\x62\x6c\x65\x73", "\146\x6f\162\155\137\166\141\x6c\x69\x64\141\x74\x69\x6f\156"]); goto NWqb_; XMogP: goto FgKU6; goto ozvHR; m_c2i: FgKU6: goto xMoH2; E7iGr: } public function output_json($data, $encode = true) { goto DyHfC; AzgO0: $this->output->set_content_type("\141\x70\x70\154\151\x63\x61\x74\151\x6f\x6e\57\x6a\163\x6f\156")->set_output($data); goto J_Xd6; lonCo: KmQuy: goto AzgO0; D6ZVa: $data = json_encode($data); goto lonCo; DyHfC: if (!$encode) { goto KmQuy; } goto D6ZVa; J_Xd6: } public function index() { goto obYMm; NHzeG: $this->load->model("\104\x61\x73\x68\x62\157\141\162\x64\x5f\155\157\144\145\x6c", "\x64\x61\163\150\x62\x6f\141\162\144"); goto i5lnl; fWlkQ: ecrZz: goto qRDVJ; y0CRA: $data["\x66\151\x6c\x74\x65\x72"] = ["\x30" => "\x53\145\x6d\x75\x61", "\61" => "\124\141\x6e\147\147\x61\154"]; goto ATK9p; gVrcp: if (!(count($id_jenis) > 0)) { goto c_F8b; } goto yK3gd; H2fx0: $tp = $this->dashboard->getTahunActive(); goto XQAli; GkmbF: $data["\x64\x61\x72\x69\x5f\163\x65\154\145\143\x74\x65\144"] = $dari_selected; goto kUKyK; QVgIX: if (count($ids) > 0) { goto GwvU0; } goto SzSlv; kTHoy: $this->load->view("\143\142\164\57\141\x6c\157\x6b\141\163\151\x2f\x64\141\164\x61"); goto vhb0Q; HID57: $data["\164\x70"] = $this->dashboard->getTahun(); goto L08M3; kUHW6: goto YJxFD; goto qw9sm; YcaSM: goto GAEqx; goto WnU7O; hDm2W: $data["\x6a\x61\144\167\141\154\x73"] = $jadwals; goto uEO1a; YAyL0: $level_selected = $this->input->get("\154\x65\x76\145\x6c", true); goto LsJ1L; obYMm: $this->load->model("\104\x72\x6f\x70\144\x6f\167\x6e\137\155\x6f\144\145\x6c", "\144\x72\x6f\160\x64\x6f\x77\x6e"); goto NHzeG; vJaZh: xA7HJ: goto YN55Q; fzwKc: $this->load->view("\137\164\145\155\160\x6c\x61\x74\145\163\57\x64\141\x73\150\x62\157\x61\x72\144\57\137\x68\145\141\144\x65\x72", $data); goto kTHoy; EwSrV: if ($setting->jenjang == "\62") { goto ecrZz; } goto zBV99; fR1Qd: goto YJxFD; goto fWlkQ; cJijF: $data["\163\155\164"] = $this->dashboard->getSemester(); goto irklR; zBV99: if ($setting->jenjang == "\63") { goto SMHgY; } goto kUHW6; qRDVJ: $levels = ["\60" => "\x50\151\154\151\150\40\114\x65\x76\x65\154", "\67" => "\x37", "\x38" => "\70", "\71" => "\x39"]; goto pnlOe; naVsV: $id_jenis = $this->cbt->getDistinctJenisJadwal($tp->id_tp, $smt->id_smt); goto NyvCJ; sP0B9: $sampai_selected = $this->input->get("\163\x61\x6d\x70\x61\x69", true); goto y0CRA; TWV70: $jadwals = $this->cbt->getJadwalByJenis($jenis_selected, $level_selected, $dari_selected, $sampai_selected); goto vJaZh; aH_cN: SMHgY: goto eLymf; iQTnA: rnvEe: goto O9WR4; Cgp8S: if (!($jenis_selected != null && $level_selected != null)) { goto xA7HJ; } goto TWV70; ATK9p: $data["\152\145\x6e\151\x73\x5f\163\x65\154\x65\x63\164\145\x64"] = $jenis_selected; goto B7yb9; B7yb9: $data["\x6c\145\166\x65\x6c\137\163\x65\154\145\143\164\145\144"] = $level_selected; goto AmkYe; qw9sm: uEFXE: goto n6U0Y; WnU7O: GwvU0: goto nZ3Rr; dxIeg: $setting = $this->dashboard->getSetting(); goto y0J0s; eLymf: $levels = ["\60" => "\x50\x69\x6c\151\150\40\x4c\145\x76\145\154", "\x31\x30" => "\61\x30", "\61\61" => "\x31\61", "\61\x32" => "\61\62"]; goto HtE7f; Og5ZE: HbkFL: goto hDm2W; n6U0Y: $levels = ["\60" => "\120\x69\154\x69\150\40\x4c\145\166\x65\154", "\x31" => "\61", "\62" => "\x32", "\63" => "\63", "\x34" => "\64", "\65" => "\65", "\x36" => "\66"]; goto fR1Qd; O9WR4: c_F8b: goto QVgIX; WSigN: $jenis_selected = $this->input->get("\152\x65\x6e\151\x73", true); goto YAyL0; R_JMV: $dari_selected = $this->input->get("\144\141\162\151", true); goto sP0B9; SzSlv: $data["\152\145\156\151\163"] = ['' => "\x62\145\154\165\155\40\141\144\x61\x20\152\x61\144\x77\141\x6c\x20\165\152\151\141\x6e"]; goto YcaSM; ZWhmI: foreach ($jadwals as $key => $row) { goto YZKk8; jNZan: aHbLB: goto YgoDR; nslp5: $ret[$row->tgl_mulai] = []; goto XhsIz; z4hgK: O6cxc: goto EkHKe; kVs_1: goto O6cxc; goto jNZan; EkHKe: x12lk: goto hwspa; XhsIz: array_push($ret[$row->tgl_mulai], $row); goto kVs_1; YgoDR: array_push($ret[$row->tgl_mulai], $row); goto z4hgK; YZKk8: if (isset($ret[$row->tgl_mulai])) { goto aHbLB; } goto nslp5; hwspa: } goto Og5ZE; qSIHo: $data["\162\165\x61\x6e\x67"] = $this->dropdown->getAllRuang(); goto W0let; AmkYe: $data["\x66\x69\154\x74\x65\162\x5f\163\145\154\145\143\164\145\x64"] = $filter_selected; goto GkmbF; qPEPd: GAEqx: goto WSigN; kUKyK: $data["\x73\x61\x6d\x70\141\151\137\x73\x65\154\x65\x63\164\145\x64"] = $sampai_selected; goto ExpvF; yK3gd: foreach ($id_jenis as $jenis) { array_push($ids, $jenis->id_jenis); M3Q5g: } goto iQTnA; LsJ1L: $filter_selected = $this->input->get("\x66\151\154\164\145\x72", true); goto R_JMV; YRn28: $user = $this->ion_auth->user()->row(); goto dxIeg; ExpvF: $jadwals = []; goto Cgp8S; NNnoO: $ret = []; goto ZWhmI; y0J0s: $data = ["\165\x73\x65\x72" => $user, "\152\165\x64\x75\154" => "\101\154\157\153\141\163\151\40\x57\x61\153\x74\x75", "\163\165\142\152\x75\x64\x75\x6c" => "\x41\x6c\157\153\x61\x73\x69\40\x57\x61\153\164\x75\x20\125\x6a\151\x61\x6e", "\163\x65\x74\x74\151\156\147" => $setting]; goto H2fx0; XQAli: $smt = $this->dashboard->getSemesterActive(); goto HID57; i5lnl: $this->load->model("\x43\142\164\137\x6d\x6f\144\145\154", "\x63\142\164"); goto YRn28; W0let: $levels = []; goto Uy1f3; z6cjO: $data["\x6c\x65\x76\x65\x6c\x73"] = $levels; goto NNnoO; pnlOe: goto YJxFD; goto aH_cN; vhb0Q: $this->load->view("\x5f\164\145\155\160\x6c\x61\x74\145\163\x2f\144\141\163\x68\142\x6f\x61\162\x64\x2f\137\x66\x6f\x6f\x74\145\x72"); goto J72qK; irklR: $data["\x73\155\x74\137\x61\x63\x74\x69\166\145"] = $smt; goto naVsV; nZ3Rr: $data["\152\145\156\151\x73"] = $this->cbt->getAllJenisUjianByArrJenis($ids); goto qPEPd; HtE7f: YJxFD: goto z6cjO; NyvCJ: $ids = []; goto gVrcp; L08M3: $data["\x74\160\137\141\x63\164\151\x76\145"] = $tp; goto cJijF; Uy1f3: if ($setting->jenjang == "\x31") { goto uEFXE; } goto EwSrV; uEO1a: $data["\x70\162\157\146\x69\154\x65"] = $this->dashboard->getProfileAdmin($user->id); goto fzwKc; YN55Q: $data["\x6b\145\x6c\x61\x73"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt); goto qSIHo; J72qK: } public function saveAlokasi() { goto F52xn; eY7Pf: $data["\x73\164\141\x74\165\x73"] = $update; goto VvLoA; VvLoA: $this->output_json($data); goto PIQXX; a_7iw: $insert = []; goto iwQTX; iwQTX: foreach ($input as $d) { goto wg8c_; wg8c_: if (!($d->id_jadwal != "\x30")) { goto SzYpZ; } goto ilf1X; iZBNP: yXU2l: goto RoTV7; ilf1X: array_push($insert, ["\151\144\x5f\x6a\141\144\x77\x61\154" => $d->id_jadwal, "\x6a\141\x6d\137\x6b\x65" => $d->jam_ke]); goto HkFV3; HkFV3: SzYpZ: goto iZBNP; RoTV7: } goto qb2G2; qb2G2: SPW4J: goto Osmpe; F52xn: $input = json_decode($this->input->post("\x61\154\x6f\x6b\141\x73\151", true)); goto a_7iw; Osmpe: $update = $this->db->update_batch("\143\142\164\137\x6a\141\x64\167\141\154", $insert, "\151\x64\137\x6a\141\x64\x77\141\x6c"); goto eY7Pf; PIQXX: } }
+class Cbtalokasi extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto m_c2i;
+        }
+        if ($this->ion_auth->is_admin()) {
+            goto y_nuM;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        y_nuM:
+        m_c2i:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto KmQuy;
+        }
+        $data = json_encode($data);
+        KmQuy:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Cbt_model", "cbt");
+        $user = $this->ion_auth->user()->row();
+        $setting = $this->dashboard->getSetting();
+        $data = ["user" => $user, "judul" => "Alokasi Waktu", "subjudul" => "Alokasi Waktu Ujian", "setting" => $setting];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $id_jenis = $this->cbt->getDistinctJenisJadwal($tp->id_tp, $smt->id_smt);
+        $ids = [];
+        if (!(count($id_jenis) > 0)) {
+            goto c_F8b;
+        }
+        foreach ($id_jenis as $jenis) {
+            array_push($ids, $jenis->id_jenis);
+        }
+        c_F8b:
+        if (count($ids) > 0) {
+            $data["jenis"] = $this->cbt->getAllJenisUjianByArrJenis($ids);
+            goto qPEPd;
+        }
+        $data["jenis"] = ['' => "belum ada jadwal ujian"];
+        qPEPd:
+        $jenis_selected = $this->input->get("jenis", true);
+        $level_selected = $this->input->get("level", true);
+        $filter_selected = $this->input->get("filter", true);
+        $dari_selected = $this->input->get("dari", true);
+        $sampai_selected = $this->input->get("sampai", true);
+        $data["filter"] = ["0" => "Semua", "1" => "Tanggal"];
+        $data["jenis_selected"] = $jenis_selected;
+        $data["level_selected"] = $level_selected;
+        $data["filter_selected"] = $filter_selected;
+        $data["dari_selected"] = $dari_selected;
+        $data["sampai_selected"] = $sampai_selected;
+        $jadwals = [];
+        if (!($jenis_selected != null && $level_selected != null)) {
+            goto xA7HJ;
+        }
+        $jadwals = $this->cbt->getJadwalByJenis($jenis_selected, $level_selected, $dari_selected, $sampai_selected);
+        xA7HJ:
+        $data["kelas"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
+        $data["ruang"] = $this->dropdown->getAllRuang();
+        $levels = [];
+        if ($setting->jenjang == "1") {
+            $levels = ["0" => "Pilih Level", "1" => "1", "2" => "2", "3" => "3", "4" => "4", "5" => "5", "6" => "6"];
+            goto YJxFD;
+        }
+        if ($setting->jenjang == "2") {
+            $levels = ["0" => "Pilih Level", "7" => "7", "8" => "8", "9" => "9"];
+            goto YJxFD;
+        }
+        if ($setting->jenjang == "3") {
+            $levels = ["0" => "Pilih Level", "10" => "10", "11" => "11", "12" => "12"];
+            goto HtE7f;
+        }
+        HtE7f:
+        YJxFD:
+        $data["levels"] = $levels;
+        $ret = [];
+        foreach ($jadwals as $key => $row) {
+            if (isset($ret[$row->tgl_mulai])) {
+                array_push($ret[$row->tgl_mulai], $row);
+                goto z4hgK;
+            }
+            $ret[$row->tgl_mulai] = [];
+            array_push($ret[$row->tgl_mulai], $row);
+            z4hgK:
+        }
+        $data["jadwals"] = $jadwals;
+        $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+        $this->load->view("_templates/dashboard/_header", $data);
+        $this->load->view("cbt/alokasi/data");
+        $this->load->view("_templates/dashboard/_footer");
+    }
+    public function saveAlokasi()
+    {
+        $input = json_decode($this->input->post("alokasi", true));
+        $insert = [];
+        foreach ($input as $d) {
+            if (!($d->id_jadwal != "0")) {
+                goto SzYpZ;
+            }
+            array_push($insert, ["id_jadwal" => $d->id_jadwal, "jam_ke" => $d->jam_ke]);
+            SzYpZ:
+        }
+        $update = $this->db->update_batch("cbt_jadwal", $insert, "id_jadwal");
+        $data["status"] = $update;
+        $this->output_json($data);
+    }
+}

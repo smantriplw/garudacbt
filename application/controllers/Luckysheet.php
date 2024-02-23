@@ -1,7 +1,57 @@
 <?php
+
 /*   ________________________________________
     |                 GarudaCBT              |
     |    https://github.com/garudacbt/cbt    |
     |________________________________________|
 */
- defined("\x42\x41\x53\x45\x50\x41\x54\x48") or exit("\116\x6f\40\x64\x69\x72\145\x63\164\x20\163\143\x72\151\160\x74\40\141\143\x63\x65\163\x73\x20\x61\154\154\x6f\167\x65\x64"); class Luckysheet extends CI_Controller { public function __construct() { goto IZNjh; IZNjh: parent::__construct(); goto AoOAu; k8fYR: show_error("\110\x61\156\x79\x61\x20\x41\144\155\151\x6e\151\163\x74\x72\141\164\157\162\40\x79\141\156\147\40\x64\151\142\x65\x72\151\x20\150\141\153\40\x75\156\164\x75\153\40\155\145\156\147\141\x6b\x73\145\x73\40\150\141\154\141\x6d\x61\x6e\40\x69\x6e\151\54\40\x3c\141\x20\150\162\145\146\75\42" . base_url("\x64\141\x73\x68\x62\157\x61\x72\144") . "\x22\76\x4b\x65\x6d\x62\x61\x6c\151\40\x6b\145\x20\155\145\156\165\x20\x61\x77\141\154\x3c\57\141\76", 403, "\x41\153\163\x65\163\x20\124\x65\x72\154\x61\162\x61\156\x67"); goto qyJgV; BoheB: $this->load->model("\122\x61\160\x6f\x72\x5f\155\x6f\144\145\x6c", "\x72\141\x70\x6f\x72"); goto D7GIc; qyJgV: xqkAs: goto h5Z9n; D7GIc: $this->load->model("\x4b\145\154\x61\163\137\155\157\x64\145\154", "\153\x65\x6c\x61\163"); goto OKTw2; Os2D5: $this->load->library(["\x64\x61\x74\141\x74\x61\x62\x6c\145\x73", "\146\x6f\x72\x6d\x5f\166\x61\x6c\151\x64\x61\164\151\157\156"]); goto Fbjw7; h5Z9n: goto RsEL1; goto iPKqy; qljLc: redirect("\x61\165\x74\150"); goto XP5mz; KLWe5: $this->form_validation->set_error_delimiters('', ''); goto lYkcl; Fbjw7: $this->load->model("\104\141\x73\150\x62\157\141\x72\x64\x5f\x6d\x6f\144\x65\x6c", "\144\141\x73\150\142\x6f\x61\x72\x64"); goto BoheB; qJFfI: if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("\147\165\x72\x75"))) { goto xqkAs; } goto k8fYR; pcvsg: $this->load->model("\x4d\141\163\164\145\x72\x5f\x6d\x6f\144\145\154", "\155\141\163\x74\145\162"); goto KLWe5; AoOAu: if (!$this->ion_auth->logged_in()) { goto ZLP3g; } goto qJFfI; iPKqy: ZLP3g: goto qljLc; OKTw2: $this->load->model("\x44\162\157\x70\144\157\x77\156\x5f\x6d\157\x64\145\154", "\x64\162\157\160\144\157\x77\156"); goto pcvsg; XP5mz: RsEL1: goto Os2D5; lYkcl: } public function output_json($data, $encode = true) { goto MPlFU; kkVxV: $data = json_encode($data); goto yIvLS; u3ZSR: $this->output->set_content_type("\141\x70\x70\154\x69\x63\x61\x74\x69\157\156\x2f\x6a\x73\x6f\x6e")->set_output($data); goto b8NiE; yIvLS: lwsV9: goto u3ZSR; MPlFU: if (!$encode) { goto lwsV9; } goto kkVxV; b8NiE: } public function index() { goto sRoTO; tRAnK: $data["\163\155\x74"] = $this->dashboard->getSemester(); goto GcTdk; MNkV3: $smt = $this->dashboard->getSemesterActive(); goto S1ian; DsWQQ: $this->load->view("\x6d\145\155\x62\x65\162\163\57\147\x75\162\165\x2f\x74\145\155\x70\154\141\164\x65\163\57\x66\157\157\x74\145\162"); goto Pufhy; y94QO: $data["\x74\x70\137\x61\x63\164\151\x76\x65"] = $tp; goto tRAnK; S1ian: $data["\x74\x70"] = $this->dashboard->getTahun(); goto y94QO; TAnye: $tp = $this->dashboard->getTahunActive(); goto MNkV3; H2rVc: $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt); goto nPXcZ; UpHzs: $data = ["\x75\x73\145\162" => $user, "\x6a\165\144\x75\x6c" => "\x55\163\x65\162\40\x4d\141\156\141\x67\x65\x6d\x65\x6e\x74", "\x73\x75\142\x6a\165\144\165\x6c" => "\104\141\164\x61\x20\125\x73\x65\162\x20\x53\x69\163\x77\x61", "\x73\x65\164\x74\151\156\147" => $this->dashboard->getSetting()]; goto TAnye; X_8H6: $this->load->view("\155\x65\x6d\142\x65\x72\163\x2f\147\x75\x72\165\57\x6c\165\x63\153\x79\x76\x69\x65\167"); goto DsWQQ; GcTdk: $data["\163\x6d\x74\137\141\x63\164\x69\x76\x65"] = $smt; goto H2rVc; sRoTO: $user = $this->ion_auth->user()->row(); goto UpHzs; CyllO: $this->load->view("\x6d\145\155\142\145\x72\x73\x2f\147\x75\x72\x75\x2f\164\x65\155\x70\x6c\141\x74\145\163\x2f\x68\145\x61\x64\145\162", $data); goto X_8H6; nPXcZ: $data["\147\165\162\165"] = $guru; goto CyllO; Pufhy: } }
+defined("BASEPATH") or exit("No direct script access allowed");
+class Luckysheet extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+            goto XP5mz;
+        }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto xqkAs;
+        }
+        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        xqkAs:
+        XP5mz:
+        $this->load->library(["datatables", "form_validation"]);
+        $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Rapor_model", "rapor");
+        $this->load->model("Kelas_model", "kelas");
+        $this->load->model("Dropdown_model", "dropdown");
+        $this->load->model("Master_model", "master");
+        $this->form_validation->set_error_delimiters('', '');
+    }
+    public function output_json($data, $encode = true)
+    {
+        if (!$encode) {
+            goto lwsV9;
+        }
+        $data = json_encode($data);
+        lwsV9:
+        $this->output->set_content_type("application/json")->set_output($data);
+    }
+    public function index()
+    {
+        $user = $this->ion_auth->user()->row();
+        $data = ["user" => $user, "judul" => "User Management", "subjudul" => "Data User Siswa", "setting" => $this->dashboard->getSetting()];
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $data["tp"] = $this->dashboard->getTahun();
+        $data["tp_active"] = $tp;
+        $data["smt"] = $this->dashboard->getSemester();
+        $data["smt_active"] = $smt;
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $data["guru"] = $guru;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("members/guru/luckyview");
+        $this->load->view("members/guru/templates/footer");
+    }
+}
