@@ -9,7 +9,7 @@ class Log_model extends CI_Model
 {
     function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
         $this->load->library("user_agent");
     }
     public function saveLog($type, $desc)

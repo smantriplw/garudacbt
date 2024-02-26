@@ -11,7 +11,7 @@ class Update extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        include "APPPATHconfig/database.php";
+        include APPPATH."config/database.php";
         $this->load->dbforge();
         $this->load->database();
         $this->load->library("encryption");

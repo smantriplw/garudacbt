@@ -9,7 +9,7 @@ class Kelas_model extends CI_Model
 {
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
     }
     public function saveLog($table, $id_siswa, $id_kjm, $jamke, $mapel, $desc)
     {
@@ -296,7 +296,7 @@ class Kelas_model extends CI_Model
         $this->db->from("kelas_siswa a");
         $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa");
         $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND i.status=1");
-        $this->db->where_in("a.id_kelas", $id);
+        $this->db->where_in("a.id_kelas", [$id]);
         $this->db->where("a.id_tp", $tp);
         $this->db->where("a.id_smt", $smt);
         $this->db->order_by("b.nama", "ASC");

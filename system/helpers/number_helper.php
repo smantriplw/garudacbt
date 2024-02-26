@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CodeIgniter
  *
@@ -7,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,12 +30,14 @@
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
  * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * CodeIgniter Number Helpers
  *
@@ -44,37 +45,51 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @subpackage	Helpers
  * @category	Helpers
  * @author		EllisLab Dev Team
- * @link		https://codeigniter.com/user_guide/helpers/number_helper.html
+ * @link		https://codeigniter.com/userguide3/helpers/number_helper.html
  */
+
 // ------------------------------------------------------------------------
-if (!function_exists('byte_format')) {
-    /**
-     * Formats a numbers as bytes, based on size, and adds the appropriate suffix
-     *
-     * @param	mixed	will be cast as int
-     * @param	int
-     * @return	string
-     */
-    function byte_format($num, $precision = 1)
-    {
-        $CI =& get_instance();
-        $CI->lang->load('number');
-        if ($num >= 1000000000000) {
-            $num = round($num / 1099511627776, $precision);
-            $unit = $CI->lang->line('terabyte_abbr');
-        } elseif ($num >= 1000000000) {
-            $num = round($num / 1073741824, $precision);
-            $unit = $CI->lang->line('gigabyte_abbr');
-        } elseif ($num >= 1000000) {
-            $num = round($num / 1048576, $precision);
-            $unit = $CI->lang->line('megabyte_abbr');
-        } elseif ($num >= 1000) {
-            $num = round($num / 1024, $precision);
-            $unit = $CI->lang->line('kilobyte_abbr');
-        } else {
-            $unit = $CI->lang->line('bytes');
-            return number_format($num) . ' ' . $unit;
-        }
-        return number_format($num, $precision) . ' ' . $unit;
-    }
+
+if ( ! function_exists('byte_format'))
+{
+	/**
+	 * Formats a numbers as bytes, based on size, and adds the appropriate suffix
+	 *
+	 * @param	mixed	will be cast as int
+	 * @param	int
+	 * @return	string
+	 */
+	function byte_format($num, $precision = 1)
+	{
+		$CI =& get_instance();
+		$CI->lang->load('number');
+
+		if ($num >= 1000000000000)
+		{
+			$num = round($num / 1099511627776, $precision);
+			$unit = $CI->lang->line('terabyte_abbr');
+		}
+		elseif ($num >= 1000000000)
+		{
+			$num = round($num / 1073741824, $precision);
+			$unit = $CI->lang->line('gigabyte_abbr');
+		}
+		elseif ($num >= 1000000)
+		{
+			$num = round($num / 1048576, $precision);
+			$unit = $CI->lang->line('megabyte_abbr');
+		}
+		elseif ($num >= 1000)
+		{
+			$num = round($num / 1024, $precision);
+			$unit = $CI->lang->line('kilobyte_abbr');
+		}
+		else
+		{
+			$unit = $CI->lang->line('bytes');
+			return number_format($num).' '.$unit;
+		}
+
+		return number_format($num, $precision).' '.$unit;
+	}
 }

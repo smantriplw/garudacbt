@@ -124,6 +124,7 @@ class Cbtjadwal extends CI_Controller
         $mapel_guru = $this->kelas->getGuruMapelKelas($guru->id_guru, $tp->id_tp, $smt->id_smt);
         $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
         $arrMapel = [];
+
         foreach ($mapel as $m) {
             $arrMapel[$m->id_mapel] = $m->nama_mapel;
         }

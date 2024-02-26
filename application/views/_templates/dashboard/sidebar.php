@@ -364,6 +364,12 @@
                         <p>Profile Sekolah</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('dapodik') ?>" class="nav-link <?= $page === 'dapodik' ? 'active' : '' ?>">
+                        <i class="fas fa-server nav-icon"></i>
+                        <p>DAPODIK</p>
+                    </a>
+                </li>
                 <li class="nav-item has-treeview <?= in_array($page, $usermanager) ? "menu-open" : "" ?>">
                     <a href="#" class="nav-link <?= in_array($page, $usermanager) ? "active" : "" ?>">
                         <i class="nav-icon fa fa-users-cog"></i>

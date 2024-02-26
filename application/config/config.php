@@ -29,7 +29,8 @@ date_default_timezone_set('Asia/Jakarta');
 // $config['base_url'] = '';
 // $config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
 // $config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
-$scheme = isset($_SERVER["HTTPS"]) && @$_SERVER["HTTPS"] == "on" ? "https" : "http";
+// $scheme = isset($_SERVER["HTTPS"]) && @$_SERVER["HTTPS"] == "on" ? "https" : "http";
+$scheme = 'https';
 $config['base_url'] = "{$scheme}://" . $_SERVER['HTTP_HOST'];
 $config['base_url'] .= preg_replace('@/+$@', '', dirname($_SERVER['SCRIPT_NAME'])) . '/';
 /*
@@ -521,3 +522,7 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 $config['min_password_length'] = 6;
 $config['max_password_length'] = 20;
+
+// Dapodik webservice credentials
+$config['DAPODIK_WEBSERVICE_URL'] = 'https://dapodik.sman3palu.sch.id';
+$config['DAPODIK_WEBSERVICE_TOKEN'] = 'rV0ljelHFD8cHXW';

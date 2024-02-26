@@ -18,12 +18,13 @@
 	"ext-zip": "*",
     "phpoffice/phpspreadsheet": "1.*",
     "phpoffice/phpword": "^0.18.1",
-    "alhimik1986/php-excel-templator": "^1.0",
+    "alhimik1986/php-excel-templator": "^1.0.15",
     "ext-json": "*",
     "dompdf/dompdf": "^1.0",
     "ext-gd": "*",
     "ext-iconv": "*",
-    "ext-calendar": "*"
+    "ext-calendar": "*",
+    "guzzlehttp/guzzle": "^7.0"
   },
   "suggest": {
     "paragonie/random_compat": "Provides better randomness in PHP 5.x"

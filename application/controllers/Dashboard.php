@@ -100,8 +100,9 @@ class Dashboard extends CI_Controller
         foreach ($kbms as $key => $item) {
             $arrKbm[$item->id_kelas] = $item;
         }
-        if ($this->ion_auth->in_group("siswa")) {
-            $siswa = $this->dashboard->getDataSiswa($user->username, $tp->id_tp, $smt->id_smt);
+
+        $siswa = $this->dashboard->getDataSiswa($user->username, $tp->id_tp, $smt->id_smt);
+        if ($siswa) {
             if ($siswa == null) {
                 $this->load->view("disable_login", $data);
                 goto vVtRN;
@@ -143,20 +144,9 @@ class Dashboard extends CI_Controller
                 }
             }
         }
-        $data["jadwals_ujian"] = $tglJadwals;
-        $data["pengawas"] = $this->cbt->getAllPengawas($tp->id_tp, $smt->id_smt, null, null);
-        $data["ruangs"] = $this->cbt->getDistinctRuang($tp->id_tp, $smt->id_smt, []);
-        $data["gurus"] = $this->dropdown->getAllGuru();
-        if ($this->ion_auth->is_admin()) {
-            $data["info_box"] = $this->admin_box($setting, $tp->id_tp, $smt->id_smt);
-            $data["ujian_box"] = $this->ujian_box();
-            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
-            $this->load->view("_templates/dashboard/_header", $data);
-            $this->load->view("dashboard");
-            $this->load->view("_templates/dashboard/_footer");
-            goto db7nA;
-        }
-        if ($this->ion_auth->in_group("guru")) {
+        
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        if ($guru) {
             $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
             if ($guru == null) {
                 $this->load->view("disable_login", $data);
@@ -170,6 +160,19 @@ class Dashboard extends CI_Controller
             $this->load->view("members/guru/templates/footer");
             sLDNu:
             goto BYDZa;
+        }
+        $data["jadwals_ujian"] = $tglJadwals;
+        $data["pengawas"] = $this->cbt->getAllPengawas($tp->id_tp, $smt->id_smt, null, null);
+        $data["ruangs"] = $this->cbt->getDistinctRuang($tp->id_tp, $smt->id_smt, []);
+        $data["gurus"] = $this->dropdown->getAllGuru();
+        if ($this->ion_auth->is_admin()) {
+            $data["info_box"] = $this->admin_box($setting, $tp->id_tp, $smt->id_smt);
+            $data["ujian_box"] = $this->ujian_box();
+            $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
+            $this->load->view("_templates/dashboard/_header", $data);
+            $this->load->view("dashboard");
+            $this->load->view("_templates/dashboard/_footer");
+            goto db7nA;
         }
         BYDZa:
         db7nA:

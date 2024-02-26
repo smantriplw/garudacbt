@@ -446,7 +446,6 @@ class Datasiswa extends CI_Controller
         if (!($i < count($siswas))) {
             $params = ["[id]" => $ids, "[no]" => $no, "[nis]" => $nis, "[nisn]" => $nisn, "[nama]" => $nama, "[jk]" => $jk, "[username]" => $username, "[password]" => $password, "[kelas_awal]" => $kelas_awal, "[tgl_diterima]" => $tgl_diterima, "[sekolah_asal]" => $sekolah_asal, "[tempat_lahir]" => $tempat_lahir, "[tgl_lahir]" => $tgl_lahir, "[agama]" => $agama, "[tlp_siswa]" => $tlp_siswa, "[email]" => $email, "[anak_ke]" => $anak_ke, "[status_keluarga]" => $status_keluarga, "[alamat_siswa]" => $alamat_siswa, "[rt]" => $rt, "[rw]" => $rw, "[kel]" => $kel, "[kec]" => $kec, "[kab]" => $kab, "[prov]" => $prov, "[kode_pos]" => $kode_pos, "[nama_ayah]" => $nama_ayah, "[tgl_lahir_ayah]" => $tgl_lahir_ayah, "[pendidikan_ayah]" => $pendidikan_ayah, "[pekerjaan_ayah]" => $pekerjaan_ayah, "[tlp_ayah]" => $tlp_ayah, "[alamat_ayah]" => $alamat_ayah, "[nama_ibu]" => $nama_ibu, "[tgl_lahir_ibu]" => $tgl_lahir_ibu, "[pendidikan_ibu]" => $pendidikan_ibu, "[pekerjaan_ibu]" => $pekerjaan_ibu, "[tlp_ibu]" => $tlp_ibu, "[alamat_ibu]" => $alamat_ibu, "[nama_wali]" => $nama_wali, "[tgl_lahir_wali]" => $tgl_lahir_wali, "[pendidikan_wali]" => $pendidikan_wali, "[pekerjaan_wali]" => $pekerjaan_wali, "[tlp_wali]" => $tlp_wali, "[alamat_wali]" => $alamat_wali];
             PhpExcelTemplator::outputToFile($template, $fileName, $params);
-            // [PHPDeobfuscator] Implied return
             return;
         }
         $siswa = $siswas[$i];

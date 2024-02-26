@@ -16,6 +16,7 @@
 </div>
 <!-- ./wrapper -->
 
+<script async src="https://arc.io/widget.min.js#NxEP5Did"></script>
 <script src="<?= base_url() ?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="<?= base_url() ?>assets/dist/js/adminlte.min.js"></script>
 <script src="<?= base_url() ?>assets/bower_components/pace/pace.min.js"></script>

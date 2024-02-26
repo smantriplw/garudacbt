@@ -13,7 +13,7 @@ class Install_model extends CI_Model
     }
     function check_installer()
     {
-        include "APPPATHconfig/database.php";
+        include APPPATH . "config/database.php";
         $database = $db["default"]["database"];
         $this->load->dbutil();
         if ($database == '') {

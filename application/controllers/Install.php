@@ -11,7 +11,7 @@ class Install extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        include "APPPATHconfig/database.php";
+        include APPPATH."config/database.php";
         if (!($db["default"]["database"] != '')) {
             goto if5kg;
         }
@@ -57,7 +57,7 @@ class Install extends CI_Controller
     }
     function getSaved()
     {
-        include "APPPATHconfig/database.php";
+        include APPPATH."config/database.php";
         $database = $db["default"]["database"];
         $data["hostname"] = $db["default"]["hostname"];
         $data["username"] = $db["default"]["username"];
@@ -125,7 +125,7 @@ class Install extends CI_Controller
         $database = $this->input->post("database", true);
         if ($this->validate_host($hostname, $hostuser, $database)) {
             $template_path = "./assets/app/db/database.php";
-            $output_path = "APPPATHconfig/database.php";
+            $output_path = APPPATH."config/database.php";
             $database_file = file_get_contents($template_path);
             $new = str_replace("%HOSTNAME%", $hostname, $database_file);
             $new = str_replace("%USERNAME%", $hostuser, $new);
