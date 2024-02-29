@@ -1,43 +1,9 @@
-# GarudaCBT
-## Last version: 1.5.2
+# GarudaCBT-FORK
+## Last version: 1.6.0
 
 -------------
-### CHANGELOG:
 
-#### Added
-- Soal gambar menjodohkan
-- Soal gambar tanpa text
-- Search/paging rekap nilai
-- Search kelas/rombel
-- Search status ujian
-- NIS list siswa di menu edit kelas
-- Detect new tab ketika siswa sedang ujian
-
-#### Fixed
-- Rekap nilai 0
-- Detail soal
-- Typo
-- Edit soal gambar hang
-- Gambar soal di menu koreksi
-- Hapus jadwal ujian
-- Hapus siswa dari rombel
-- Download soal ujian KP
-- Edit soal ketika ujian berlangsung
-- Mapel SD/MI
-- Cetak rapor PTS beda predikat
-- Kehadiran rapor di DKN
-- Rapor prestasi berbeda dengan arsip
-- Rapor kesehatan
-- Ttd kepsek rapor akhir
-- Mapel rapor berbeda dengan arsip
-
-- Struktur organisasi #admin
-- Reset waktu ujian siswa #pengawas
-- Search daftar siswa ada siswa lain kelas #wali kelas
-- Tugas/Materi guru membaca kelas lain #guru
-- Semua guru dianggap pengawas #pengawas
-- Soal menjodohkan dianggap terjawab #siswa
-
+Saya [@hansputera (Hanif Dwy Putra S)](https://github.com/hansputera) selaku maintainer GarudaCBT (Fork) yang memodifikasi software GarudaCBT yang menggunakan CI (CodeIgniter) 3 agar terus dapat digunakan. Dengan beberapa fitur tambahan untuk melakukan penyesuaian kerja dan lingkungan di sekolah kami (**SMA Negeri 3 Palu**)
 ___________
 
 ## NOTE:
@@ -63,6 +29,12 @@ https://github.com/origrata/garudacbt-vdi
 * Download Aplikasi dari menu **Code => Download ZIP**
 * Extract di folder **htdocs** jika menggunakan XAMPP, atau folder **www** jika mengonakan Laragon
 * Lengkapnya sialhkan ke [TUTORIAL INSTALL](https://github.com/garudacbt/cbt/wiki)
+
+[GarudaCBT Fork Note]
+* Untuk GarudaCBT-Fork, konfigurasi Dapodik pada file `application/config/config.php` di line paling bawah. Silahkan ganti value dari `DAPODIK_WEBSERVICE_URL` dengan base url server Dapodik sekolah Anda, dan ganti `DAPODIK_WEBSERVICE_TOKEN` dengan token webservice yang telah teregistrasi di server Dapodik Anda.
+* Untuk GarudaCBT-Fork, beberapa fitur dari Base-GarudaCBT telah difix, dan mengalami beberapa perubahan kode untuk memperbaiki bug.
+* Kode dalam GarudaCBT-Fork sudah tidak diobfuscated seperti kode yang berasal dari sumber aslinya.
+
 ----
 ## Update
 * Download Aplikasi dari menu **Code => Download ZIP**
@@ -124,6 +96,9 @@ ______
         * Administrator
         * Guru
         * Siswa
+    * TARIK DAPODIK - feature by [@hansputera (Hanif Dwy Putra S)](https://github.com/hansputera)
+        * TARIK SISWA
+        * TARIK GTK
     * Database
         * Backup/Restore
         * Update
