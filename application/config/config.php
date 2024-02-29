@@ -526,3 +526,13 @@ $config['max_password_length'] = 20;
 // Dapodik webservice credentials
 $config['DAPODIK_WEBSERVICE_URL'] = 'https://dapodik.sman3palu.sch.id';
 $config['DAPODIK_WEBSERVICE_TOKEN'] = 'rV0ljelHFD8cHXW';
+
+// profiller
+// $sections = [
+//     'queries' => TRUE,
+//     'benchmarks' => TRUE,
+//     'memory_usage' => TRUE,
+//     'uri_string' => TRUE,
+//     'controller_info' => TRUE,
+// ];
+// $this->output->set_profiler_sections($sections);

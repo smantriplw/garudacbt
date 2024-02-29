@@ -139,6 +139,7 @@ class Datakelas extends CI_Controller
         $data["guru"] = $this->kelas->getWaliKelas($tp->id_tp, $smt->id_smt);
         $data["siswa"] = $this->kelas->getAllSiswa($tp->id_tp, $smt->id_smt);
         $data["siswakelas"] = $this->kelas->get_siswa_kelas($id, $tp->id_tp, $smt->id_smt);
+
         $this->load->view("_templates/dashboard/_header", $data);
         $this->load->view("master/kelas/add");
         $this->load->view("_templates/dashboard/_footer");

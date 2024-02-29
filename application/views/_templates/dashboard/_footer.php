@@ -3,7 +3,7 @@
 
 <!-- Main Footer -->
 <footer class="main-footer">
-    <strong>GarudaCBT (Modified)</strong> v.<?= APP_VERSION ?>
+    <strong>GarudaCBT (Modified) by <a href="https://github.com/hansputera">Hanif Dwy Putra S</a></strong> v.<?= APP_VERSION ?>
     <div class="float-right d-none d-sm-inline-block">
         <strong>Copyright &copy; 2014-<?= date('Y'); ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
         <b>Version</b> 3.0.5

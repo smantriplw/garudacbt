@@ -17,7 +17,7 @@
                         <img src="<?= base_url() ?>/assets/img/garuda_circle.png" width="60" height="60">
                         <div class="info-box-content">
                                 <span class="text-white"
-                                      style="font-size: 24pt; line-height: 0.7;"><b>GarudaCBT</b></span>
+                                      style="font-size: 24pt; line-height: 0.7;"><b>HANSPUTERA</b></span>
                             <span class="text-white">C B T   A p p l i c a t i o n</span>
                         </div>
                     </div>
@@ -157,6 +157,7 @@
     window.addEventListener('popstate', function (event) {
         loadSoalNomor(1);
     });
+
     const infoJadwal = JSON.parse(JSON.stringify(<?= json_encode($jadwal) ?>));
     let elapsed = '0';
     var timer = '0';
@@ -176,7 +177,7 @@
         document.onmousedown = rtclickcheck;
         swal.fire({
             title: 'Peraturan Ujian',
-            html: 'Kerjakan soal dengan benar dan jangan nyontek',
+            html: 'Kerjakan soal dengan benar dan jangan nyontek yah 😘',
             // showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',

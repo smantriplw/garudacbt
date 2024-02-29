@@ -118,7 +118,7 @@
                                                         </td>
                                                     </tr>
                                                     <?php
-                                                    $jamMulai->add(new DateInterval('PT' . $kbms->kbm_jam_pel . 'M'));
+                                                        $jamMulai->add(new DateInterval('PT' . $kbms->kbm_jam_pel . 'M'));
                                                 endif; endfor; ?>
                                             </tbody>
                                         </table>
@@ -137,6 +137,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="text-center">
+            <small>&copy; Copyright 2023-<?= date('Y'); ?> <strong>GarudaCBT Modified</strong> by <strong>Hanif Dwy Putra S</strong></small>
         </div>
     </section>
 </div>

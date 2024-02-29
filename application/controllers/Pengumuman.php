@@ -51,6 +51,8 @@ class Pengumuman extends CI_Controller
         $kelas = $this->dropdown->getAllKeyKodeKelas($tp->id_tp, $smt->id_smt);
         $data["kelas"] = $kelas;
         $data["running_text"] = $this->dashboard->getRunningText();
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+
         if ($this->ion_auth->is_admin()) {
             $data["subjudul"] = "Semua Pengumuman";
             $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
@@ -58,10 +60,10 @@ class Pengumuman extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("pengumuman/data");
             $this->load->view("_templates/dashboard/_footer");
-            goto LYL_U;
+            return;
         }
+
         $data["subjudul"] = "Pengumuman Anda";
-        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
         $data["guru"] = $guru;
         $data["pengumumans"] = $this->post->getPostUser($guru->id_guru);
         $this->load->view("members/guru/templates/header", $data);

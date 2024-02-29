@@ -50,8 +50,6 @@ class Dapodik extends CI_Controller
 
         $this->db->trans_start();
         foreach($json->rows as $value) {
-            $row = $this->db->where('nip', $value->nip);
-
             $data = [
                 'nip' => $value->nip,
                 'nama_guru' => $value->nama,
@@ -62,10 +60,35 @@ class Dapodik extends CI_Controller
                 "agama" => $value->agama_id_str,
             ];
 
-            $action = $this->db->update('master_guru', $data);
-            if (!$action) {
-                $action = $this->db->replace('master_guru', $data);
-                if (!$action) {
+            if (!isset($value->nip) || strlen($value->nip) < 5) {
+                array_push($nama_fails, 'MERR: ' . $value->nama);
+            } else {
+                // $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+                $userGuruRow = $this->db->select('id')->from('users')->where('username', $value->nip)->get()->row();
+                if (isset($userGuruRow)) {
+                    $data['id_user'] = $userGuruRow->id;
+                }
+
+                $rowGuru = $this->db->select('nip')->from('master_guru')->where('nip', $value->nip)->get()->num_rows();
+                if ($rowGuru > 0) {
+                    $act = $this->master->update('master_guru', $data, 'nip', $value->nip);
+                } else {
+                    $act = $this->master->create('master_guru', $data);
+                }
+
+                if (!$this->ion_auth->username_check($data['username'])) {
+                    $nama = explode(" ", $value->nama);
+                    $first_name = $nama[0];
+                    $last_name = end($nama);
+                    if (!$this->ion_auth->register($data['username'], $data['password'], $value->nip . '@guru.com', [
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
+                    ], array('2'))) {
+                        array_push($nama_fails, 'UERR: ' . $value->nama);
+                    }
+                }
+
+                if (!$act) {
                     array_push($nama_fails, $value->nama);
                 }
             }
@@ -101,8 +124,8 @@ class Dapodik extends CI_Controller
         $json = json_decode((string) $response->getBody());
         $nama_fails = [];
 
-        $this->db->trans_start();
-        foreach ($json->rows as $index => $value) {
+        // $this->db->trans_start();
+        foreach ($json->rows as $value) {
             $data = [
                 'nisn' => $value->nisn,
                 'nis' => $value->nipd,
@@ -128,15 +151,15 @@ class Dapodik extends CI_Controller
 
             $levelKelas = 10;
             $kelas = explode(' ', $value->nama_rombel);
-            if (strcmp($kelas[0], 'X') == 0) {
+            if ($kelas[0] === 'X') {
                 $levelKelas = 10;
             }
 
-            if (strcmp($kelas[0], 'XI') == 0) {
+            if ($kelas[0] === 'XI') {
                 $levelKelas = 11;
             }
 
-            if (strcmp($kelas[0], 'XII')) {
+            if ($kelas[0] === 'XII') {
                 $levelKelas = 12;
             }
 
@@ -149,42 +172,157 @@ class Dapodik extends CI_Controller
 
             if (count($kelas) == 2) {
                 $jurusanData['nama_jurusan'] = 'Non Jurusan';
-                $jurusanData['kode_jurusan'] = 'non-jurusan';
+                $jurusanData['kode_jurusan'] = 'NONJURUSAN';
             }
 
-            $actionJurusan = $this->db->update('master_jurusan', $data);
-            if (!$actionJurusan) {
-                $actionJurusan = $this->db->insert('master_jurusan', $data);
+            $rowJurusan = $this->db->select('*')->from('master_jurusan')->where('kode_jurusan', $jurusanData['kode_jurusan'])->get()->row();
+            if (!isset($rowJurusan)) {
+                $actionJurusan = $this->master->create('master_jurusan', $jurusanData);
+                $rowJurusan = $this->db->select('*')->from('master_jurusan')->where('kode_jurusan', $jurusanData['kode_jurusan'])->get()->row();
             }
 
             if (!$data['nik'] || !$data['nis'] || !$data['nisn']) {
                 array_push($nama_fails, $data['nama']);
             } else {
-                $action = $this->db->update("master_siswa", $data);
-                if (!$action) {
+                $row = $this->db->select('nama, id_siswa')->from('master_siswa')->where('nisn', $value->nisn)->get()->row();
+
+                if (isset($row)) {
+                    $actionJurusan = $this->master->update("master_siswa", $data, 'nisn', $value->nisn);
+                } else {
                     $this->db->set("uid", "UUID()", FALSE);
-                    $this->db->replace('master_siswa', $data);
+                    $actionJurusan = $this->master->create('master_siswa', $data);
+                }
+
+                if (!$actionJurusan) {
+                    array_push($nama_fails, $data['nama']);
+                }
+
+                $rowKelas = $this->db->select('id_kelas, jumlah_siswa, siswa_id')->from('master_kelas')->where('kode_kelas', strtolower(preg_replace('/\s+/', '_', $value->nama_rombel)))->get()->row();
+                $id_tp = $this->master->getTahunActive()->id_tp;
+                $id_smt = $this->master->getSemesterActive()->id_smt;
+                
+                $insertDataKelas = [
+                    'nama_kelas' => $value->nama_rombel,
+                    'kode_kelas' => strtolower(preg_replace('/\s+/', '_', $value->nama_rombel)),
+                    'jurusan_id' => $rowJurusan->id_jurusan,
+                    'id_tp' => $id_tp,
+                    'id_smt' => $id_smt,
+                    'level_id' => $levelKelas,
+                    'siswa_id' => $row->id_siswa,
+                    // 'jumlah_siswa' => serialize(array_map(function($data) {
+                    //     return ['id'=>$data->id_siswa];
+                    // }, $uids)),
+                    'guru_id' => 0,
+                ];
+
+                if ($rowKelas) {
+                    $insertDataKelas['siswa_id'] = $rowKelas->siswa_id;
+                    $currentKelasSiswa = $this->db->select('id_siswa')->from('kelas_siswa')->where('id_kelas', $rowKelas->id_kelas)->get()->result();
+
+                    if (isset($currentKelasSiswa) && count($currentKelasSiswa)) {
+                        $currentKelasSiswa = array_map(function ($data) {
+                            return ['id' => $data->id_siswa];
+                        }, $currentKelasSiswa);
+
+                        array_push($currentKelasSiswa, ['id' => $row->id_siswa]);
+                    }
+                    // $unserializedJmlSiswa = json_decode(json_encode(unserialize($rowKelas->jumlah_siswa)));
+                    // array_push($unserializedJmlSiswa, $row->id_siswa);
+
+                    $insertDataKelas['jumlah_siswa'] = serialize($currentKelasSiswa);
+                    $this->master->update('master_kelas', $insertDataKelas, 'id_kelas', $rowKelas->id_kelas);
+                } else {
+                    $insertDataKelas['jumlah_siswa'] = serialize([
+                        [
+                            'id' => $row->id_siswa,
+                        ],
+                    ]);
+                    $this->master->create('master_kelas', $insertDataKelas);
+                }
+
+                $rowKelasSiswa = $this->db->select('id_siswa')->from('kelas_siswa')->where('id_siswa', $row->id_siswa)->get()->num_rows();
+                $rowKelasData = [
+                    'id_kelas_siswa' => $id_tp . $id_smt . $row->id_siswa,
+                    'id_tp' => $id_tp,
+                    'id_smt' => $id_smt,
+                    'id_siswa' => $row->id_siswa,
+                    'id_kelas' => $rowKelas->id_kelas,
+                ];
+
+                if ($rowKelasSiswa > 0) {
+                    $this->master->update('kelas_siswa', $rowKelasData, 'id_siswa', $row->id_siswa);
+                } else {
+                    $this->master->create('kelas_siswa', $rowKelasData);
                 }
             }
         }
-        $this->db->trans_complete();
+        // $this->db->trans_complete();
+
+        // $uids = $this->db->select("id_siswa, uid")->from("master_siswa")->get()->result();
+        // $rowKelas = $this->db->select('id_kelas, jumlah_siswa')->from('master_kelas')->where('kode_kelas', strtolower(preg_replace('/\s+/', '_', $value->nama_rombel)))->get()->row();
+        // $id_tp = $this->master->getTahunActive()->id_tp;
+        // $id_smt = $this->master->getSemesterActive()->id_smt;
+        
+        // $insertDataKelas = [
+        //     'nama_kelas' => $value->nama_rombel,
+        //     'kode_kelas' => strtolower(preg_replace('/\s+/', '_', $value->nama_rombel)),
+        //     'jurusan_id' => $rowJurusan->id_jurusan,
+        //     'id_tp' => $id_tp,
+        //     'id_smt' => $id_smt,
+        //     'level_id' => $levelKelas,
+        //     'siswa_id' => $uids[array_rand($uids)]->id_siswa,
+        //     // 'jumlah_siswa' => serialize(array_map(function($data) {
+        //     //     return ['id'=>$data->id_siswa];
+        //     // }, $uids)),
+        //     'guru_id' => 0,
+        // ];
+
+        // if ($rowKelas) {
+        //     $this->master->update('master_kelas', $insertDataKelas, 'id_kelas', $rowKelas->id_kelas);
+        // } else {
+        //     $unserializedJmlSiswa = unserialize($rowKelas->jumlah_siswa);
+        //     array_push($unserializedJmlSiswa, )
+        //     $this->master->create('master_kelas', $insertDataKelas);
+        // }
+
+        // $this->db->trans_start();
+        foreach ($uids as $uid) {
+            $check = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $uid->id_siswa)->get()->num_rows();
+
+            if ($check < 1) {
+                $this->master->create("buku_induk", $uid);
+            }
+        }
+        // $this->db->trans_complete();
 
         $uids = $this->db->select("id_siswa, uid")->from("master_siswa")->get()->result();
         foreach ($uids as $uid) {
-            $check = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $uid->id_siswa);
-            if (!($check->get()->num_rows() == 0)) {
-                $this->output_json([
-                    'message' => 'Terupdate ' . strval(count($uids)) . ' data',
-                    'fails' => $nama_fails,
-                ]);
-                return;
+            $check = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $uid->id_siswa)->get()->num_rows();
+
+            if ($check < 1) {
+                $this->master->create("buku_induk", $uid);
             }
-            $this->db->insert("buku_induk", $uid);
+
+            // $rowKelasSiswa = $this->db->select('id_siswa')->from('kelas_siswa')->where('id_siswa', $uid->id_siswa)->get()->num_rows();
+            // $rowKelasData = [
+            //     'id_kelas_siswa' => $id_tp . $id_smt . $uid->id_siswa,
+            //     'id_tp' => $id_tp,
+            //     'id_smt' => $id_smt,
+            //     'id_siswa' => $uid->id_siswa,
+            //     'id_kelas' => $rowKelas->id_kelas,
+            // ];
+
+            // if ($rowKelasSiswa > 0) {
+            //     $this->master->update('kelas_siswa', $rowKelasData, 'id_siswa', $uid->id_siswa);
+            // } else {
+            //     $this->master->create('kelas_siswa', $rowKelasData);
+            // }
         }
 
         $this->output_json([
             'message' => 'Telah terdaftar ' . strval(count($uids)) . ' siswa, dari perolehan ' . strval(count($json->results) . ' siswa'),
             'fails' => $nama_fails,
+            // '_a' => $rowKelas,
         ]);
     }
 

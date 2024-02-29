@@ -80,10 +80,9 @@ class Usersiswa extends CI_Controller
         $data["status"] = true;
         $data["id"] = $reg;
         if (!($reg == false)) {
-            goto bagmu;
+            return $data;
         }
         $data["status"] = false;
-        bagmu:
         return $data;
     }
     private function aktifkan($siswa)
@@ -98,17 +97,21 @@ class Usersiswa extends CI_Controller
         $group = array("3");
         $user_siswa = $this->db->get_where("users", "email=\"" . $email . "\"")->row();
         $deleted = true;
-        if (!($user_siswa != null)) {
-            goto E4DN2;
+        if (isset($user_siswa)) {
+            if ($deleted) {
+                $reg = $this->registerSiswa($username, $password, $email, $additional_data, $group);
+                $data = ["status" => $reg, "msg" => !$reg ? "Akun " . $siswa->nama . " gagal diaktifkan." : "Akun " . $siswa->nama . " diaktifkan."];
+                goto MemeO;
+            }
         }
         $deleted = $this->ion_auth->delete_user($user_siswa->id);
-        E4DN2:
         if ($deleted) {
             $reg = $this->registerSiswa($username, $password, $email, $additional_data, $group);
             $data = ["status" => $reg, "msg" => !$reg ? "Akun " . $siswa->nama . " gagal diaktifkan." : "Akun " . $siswa->nama . " diaktifkan."];
             goto MemeO;
         }
         $data = ["status" => false, "msg" => "Akun siswa tidak tersedia (sudah digunakan)."];
+
         MemeO:
         return $data;
     }
@@ -122,14 +125,14 @@ class Usersiswa extends CI_Controller
     {
         $siswaAktif = $this->users->getSiswaAktif();
         $jum = 0;
+        $this->db->trans_start();
         foreach ($siswaAktif as $siswa) {
-            if (!($siswa->aktif == 0)) {
-                goto hmvI4;
+            if (!$siswa->aktif) {
+                $this->aktifkan($siswa);
+                $jum += 1;
             }
-            $this->aktifkan($siswa);
-            $jum += 1;
-            hmvI4:
         }
+        $this->db->trans_complete();
         $data = ["status" => true, "jumlah" => $jum, "msg" => $jum . " siswa diaktifkan."];
         $this->output_json($data);
     }

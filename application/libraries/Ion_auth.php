@@ -304,11 +304,13 @@ class Ion_auth
      * @return bool Whether the user is an administrator
      * @author Ben Edmunds
      */
-    public function is_admin($id = FALSE)
-    {
+    public function is_admin($id = FALSE) {
         $this->ion_auth_model->trigger_events('is_admin');
-        $admin_group = $this->config->item('admin_group', 'ion_auth');
-        return $this->ion_auth_model->in_group($admin_group, $id);
+
+        $id || ($id = $this->session->userdata('user_id'));
+        $isAdmin = $this->db->select('group_id, user_id')->from('users_groups')->where('group_id', 1)->where('user_id', $id)->get()->row();
+
+        return isset($isAdmin);
     }
     /**
      * Check the compatibility with the server

@@ -298,6 +298,8 @@ class Cbtbanksoal extends CI_Controller
             $data["id_guru"] = '';
             $data["gurus"] = $this->dropdown->getAllGuru();
             $data["mapel"] = $this->dropdown->getAllMapel();
+
+            // var_dump($data);
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/add");
             $this->load->view("_templates/dashboard/_footer");

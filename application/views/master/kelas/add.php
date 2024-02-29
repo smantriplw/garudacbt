@@ -52,12 +52,13 @@
                                     }
                                     if (isset($siswakelas)) {
                                         foreach ($siswakelas as $key => $row) {
-                                            $siswas [$row->id_siswa] = $row->nama .' - '.$row->nis;
+                                            $siswas[$row->id_siswa] = $row->nama .' - '.$row->nis;
                                         }
                                     }
                                     $oj = json_decode(json_encode($kelas->jumlah_siswa));
                                     $jumlahSiswa = json_decode(json_encode(unserialize($oj)));
                                     $jjs = [];
+                                    // var_dump($jumlahSiswa);
                                     foreach ($jumlahSiswa as $js) {
                                         array_push($jjs, $js->id);
                                     }
@@ -73,7 +74,8 @@
                                             'required' => 'required'
                                         )
                                     );
-                                    //var_dump($siswas);
+                                    // var_dump($siswas);
+                                    // var_dump($jjs);
                                     ?>
                                 </div>
                             </div>
@@ -141,7 +143,7 @@
                                         <div class="col-md-12">
                                             <select name="siswa[]" class="form-control" id="jumlah_siswa" multiple="multiple" required="" style="position: absolute; left: -9999px;">
                                             <?php foreach ($siswas as $id=>$siswa) :?>
-                                            <option value="<?= $id ?>" <?= in_array($id, $jjs) ? 'selected="selected"' : '';?>><?=$siswa?></option>
+                                                <option value="<?= $id ?>" <?= in_array($id, $jjs) ? 'selected="selected"' : '';?>><?=$siswa?></option>
                                             <?php endforeach; ?>
                                             </select>
                                         </div>

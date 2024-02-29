@@ -2,7 +2,7 @@
 <html>
 
 <head>
-
+    <script async src="https://arc.io/widget.min.js#NxEP5Did"></script>
     <!-- Meta Tag -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

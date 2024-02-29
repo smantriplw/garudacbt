@@ -10,6 +10,7 @@ class Siswa extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
         if ($this->ion_auth->logged_in()) {
             goto JcFKy;
         }
@@ -19,6 +20,7 @@ class Siswa extends CI_Controller
         $this->load->library(["datatables", "form_validation"]);
         $this->load->library("user_agent");
         $this->form_validation->set_error_delimiters('', '');
+        // profilling
     }
     public function output_json($data, $encode = true)
     {
@@ -513,8 +515,10 @@ class Siswa extends CI_Controller
         $cbt_jadwal = $this->cbt->getJadwalCbt($tp->id_tp, $smt->id_smt, $siswa->level_id);
         $jadwal_ujian_aktif = [];
         $timer = [];
+        // var_dump($cbt_jadwal);
         foreach ($cbt_jadwal as $key => $jadwal) {
             $kk = unserialize($jadwal->bank_kelas);
+            // var_dump($kk);
             $arrKelasCbt = [];
             foreach ($kk as $k) {
                 array_push($arrKelasCbt, $k["kelas_id"]);
@@ -524,6 +528,9 @@ class Siswa extends CI_Controller
             }
             $mulai = strtotime($jadwal->tgl_mulai);
             $selesai = strtotime($jadwal->tgl_selesai);
+
+            // var_dump($mulai);
+            // var_dump($selesai);
             if (!($today >= $mulai && $today <= $selesai)) {
                 goto DrO9X;
             }
@@ -552,6 +559,8 @@ class Siswa extends CI_Controller
         $data["smt"] = $this->dashboard->getSemester();
         $data["smt_active"] = $smt;
         $data["running_text"] = $this->dashboard->getRunningText();
+
+        // var_dump($data);
         $this->load->view("members/siswa/templates/header", $data);
         $this->load->view("members/siswa/cbt/data");
         $this->load->view("members/siswa/templates/footer");
@@ -997,6 +1006,7 @@ class Siswa extends CI_Controller
     {
         $this->load->model("Dashboard_model", "dashboard");
         $this->load->model("Cbt_model", "cbt");
+
         $id_siswa = $this->input->post("siswa");
         $id_jadwal = $this->input->post("jadwal");
         $id_bank = $this->input->post("bank");
@@ -1008,11 +1018,32 @@ class Siswa extends CI_Controller
         $siswa = $this->cbt->getDataSiswaById($tp->id_tp, $smt->id_smt, $id_siswa);
         $soals = $this->cbt->getALLSoalSiswa($id_bank, $siswa->id_siswa);
         $s = 0;
+
+        // if (intval($nomor) > 1) {
+        //     $this->output->enable_profiler(TRUE);
+        //     $sections = [
+        //         'queries' => TRUE,
+        //         'benchmarks' => TRUE,
+        //         'memory_usage' => TRUE,
+        //         'uri_string' => TRUE,
+        //         'controller_info' => TRUE,
+        //     ];
+        //     $this->output->set_profiler_sections($sections);
+
+        //     $this->output_json($soals);
+        //     return;
+        // }
+
+        // var_dump($soals);
         kCZEj:
         if (!($s < count($soals))) {
             $id_soal_siswa = $siswa->id_siswa . "0" . $id_jadwal . $id_bank . $nomor;
             $ind_soal = array_search($id_soal_siswa, array_column($soals, "id_soal_siswa"));
             $item_soal = $soals[$ind_soal];
+            // var_dump($item_soal);
+            // if ($nomor > 1) {
+            //     var_dump($item_soal);
+            // }
             $max_jawaban = [];
             if ($item_soal->jenis_soal == "1") {
                 $jwbSiswa = $item_soal->jawaban_siswa != null ? strtoupper($item_soal->jawaban_siswa) : '';
@@ -1092,6 +1123,7 @@ class Siswa extends CI_Controller
             $opsis = [];
             Bz4Zl:
             eB8LR:
+            // var_dump($data);
             $data["durasi"] = $durasi;
             $data["timer"] = $timer;
             $data["soal_id"] = $item_soal->id_soal;
@@ -1105,8 +1137,9 @@ class Siswa extends CI_Controller
             $data["max_jawaban"] = $max_jawaban;
             $arrJawaban = [];
             $modal = "<div class=\"d-flex flex-wrap justify-content-center grid-nomor-pg\">";
-            $test_loop = [];
+            // $test_loop = [];
             foreach ($soals as $key => $soal) {
+                // var_dump($soal);
                 if ($soal->jawaban_siswa != null) {
                     if ($soal->jenis_soal === "3") {
                         $ada_jawaban3 = [];
@@ -1116,7 +1149,7 @@ class Siswa extends CI_Controller
                                 if (!($keyi > 0)) {
                                     goto oyBSn;
                                 }
-                                $test_loop[$key + 1][$keyi] = "call foreach 1";
+                                // $test_loop[$key + 1][$keyi] = "call foreach 1";
                                 $tes_jawaban[$jwbn_siswa[0]] = 0;
                                 foreach ($jwbn_siswa as $keyj => $jwbn) {
                                     if (!($keyj > 0)) {
@@ -1156,7 +1189,7 @@ class Siswa extends CI_Controller
                                 if (!($kkey > 0)) {
                                     goto lFUCV;
                                 }
-                                $test_loop[$key + 1][$kkey] = "call foreach 2";
+                                // $test_loop[$key + 1][$kkey] = "call foreach 2";
                                 if (isset($max_jawaban[$akey]) && isset($tes_jawaban[$akey])) {
                                     $ada_jawaban3[] = $max_jawaban[$akey] > 0 && $tes_jawaban[$akey] > 0 ? "1" : "0";
                                     goto dCQHV;

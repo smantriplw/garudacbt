@@ -1,7 +1,7 @@
 <div class="container pt-4">
     <div class="info-box bg-transparent shadow-none">
         <?php
-        $logo_app = $setting->logo_kanan == null ? base_url() . 'assets/img/favicon.png' : base_url() . $setting->logo_kanan;
+            $logo_app = $setting->logo_kanan == null ? base_url() . 'assets/img/favicon.png' : base_url() . $setting->logo_kanan;
         ?>
         <img src="<?= $logo_app ?>" width="60" height="60">
         <div class="info-box-content ml-2" style="text-shadow: 1px 1px 2px #000000">
@@ -68,7 +68,11 @@
 				-->
                     </div>
                 </div>
-
+                <div class="text-center text-white">
+                    <small>
+                        &copy; Copyright 2023-<?= date('Y'); ?> <strong>GarudaCBT (Modified)</strong> by hansputera
+                    </small>
+                </div>
             </div>
         </div>
     </div>
@@ -77,12 +81,15 @@
 <script src="<?= base_url() ?>/assets/app/js/jquery.backstretch.js"></script>
 <script type="text/javascript">
     let base_url = '<?=base_url();?>';
-    var img = ["wall1.jpg", "wall2.png", "wall3.jpg"];
+    // var img = ["wall1.jpg", "wall2.png", "wall3.jpg"];
 
     $.backstretch([
-        base_url + 'assets/img/' + img[0],
-        base_url + 'assets/img/' + img[1],
-        base_url + 'assets/img/' + img[2]
+        // base_url + 'assets/img/' + img[0],
+        // 'https://dokumentasi.sman3palu.sch.id/owncloud/index.php/apps/files_sharing/ajax/publicpreview.php?x=1912&y=1908&a=true&file=DSC_0187.JPG&t=7HgtNVZWUhkrbrw&scalingup=0',
+        'https://dokumentasi.sman3palu.sch.id/owncloud/index.php/apps/files_sharing/ajax/publicpreview.php?x=1912&y=1908&a=true&file=DSC_0375.JPG&t=h55dxbQPdvOZd9d&scalingup=0',
+        // base_url + 'assets/img/' + img[1],
+        // base_url + 'assets/img/' + img[2]
+        'https://dokumentasi.sman3palu.sch.id/owncloud/index.php/apps/files_sharing/ajax/publicpreview.php?x=1912&y=1908&a=true&file=DSC_0751.JPG&t=UcObDSVQtq6FgWx&scalingup=0',
     ], {
         fade: 1000,
         duration: 10000

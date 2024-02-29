@@ -42,7 +42,7 @@ $jadwal_selesai = [];
                                     //echo '</pre>';
                                     if ($cbt_info == null) : ?>
                                         <div class="alert alert-default-warning">
-                                            <div class="text-center">Tidak ada jadwal penilaian</div>
+                                            <div class="text-center">Tidak ada jadwal penilaian nih, jangan lupa untuk sempatkan waktu untuk belajar</div>
                                         </div>
                                     <?php else: ?>
                                         <div class="card border">
@@ -54,6 +54,8 @@ $jadwal_selesai = [];
                                                     <?php
                                                     $arrTitle = ['No. Peserta', 'Ruang', 'Sesi', 'Dari', 'Sampai'];
                                                     $arrSub = [$cbt_info->no_peserta->nomor_peserta, $cbt_info->nama_ruang, $cbt_info->nama_sesi, substr($cbt_info->waktu_mulai, 0, -3), substr($cbt_info->waktu_akhir, 0, -3)];
+                                                    // var_dump($arrSub);
+                                                    
                                                     foreach ($arrTitle as $key => $title) :
                                                         if ($arrSub[$key] == null) array_push($cbt_setting, $title)
                                                         ?>
@@ -106,6 +108,9 @@ $jadwal_selesai = [];
                         <div class="card-body">
                             <div class="row" id="jadwal-content">
                                 <?php
+                                // var_dump($cbt_setting);
+                                // var_dump($cbt_info);
+                                // var_dump($cbt_jadwal);
                                 if ($cbt_info == null || count($cbt_setting) > 0) : ?>
                                     <div class="col-12 alert alert-default-warning">
                                         <div class="text-center">Tidak ada jadwal penilaian.<b>Tidak bisa mengerjakan
@@ -113,6 +118,7 @@ $jadwal_selesai = [];
                                     </div>
                                 <?php else:
                                     $jamSesi = $cbt_info == null ? '0' : (isset($cbt_info->sesi_id) ? $cbt_info->sesi_id : $cbt_info->id_sesi);
+                                    // var_dump($jamSesi);
                                     if (isset($cbt_jadwal[date('Y-m-d')]) && count($cbt_jadwal[date('Y-m-d')]) > 0) :
                                         foreach ($cbt_jadwal[date('Y-m-d')] as $key => $jadwal)  :
                                             $kk = unserialize($jadwal->bank_kelas);
@@ -253,7 +259,7 @@ $jadwal_selesai = [];
                                         endforeach;
                                     else: ?>
                                         <div class="col-12 alert alert-default-warning">
-                                            <div class="text-center">Tidak ada jadwal penilaian hari ini.</div>
+                                            <div class="text-center">Tidak ada jadwal penilaian nih, jangan lupa untuk sempatkan waktu untuk belajar</div>
                                         </div>
                                     <?php
                                     endif;
@@ -274,6 +280,11 @@ $jadwal_selesai = [];
                         <div class="card-body">
                             <div class="row table-responsive">
                                 <table class="table">
+                                    <? if (count($jadwals) < 1) :?>
+                                        <p class="text-center">
+                                            Selamat telah menyelesaikan ujian 😂
+                                        </p>
+                                    <? endif; ?>
                                     <?php
                                     foreach ($cbt_jadwal as $tgl => $jadwals)  :
                                         if ($tgl != date('Y-m-d')) :?>
