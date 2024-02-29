@@ -15,3 +15,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /orm/
+
+# Backups
+backups/*.sql
+backups/*.zip
