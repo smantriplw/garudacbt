@@ -70,7 +70,7 @@
                 </div>
                 <div class="text-center text-white">
                     <small>
-                        &copy; Copyright 2023-<?= date('Y'); ?> <strong>GarudaCBT (Modified)</strong> by hansputera
+                        &copy; Copyright 2023-<?= date('Y'); ?> <strong><a href="https://github.com/garudacbt/cbt">GarudaCBT</a> (Modified)</strong> by hansputera
                     </small>
                 </div>
             </div>

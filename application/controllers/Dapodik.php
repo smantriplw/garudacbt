@@ -181,8 +181,8 @@ class Dapodik extends CI_Controller
                 $rowJurusan = $this->db->select('*')->from('master_jurusan')->where('kode_jurusan', $jurusanData['kode_jurusan'])->get()->row();
             }
 
-            if (!$data['nik'] || !$data['nis'] || !$data['nisn']) {
-                array_push($nama_fails, $data['nama']);
+            if (!$data['nis'] || !$data['nisn']) {
+                array_push($nama_fails, '[N]: ' . $data['nama']);
             } else {
                 $row = $this->db->select('nama, id_siswa')->from('master_siswa')->where('nisn', $value->nisn)->get()->row();
 
@@ -194,7 +194,7 @@ class Dapodik extends CI_Controller
                 }
 
                 if (!$actionJurusan) {
-                    array_push($nama_fails, $data['nama']);
+                    array_push($nama_fails, '[C]: ' . $data['nama']);
                 }
 
                 $rowKelas = $this->db->select('id_kelas, jumlah_siswa, siswa_id')->from('master_kelas')->where('kode_kelas', strtolower(preg_replace('/\s+/', '_', $value->nama_rombel)))->get()->row();

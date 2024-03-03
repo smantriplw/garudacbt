@@ -17,7 +17,7 @@
                         <img src="<?= base_url() ?>/assets/img/garuda_circle.png" width="60" height="60">
                         <div class="info-box-content">
                                 <span class="text-white"
-                                      style="font-size: 24pt; line-height: 0.7;"><b>HANSPUTERA</b></span>
+                                      style="font-size: 24pt; line-height: 0.7;"><b>GarudaCBT</b></span>
                             <span class="text-white">C B T   A p p l i c a t i o n</span>
                         </div>
                     </div>

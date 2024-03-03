@@ -3,7 +3,7 @@
 
 -------------
 
-Saya [@hansputera (Hanif Dwy Putra S)](https://github.com/hansputera) selaku maintainer GarudaCBT (Fork) yang memodifikasi software GarudaCBT yang menggunakan CI (CodeIgniter) 3 agar terus dapat digunakan. Dengan beberapa fitur tambahan untuk melakukan penyesuaian kerja dan lingkungan di sekolah kami (**SMA Negeri 3 Palu**)
+Saya [@hansputera (Hanif Dwy Putra S)](https://github.com/hansputera) selaku contributor yang melakukan maintain GarudaCBT (Fork) dengan memodifikasi beberapa kode yang berada di dalam kode orisinil GarudaCBT.
 ___________
 
 ## NOTE:
