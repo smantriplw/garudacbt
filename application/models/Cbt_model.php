@@ -704,7 +704,7 @@ class Cbt_model extends CI_Model
         $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
         $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
         $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
-        $this->db->where_in("a.kelas_id", $kelas);
+        $this->db->where_in("a.kelas_id", is_array($kelas) ? $kelas : [$kelas]);
         if (!($sesi != null)) {
             goto P5m5A;
         }
