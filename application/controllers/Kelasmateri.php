@@ -410,7 +410,7 @@ class Kelasmateri extends CI_Controller
         if (!($i < $kelas)) {
             $isi_materi = $this->input->post("isi_materi", false);
             $dom = new DOMDocument();
-            $dom->loadHTML("<?php xml encoding=\"UTF-8\">" . $isi_materi);
+            $dom->loadHTML('<?xml encoding="UTF-8">' . $isi_materi);
             $images = $dom->getElementsByTagName("img");
             $numimg = 1;
             foreach ($images as $image) {
@@ -443,7 +443,7 @@ class Kelasmateri extends CI_Controller
                 $numimg++;
                 avCNJ:
             }
-            $isi = $dom->saveHTML();
+            $isi = preg_replace('/^\s*(?:<\?xml[^>]*>|<!--\?xml[^>]*-->)\s*/i', '', $dom->saveHTML());
             $tp = $this->dashboard->getTahunActive();
             $smt = $this->dashboard->getSemesterActive();
             $data = ["jenis" => $jenis, "id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "kode_materi" => $this->input->post("kode_materi", true), "id_guru" => $this->input->post("guru", true), "id_mapel" => $this->input->post("mapel", true), "judul_materi" => $this->input->post("judul", true), "isi_materi" => $isi, "materi_kelas" => serialize($id_kelas), "file" => serialize($src_file)];

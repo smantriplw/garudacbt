@@ -301,8 +301,8 @@ function myOwnCallBack(file, idtextarea) {
         },
         success: function(reponse) {
             if(reponse.status === true) {
-                let listMimeImg = ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/svg'];
-                let listMimeAudio = ['audio/mpeg', 'audio/ogg', 'udio/mp3'];
+                let listMimeImg = ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/svg+xml'];
+                let listMimeAudio = ['audio/mpeg', 'audio/ogg', 'audio/mp3'];
                 let listMimeVideo = ['video/mpeg', 'video/mp4', 'video/webm'];
                 let elem;
 
@@ -332,6 +332,13 @@ function myOwnCallBack(file, idtextarea) {
                     elem.href = base_url + reponse.filename;
                     $(idtextarea).summernote('editor.insertNode', elem);
                 }
+            } else {
+                swal.fire({
+                    title: "Gagal upload",
+                    html: reponse.error || "Tipe file tidak didukung.",
+                    icon: "error",
+                    showCancelButton: false
+                });
             }
         }
     });
@@ -347,48 +354,6 @@ function progressHandlingFunction(e) {
             console.log("Upload finished.");
         }
     }
-}
-
-function uploadImage(image, editor, editable) {
-    var name = $('#textsoal').attr('data-name');
-    var hash = $('#textsoal').attr('data-id');
-
-    var data = new FormData();
-    data.append("file", image);
-    data.append(name, hash);
-
-    $.ajax({
-        url: base_url + "cbtbanksoal/upload_image",
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: data,
-        type: "POST",
-        success: function(data) {
-            $(idtextarea).summernote("insertImage", data);
-        },
-        error: function(data) {
-            console.log(data);
-        }
-    });
-}
-
-function deleteImage(src) {
-    var $name = $('#textsoal').attr('data-name');
-    var hash = $('#textsoal').attr('data-id');
-    var data = new FormData();
-    data.append("src", src);
-    data.append(name, hash);
-
-    $.ajax({
-        data: {src : src},
-        type: "POST",
-        url: base_url + "cbtbanksoal/delete_image",
-        cache: false,
-        success: function(response) {
-            console.log(response);
-        }
-    });
 }
 
 function inputKosong() {

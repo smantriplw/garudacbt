@@ -1023,9 +1023,9 @@ class Cbtbanksoal extends CI_Controller
     }
     public function file_config()
     {
-        $allowed_type = ["image/jpeg", "image/jpg", "image/png", "image/gif", "audio/mpeg", "audio/mpg", "audio/mpeg3", "audio/mp3", "audio/x-wav", "audio/wave", "audio/wav", "video/mp4", "application/octet-stream"];
-        $config["upload_path"] = "FCPATHuploads/bank_soal/";
-        $config["allowed_types"] = "jpeg|jpg|png|gif|mpeg|mpg|mpeg3|mp3|wav|wave|mp4";
+        $allowed_type = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp", "image/svg+xml", "audio/mpeg", "audio/mpg", "audio/mpeg3", "audio/mp3", "audio/x-wav", "audio/wave", "audio/wav", "video/mp4", "application/octet-stream"];
+        $config["upload_path"] = FCPATH . "uploads/bank_soal/";
+        $config["allowed_types"] = "jpeg|jpg|png|gif|webp|svg|mpeg|mpg|mpeg3|mp3|wav|wave|mp4";
         $config["encrypt_name"] = TRUE;
         return $this->load->library("upload", $config);
     }
@@ -1063,7 +1063,6 @@ class Cbtbanksoal extends CI_Controller
         $nomor_soal = $this->input->post("nomor_soal", true);
         $soal = $this->input->post("soal", false);
         $this->validasi($jenis);
-        $this->file_config();
         $data = ["bank_id" => $bank_id, "jenis" => $jenis, "nomor_soal" => $nomor_soal, "soal" => $soal];
         if ($jenis == 1) {
             $abjad = ["a", "b", "c", "d", "e"];
@@ -1235,45 +1234,50 @@ class Cbtbanksoal extends CI_Controller
     }
     function upload_image()
     {
-        $status = false;
-        if (!isset($_FILES["file"]["name"])) {
-            goto xBLBh;
+        $data = ["status" => false];
+        if (empty($_FILES["file"]["name"])) {
+            $data["error"] = "Tidak ada file yang dikirim.";
+            return $this->output_json($data);
         }
         $config["upload_path"] = "./uploads/bank_soal/";
-        $config["allowed_types"] = "jpg|jpeg|png|gif|mp3|ogg|wav|mp4|mpeg|webm";
-        $config["file_name"] = "file_" . date("YmdHis");
+        $config["allowed_types"] = "jpg|jpeg|png|gif|webp|svg|mp3|ogg|wav|mp4|mpeg|webm";
+        $config["encrypt_name"] = TRUE;
         $this->upload->initialize($config);
         if (!$this->upload->do_upload("file")) {
-            $this->upload->display_errors();
-            $status = false;
-            goto E5cVr;
+            $data["error"] = strip_tags($this->upload->display_errors());
+            return $this->output_json($data);
         }
         $uploaded = $this->upload->data();
         $data["filename"] = "uploads/bank_soal/" . $uploaded["file_name"];
-        $status = true;
-        E5cVr:
-        xBLBh:
-        $data["status"] = $status;
-        $this->output_json($data);
+        $data["status"] = true;
+        return $this->output_json($data);
     }
     function uploadSoalImage()
     {
-        $name = $this->input->post("name");
-        $src = $this->input->post("src");
-        str_replace("%2B", "+", $src);
-        $data["status"] = file_put_contents("./uploads/bank_soal/" . $name, base64_decode($src));
+        $name = basename($this->input->post("name"));
+        $src = str_replace("%2B", "+", (string) $this->input->post("src"));
+        $binary = base64_decode($src, TRUE);
+        $data = ["status" => false];
+        if ($name === "" || $binary === FALSE) {
+            $data["error"] = "Data gambar tidak valid.";
+            return $this->output_json($data);
+        }
+        $target = FCPATH . "uploads/bank_soal/" . $name;
+        $data["status"] = file_put_contents($target, $binary) !== FALSE;
         $data["src"] = "uploads/bank_soal/" . $name;
         $this->output_json($data);
     }
     function deleteFile()
     {
         $src = $this->input->post("src");
-        $file_name = str_replace(base_url(), '', $src);
-        if (!unlink($file_name)) {
-            goto zfv0c;
+        $file_name = str_replace(base_url(), '', (string) $src);
+        $path = realpath(FCPATH . ltrim($file_name, '/'));
+        $uploads = realpath(FCPATH . "uploads");
+        if ($path === FALSE || $uploads === FALSE || strpos($path, $uploads . DIRECTORY_SEPARATOR) !== 0 || !is_file($path)) {
+            $this->output_json(["status" => false, "error" => "File tidak ditemukan."]);
+            return;
         }
-        echo "File Delete Successfully";
-        zfv0c:
+        $this->output_json(["status" => unlink($path)]);
     }
     function cleanString($text)
     {
@@ -1332,12 +1336,6 @@ class Cbtbanksoal extends CI_Controller
         $results = array(" ", " ", " ", '');
         $text = str_replace($targets, $results, $text);
         return $text;
-    }
-    function cleanHTML($html)
-    {
-        $doc = new DOMDocument();
-        $doc->loadHTML($html, "LIBXML_N____O_OOVL]ED");
-        return $doc->saveHTML();
     }
     function addNamespaces($xml)
     {
@@ -1752,7 +1750,7 @@ class Cbtbanksoal extends CI_Controller
         $dom = new DOMDocument();
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
-        $dom->loadHTML("<?php xml encoding=\"UTF-8\">" . $html, "LIBXML_HTML_NOMMVL]ED");
+        $dom->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $images = $dom->getElementsByTagName("img");
         if ($images) {
             $numimg = 1;
@@ -1789,7 +1787,7 @@ class Cbtbanksoal extends CI_Controller
                 bVOqm:
             }
             $res = $dom->saveHTML();
-            return str_replace("<?php xml encoding=\"UTF-8\">", '', $res);
+            return preg_replace('/^\s*(?:<\?xml[^>]*>|<!--\?xml[^>]*-->)\s*/i', '', $res);
         }
         return $html;
     }
