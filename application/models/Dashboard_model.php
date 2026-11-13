@@ -10,7 +10,11 @@ class Dashboard_model extends CI_Model
 {
     public function getSetting()
     {
-        return $this->db->get("setting")->row();
+        static $cached = null;
+        if ($cached === null) {
+            $cached = $this->db->get("setting")->row();
+        }
+        return $cached;
     }
     public function getRunningText()
     {
@@ -23,8 +27,7 @@ class Dashboard_model extends CI_Model
         }
         $this->db->where($where);
         Md7mc:
-        $query = $this->db->get($table)->num_rows();
-        return $query;
+        return $this->db->count_all_results($table);
     }
     public function hapus($table, $data, $pk)
     {
@@ -95,11 +98,14 @@ class Dashboard_model extends CI_Model
     }
     public function getTahunActive()
     {
-        $this->db->select("id_tp, tahun");
-        $this->db->from("master_tp");
-        $this->db->where("active", 1);
-        $result = $this->db->get()->row();
-        return $result;
+        static $cached = null;
+        if ($cached === null) {
+            $this->db->select("id_tp, tahun");
+            $this->db->from("master_tp");
+            $this->db->where("active", 1);
+            $cached = $this->db->get()->row();
+        }
+        return $cached;
     }
     public function getSemester()
     {
@@ -119,11 +125,14 @@ class Dashboard_model extends CI_Model
     }
     public function getSemesterActive()
     {
-        $this->db->select("id_smt, nama_smt, smt");
-        $this->db->from("master_smt");
-        $this->db->where("active", 1);
-        $result = $this->db->get()->row();
-        return $result;
+        static $cached = null;
+        if ($cached === null) {
+            $this->db->select("id_smt, nama_smt, smt");
+            $this->db->from("master_smt");
+            $this->db->where("active", 1);
+            $cached = $this->db->get()->row();
+        }
+        return $cached;
     }
     public function getDataGuruByUserId($id_user, $id_tp, $id_smt)
     {

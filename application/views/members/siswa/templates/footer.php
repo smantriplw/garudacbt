@@ -67,8 +67,8 @@
 <script src="<?= base_url() ?>/assets/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="<?= base_url() ?>/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- Toastr -->
-<script src="<?= base_url() ?>/assets/plugins/toastr/toastr.min.js"></script>
+<!-- Toast -->
+<script src="<?= base_url() ?>/assets/app/js/jquery.toast.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url() ?>/assets/plugins/select2/js/select2.full.min.js"></script>
 <!-- multi select -->
@@ -76,7 +76,6 @@
 <!-- Bootstrap Switch -->
 <script src="<?= base_url() ?>/assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <script src="<?= base_url() ?>/assets/plugins/dropify/js/dropify.min.js"></script>
-<script src="<?= base_url() ?>/assets/app/js/jquery.toast.min.js"></script>
 
 <!-- TimeAgo -->
 <script src="<?= base_url() ?>/assets/plugins/jquery-timeago/jquery.timeago.js" type="text/javascript"></script>

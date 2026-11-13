@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script async src="https://arc.io/widget.min.js#NxEP5Did"></script>
-    <meta charset="utf-8">
+        <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><?= $judul ?></title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
