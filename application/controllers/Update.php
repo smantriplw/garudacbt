@@ -11,6 +11,12 @@ class Update extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        if (!$this->ion_auth->logged_in()) {
+            redirect("auth");
+        }
+        if (!$this->ion_auth->is_admin()) {
+            show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
+        }
         include APPPATH."config/database.php";
         $this->load->dbforge();
         $this->load->database();
@@ -507,8 +513,5 @@ class Update extends CI_Controller
             $input[] = array("id_siswa" => $siswa->id_siswa, "uid" => $this->uuid->v4());
         }
         return $this->db->update_batch("master_siswa", $input, "id_siswa");
-    }
-    function make_base()
-    {
     }
 }

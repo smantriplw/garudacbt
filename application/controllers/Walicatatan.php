@@ -100,9 +100,6 @@ class Walicatatan extends CI_Controller
         $insert = $this->master->create("kelas_catatan_wali", $data);
         $this->output_json($insert);
     }
-    public function updateCatatanKelas()
-    {
-    }
     public function hapus($id_catatan)
     {
         $delete = $this->master->delete("kelas_catatan_wali", $id_catatan, "id_catatan");

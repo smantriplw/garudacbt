@@ -36,12 +36,6 @@ class Log_model extends CI_Model
         $data = array("id_user" => $id_user, "id_group" => $group_id, "name_group" => $group_name, "log_desc" => $desc, "address" => $ip, "agent" => $agent, "device" => $os);
         $this->db->insert("log", $data);
     }
-    public function loadNotifikasi()
-    {
-    }
-    public function loadChat()
-    {
-    }
     public function loadAktifitas($limit = null)
     {
         $this->db->query("SET SQL_BIG_SELECTS=1");

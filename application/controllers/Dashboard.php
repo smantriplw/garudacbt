@@ -103,17 +103,12 @@ class Dashboard extends CI_Controller
 
 
         $siswa = $this->dashboard->getDataSiswa($user->username, $tp->id_tp, $smt->id_smt);
-        // $this->output_json([
-        //     's' => $this->ion_auth->in_group('siswa'),
-        //     'g' => $this->ion_auth->in_group('guru'),
-        //     'a' => $this->ion_auth->is_admin(),
-        // ]);
+        if ($this->ion_auth->in_group('siswa') && !$siswa) {
+            $this->load->view("disable_login", $data);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
         if ($siswa) {
-            // $siswa = $this->dashboard->getDataSiswa($user->username, $tp->id_tp, $smt->id_smt);
-            // if ($siswa == null) {
-            //     $this->load->view("disable_login", $data);
-            //     goto vVtRN;
-            // }
             $data["siswa"] = $siswa;
             $data["menu"] = $this->menu_siswa_box();
             $data["kbms"] = $arrKbm[$siswa->id_kelas] ?? null;
@@ -154,12 +149,12 @@ class Dashboard extends CI_Controller
         
         // $guru = $this->db->select('nama_guru')->from('master_guru')->where('id_user', $user->id)->get()->row();
         $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        if ($this->ion_auth->in_group('guru') && !$guru) {
+            $this->load->view("disable_login", $data);
+            // [PHPDeobfuscator] Implied return
+            return;
+        }
         if ($guru) {
-            // $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            // if ($guru == null) {
-            //     $this->load->view("disable_login", $data);
-            //     goto sLDNu;
-            // }
             $data["info_box"] = $this->admin_box($setting, $tp->id_tp, $smt->id_smt);
             $data["ujian_box"] = $this->ujian_box();
             $data["guru"] = $guru;
@@ -259,9 +254,6 @@ class Dashboard extends CI_Controller
         $update[] = array("id_smt" => $id_smt, "smt" => $smt, "active" => $active);
         $i++;
         goto au1Fr;
-    }
-    public function getNotifikasi()
-    {
     }
     public function getLog($limit)
     {

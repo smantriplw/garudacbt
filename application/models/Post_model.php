@@ -42,16 +42,4 @@ class Post_model extends CI_Model
         $ids = $this->db->get("post_comments")->result();
         return $ids;
     }
-    public function getIdReplies($id_comment)
-    {
-        $this->db->select("id_reply");
-        if (is_array($id_comment)) {
-            $this->db->where_in("id_comment", $id_comment);
-            goto uuq10;
-        }
-        $this->db->where("id_comment", $id_comment);
-        uuq10:
-        $ids = $this->db->get("post_reply")->result();
-        return $ids;
-    }
 }
