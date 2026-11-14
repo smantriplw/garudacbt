@@ -79,26 +79,21 @@ class Useradmin extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $data["status"] = false;
             $data["errors"] = ["username" => form_error("username"), "first_name" => form_error("first_name"), "last_name" => form_error("last_name"), "email" => form_error("email"), "password" => form_error("password"), "confirm_password" => form_error("confirm_password")];
-            goto THVgd;
+        } else {
+            $username = $this->input->post("username", true);
+            $password = $this->input->post("password", true);
+            $email = $this->input->post("email", true);
+            $additional_data = ["first_name" => $this->input->post("first_name", true), "last_name" => $this->input->post("last_name", true)];
+            $group = array("1");
+            if ($this->ion_auth->username_check($username)) {
+                $data = ["status" => false, "msg" => "Username tidak tersedia (sudah digunakan)."];
+            } else if ($this->ion_auth->email_check($email)) {
+                $data = ["status" => false, "msg" => "Email tidak tersedia (sudah digunakan)."];
+            } else {
+                $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+                $data = ["status" => true, "msg" => "User berhasil dibuat. NIP digunakan sebagai password pada saat login."];
+            }
         }
-        $username = $this->input->post("username", true);
-        $password = $this->input->post("password", true);
-        $email = $this->input->post("email", true);
-        $additional_data = ["first_name" => $this->input->post("first_name", true), "last_name" => $this->input->post("last_name", true)];
-        $group = array("1");
-        if ($this->ion_auth->username_check($username)) {
-            $data = ["status" => false, "msg" => "Username tidak tersedia (sudah digunakan)."];
-            goto w8aMQ;
-        }
-        if ($this->ion_auth->email_check($email)) {
-            $data = ["status" => false, "msg" => "Email tidak tersedia (sudah digunakan)."];
-            goto EAMp7;
-        }
-        $this->ion_auth->register($username, $password, $email, $additional_data, $group);
-        $data = ["status" => true, "msg" => "User berhasil dibuat. NIP digunakan sebagai password pada saat login."];
-        EAMp7:
-        w8aMQ:
-        THVgd:
         $this->output_json($data);
     }
     public function edit_info()
@@ -156,17 +151,15 @@ class Useradmin extends CI_Controller
         $this->form_validation->set_rules("new_confirm", $this->lang->line("change_password_validation_new_password_confirm_label"), "required");
         if ($this->form_validation->run() === FALSE) {
             $data = ["status" => false, "errors" => ["old" => form_error("old"), "new" => form_error("new"), "new_confirm" => form_error("new_confirm")]];
-            goto aPjk4;
+        } else {
+            $identity = $this->session->userdata("identity");
+            $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
+            if ($change) {
+                $data["status"] = true;
+            } else {
+                $data = ["status" => false, "msg" => $this->ion_auth->errors()];
+            }
         }
-        $identity = $this->session->userdata("identity");
-        $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
-        if ($change) {
-            $data["status"] = true;
-            goto tTPH_;
-        }
-        $data = ["status" => false, "msg" => $this->ion_auth->errors()];
-        tTPH_:
-        aPjk4:
         $this->output_json($data);
     }
     public function delete($id)

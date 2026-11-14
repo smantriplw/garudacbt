@@ -157,16 +157,14 @@ class Usersiswa extends CI_Controller
     {
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             $data = ["status" => false, "msg" => "You must be an administrator to view this page."];
-            goto nOZ65;
+        } else {
+            $this->db->where("login", $username);
+            if ($this->db->delete("login_attempts")) {
+                $data = ["status" => true, "msg" => "User " . $nama . " berhasil direset"];
+            } else {
+                $data = ["status" => false, "msg" => "User " . $nama . " gagal direset"];
+            }
         }
-        $this->db->where("login", $username);
-        if ($this->db->delete("login_attempts")) {
-            $data = ["status" => true, "msg" => "User " . $nama . " berhasil direset"];
-            goto bygtD;
-        }
-        $data = ["status" => false, "msg" => "User " . $nama . " gagal direset"];
-        bygtD:
-        nOZ65:
         $this->output_json($data, true);
     }
     public function nonaktifkanSemua()
@@ -228,17 +226,15 @@ class Usersiswa extends CI_Controller
         $this->form_validation->set_rules("new_confirm", $this->lang->line("change_password_validation_new_password_confirm_label"), "required");
         if ($this->form_validation->run() === FALSE) {
             $data = ["status" => false, "errors" => ["old" => form_error("old"), "new" => form_error("new"), "new_confirm" => form_error("new_confirm")]];
-            goto ozz2W;
+        } else {
+            $identity = $this->session->userdata("identity");
+            $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
+            if ($change) {
+                $data["status"] = true;
+            } else {
+                $data = ["status" => false, "msg" => $this->ion_auth->errors()];
+            }
         }
-        $identity = $this->session->userdata("identity");
-        $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
-        if ($change) {
-            $data["status"] = true;
-            goto jMwZT;
-        }
-        $data = ["status" => false, "msg" => $this->ion_auth->errors()];
-        jMwZT:
-        ozz2W:
         $this->output_json($data);
     }
     public function delete($id)
