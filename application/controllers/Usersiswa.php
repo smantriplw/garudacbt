@@ -11,11 +11,9 @@ class Usersiswa extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->ion_auth->logged_in()) {
-            goto oNTnf;
+        if (!($this->ion_auth->logged_in())) {
+            redirect("auth");
         }
-        redirect("auth");
-        oNTnf:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Users_model", "users");
         $this->load->model("Master_model", "master");
@@ -26,19 +24,15 @@ class Usersiswa extends CI_Controller
     {
         $user_id = $this->ion_auth->user()->row()->id;
         $group = $this->ion_auth->get_users_groups($user_id)->row()->name;
-        if (!(!$group === "admin" or !$group === "guru")) {
-            goto b1jF9;
+        if (!$group === "admin" or !$group === "guru") {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        b1jF9:
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto nMeMj;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        nMeMj:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function data()
@@ -101,18 +95,17 @@ class Usersiswa extends CI_Controller
             if ($deleted) {
                 $reg = $this->registerSiswa($username, $password, $email, $additional_data, $group);
                 $data = ["status" => $reg, "msg" => !$reg ? "Akun " . $siswa->nama . " gagal diaktifkan." : "Akun " . $siswa->nama . " diaktifkan."];
-                goto MemeO;
+                return $data;
             }
         }
         $deleted = $this->ion_auth->delete_user($user_siswa->id);
         if ($deleted) {
             $reg = $this->registerSiswa($username, $password, $email, $additional_data, $group);
             $data = ["status" => $reg, "msg" => !$reg ? "Akun " . $siswa->nama . " gagal diaktifkan." : "Akun " . $siswa->nama . " diaktifkan."];
-            goto MemeO;
+            return $data;
         }
         $data = ["status" => false, "msg" => "Akun siswa tidak tersedia (sudah digunakan)."];
 
-        MemeO:
         return $data;
     }
     public function activate($id)
@@ -140,27 +133,24 @@ class Usersiswa extends CI_Controller
     {
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             $data = ["status" => false, "msg" => "You must be an administrator to view this page."];
-            goto xxuss;
+            return $data;
         }
         if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
             $deleted = $this->ion_auth->delete_user($user->id);
             $data = ["status" => $deleted, "msg" => $deleted ? "Siswa " . urldecode($nama) . " dinonaktifkan." : "Siswa " . urldecode($nama) . " gagal dinonaktifkan."];
-            goto KUqAd;
+            return $data;
         }
         $data = ["status" => false, "msg" => "Anda bukan admin."];
-        KUqAd:
-        xxuss:
         return $data;
     }
     public function deactivate($username, $nama)
     {
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             $data = ["status" => false, "msg" => "You must be an administrator to view this page."];
-            goto fDqKn;
+        } else {
+            $user = $this->users->getUsers($username);
+            $data = $this->nonaktifkan($user, $nama);
         }
-        $user = $this->users->getUsers($username);
-        $data = $this->nonaktifkan($user, $nama);
-        fDqKn:
         $this->output_json($data, true);
     }
     public function reset_login($username, $nama)
@@ -184,17 +174,14 @@ class Usersiswa extends CI_Controller
         $siswaAktif = $this->users->getSiswaAktif();
         $jum = 0;
         foreach ($siswaAktif as $siswa) {
-            if (!($siswa->aktif > 0)) {
-                goto Lqlk9;
+            if ($siswa->aktif > 0) {
+                $del = $this->nonaktifkan($siswa, $siswa->nama);
+                if ($del["status"]) {
+                    $jum += 1;
+                } else {
+                    $this->output_json($del);
+                }
             }
-            $del = $this->nonaktifkan($siswa, $siswa->nama);
-            if ($del["status"]) {
-                $jum += 1;
-                goto OwyPG;
-            }
-            $this->output_json($del);
-            OwyPG:
-            Lqlk9:
         }
         $data = ["status" => true, "jumlah" => $jum, "msg" => $jum . " siswa dinonaktifkan."];
         $this->output_json($data);
@@ -216,14 +203,13 @@ class Usersiswa extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("users/siswa/edit");
             $this->load->view("_templates/dashboard/_footer");
-            goto wM78V;
+        } else {
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $data["guru"] = $guru;
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("users/siswa/edit");
+            $this->load->view("members/guru/templates/footer");
         }
-        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        $data["guru"] = $guru;
-        $this->load->view("members/guru/templates/header", $data);
-        $this->load->view("users/siswa/edit");
-        $this->load->view("members/guru/templates/footer");
-        wM78V:
     }
     public function update()
     {

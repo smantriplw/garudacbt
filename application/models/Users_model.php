@@ -15,11 +15,9 @@ class Users_model extends CI_Model
         $this->datatables->from("users_groups");
         $this->datatables->join("users", "users_groups.user_id=users.id");
         $this->datatables->join("groups", "users_groups.group_id=groups.id");
-        if (!($id !== null)) {
-            goto p2Pmz;
+        if ($id !== null) {
+            $this->datatables->where("users.id !=", $id);
         }
-        $this->datatables->where("users.id !=", $id);
-        p2Pmz:
         return $this->datatables->generate();
     }
     public function getLevelGuru()
@@ -116,26 +114,22 @@ class Users_model extends CI_Model
         $this->db->order_by("ISNULL(f.level_id), f.level_id ASC");
         $this->db->order_by("f.nama_kelas", "ASC");
         $this->db->order_by("a.nama", "ASC");
-        if (!($search != null)) {
-            goto FMILV;
+        if ($search != null) {
+            $this->db->like("a.nama", $search);
+            $this->db->or_like("a.nis", $search);
+            $this->db->or_like("a.nisn", $search);
         }
-        $this->db->like("a.nama", $search);
-        $this->db->or_like("a.nis", $search);
-        $this->db->or_like("a.nisn", $search);
-        FMILV:
         return $this->db->get()->result();
     }
     public function getUserSiswaTotalPage($search = null)
     {
         $this->db->select("id_siswa");
         $this->db->from("master_siswa");
-        if (!($search != null)) {
-            goto ddoy9;
+        if ($search != null) {
+            $this->db->like("nama", $search);
+            $this->db->or_like("nis", $search);
+            $this->db->or_like("nisn", $search);
         }
-        $this->db->like("nama", $search);
-        $this->db->or_like("nis", $search);
-        $this->db->or_like("nisn", $search);
-        ddoy9:
         return $this->db->get()->num_rows();
     }
     public function getUserSiswa($tp, $smt)

@@ -17,14 +17,9 @@ class Dataekstra extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto hgk1c;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto gTkrq;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        gTkrq:
-        hgk1c:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -34,11 +29,9 @@ class Dataekstra extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto fgk25;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        fgk25:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -89,38 +82,28 @@ class Dataekstra extends CI_Controller
         foreach ($tabless as $table) {
             $fields = $this->db->field_data($table);
             foreach ($fields as $field) {
-                if (!($field->name == "id_ekstra" || $field->name == "ekstra_id")) {
-                    goto a5Uc2;
+                if ($field->name == "id_ekstra" || $field->name == "ekstra_id") {
+                    array_push($tables, $table);
                 }
-                array_push($tables, $table);
-                a5Uc2:
             }
         }
         $this->output_json($tables);
         foreach ($tables as $table) {
-            if (!($table != "master_ekstra")) {
-                goto JFE4g;
+            if ($table != "master_ekstra") {
+                $this->db->where("id_ekstra", $id);
+                $num = $this->db->count_all_results($table);
+                if ($num > 0) {
+                    array_push($messages, $table);
+                }
             }
-            $this->db->where("id_ekstra", $id);
-            $num = $this->db->count_all_results($table);
-            if (!($num > 0)) {
-                goto T1w3H;
-            }
-            array_push($messages, $table);
-            T1w3H:
-            JFE4g:
         }
         if (count($messages) > 0) {
             $this->output_json(["status" => false, "total" => "Mapel digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
-            goto vPL_9;
-        }
-        if ($this->master->delete("master_ekstra", [$id], "id_ekstra")) {
+        } else if ($this->master->delete("master_ekstra", [$id], "id_ekstra")) {
             $this->output_json(["status" => true, "message" => "Ekskul berhasil dihapus"]);
-            goto wBxGA;
+        } else {
+            $this->output_json(["status" => false, "message" => "Ekskul gagal dihapus"]);
         }
-        $this->output_json(["status" => false, "message" => "Ekskul gagal dihapus"]);
-        wBxGA:
-        vPL_9:
     }
     public function save()
     {
@@ -131,22 +114,18 @@ class Dataekstra extends CI_Controller
         $update = [];
         foreach ($check_kelas as $key => $kls) {
             $check_ekskul = $this->input->post("ekskul" . $kls->kls_id, true);
-            if (!$check_ekskul) {
-                goto b39DM;
-            }
-            $row_ekskul = count($this->input->post("ekskul" . $kls->kls_id, true));
-            $ekstra = [];
-            $j = 0;
-            Upt7c:
-            if (!($j <= $row_ekskul)) {
+            if ($check_ekskul) {
+                $row_ekskul = count($this->input->post("ekskul" . $kls->kls_id, true));
+                $ekstra = [];
+                $j = 0;
+                while ($j <= $row_ekskul) {
+                    $kelaseks = $this->input->post("ekskul" . $kls->kls_id . "[" . $j . "]", true);
+                    $ekstra[] = ["ekstra" => $kelaseks];
+                    $j++;
+                }
                 $ekstras = ["id_kelas_ekstra" => $kls->kls_id . $tp . $smt, "id_kelas" => $kls->kls_id, "id_tp" => $tp, "id_smt" => $smt, "ekstra" => serialize($ekstra)];
                 $update[] = $this->db->replace("kelas_ekstra", $ekstras);
-                b39DM:
             }
-            $kelaseks = $this->input->post("ekskul" . $kls->kls_id . "[" . $j . "]", true);
-            $ekstra[] = ["ekstra" => $kelaseks];
-            $j++;
-            goto Upt7c;
         }
         $res["status"] = true;
         $res["update"] = $update;
@@ -156,11 +135,9 @@ class Dataekstra extends CI_Controller
     {
         $user = $this->ion_auth->user()->row();
         $data = ["user" => $user, "judul" => "Mata Pelajaran", "subjudul" => "Import Mata Pelajaran", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
-        if (!($import_data != null)) {
-            goto BwWws;
+        if ($import_data != null) {
+            $data["import"] = $import_data;
         }
-        $data["import"] = $import_data;
-        BwWws:
         $data["tp"] = $this->dashboard->getTahun();
         $data["tp_active"] = $this->dashboard->getTahunActive();
         $data["smt"] = $this->dashboard->getSemester();

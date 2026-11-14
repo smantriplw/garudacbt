@@ -22,11 +22,9 @@ class Dashboard_model extends CI_Model
     }
     public function total($table, $where = null)
     {
-        if (!($where != null)) {
-            goto Md7mc;
+        if ($where != null) {
+            $this->db->where($where);
         }
-        $this->db->where($where);
-        Md7mc:
         return $this->db->count_all_results($table);
     }
     public function hapus($table, $data, $pk)
@@ -203,20 +201,16 @@ class Dashboard_model extends CI_Model
         $this->db->select("*");
         $this->db->from($table);
         $this->db->where($pk, $id);
-        if (!($join !== null)) {
-            goto rOz_2;
+        if ($join !== null) {
+            foreach ($join as $table => $field) {
+                $this->db->join($table, $field);
+            }
         }
-        foreach ($join as $table => $field) {
-            $this->db->join($table, $field);
+        if ($order !== null) {
+            foreach ($order as $field => $sort) {
+                $this->db->order_by($field, $sort);
+            }
         }
-        rOz_2:
-        if (!($order !== null)) {
-            goto A2pcx;
-        }
-        foreach ($order as $field => $sort) {
-            $this->db->order_by($field, $sort);
-        }
-        A2pcx:
         $query = $this->db->get();
         return $query;
     }
@@ -229,10 +223,9 @@ class Dashboard_model extends CI_Model
     {
         if ($batch === false) {
             $insert = $this->db->update($table, $data, array($pk => $id));
-            goto iXKvp;
+            return $insert;
         }
         $insert = $this->db->update_batch($table, $data, $pk);
-        iXKvp:
         return $insert;
     }
     public function getDataSiswa($username, $id_tp, $id_smt)
@@ -263,16 +256,12 @@ class Dashboard_model extends CI_Model
         $this->db->join("master_mapel b", "b.id_mapel=a.id_mapel", "left");
         $this->db->where("a.id_tp", $id_tp);
         $this->db->where("a.id_smt", $id_smt);
-        if (!($id_kelas != null)) {
-            goto v8y1M;
+        if ($id_kelas != null) {
+            $this->db->where("a.id_kelas", $id_kelas);
         }
-        $this->db->where("a.id_kelas", $id_kelas);
-        v8y1M:
-        if (!($id_hari != null)) {
-            goto LGA3w;
+        if ($id_hari != null) {
+            $this->db->where("a.id_hari", $id_hari);
         }
-        $this->db->where("a.id_hari", $id_hari);
-        LGA3w:
         $query = $this->db->get()->result();
         return $query;
     }
@@ -285,10 +274,9 @@ class Dashboard_model extends CI_Model
         if ($id_kelas != null) {
             $this->db->where("id_kelas", $id_kelas);
             $query = $this->db->get()->row();
-            goto EdWKf;
+            return $query;
         }
         $query = $this->db->get()->result();
-        EdWKf:
         return $query;
     }
 }

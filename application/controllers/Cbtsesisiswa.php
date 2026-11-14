@@ -12,14 +12,9 @@ class Cbtsesisiswa extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto GTExc;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto o6x1h;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        o6x1h:
-        GTExc:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -30,11 +25,9 @@ class Cbtsesisiswa extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto CkzTR;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        CkzTR:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -46,11 +39,9 @@ class Cbtsesisiswa extends CI_Controller
         $kls = $this->input->get("kls", true);
         $kelas_selected = $kls != null ? $kls : "0";
         $siswas = [];
-        if (!($kelas_selected != "0")) {
-            goto Q8HH8;
+        if ($kelas_selected != "0") {
+            $siswas = $this->cbt->getRuangSesiSiswa($kls, $tp->id_tp, $smt->id_smt);
         }
-        $siswas = $this->cbt->getRuangSesiSiswa($kls, $tp->id_tp, $smt->id_smt);
-        Q8HH8:
         $data["siswas"] = $siswas;
         $data["kelas_selected"] = $kelas_selected;
         $this->load->view("_templates/dashboard/_header", $data);
@@ -82,14 +73,9 @@ class Cbtsesisiswa extends CI_Controller
         $chk = $this->input->post("checked", true);
         if (!$chk) {
             $this->output_json(["status" => false]);
-            goto fnWbn;
+        } else if ($this->master->delete("cbt_sesi", $chk, "id_sesi")) {
+            $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        if (!$this->master->delete("cbt_sesi", $chk, "id_sesi")) {
-            goto KgWSR;
-        }
-        $this->output_json(["status" => true, "total" => count($chk)]);
-        KgWSR:
-        fnWbn:
     }
     public function editsesisiswa()
     {

@@ -12,20 +12,18 @@ class Master_model extends CI_Model
     {
         if ($batch === false) {
             $insert = $this->db->insert($table, $data);
-            goto A5P33;
+            return $insert;
         }
         $insert = $this->db->insert_batch($table, $data);
-        A5P33:
         return $insert;
     }
     public function update($table, $data, $pk, $id = null, $batch = false)
     {
         if ($batch === false) {
             $insert = $this->db->update($table, $data, array($pk => $id));
-            goto HKrsO;
+            return $insert;
         }
         $insert = $this->db->update_batch($table, $data, $pk);
-        HKrsO:
         return $insert;
     }
     public function delete($table, $data, $pk)
@@ -73,13 +71,11 @@ class Master_model extends CI_Model
         $this->db->where_in("id_mapel", $arrIds);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto iHpAk;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_mapel] = $row->nama_mapel;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_mapel] = $row->nama_mapel;
-        }
-        iHpAk:
         return $ret;
     }
     public function getDataTableJurusan()
@@ -103,24 +99,20 @@ class Master_model extends CI_Model
         $kode = $this->input->post("kode_jurusan", true);
         $mapels = [];
         $check_mapel = $this->input->post("mapel", true);
-        if (!$check_mapel) {
-            goto NsI8Z;
+        if ($check_mapel) {
+            $row_mapels = count($this->input->post("mapel", true));
+            $i = 0;
+            while ($i <= $row_mapels) {
+                array_push($mapels, $this->input->post("mapel[" . $i . "]", true));
+                $i++;
+            }
         }
-        $row_mapels = count($this->input->post("mapel", true));
-        $i = 0;
-        lE9T2:
-        if (!($i <= $row_mapels)) {
-            NsI8Z:
-            $this->db->set("nama_jurusan", $name);
-            $this->db->set("kode_jurusan", $kode);
-            $this->db->set("mapel_peminatan", implode(",", $mapels));
-            $this->db->set("status", "1");
-            $this->db->where("id_jurusan", $id);
-            return $this->db->update("master_jurusan");
-        }
-        array_push($mapels, $this->input->post("mapel[" . $i . "]", true));
-        $i++;
-        goto lE9T2;
+        $this->db->set("nama_jurusan", $name);
+        $this->db->set("kode_jurusan", $kode);
+        $this->db->set("mapel_peminatan", implode(",", $mapels));
+        $this->db->set("status", "1");
+        $this->db->where("id_jurusan", $id);
+        return $this->db->update("master_jurusan");
     }
     public function inputJurusan()
     {
@@ -174,13 +166,11 @@ class Master_model extends CI_Model
         $this->db->order_by("a.nama", "ASC");
         $this->db->join("kelas_siswa d", "d.id_siswa = a.id_siswa AND d.id_tp = " . $id_tp . " AND d.id_smt = " . $id_smt . '', "left");
         $this->db->join("master_kelas f", "f.id_kelas=d.id_kelas", "left");
-        if (!($search != null)) {
-            goto xwlYJ;
+        if ($search != null) {
+            $this->db->like("a.nama", $search);
+            $this->db->or_like("a.nis", $search);
+            $this->db->or_like("a.nisn", $search);
         }
-        $this->db->like("a.nama", $search);
-        $this->db->or_like("a.nis", $search);
-        $this->db->or_like("a.nisn", $search);
-        xwlYJ:
         return $this->db->get()->result();
     }
     public function getSiswaPage($id_tp, $id_smt, $offset, $limit, $search = null, $sort = null, $order = null)
@@ -193,45 +183,37 @@ class Master_model extends CI_Model
         $this->db->order_by("ISNULL(f.level_id), f.level_id ASC");
         $this->db->order_by("f.nama_kelas", "ASC");
         $this->db->order_by("a.nama", "ASC");
-        if (!($search != null)) {
-            goto cxXuX;
+        if ($search != null) {
+            $this->db->like("a.nama", $search);
+            $this->db->or_like("a.nis", $search);
+            $this->db->or_like("a.nisn", $search);
         }
-        $this->db->like("a.nama", $search);
-        $this->db->or_like("a.nis", $search);
-        $this->db->or_like("a.nisn", $search);
-        cxXuX:
         return $this->db->get()->result();
     }
     public function getSiswaTotalPage($search = null)
     {
         $this->db->select("id_siswa");
         $this->db->from("master_siswa");
-        if (!($search != null)) {
-            goto H6qFl;
+        if ($search != null) {
+            $this->db->like("nama", $search);
+            $this->db->or_like("nis", $search);
+            $this->db->or_like("nisn", $search);
         }
-        $this->db->like("nama", $search);
-        $this->db->or_like("nis", $search);
-        $this->db->or_like("nisn", $search);
-        H6qFl:
         return $this->db->get()->num_rows();
     }
     public function getDataSiswaByKelas($id_tp, $id_smt, $id_kelas, $offset, $limit, $search = null, $sort = null, $order = null)
     {
         $this->db->select("b.id_siswa, b.nama, b.nis, b.nisn, b.jenis_kelamin, b.username, b.password, b.foto, f.nama_kelas, (SELECT COUNT(id) FROM users WHERE users.username = b.username) AS aktif");
         $this->db->from("kelas_siswa a");
-        if (!($limit > 0)) {
-            goto YSFyF;
+        if ($limit > 0) {
+            $this->db->limit($limit, $offset);
         }
-        $this->db->limit($limit, $offset);
-        YSFyF:
         $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa", "right");
-        if (!($search != null)) {
-            goto Ek2OP;
+        if ($search != null) {
+            $this->db->like("b.nama", $search);
+            $this->db->or_like("b.nis", $search);
+            $this->db->or_like("b.nisn", $search);
         }
-        $this->db->like("b.nama", $search);
-        $this->db->or_like("b.nis", $search);
-        $this->db->or_like("b.nisn", $search);
-        Ek2OP:
         $this->db->join("master_kelas f", "f.id_kelas=a.id_kelas");
         $this->db->where("a.id_tp", $id_tp);
         $this->db->where("a.id_smt", $id_smt);
@@ -246,13 +228,11 @@ class Master_model extends CI_Model
         $this->db->where("a.id_smt", $id_smt);
         $this->db->where("a.id_kelas", $id_kelas);
         $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa");
-        if (!($search != null)) {
-            goto JwlAb;
+        if ($search != null) {
+            $this->db->like("b.nama", $search);
+            $this->db->or_like("b.nis", $search);
+            $this->db->or_like("b.nisn", $search);
         }
-        $this->db->like("b.nama", $search);
-        $this->db->or_like("b.nis", $search);
-        $this->db->or_like("b.nisn", $search);
-        JwlAb:
         return $this->db->get()->num_rows();
     }
     public function getSiswaById($id)
@@ -283,13 +263,11 @@ class Master_model extends CI_Model
         $this->db->where("a.id_smt", $id_smt);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto B9Cbp;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa] = $row;
-        }
-        B9Cbp:
         return $ret;
     }
     public function getDataSiswaById($id_tp, $id_smt, $idSiswa)
@@ -350,11 +328,9 @@ class Master_model extends CI_Model
         foreach ($jurusan as $j) {
             $id_jurusan[] = $j->jurusan_id;
         }
-        if (!($id_jurusan === [])) {
-            goto GEcge;
+        if ($id_jurusan === []) {
+            $id_jurusan = null;
         }
-        $id_jurusan = null;
-        GEcge:
         $this->db->select("*");
         $this->db->from("master_jurusan");
         $this->db->where_not_in("id_jurusan", $id_jurusan);
@@ -399,11 +375,9 @@ class Master_model extends CI_Model
         $this->db->from("master_guru a");
         $this->db->join("jabatan_guru b", "a.id_guru=b.id_guru", "left");
         $this->db->join("level_guru c", "b.id_jabatan=c.id_level", "left");
-        if (!($id_tp != null && $id_smt != null)) {
-            goto ooUgI;
+        if ($id_tp != null && $id_smt != null) {
+            $this->db->join("master_kelas d", "a.id_guru=d.guru_id AND d.id_tp=" . $id_tp . " AND d.id_smt=" . $id_smt, "left");
         }
-        $this->db->join("master_kelas d", "a.id_guru=d.guru_id AND d.id_tp=" . $id_tp . " AND d.id_smt=" . $id_smt, "left");
-        ooUgI:
         $this->db->where("a.id_guru", $id);
         return $this->db->get()->row();
     }
@@ -411,11 +385,9 @@ class Master_model extends CI_Model
     {
         $this->db->select("nama_guru, nip");
         $this->db->from("master_guru");
-        if (!(count($arr_id) > 0)) {
-            goto IW4kr;
+        if (count($arr_id) > 0) {
+            $this->db->where_in("id_guru", $arr_id);
         }
-        $this->db->where_in("id_guru", $arr_id);
-        IW4kr:
         return $this->db->get()->result();
     }
     public function getUserIdGuruByUsername($username)
@@ -520,32 +492,24 @@ class Master_model extends CI_Model
     }
     public function getAllMapel($arrKelompok = null, $arrMapel = null)
     {
-        if (!($arrMapel != null)) {
-            goto npaWG;
+        if ($arrMapel != null) {
+            $this->db->where_in("kelompok", $arrKelompok);
         }
-        $this->db->where_in("kelompok", $arrKelompok);
-        npaWG:
-        if (!($arrMapel != null)) {
-            goto OC34Z;
+        if ($arrMapel != null) {
+            $this->db->or_where_in("id_mapel", explode(",", $arrMapel));
         }
-        $this->db->or_where_in("id_mapel", explode(",", $arrMapel));
-        OC34Z:
         $this->db->where("status", "1");
         $this->db->order_by("urutan_tampil");
         return $this->db->get("master_mapel")->result();
     }
     public function getAllStatusMapel($arrKelompok = null, $arrMapel = null)
     {
-        if (!($arrMapel != null)) {
-            goto CnQWk;
+        if ($arrMapel != null) {
+            $this->db->where_in("kelompok", $arrKelompok);
         }
-        $this->db->where_in("kelompok", $arrKelompok);
-        CnQWk:
-        if (!($arrMapel != null)) {
-            goto HraMd;
+        if ($arrMapel != null) {
+            $this->db->or_where_in("id_mapel", explode(",", $arrMapel));
         }
-        $this->db->or_where_in("id_mapel", explode(",", $arrMapel));
-        HraMd:
         $this->db->order_by("urutan_tampil");
         return $this->db->get("master_mapel")->result();
     }
@@ -572,10 +536,9 @@ class Master_model extends CI_Model
             $this->db->where_in("id_mapel", $id);
             $this->db->order_by("nama_mapel");
             $query = $this->db->get("master_mapel")->result();
-            goto OvB5J;
+            return $query;
         }
         $query = $this->db->get_where("master_mapel", array("id_mapel" => $id))->row();
-        OvB5J:
         return $query;
     }
     function updateMapel()
@@ -588,11 +551,9 @@ class Master_model extends CI_Model
         $urut = $this->input->post("urutan_tampil", true);
         $this->db->set("nama_mapel", $name);
         $this->db->set("kode", $kode);
-        if (!($kelompok != null)) {
-            goto N1Pmt;
+        if ($kelompok != null) {
+            $this->db->set("kelompok", $kelompok);
         }
-        $this->db->set("kelompok", $kelompok);
-        N1Pmt:
         $this->db->set("status", $status);
         $this->db->set("urutan_tampil", $urut);
         $this->db->where("id_mapel", $id);
@@ -608,10 +569,9 @@ class Master_model extends CI_Model
             $this->db->where_in("id_ekstra", $id);
             $this->db->order_by("nama_ekstra");
             $query = $this->db->get("master_ekstra")->result();
-            goto Bw0xF;
+            return $query;
         }
         $query = $this->db->get_where("master_ekstra", array("id_ekstra" => $id))->row();
-        Bw0xF:
         return $query;
     }
     function updateEkstra()
@@ -646,13 +606,11 @@ class Master_model extends CI_Model
     public function getAllJabatanGuru($id)
     {
         $result = $this->db->get_where("jabatan_guru", "id_guru=" . $id)->result();
-        if (!$result) {
-            goto Aa5zb;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_tp][$row->id_smt] = $row->id_kelas;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_tp][$row->id_smt] = $row->id_kelas;
-        }
-        Aa5zb:
         return $ret;
     }
     public function getJurusanMapel()
@@ -669,21 +627,17 @@ class Master_model extends CI_Model
     {
         $this->db->select("mapel_id");
         $this->db->from("jurusan_mapel");
-        if (!($id !== null)) {
-            goto nPvie;
+        if ($id !== null) {
+            $this->db->where_not_in("mapel_id", [$id]);
         }
-        $this->db->where_not_in("mapel_id", [$id]);
-        nPvie:
         $mapel = $this->db->get()->result();
         $id_mapel = [];
         foreach ($mapel as $d) {
             $id_mapel[] = $d->mapel_id;
         }
-        if (!($id_mapel === [])) {
-            goto sDSlh;
+        if ($id_mapel === []) {
+            $id_mapel = null;
         }
-        $id_mapel = null;
-        sDSlh:
         $this->db->select("id_mapel, nama_mapel");
         $this->db->from("master_mapel");
         $this->db->where_not_in("id_mapel", $id_mapel);
@@ -729,11 +683,9 @@ class Master_model extends CI_Model
         $result = $this->db->get("buku_induk")->result();
         $ret = [];
         foreach ($result as $row) {
-            if (!($row->tahun_lulus != '')) {
-                goto wBQeL;
+            if ($row->tahun_lulus != '') {
+                $ret[$row->tahun_lulus] = $row->tahun_lulus;
             }
-            $ret[$row->tahun_lulus] = $row->tahun_lulus;
-            wBQeL:
         }
         return $ret;
     }
@@ -744,11 +696,9 @@ class Master_model extends CI_Model
         $result = $this->db->get("buku_induk")->result();
         $ret = [];
         foreach ($result as $row) {
-            if (!($row->kelas_akhir != '')) {
-                goto MRYfl;
+            if ($row->kelas_akhir != '') {
+                $ret[$row->kelas_akhir] = $row->kelas_akhir;
             }
-            $ret[$row->kelas_akhir] = $row->kelas_akhir;
-            MRYfl:
         }
         return $ret;
     }
@@ -758,11 +708,9 @@ class Master_model extends CI_Model
         $this->db->from("buku_induk a");
         $this->db->join("master_siswa b", "a.id_siswa=b.id_siswa");
         $this->db->where("a.tahun_lulus", $tahun);
-        if (!($kelas != null)) {
-            goto vSDzM;
+        if ($kelas != null) {
+            $this->db->where("a.kelas_akhir", $kelas);
         }
-        $this->db->where("a.kelas_akhir", $kelas);
-        vSDzM:
         return $this->db->get()->result();
     }
     public function getAlumniById($id)
@@ -783,17 +731,13 @@ class Master_model extends CI_Model
         $this->db->join("master_kelas d", "a.id_kelas=d.id_kelas", "left");
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto egJDa;
-        }
-        foreach ($result as $key => $row) {
-            if (!($row->id_level == "4")) {
-                goto qY_tf;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                if ($row->id_level == "4") {
+                    $ret[$row->id_tp][$row->id_smt][$row->id_kelas] = $row;
+                }
             }
-            $ret[$row->id_tp][$row->id_smt][$row->id_kelas] = $row;
-            qY_tf:
         }
-        egJDa:
         return $ret;
     }
     public function getAllGuru()
@@ -815,11 +759,9 @@ class Master_model extends CI_Model
         $this->db->query("SET SQL_BIG_SELECTS=1");
         $this->db->select("a.id_kelas, a.id_tp, a.id_smt, a.nama_kelas, a.kode_kelas, a.level_id, b.nama_jurusan, b.kode_jurusan, c.nama_guru");
         $this->db->from("master_kelas a");
-        if (!($tp != null && $smt != null)) {
-            goto m_D9N;
+        if ($tp != null && $smt != null) {
+            $this->db->where("a.id_tp", $tp)->where("a.id_smt", $smt);
         }
-        $this->db->where("a.id_tp", $tp)->where("a.id_smt", $smt);
-        m_D9N:
         $this->db->join("jabatan_guru f", "f.id_kelas=a.id_kelas", "left");
         $this->db->join("master_jurusan b", "a.jurusan_id=b.id_jurusan", "left");
         $this->db->join("master_guru c", "f.id_guru=c.id_guru", "left");
@@ -827,23 +769,18 @@ class Master_model extends CI_Model
         $result = $this->db->get()->result();
         $ret = [];
         if ($tp != null && $smt != null) {
-            if (!$result) {
-                goto MmGGm;
+            if ($result) {
+                foreach ($result as $key => $row) {
+                    $ret[$row->id_kelas] = $row;
+                }
             }
+            return $ret;
+        }
+        if ($result) {
             foreach ($result as $key => $row) {
-                $ret[$row->id_kelas] = $row;
+                $ret[$row->id_tp][$row->id_smt][$row->id_kelas] = $row;
             }
-            MmGGm:
-            goto N_TEX;
         }
-        if (!$result) {
-            goto miGA3;
-        }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_tp][$row->id_smt][$row->id_kelas] = $row;
-        }
-        miGA3:
-        N_TEX:
         return $ret;
     }
     public function getAllKelasSiswa()
@@ -852,13 +789,11 @@ class Master_model extends CI_Model
         $this->db->from("kelas_siswa");
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto nafmD;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_kelas][$row->id_siswa] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_kelas][$row->id_siswa] = $row;
-        }
-        nafmD:
         return $ret;
     }
     public function getDataInduk()
@@ -869,13 +804,11 @@ class Master_model extends CI_Model
         $this->db->order_by("a.nama", "ASC");
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto oShRZ;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa] = $row;
-        }
-        oShRZ:
         return $ret;
     }
 }

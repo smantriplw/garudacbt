@@ -12,14 +12,9 @@ class Cbtsesi extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto WNKI9;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto al5ly;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        al5ly:
-        WNKI9:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -28,11 +23,9 @@ class Cbtsesi extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto diZJ6;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        diZJ6:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -81,14 +74,9 @@ class Cbtsesi extends CI_Controller
         $chk = $this->input->post("checked", true);
         if (!$chk) {
             $this->output_json(["status" => false]);
-            goto VVLcx;
+        } else if ($this->master->delete("cbt_sesi", $chk, "id_sesi")) {
+            $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        if (!$this->master->delete("cbt_sesi", $chk, "id_sesi")) {
-            goto SsprF;
-        }
-        $this->output_json(["status" => true, "total" => count($chk)]);
-        SsprF:
-        VVLcx:
     }
     public function sesisiswa()
     {

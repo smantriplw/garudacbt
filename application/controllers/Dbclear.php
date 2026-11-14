@@ -13,14 +13,9 @@ class Dbclear extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto BsZKH;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto c8yQs;
-        }
-        show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
-        c8yQs:
-        BsZKH:
         $this->load->library("upload");
         $this->load->dbforge();
         $this->load->model("Settings_model", "settings");
@@ -29,11 +24,9 @@ class Dbclear extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto AELLo;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        AELLo:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -52,31 +45,21 @@ class Dbclear extends CI_Controller
         $tables = $this->db->list_tables();
         foreach ($tables as $table) {
             if (isset($json[$table])) {
-                if (in_array($table, $excludes)) {
-                    goto ArJzC;
+                if (!(in_array($table, $excludes))) {
+                    $name = str_replace("_", " ", $table);
+                    $table_info = ["ket" => $this->keterangan()[$table], "size" => $this->settings->rowSize($table), "table" => $table, "name" => ucwords($name)];
+                    $data_tables[$table_info["ket"]][] = $table_info;
                 }
-                $name = str_replace("_", " ", $table);
-                $table_info = ["ket" => $this->keterangan()[$table], "size" => $this->settings->rowSize($table), "table" => $table, "name" => ucwords($name)];
-                $data_tables[$table_info["ket"]][] = $table_info;
-                ArJzC:
-                goto lT934;
-            }
-            if (in_array($table, $excludes)) {
-                goto yKxgS;
-            }
-            if ($table == "buku_nilai") {
-                $nums = $this->db->get("buku_nilai")->num_rows();
-                if (!($nums == 0)) {
-                    goto gFdBs;
+            } else if (!(in_array($table, $excludes))) {
+                if ($table == "buku_nilai") {
+                    $nums = $this->db->get("buku_nilai")->num_rows();
+                    if ($nums == 0) {
+                        $this->dbforge->drop_table("buku_nilai", true);
+                    }
+                } else {
+                    $this->dbforge->drop_table($table, true);
                 }
-                $this->dbforge->drop_table("buku_nilai", true);
-                gFdBs:
-                goto YIPUb;
             }
-            $this->dbforge->drop_table($table, true);
-            YIPUb:
-            yKxgS:
-            lT934:
         }
         $data["tables"] = $data_tables;
         $this->load->view("_templates/dashboard/_header", $data);

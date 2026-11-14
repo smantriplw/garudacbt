@@ -12,14 +12,9 @@ class Kelasabsensibulanan extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto O4JmD;
+        } else if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru")) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Dibatasi");
         }
-        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
-            goto N_Bc4;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Dibatasi");
-        N_Bc4:
-        O4JmD:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -29,11 +24,9 @@ class Kelasabsensibulanan extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto ci42U;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        ci42U:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -55,41 +48,36 @@ class Kelasabsensibulanan extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("kelas/absenbulanan/data");
             $this->load->view("_templates/dashboard/_footer");
-            goto LBLFq;
-        }
-        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        $nguru[$guru->id_guru] = $guru->nama_guru;
-        $data["guru"] = $guru;
-        $data["id_guru"] = $guru->id_guru;
-        $mapel_guru = $this->kelas->getGuruMapelKelas($guru->id_guru, $tp->id_tp, $smt->id_smt);
-        $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
-        $arrMapel = [];
-        $arrKelas = [];
-        if (!($mapel != null)) {
-            goto mSph9;
-        }
-        foreach ($mapel as $m) {
-            $arrMapel[$m->id_mapel] = $m->nama_mapel;
-            foreach ($m->kelas_mapel as $kls) {
-                $arrKelas[$m->id_mapel][] = ["id_kelas" => $kls->kelas, "nama_kelas" => $this->dropdown->getNamaKelasById($tp->id_tp, $smt->id_smt, $kls->kelas)];
+        } else {
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $nguru[$guru->id_guru] = $guru->nama_guru;
+            $data["guru"] = $guru;
+            $data["id_guru"] = $guru->id_guru;
+            $mapel_guru = $this->kelas->getGuruMapelKelas($guru->id_guru, $tp->id_tp, $smt->id_smt);
+            $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
+            $arrMapel = [];
+            $arrKelas = [];
+            if ($mapel != null) {
+                foreach ($mapel as $m) {
+                    $arrMapel[$m->id_mapel] = $m->nama_mapel;
+                    foreach ($m->kelas_mapel as $kls) {
+                        $arrKelas[$m->id_mapel][] = ["id_kelas" => $kls->kelas, "nama_kelas" => $this->dropdown->getNamaKelasById($tp->id_tp, $smt->id_smt, $kls->kelas)];
+                    }
+                }
             }
+            $arrId = [];
+            if ($mapel != null) {
+                foreach ($mapel[0]->kelas_mapel as $id_mapel) {
+                    array_push($arrId, $id_mapel->kelas);
+                }
+            }
+            $data["mapel"] = $arrMapel;
+            $data["arrkelas"] = $arrKelas;
+            $data["kelas"] = count($arrId) > 0 ? $this->dropdown->getAllKelasByArrayId($tp->id_tp, $smt->id_smt, $arrId) : [];
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("kelas/absenbulanan/data");
+            $this->load->view("members/guru/templates/footer");
         }
-        mSph9:
-        $arrId = [];
-        if (!($mapel != null)) {
-            goto Spq3o;
-        }
-        foreach ($mapel[0]->kelas_mapel as $id_mapel) {
-            array_push($arrId, $id_mapel->kelas);
-        }
-        Spq3o:
-        $data["mapel"] = $arrMapel;
-        $data["arrkelas"] = $arrKelas;
-        $data["kelas"] = count($arrId) > 0 ? $this->dropdown->getAllKelasByArrayId($tp->id_tp, $smt->id_smt, $arrId) : [];
-        $this->load->view("members/guru/templates/header", $data);
-        $this->load->view("kelas/absenbulanan/data");
-        $this->load->view("members/guru/templates/footer");
-        LBLFq:
     }
     public function loadAbsensiMapel()
     {
@@ -105,7 +93,6 @@ class Kelasabsensibulanan extends CI_Controller
             $tgl = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun);
             $jadwal_materi = [];
             $i = 0;
-            D8VWA:
             if (!($i < $tgl)) {
                 $materi_perbulan = $this->kelas->getRekapBulananSiswa($id_mapel, $id_kelas, $tahun, $bulan);
                 $log = [];
@@ -113,16 +100,14 @@ class Kelasabsensibulanan extends CI_Controller
                 foreach ($siswa as $s) {
                     $arrMateri = [];
                     $i = 0;
-                    QixA2:
-                    if (!($i < $tgl)) {
-                        $log[$s->id_siswa] = ["nama" => $s->nama, "nis" => $s->nis, "kelas" => $s->nama_kelas, "materi" => $arrMateri[1], "tugas" => $arrMateri[2]];
+                    while ($i < $tgl) {
+                        $t = $i + 1 < 10 ? "0" . ($i + 1) : $i + 1;
+                        $b = $bulan < 10 ? "0" . $bulan : $bulan;
+                        $arrMateri[1][] = $materi_perbulan != null && isset($materi_perbulan[$s->id_siswa]) && isset($materi_perbulan[$s->id_siswa][1]) && isset($materi_perbulan[$s->id_siswa][1][$tahun . "-" . $b . "-" . $t]) ? $materi_perbulan[$s->id_siswa][1][$tahun . "-" . $b . "-" . $t] : null;
+                        $arrMateri[2][] = $materi_perbulan != null && isset($materi_perbulan[$s->id_siswa]) && isset($materi_perbulan[$s->id_siswa][2]) && isset($materi_perbulan[$s->id_siswa][2][$tahun . "-" . $b . "-" . $t]) ? $materi_perbulan[$s->id_siswa][2][$tahun . "-" . $b . "-" . $t] : null;
+                        $i++;
                     }
-                    $t = $i + 1 < 10 ? "0" . ($i + 1) : $i + 1;
-                    $b = $bulan < 10 ? "0" . $bulan : $bulan;
-                    $arrMateri[1][] = $materi_perbulan != null && isset($materi_perbulan[$s->id_siswa]) && isset($materi_perbulan[$s->id_siswa][1]) && isset($materi_perbulan[$s->id_siswa][1][$tahun . "-" . $b . "-" . $t]) ? $materi_perbulan[$s->id_siswa][1][$tahun . "-" . $b . "-" . $t] : null;
-                    $arrMateri[2][] = $materi_perbulan != null && isset($materi_perbulan[$s->id_siswa]) && isset($materi_perbulan[$s->id_siswa][2]) && isset($materi_perbulan[$s->id_siswa][2][$tahun . "-" . $b . "-" . $t]) ? $materi_perbulan[$s->id_siswa][2][$tahun . "-" . $b . "-" . $t] : null;
-                    $i++;
-                    goto QixA2;
+                    $log[$s->id_siswa] = ["nama" => $s->nama, "nis" => $s->nis, "kelas" => $s->nama_kelas, "materi" => $arrMateri[1], "tugas" => $arrMateri[2]];
                 }
                 $mapel_bulan_ini = [];
                 $infos = $this->kelas->getJadwalMapelByMapel($id_kelas, $id_mapel, $id_tp, $id_smt);
@@ -134,16 +119,14 @@ class Kelasabsensibulanan extends CI_Controller
                     }
                 }
                 $this->output_json(["log" => $log, "jadwal" => $jadwal, "materi" => $jadwal_materi, "mapels" => $mapel_bulan_ini]);
-                goto DVxe3;
+            } else {
+                $t = $i + 1 < 10 ? "0" . ($i + 1) : $i + 1;
+                $b = $bulan < 10 ? "0" . $bulan : $bulan;
+                $jadwal_materi[$t] = (array) $this->kelas->getAllMateriByTgl($id_kelas, $tahun . "-" . $b . "-" . $t, [$id_mapel]);
+                $i++;
             }
-            $t = $i + 1 < 10 ? "0" . ($i + 1) : $i + 1;
-            $b = $bulan < 10 ? "0" . $bulan : $bulan;
-            $jadwal_materi[$t] = (array) $this->kelas->getAllMateriByTgl($id_kelas, $tahun . "-" . $b . "-" . $t, [$id_mapel]);
-            $i++;
-            goto D8VWA;
-        }
-        $this->output_json(["jadwal" => $jadwal]);
-        DVxe3:
+            $this->output_json(["jadwal" => $jadwal]);
+            }
     }
     function total_hari($id_day, $bulan, $taun)
     {
@@ -152,17 +135,13 @@ class Kelasabsensibulanan extends CI_Controller
         $total_days = cal_days_in_month(CAL_GREGORIAN, $bulan, $taun);
         $idday = $id_day == "7" ? 0 : $id_day;
         $i = 1;
-        BMBNn:
-        if (!($i < $total_days)) {
-            return $dates;
+        while ($i < $total_days) {
+            if (date("N", strtotime($taun . "-" . $bulan . "-" . $i)) == $idday) {
+                $days++;
+                array_push($dates, date("Y-m-d", strtotime($taun . "-" . $bulan . "-" . $i)));
+            }
+            $i++;
         }
-        if (!(date("N", strtotime($taun . "-" . $bulan . "-" . $i)) == $idday)) {
-            goto Q0ooO;
-        }
-        $days++;
-        array_push($dates, date("Y-m-d", strtotime($taun . "-" . $bulan . "-" . $i)));
-        Q0ooO:
-        $i++;
-        goto BMBNn;
+        return $dates;
     }
 }

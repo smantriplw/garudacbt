@@ -18,15 +18,11 @@ class Log_model extends CI_Model
         $group = $this->ion_auth->get_users_groups($user_id)->row();
         if ($this->agent->is_browser()) {
             $agent = $this->agent->browser() . " " . $this->agent->version();
-            goto fRnRm;
-        }
-        if ($this->agent->is_mobile()) {
+        } else if ($this->agent->is_mobile()) {
             $agent = $this->agent->mobile();
-            goto fTTAm;
+        } else {
+            $agent = "Data user gagal di dapatkan";
         }
-        $agent = "Data user gagal di dapatkan";
-        fTTAm:
-        fRnRm:
         $os = $this->agent->platform();
         $ip = $this->input->ip_address();
         $this->insertLog($user_id, $group->id, $group->name, $type, $desc, $agent, $os, $ip);
@@ -43,11 +39,9 @@ class Log_model extends CI_Model
         $this->db->from("log a");
         $this->db->join("users b", "b.id=a.id_user", "left");
         $this->db->join("groups d", "d.id=a.id_group");
-        if (!($limit != null)) {
-            goto Fr3se;
+        if ($limit != null) {
+            $this->db->limit($limit, 0);
         }
-        $this->db->limit($limit, 0);
-        Fr3se:
         $this->db->order_by("a.log_time", "DESC");
         $result = $this->db->get()->result();
         return $result;
@@ -59,11 +53,9 @@ class Log_model extends CI_Model
         $this->db->from("log a");
         $this->db->join("users b", "b.id=a.id_user", "left");
         $this->db->join("groups d", "d.id=a.id_group");
-        if (!($limit != null)) {
-            goto ZJW2X;
+        if ($limit != null) {
+            $this->db->limit($limit, 0);
         }
-        $this->db->limit($limit, 0);
-        ZJW2X:
         $this->db->where("a.id_group", "3");
         $this->db->order_by("a.log_time", "DESC");
         $result = $this->db->get()->result();

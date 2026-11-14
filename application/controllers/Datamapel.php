@@ -17,14 +17,9 @@ class Datamapel extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto T_WCk;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto xJ9sT;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        xJ9sT:
-        T_WCk:
         $this->load->dbforge();
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
@@ -34,11 +29,9 @@ class Datamapel extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto Ail9s;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        Ail9s:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     private function updateUrutanTampil()
@@ -48,20 +41,16 @@ class Datamapel extends CI_Controller
         foreach ($mapels as $mapel) {
             $insert = ["id_mapel" => $mapel->id_mapel, "nama_mapel" => $mapel->id_mapel, "kode" => $mapel->id_mapel, "kelompok" => $mapel->id_mapel, "bobot_p" => $mapel->id_mapel, "bobot_k" => $mapel->id_mapel, "jenjang" => $mapel->id_mapel, "urutan" => $mapel->id_mapel, "urutan_tampil" => $mapel->id_mapel, "status" => $mapel->id_mapel, "deletable" => $mapel->id_mapel];
         }
-        if (!(count($insert) > 0)) {
-            goto HEya9;
+        if (count($insert) > 0) {
+            $this->db->update_batch("master_mapel", $insert);
         }
-        $this->db->update_batch("master_mapel", $insert);
-        HEya9:
     }
     public function index()
     {
-        if ($this->db->field_exists("urutan_tampil", "master_mapel")) {
-            goto fDH4d;
+        if (!($this->db->field_exists("urutan_tampil", "master_mapel"))) {
+            $fields = array("urutan_tampil" => array("type" => "int(3)", "after" => "urutan"));
+            $this->dbforge->add_column("master_mapel", $fields);
         }
-        $fields = array("urutan_tampil" => array("type" => "int(3)", "after" => "urutan"));
-        $this->dbforge->add_column("master_mapel", $fields);
-        fDH4d:
         $user = $this->ion_auth->user()->row();
         $setting = $this->dashboard->getSetting();
         $data = ["user" => $user, "judul" => "Mata Pelajaran", "subjudul" => "Daftar Mata Pelajaran", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $setting];
@@ -86,10 +75,9 @@ class Datamapel extends CI_Controller
         if ($id != null) {
             $this->db->where("id_kel_mapel", $id);
             $data = $this->db->update("master_kelompok_mapel", $insert);
-            goto w6F2_;
+        } else {
+            $data = $this->master->create("master_kelompok_mapel", $insert);
         }
-        $data = $this->master->create("master_kelompok_mapel", $insert);
-        w6F2_:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function hapusKelompok()
@@ -100,28 +88,19 @@ class Datamapel extends CI_Controller
         $messages = [];
         $this->db->where_in("kelompok", $kode);
         $numm = $this->db->count_all_results("master_mapel");
-        if (!($numm > 0)) {
-            goto UwIXe;
+        if ($numm > 0) {
+            array_push($messages, "Mata Pelajaran");
         }
-        array_push($messages, "Mata Pelajaran");
-        UwIXe:
         $this->db->where_in("id_parent", $id);
         $nums = $this->db->count_all_results("master_kelompok_mapel");
-        if (!($nums > 0)) {
-            goto RknOL;
+        if ($nums > 0) {
+            array_push($messages, "Sub Kelompok");
         }
-        array_push($messages, "Sub Kelompok");
-        RknOL:
         if (count($messages) > 0) {
             $this->output_json(["status" => false, "message" => "Kelompok Mapel digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
-            goto T2jTt;
+        } else if ($this->master->delete("master_kelompok_mapel", $id, "id_kel_mapel")) {
+            $this->output_json(["status" => true, "message" => "berhasil"]);
         }
-        if (!$this->master->delete("master_kelompok_mapel", $id, "id_kel_mapel")) {
-            goto Mlsrv;
-        }
-        $this->output_json(["status" => true, "message" => "berhasil"]);
-        Mlsrv:
-        T2jTt:
     }
     public function create()
     {
@@ -180,41 +159,32 @@ class Datamapel extends CI_Controller
         foreach ($tabless as $table) {
             $fields = $this->db->field_data($table);
             foreach ($fields as $field) {
-                if (!($field->name == "id_mapel" || $field->name == "mapel_id")) {
-                    goto G6JkK;
+                if ($field->name == "id_mapel" || $field->name == "mapel_id") {
+                    array_push($tables, $table);
                 }
-                array_push($tables, $table);
-                G6JkK:
             }
         }
         foreach ($tables as $table) {
-            if (!($table != "master_mapel")) {
-                goto a2i9u;
+            if ($table != "master_mapel") {
+                if ($table == "cbt_soal") {
+                    $this->db->where_in("mapel_id", $chk);
+                    $num = $this->db->count_all_results($table);
+                } else {
+                    $this->db->where_in("id_mapel", $chk);
+                    $num = $this->db->count_all_results($table);
+                }
+                if ($num > 0) {
+                    array_push($messages, $table);
+                }
             }
-            if ($table == "cbt_soal") {
-                $this->db->where_in("mapel_id", $chk);
-                $num = $this->db->count_all_results($table);
-                goto o8xHk;
-            }
-            $this->db->where_in("id_mapel", $chk);
-            $num = $this->db->count_all_results($table);
-            o8xHk:
-            if (!($num > 0)) {
-                goto s5o2v;
-            }
-            array_push($messages, $table);
-            s5o2v:
-            a2i9u:
         }
         if (count($messages) > 0) {
             $this->output_json(["status" => false, "total" => "Mapel digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
             goto d__MT;
         }
-        if (!$this->master->delete("master_mapel", $chk, "id_mapel")) {
-            goto UBZTK;
+        if ($this->master->delete("master_mapel", $chk, "id_mapel")) {
+            $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        $this->output_json(["status" => true, "total" => count($chk)]);
-        UBZTK:
         d__MT:
         A6B0r:
     }
@@ -222,11 +192,9 @@ class Datamapel extends CI_Controller
     {
         $user = $this->ion_auth->user()->row();
         $data = ["user" => $user, "judul" => "Mata Pelajaran", "subjudul" => "Import Mata Pelajaran", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
-        if (!($import_data != null)) {
-            goto LARk8;
+        if ($import_data != null) {
+            $data["import"] = $import_data;
         }
-        $data["import"] = $import_data;
-        LARk8:
         $data["tp"] = $this->dashboard->getTahun();
         $data["tp_active"] = $this->dashboard->getTahunActive();
         $data["smt"] = $this->dashboard->getSemester();
@@ -252,36 +220,31 @@ class Datamapel extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                goto s5Ed0;
+                break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                goto s5Ed0;
+                break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-                goto s5Ed0;
+                break;
             default:
                 echo "unknown file ext";
                 die;
         }
-        s5Ed0:
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $data = [];
         $i = 1;
-        C4Z_o:
-        if (!($i < count($sheetData))) {
-            unlink($file);
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < count($sheetData)) {
+            if ($sheetData[$i][1] != null) {
+                $data[] = ["nama" => $sheetData[$i][1], "kode" => $sheetData[$i][2]];
+            }
+            $i++;
         }
-        if (!($sheetData[$i][1] != null)) {
-            goto P6QQi;
-        }
-        $data[] = ["nama" => $sheetData[$i][1], "kode" => $sheetData[$i][2]];
-        P6QQi:
-        $i++;
-        goto C4Z_o;
+        unlink($file);
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function previewWord()
     {
@@ -311,16 +274,14 @@ class Datamapel extends CI_Controller
         $tables = $dom->getElementsByTagName("table");
         $rows = $tables->item(0)->getElementsByTagName("tr");
         $i = 1;
-        u00WQ:
-        if (!($i < $rows->count())) {
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < $rows->count()) {
+            $cols = $rows[$i]->getElementsByTagName("td");
+            $data[] = ["nama" => $cols->item(1)->nodeValue, "kode" => $cols->item(2)->nodeValue];
+            $i++;
         }
-        $cols = $rows[$i]->getElementsByTagName("td");
-        $data[] = ["nama" => $cols->item(1)->nodeValue, "kode" => $cols->item(2)->nodeValue];
-        $i++;
-        goto u00WQ;
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function do_import()
     {

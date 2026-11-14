@@ -12,14 +12,9 @@ class Walistruktur extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto gE7hd;
+        } else if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru")) {
+            show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
-            goto gTmbe;
-        }
-        show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        gTmbe:
-        gE7hd:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -29,11 +24,9 @@ class Walistruktur extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto whdwf;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        whdwf:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -50,10 +43,9 @@ class Walistruktur extends CI_Controller
         $struktur = $this->kelas->getStrukturKelas($guru->wali_kelas);
         if ($struktur == null) {
             $data["struktur"] = json_decode(json_encode($this->kelas->dummyStruktur()));
-            goto bStKd;
+        } else {
+            $data["struktur"] = $struktur;
         }
-        $data["struktur"] = $struktur;
-        bStKd:
         $data["guru"] = $guru;
         $data["gurus"] = $this->dropdown->getAllGuru();
         $siswa = $this->kelas->getKelasSiswa($guru->wali_kelas, $tp->id_tp, $smt->id_smt);

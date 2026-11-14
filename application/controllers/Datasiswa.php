@@ -14,25 +14,18 @@ class Datasiswa extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto uQvP7;
+        } else if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru")) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
-            goto EhzFe;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        EhzFe:
-        uQvP7:
         $this->load->library("upload");
         $this->load->library(["datatables", "form_validation"]);
         $this->form_validation->set_error_delimiters('', '');
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto GWSeq;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        GWSeq:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -110,17 +103,16 @@ class Datasiswa extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $data["insert"] = false;
             $data["text"] = "Data Sudah ada, Pastikan NIS, NISN dan Username belum digunakan siswa lain";
-            goto JehmN;
+        } else {
+            $insert = ["nama" => $this->input->post("nama_siswa", true), "nis" => $nis, "nisn" => $nisn, "jenis_kelamin" => $this->input->post("jenis_kelamin", true), "kelas_awal" => $this->input->post("kelas_awal", true), "tahun_masuk" => $this->input->post("tahun_masuk", true), "username" => $username, "password" => $this->input->post("password", true), "foto" => "uploads/foto_siswa/" . $nis . "jpg"];
+            $this->db->set("uid", "UUID()", FALSE);
+            $data["insert"] = $this->db->insert("master_siswa", $insert);
+            $id = $this->db->insert_id();
+            $siswa = $this->master->getSiswaById($id);
+            $induk = ["id_siswa" => $id, "uid" => $siswa->uid, "status" => 1];
+            $this->db->insert("buku_induk", $induk);
+            $data["text"] = "Siswa berhasil ditambahkan";
         }
-        $insert = ["nama" => $this->input->post("nama_siswa", true), "nis" => $nis, "nisn" => $nisn, "jenis_kelamin" => $this->input->post("jenis_kelamin", true), "kelas_awal" => $this->input->post("kelas_awal", true), "tahun_masuk" => $this->input->post("tahun_masuk", true), "username" => $username, "password" => $this->input->post("password", true), "foto" => "uploads/foto_siswa/" . $nis . "jpg"];
-        $this->db->set("uid", "UUID()", FALSE);
-        $data["insert"] = $this->db->insert("master_siswa", $insert);
-        $id = $this->db->insert_id();
-        $siswa = $this->master->getSiswaById($id);
-        $induk = ["id_siswa" => $id, "uid" => $siswa->uid, "status" => 1];
-        $this->db->insert("buku_induk", $induk);
-        $data["text"] = "Siswa berhasil ditambahkan";
-        JehmN:
         $this->output_json($data);
     }
     public function edit($id)
@@ -149,13 +141,12 @@ class Datasiswa extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("master/siswa/edit");
             $this->load->view("_templates/dashboard/_footer");
-            goto GzYFY;
+        } else {
+            $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("master/siswa/edit");
+            $this->load->view("members/guru/templates/footer");
         }
-        $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        $this->load->view("members/guru/templates/header", $data);
-        $this->load->view("master/siswa/edit");
-        $this->load->view("members/guru/templates/footer");
-        GzYFY:
     }
     public function updateData()
     {
@@ -170,18 +161,17 @@ class Datasiswa extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $data["insert"] = false;
             $data["text"] = "NIS kurang dari 6 angka, atau data Sudah ada, Pastikan NIS, dan NISN belum digunakan siswa lain";
-            goto xK8Re;
+        } else {
+            $tgl_lahir = $this->input->post("tanggal_lahir", true);
+            $tgl_masuk = $this->input->post("tahun_masuk", true);
+            $input = ["nisn" => $this->input->post("nisn", true), "nis" => $this->input->post("nis", true), "nama" => $this->input->post("nama", true), "jenis_kelamin" => $this->input->post("jenis_kelamin", true), "tempat_lahir" => $this->input->post("tempat_lahir", true), "tanggal_lahir" => $this->strContains($tgl_lahir, "0000-") ? null : $tgl_lahir, "agama" => $this->input->post("agama", true), "status_keluarga" => $this->input->post("status_keluarga", true), "anak_ke" => $this->input->post("anak_ke", true), "alamat" => $this->input->post("alamat", true), "rt" => $this->input->post("rt", true), "rw" => $this->input->post("rw", true), "kelurahan" => $this->input->post("kelurahan", true), "kecamatan" => $this->input->post("kecamatan", true), "kabupaten" => $this->input->post("kabupaten", true), "provinsi" => $this->input->post("provinsi", true), "kode_pos" => $this->input->post("kode_pos", true), "hp" => $this->input->post("hp", true), "nama_ayah" => $this->input->post("nama_ayah", true), "nohp_ayah" => $this->input->post("nohp_ayah", true), "pendidikan_ayah" => $this->input->post("pendidikan_ayah", true), "pekerjaan_ayah" => $this->input->post("pekerjaan_ayah", true), "alamat_ayah" => $this->input->post("alamat_ayah", true), "nama_ibu" => $this->input->post("nama_ibu", true), "nohp_ibu" => $this->input->post("nohp_ibu", true), "pendidikan_ibu" => $this->input->post("pendidikan_ibu", true), "pekerjaan_ibu" => $this->input->post("pekerjaan_ibu", true), "alamat_ibu" => $this->input->post("alamat_ibu", true), "nama_wali" => $this->input->post("nama_wali", true), "pendidikan_wali" => $this->input->post("pendidikan_wali", true), "pekerjaan_wali" => $this->input->post("pekerjaan_wali", true), "nohp_wali" => $this->input->post("nohp_wali", true), "alamat_wali" => $this->input->post("alamat_wali", true), "tahun_masuk" => $this->strContains($tgl_masuk, "0000-") ? null : $tgl_masuk, "kelas_awal" => $this->input->post("kelas_awal", true), "tgl_lahir_ayah" => $this->input->post("tgl_lahir_ayah", true), "tgl_lahir_ibu" => $this->input->post("tgl_lahir_ibu", true), "tgl_lahir_wali" => $this->input->post("tgl_lahir_wali", true), "sekolah_asal" => $this->input->post("sekolah_asal", true), "foto" => $siswa->foto != null && $siswa->foto != '' ? $siswa->foto : "uploads/foto_siswa/" . $nis . ".jpg"];
+            $this->master->update("master_siswa", $input, "id_siswa", $id_siswa);
+            $this->db->set("status", $this->input->post("status", true));
+            $this->db->where("id_siswa", $siswa->id_siswa);
+            $this->db->update("buku_induk");
+            $data["insert"] = $input;
+            $data["text"] = "Siswa berhasil diperbaharui";
         }
-        $tgl_lahir = $this->input->post("tanggal_lahir", true);
-        $tgl_masuk = $this->input->post("tahun_masuk", true);
-        $input = ["nisn" => $this->input->post("nisn", true), "nis" => $this->input->post("nis", true), "nama" => $this->input->post("nama", true), "jenis_kelamin" => $this->input->post("jenis_kelamin", true), "tempat_lahir" => $this->input->post("tempat_lahir", true), "tanggal_lahir" => $this->strContains($tgl_lahir, "0000-") ? null : $tgl_lahir, "agama" => $this->input->post("agama", true), "status_keluarga" => $this->input->post("status_keluarga", true), "anak_ke" => $this->input->post("anak_ke", true), "alamat" => $this->input->post("alamat", true), "rt" => $this->input->post("rt", true), "rw" => $this->input->post("rw", true), "kelurahan" => $this->input->post("kelurahan", true), "kecamatan" => $this->input->post("kecamatan", true), "kabupaten" => $this->input->post("kabupaten", true), "provinsi" => $this->input->post("provinsi", true), "kode_pos" => $this->input->post("kode_pos", true), "hp" => $this->input->post("hp", true), "nama_ayah" => $this->input->post("nama_ayah", true), "nohp_ayah" => $this->input->post("nohp_ayah", true), "pendidikan_ayah" => $this->input->post("pendidikan_ayah", true), "pekerjaan_ayah" => $this->input->post("pekerjaan_ayah", true), "alamat_ayah" => $this->input->post("alamat_ayah", true), "nama_ibu" => $this->input->post("nama_ibu", true), "nohp_ibu" => $this->input->post("nohp_ibu", true), "pendidikan_ibu" => $this->input->post("pendidikan_ibu", true), "pekerjaan_ibu" => $this->input->post("pekerjaan_ibu", true), "alamat_ibu" => $this->input->post("alamat_ibu", true), "nama_wali" => $this->input->post("nama_wali", true), "pendidikan_wali" => $this->input->post("pendidikan_wali", true), "pekerjaan_wali" => $this->input->post("pekerjaan_wali", true), "nohp_wali" => $this->input->post("nohp_wali", true), "alamat_wali" => $this->input->post("alamat_wali", true), "tahun_masuk" => $this->strContains($tgl_masuk, "0000-") ? null : $tgl_masuk, "kelas_awal" => $this->input->post("kelas_awal", true), "tgl_lahir_ayah" => $this->input->post("tgl_lahir_ayah", true), "tgl_lahir_ibu" => $this->input->post("tgl_lahir_ibu", true), "tgl_lahir_wali" => $this->input->post("tgl_lahir_wali", true), "sekolah_asal" => $this->input->post("sekolah_asal", true), "foto" => $siswa->foto != null && $siswa->foto != '' ? $siswa->foto : "uploads/foto_siswa/" . $nis . ".jpg"];
-        $this->master->update("master_siswa", $input, "id_siswa", $id_siswa);
-        $this->db->set("status", $this->input->post("status", true));
-        $this->db->where("id_siswa", $siswa->id_siswa);
-        $this->db->update("buku_induk");
-        $data["insert"] = $input;
-        $data["text"] = "Siswa berhasil diperbaharui";
-        xK8Re:
         $this->output_json($data);
     }
     function strContains($string, $val)
@@ -201,40 +191,34 @@ class Datasiswa extends CI_Controller
             if (!$this->upload->do_upload("foto")) {
                 $data["status"] = false;
                 $data["src"] = $this->upload->display_errors();
-                goto aXU5E;
+            } else {
+                $result = $this->upload->data();
+                $data["src"] = base_url() . "uploads/foto_siswa/" . $result["file_name"];
+                $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
+                $data["status"] = true;
+                $this->db->set("foto", "uploads/foto_siswa/" . $result["file_name"]);
+                $this->db->where("id_siswa", $id_siswa);
+                $this->db->update("master_siswa");
             }
-            $result = $this->upload->data();
-            $data["src"] = base_url() . "uploads/foto_siswa/" . $result["file_name"];
-            $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
-            $data["status"] = true;
-            $this->db->set("foto", "uploads/foto_siswa/" . $result["file_name"]);
-            $this->db->where("id_siswa", $id_siswa);
-            $this->db->update("master_siswa");
-            aXU5E:
             $data["type"] = $_FILES["foto"]["type"];
             $data["size"] = $_FILES["foto"]["size"];
-            goto SB1rI;
+        } else {
+            $data["src"] = '';
         }
-        $data["src"] = '';
-        SB1rI:
         $this->output_json($data);
     }
     function deleteFile($id_siswa)
     {
         $src = $this->input->post("src");
         $file_name = str_replace(base_url(), '', $src);
-        if (!($file_name != "assets/img/siswa.png")) {
-            goto Dr0o6;
+        if ($file_name != "assets/img/siswa.png") {
+            if (unlink($file_name)) {
+                $this->db->set("foto", '');
+                $this->db->where("id_siswa", $id_siswa);
+                $this->db->update("master_siswa");
+                echo "File Delete Successfully";
+            }
         }
-        if (!unlink($file_name)) {
-            goto Pc0Zu;
-        }
-        $this->db->set("foto", '');
-        $this->db->where("id_siswa", $id_siswa);
-        $this->db->update("master_siswa");
-        echo "File Delete Successfully";
-        Pc0Zu:
-        Dr0o6:
     }
     public function delete()
     {
@@ -242,15 +226,10 @@ class Datasiswa extends CI_Controller
         $chk = $this->input->post("checked", true);
         if (!$chk) {
             $this->output_json(["status" => false]);
-            goto nY0M_;
+        } else if ($this->master->delete("master_siswa", $chk, "id_siswa")) {
+            $this->master->delete("buku_induk", $chk, "id_siswa");
+            $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        if (!$this->master->delete("master_siswa", $chk, "id_siswa")) {
-            goto NefWT;
-        }
-        $this->master->delete("buku_induk", $chk, "id_siswa");
-        $this->output_json(["status" => true, "total" => count($chk)]);
-        NefWT:
-        nY0M_:
     }
     public function previewExcel()
     {
@@ -270,18 +249,17 @@ class Datasiswa extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                goto gnupg;
+                break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                goto gnupg;
+                break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-                goto gnupg;
+                break;
             default:
                 echo "unknown file ext";
                 die;
         }
-        gnupg:
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $data = [];
@@ -289,27 +267,23 @@ class Datasiswa extends CI_Controller
         $arr_nis = [];
         $arr_username = [];
         $i = 1;
-        OQHfa:
-        if (!($i < count($sheetData))) {
-            unlink($file);
-            $data["exist"] = $this->master->getSiswaByArrNisn($arr_nisn, $arr_nis, $arr_username);
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < count($sheetData)) {
+            if ($sheetData[$i][0] != null) {
+                $nisn = str_replace("'", '', $sheetData[$i][1]);
+                $arr_nisn[] = $nisn;
+                $nis = str_replace("'", '', $sheetData[$i][2]);
+                $arr_nis[] = $nis;
+                $username = $sheetData[$i][5];
+                $arr_username[] = $username;
+                $data["siswa"][] = ["nisn" => $nisn, "nis" => $nis, "nama" => $sheetData[$i][3], "jenis_kelamin" => $sheetData[$i][4], "username" => $username, "password" => $sheetData[$i][6], "tempat_lahir" => $sheetData[$i][10], "tanggal_lahir" => $sheetData[$i][11], "agama" => $sheetData[$i][12], "status_keluarga" => $sheetData[$i][16], "anak_ke" => $sheetData[$i][15], "alamat" => $sheetData[$i][17], "rt" => $sheetData[$i][18], "rw" => $sheetData[$i][19], "kelurahan" => $sheetData[$i][20], "kecamatan" => $sheetData[$i][21], "kabupaten" => $sheetData[$i][22], "provinsi" => $sheetData[$i][23], "kode_pos" => $sheetData[$i][24], "hp" => str_replace("'", '', $sheetData[$i][13]), "nama_ayah" => $sheetData[$i][25], "nohp_ayah" => str_replace("'", '', $sheetData[$i][29]), "pendidikan_ayah" => $sheetData[$i][27], "pekerjaan_ayah" => $sheetData[$i][28], "alamat_ayah" => $sheetData[$i][30], "nama_ibu" => $sheetData[$i][31], "nohp_ibu" => str_replace("'", '', $sheetData[$i][35]), "pendidikan_ibu" => $sheetData[$i][33], "pekerjaan_ibu" => $sheetData[$i][34], "alamat_ibu" => $sheetData[$i][36], "nama_wali" => $sheetData[$i][37], "pendidikan_wali" => $sheetData[$i][39], "pekerjaan_wali" => $sheetData[$i][40], "nohp_wali" => str_replace("'", '', $sheetData[$i][41]), "alamat_wali" => $sheetData[$i][42], "tahun_masuk" => $sheetData[$i][8], "kelas_awal" => $sheetData[$i][7], "tgl_lahir_ayah" => $sheetData[$i][26], "tgl_lahir_ibu" => $sheetData[$i][32], "tgl_lahir_wali" => $sheetData[$i][38], "sekolah_asal" => $sheetData[$i][9], "id_siswa" => isset($sheetData[$i][43]) ? $sheetData[$i][43] : ''];
+            }
+            $i++;
         }
-        if (!($sheetData[$i][0] != null)) {
-            goto C2CS6;
-        }
-        $nisn = str_replace("'", '', $sheetData[$i][1]);
-        $arr_nisn[] = $nisn;
-        $nis = str_replace("'", '', $sheetData[$i][2]);
-        $arr_nis[] = $nis;
-        $username = $sheetData[$i][5];
-        $arr_username[] = $username;
-        $data["siswa"][] = ["nisn" => $nisn, "nis" => $nis, "nama" => $sheetData[$i][3], "jenis_kelamin" => $sheetData[$i][4], "username" => $username, "password" => $sheetData[$i][6], "tempat_lahir" => $sheetData[$i][10], "tanggal_lahir" => $sheetData[$i][11], "agama" => $sheetData[$i][12], "status_keluarga" => $sheetData[$i][16], "anak_ke" => $sheetData[$i][15], "alamat" => $sheetData[$i][17], "rt" => $sheetData[$i][18], "rw" => $sheetData[$i][19], "kelurahan" => $sheetData[$i][20], "kecamatan" => $sheetData[$i][21], "kabupaten" => $sheetData[$i][22], "provinsi" => $sheetData[$i][23], "kode_pos" => $sheetData[$i][24], "hp" => str_replace("'", '', $sheetData[$i][13]), "nama_ayah" => $sheetData[$i][25], "nohp_ayah" => str_replace("'", '', $sheetData[$i][29]), "pendidikan_ayah" => $sheetData[$i][27], "pekerjaan_ayah" => $sheetData[$i][28], "alamat_ayah" => $sheetData[$i][30], "nama_ibu" => $sheetData[$i][31], "nohp_ibu" => str_replace("'", '', $sheetData[$i][35]), "pendidikan_ibu" => $sheetData[$i][33], "pekerjaan_ibu" => $sheetData[$i][34], "alamat_ibu" => $sheetData[$i][36], "nama_wali" => $sheetData[$i][37], "pendidikan_wali" => $sheetData[$i][39], "pekerjaan_wali" => $sheetData[$i][40], "nohp_wali" => str_replace("'", '', $sheetData[$i][41]), "alamat_wali" => $sheetData[$i][42], "tahun_masuk" => $sheetData[$i][8], "kelas_awal" => $sheetData[$i][7], "tgl_lahir_ayah" => $sheetData[$i][26], "tgl_lahir_ibu" => $sheetData[$i][32], "tgl_lahir_wali" => $sheetData[$i][38], "sekolah_asal" => $sheetData[$i][9], "id_siswa" => isset($sheetData[$i][43]) ? $sheetData[$i][43] : ''];
-        C2CS6:
-        $i++;
-        goto OQHfa;
+        unlink($file);
+        $data["exist"] = $this->master->getSiswaByArrNisn($arr_nisn, $arr_nis, $arr_username);
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function do_import()
     {
@@ -328,46 +302,40 @@ class Datasiswa extends CI_Controller
             $this->form_validation->set_rules("nis", "NIS", "required|numeric|trim|min_length[6]|max_length[30]|is_unique[master_siswa.nis]");
             $this->form_validation->set_rules("nisn", "NISN", "required|numeric|trim|min_length[6]|max_length[20]|is_unique[master_siswa.nisn]");
             $this->form_validation->set_rules("username", "Username", "required|trim|is_unique[master_siswa.username]");
-            if (!($this->form_validation->run() == FALSE)) {
-                goto yGOoW;
+            if ($this->form_validation->run() == FALSE) {
+                $duplikat[] = $data;
+                $errors[$data["nama"]] = ["nis" => form_error("nis"), "nisn" => form_error("nisn"), "username" => form_error("username")];
             }
-            $duplikat[] = $data;
-            $errors[$data["nama"]] = ["nis" => form_error("nis"), "nisn" => form_error("nisn"), "username" => form_error("username")];
-            yGOoW:
         }
         if (count($errors) > 0) {
             $data = ["status" => false, "errors" => $errors, "duplikat" => $duplikat];
             $this->output_json($data);
-            goto Wbiil;
-        }
-        $this->db->trans_start();
-        foreach ($input as $key1 => $val1) {
-            $data = [];
-            foreach (((array) $input)[$key1] as $key => $val) {
-                if ($key == "status_keluarga" && $val == null) {
-                    $data[$key] = "1";
-                    goto Qa8Sp;
+        } else {
+            $this->db->trans_start();
+            foreach ($input as $key1 => $val1) {
+                $data = [];
+                foreach (((array) $input)[$key1] as $key => $val) {
+                    if ($key == "status_keluarga" && $val == null) {
+                        $data[$key] = "1";
+                    } else {
+                        $data[$key] = $val;
+                    }
                 }
-                $data[$key] = $val;
-                Qa8Sp:
+                $data["foto"] = "uploads/foto_siswa/" . $data["nis"] . ".jpg";
+                $this->db->set("uid", "UUID()", FALSE);
+                $save = $this->db->insert("master_siswa", $data);
             }
-            $data["foto"] = "uploads/foto_siswa/" . $data["nis"] . ".jpg";
-            $this->db->set("uid", "UUID()", FALSE);
-            $save = $this->db->insert("master_siswa", $data);
-        }
-        $uids = $this->db->select("id_siswa, uid")->from("master_siswa")->get()->result();
-        foreach ($uids as $uid) {
-            $check = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $uid->id_siswa);
-            if (!($check->get()->num_rows() == 0)) {
-                goto stzD4;
+            $uids = $this->db->select("id_siswa, uid")->from("master_siswa")->get()->result();
+            foreach ($uids as $uid) {
+                $check = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $uid->id_siswa);
+                if ($check->get()->num_rows() == 0) {
+                    $this->db->insert("buku_induk", $uid);
+                }
             }
-            $this->db->insert("buku_induk", $uid);
-            stzD4:
+            $this->db->trans_complete();
+            $data = ["status" => true, "errors" => []];
+            $this->output_json($data);
         }
-        $this->db->trans_complete();
-        $data = ["status" => true, "errors" => []];
-        $this->output_json($data);
-        Wbiil:
     }
     public function update()
     {
@@ -442,59 +410,57 @@ class Datasiswa extends CI_Controller
         $tlp_wali = [];
         $alamat_wali = [];
         $i = 0;
-        R80vV:
-        if (!($i < count($siswas))) {
-            $params = ["[id]" => $ids, "[no]" => $no, "[nis]" => $nis, "[nisn]" => $nisn, "[nama]" => $nama, "[jk]" => $jk, "[username]" => $username, "[password]" => $password, "[kelas_awal]" => $kelas_awal, "[tgl_diterima]" => $tgl_diterima, "[sekolah_asal]" => $sekolah_asal, "[tempat_lahir]" => $tempat_lahir, "[tgl_lahir]" => $tgl_lahir, "[agama]" => $agama, "[tlp_siswa]" => $tlp_siswa, "[email]" => $email, "[anak_ke]" => $anak_ke, "[status_keluarga]" => $status_keluarga, "[alamat_siswa]" => $alamat_siswa, "[rt]" => $rt, "[rw]" => $rw, "[kel]" => $kel, "[kec]" => $kec, "[kab]" => $kab, "[prov]" => $prov, "[kode_pos]" => $kode_pos, "[nama_ayah]" => $nama_ayah, "[tgl_lahir_ayah]" => $tgl_lahir_ayah, "[pendidikan_ayah]" => $pendidikan_ayah, "[pekerjaan_ayah]" => $pekerjaan_ayah, "[tlp_ayah]" => $tlp_ayah, "[alamat_ayah]" => $alamat_ayah, "[nama_ibu]" => $nama_ibu, "[tgl_lahir_ibu]" => $tgl_lahir_ibu, "[pendidikan_ibu]" => $pendidikan_ibu, "[pekerjaan_ibu]" => $pekerjaan_ibu, "[tlp_ibu]" => $tlp_ibu, "[alamat_ibu]" => $alamat_ibu, "[nama_wali]" => $nama_wali, "[tgl_lahir_wali]" => $tgl_lahir_wali, "[pendidikan_wali]" => $pendidikan_wali, "[pekerjaan_wali]" => $pekerjaan_wali, "[tlp_wali]" => $tlp_wali, "[alamat_wali]" => $alamat_wali];
-            PhpExcelTemplator::outputToFile($template, $fileName, $params);
-            return;
+        while ($i < count($siswas)) {
+            $siswa = $siswas[$i];
+            $no[] = $i + 1;
+            $ids[] = $siswa->id_siswa;
+            $nis[] = "'" . $siswa->nis;
+            $nisn[] = "'" . $siswa->nisn;
+            $nama[] = $siswa->nama;
+            $email[] = $siswa->email;
+            $jk[] = $siswa->jenis_kelamin;
+            $username[] = $siswa->username;
+            $password[] = $siswa->password;
+            $kelas_awal[] = $siswa->kelas_awal;
+            $tgl_diterima[] = $siswa->tahun_masuk;
+            $sekolah_asal[] = $siswa->sekolah_asal;
+            $tempat_lahir[] = $siswa->tempat_lahir;
+            $tgl_lahir[] = $siswa->tanggal_lahir;
+            $agama[] = $siswa->agama;
+            $tlp_siswa[] = "'" . $siswa->hp;
+            $anak_ke[] = $siswa->anak_ke;
+            $status_keluarga[] = $siswa->status_keluarga;
+            $alamat_siswa[] = $siswa->alamat;
+            $rt[] = $siswa->rt;
+            $rw[] = $siswa->rw;
+            $kel[] = $siswa->kelurahan;
+            $kec[] = $siswa->kecamatan;
+            $kab[] = $siswa->kabupaten;
+            $prov[] = $siswa->provinsi;
+            $kode_pos[] = $siswa->kode_pos;
+            $nama_ayah[] = $siswa->nama_ayah;
+            $tgl_lahir_ayah[] = $siswa->tgl_lahir_ayah;
+            $pendidikan_ayah[] = $siswa->pendidikan_ayah;
+            $pekerjaan_ayah[] = $siswa->pekerjaan_ayah;
+            $tlp_ayah[] = "'" . $siswa->nohp_ayah;
+            $alamat_ayah[] = $siswa->alamat_ayah;
+            $nama_ibu[] = $siswa->nama_ibu;
+            $tgl_lahir_ibu[] = $siswa->tgl_lahir_ibu;
+            $pendidikan_ibu[] = $siswa->pendidikan_ibu;
+            $pekerjaan_ibu[] = $siswa->pekerjaan_ibu;
+            $tlp_ibu[] = "'" . $siswa->nohp_ibu;
+            $alamat_ibu[] = $siswa->alamat_ibu;
+            $nama_wali[] = $siswa->nama_wali;
+            $tgl_lahir_wali[] = $siswa->tgl_lahir_wali;
+            $pendidikan_wali[] = $siswa->pendidikan_wali;
+            $pekerjaan_wali[] = $siswa->pekerjaan_wali;
+            $tlp_wali[] = "'" . $siswa->nohp_wali;
+            $alamat_wali[] = $siswa->alamat_wali;
+            $i++;
         }
-        $siswa = $siswas[$i];
-        $no[] = $i + 1;
-        $ids[] = $siswa->id_siswa;
-        $nis[] = "'" . $siswa->nis;
-        $nisn[] = "'" . $siswa->nisn;
-        $nama[] = $siswa->nama;
-        $email[] = $siswa->email;
-        $jk[] = $siswa->jenis_kelamin;
-        $username[] = $siswa->username;
-        $password[] = $siswa->password;
-        $kelas_awal[] = $siswa->kelas_awal;
-        $tgl_diterima[] = $siswa->tahun_masuk;
-        $sekolah_asal[] = $siswa->sekolah_asal;
-        $tempat_lahir[] = $siswa->tempat_lahir;
-        $tgl_lahir[] = $siswa->tanggal_lahir;
-        $agama[] = $siswa->agama;
-        $tlp_siswa[] = "'" . $siswa->hp;
-        $anak_ke[] = $siswa->anak_ke;
-        $status_keluarga[] = $siswa->status_keluarga;
-        $alamat_siswa[] = $siswa->alamat;
-        $rt[] = $siswa->rt;
-        $rw[] = $siswa->rw;
-        $kel[] = $siswa->kelurahan;
-        $kec[] = $siswa->kecamatan;
-        $kab[] = $siswa->kabupaten;
-        $prov[] = $siswa->provinsi;
-        $kode_pos[] = $siswa->kode_pos;
-        $nama_ayah[] = $siswa->nama_ayah;
-        $tgl_lahir_ayah[] = $siswa->tgl_lahir_ayah;
-        $pendidikan_ayah[] = $siswa->pendidikan_ayah;
-        $pekerjaan_ayah[] = $siswa->pekerjaan_ayah;
-        $tlp_ayah[] = "'" . $siswa->nohp_ayah;
-        $alamat_ayah[] = $siswa->alamat_ayah;
-        $nama_ibu[] = $siswa->nama_ibu;
-        $tgl_lahir_ibu[] = $siswa->tgl_lahir_ibu;
-        $pendidikan_ibu[] = $siswa->pendidikan_ibu;
-        $pekerjaan_ibu[] = $siswa->pekerjaan_ibu;
-        $tlp_ibu[] = "'" . $siswa->nohp_ibu;
-        $alamat_ibu[] = $siswa->alamat_ibu;
-        $nama_wali[] = $siswa->nama_wali;
-        $tgl_lahir_wali[] = $siswa->tgl_lahir_wali;
-        $pendidikan_wali[] = $siswa->pendidikan_wali;
-        $pekerjaan_wali[] = $siswa->pekerjaan_wali;
-        $tlp_wali[] = "'" . $siswa->nohp_wali;
-        $alamat_wali[] = $siswa->alamat_wali;
-        $i++;
-        goto R80vV;
+        $params = ["[id]" => $ids, "[no]" => $no, "[nis]" => $nis, "[nisn]" => $nisn, "[nama]" => $nama, "[jk]" => $jk, "[username]" => $username, "[password]" => $password, "[kelas_awal]" => $kelas_awal, "[tgl_diterima]" => $tgl_diterima, "[sekolah_asal]" => $sekolah_asal, "[tempat_lahir]" => $tempat_lahir, "[tgl_lahir]" => $tgl_lahir, "[agama]" => $agama, "[tlp_siswa]" => $tlp_siswa, "[email]" => $email, "[anak_ke]" => $anak_ke, "[status_keluarga]" => $status_keluarga, "[alamat_siswa]" => $alamat_siswa, "[rt]" => $rt, "[rw]" => $rw, "[kel]" => $kel, "[kec]" => $kec, "[kab]" => $kab, "[prov]" => $prov, "[kode_pos]" => $kode_pos, "[nama_ayah]" => $nama_ayah, "[tgl_lahir_ayah]" => $tgl_lahir_ayah, "[pendidikan_ayah]" => $pendidikan_ayah, "[pekerjaan_ayah]" => $pekerjaan_ayah, "[tlp_ayah]" => $tlp_ayah, "[alamat_ayah]" => $alamat_ayah, "[nama_ibu]" => $nama_ibu, "[tgl_lahir_ibu]" => $tgl_lahir_ibu, "[pendidikan_ibu]" => $pendidikan_ibu, "[pekerjaan_ibu]" => $pekerjaan_ibu, "[tlp_ibu]" => $tlp_ibu, "[alamat_ibu]" => $alamat_ibu, "[nama_wali]" => $nama_wali, "[tgl_lahir_wali]" => $tgl_lahir_wali, "[pendidikan_wali]" => $pendidikan_wali, "[pekerjaan_wali]" => $pekerjaan_wali, "[tlp_wali]" => $tlp_wali, "[alamat_wali]" => $alamat_wali];
+        PhpExcelTemplator::outputToFile($template, $fileName, $params);
+        return;
     }
     public function updateAll()
     {
@@ -507,15 +473,12 @@ class Datasiswa extends CI_Controller
             foreach (((array) $input)[$key1] as $key => $val) {
                 if ($key == $kid) {
                     $id_siswa = $val;
-                    goto maJDt;
+                } else {
+                    $data[$key] = $val;
+                    if ($key == "nis") {
+                        $data["foto"] = "uploads/foto_siswa/" . $val . ".jpg";
+                    }
                 }
-                $data[$key] = $val;
-                if (!($key == "nis")) {
-                    goto UJypQ;
-                }
-                $data["foto"] = "uploads/foto_siswa/" . $val . ".jpg";
-                UJypQ:
-                maJDt:
             }
             $save = $this->db->update("master_siswa", $data, array("id_siswa" => $id_siswa));
         }
@@ -540,36 +503,31 @@ class Datasiswa extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                goto Xa_bQ;
+                break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                goto Xa_bQ;
+                break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-                goto Xa_bQ;
+                break;
             default:
                 echo "unknown file ext";
                 die;
         }
-        Xa_bQ:
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $data = [];
         $i = 1;
-        EXWYG:
-        if (!($i < count($sheetData))) {
-            unlink($file);
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < count($sheetData)) {
+            if ($sheetData[$i][0] != null) {
+                $data[] = ["nisn" => str_replace("'", '', $sheetData[$i][1]), "nis" => str_replace("'", '', $sheetData[$i][2])];
+            }
+            $i++;
         }
-        if (!($sheetData[$i][0] != null)) {
-            goto tXAJG;
-        }
-        $data[] = ["nisn" => str_replace("'", '', $sheetData[$i][1]), "nis" => str_replace("'", '', $sheetData[$i][2])];
-        tXAJG:
-        $i++;
-        goto EXWYG;
+        unlink($file);
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function updateNisByNisn()
     {
@@ -597,44 +555,37 @@ class Datasiswa extends CI_Controller
         $this->form_validation->set_rules("new_confirm", $this->lang->line("change_password_validation_new_password_confirm_label"), "required");
         if ($siswa_lain && $siswa_lain->id_siswa != $id_siswa) {
             $data = ["status" => false, "errors" => ["username" => "Username sudah digunakan"]];
-            goto YFswj;
-        }
-        if ($this->form_validation->run() === FALSE) {
+        } else if ($this->form_validation->run() === FALSE) {
             $data = ["status" => false, "errors" => ["old" => form_error("old"), "new" => form_error("new"), "new_confirm" => form_error("new_confirm")]];
-            goto jndwe;
+        } else {
+            $siswa = $this->db->get_where("master_siswa", "id_siswa=\"" . $id_siswa . "\"")->row();
+            $nama = explode(" ", $siswa->nama);
+            $first_name = $nama[0];
+            $last_name = end($nama);
+            $username = trim($username);
+            $password = trim($pass);
+            $email = $siswa->nis . "@siswa.com";
+            $additional_data = ["first_name" => $first_name, "last_name" => $last_name];
+            $group = array("3");
+            $user_siswa = $this->db->get_where("users", "email=\"" . $email . "\"")->row();
+            $deleted = true;
+            if ($user_siswa != null) {
+                $deleted = $this->ion_auth->delete_user($user_siswa->id);
+            }
+            if ($deleted) {
+                $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+                $this->db->set("username", $username);
+                $this->db->set("password", $password);
+                $this->db->where("id_siswa", $id_siswa);
+                $status = $this->db->update("master_siswa");
+                $msg = !$status ? "Gagal mengganti username/passsword." : "berhasil mengganti username/passsword.";
+            } else {
+                $status = false;
+                $msg = "Gagal mengganti username/passsword.";
+            }
+            $data["status"] = $status;
+            $data["text"] = $msg;
         }
-        $siswa = $this->db->get_where("master_siswa", "id_siswa=\"" . $id_siswa . "\"")->row();
-        $nama = explode(" ", $siswa->nama);
-        $first_name = $nama[0];
-        $last_name = end($nama);
-        $username = trim($username);
-        $password = trim($pass);
-        $email = $siswa->nis . "@siswa.com";
-        $additional_data = ["first_name" => $first_name, "last_name" => $last_name];
-        $group = array("3");
-        $user_siswa = $this->db->get_where("users", "email=\"" . $email . "\"")->row();
-        $deleted = true;
-        if (!($user_siswa != null)) {
-            goto VPQZY;
-        }
-        $deleted = $this->ion_auth->delete_user($user_siswa->id);
-        VPQZY:
-        if ($deleted) {
-            $this->ion_auth->register($username, $password, $email, $additional_data, $group);
-            $this->db->set("username", $username);
-            $this->db->set("password", $password);
-            $this->db->where("id_siswa", $id_siswa);
-            $status = $this->db->update("master_siswa");
-            $msg = !$status ? "Gagal mengganti username/passsword." : "berhasil mengganti username/passsword.";
-            goto z2T1f;
-        }
-        $status = false;
-        $msg = "Gagal mengganti username/passsword.";
-        z2T1f:
-        $data["status"] = $status;
-        $data["text"] = $msg;
-        jndwe:
-        YFswj:
         $this->output_json($data);
     }
     private function registerSiswa($username, $password, $email, $additional_data, $group)
@@ -642,11 +593,9 @@ class Datasiswa extends CI_Controller
         $reg = $this->ion_auth->register($username, $password, $email, $additional_data, $group);
         $data["status"] = true;
         $data["id"] = $reg;
-        if (!($reg == false)) {
-            goto W4zYJ;
+        if ($reg == false) {
+            $data["status"] = false;
         }
-        $data["status"] = false;
-        W4zYJ:
         return $data;
     }
 }

@@ -18,14 +18,9 @@ class Datajurusan extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto TYxfZ;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto gvA30;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        gvA30:
-        TYxfZ:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -34,11 +29,9 @@ class Datajurusan extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto JXkjd;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        JXkjd:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -65,24 +58,20 @@ class Datajurusan extends CI_Controller
     {
         $mapels = [];
         $check_mapel = $this->input->post("mapel", true);
-        if (!$check_mapel) {
-            goto LdNVR;
+        if ($check_mapel) {
+            $row_mapels = count($this->input->post("mapel", true));
+            $i = 0;
+            while ($i <= $row_mapels) {
+                array_push($mapels, $this->input->post("mapel[" . $i . "]", true));
+                $i++;
+            }
         }
-        $row_mapels = count($this->input->post("mapel", true));
-        $i = 0;
-        Kk9kL:
-        if (!($i <= $row_mapels)) {
-            LdNVR:
-            $insert = ["nama_jurusan" => $this->input->post("nama_jurusan", true), "kode_jurusan" => $this->input->post("kode_jurusan", true), "mapel_peminatan" => implode(",", $mapels)];
-            $this->master->create("master_jurusan", $insert, false);
-            $data["status"] = $insert;
-            $this->output_json($data);
-            // [PHPDeobfuscator] Implied return
-            return;
-        }
-        array_push($mapels, $this->input->post("mapel[" . $i . "]", true));
-        $i++;
-        goto Kk9kL;
+        $insert = ["nama_jurusan" => $this->input->post("nama_jurusan", true), "kode_jurusan" => $this->input->post("kode_jurusan", true), "mapel_peminatan" => implode(",", $mapels)];
+        $this->master->create("master_jurusan", $insert, false);
+        $data["status"] = $insert;
+        $this->output_json($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function data()
     {
@@ -93,56 +82,38 @@ class Datajurusan extends CI_Controller
         $rows = count($this->input->post("nama_jurusan", true));
         $mode = $this->input->post("mode", true);
         $i = 1;
-        crAWp:
-        if (!($i <= $rows)) {
-            if ($status) {
+        while ($i <= $rows) {
+            $nama_jurusan = "nama_jurusan[" . $i . "]";
+            $this->form_validation->set_rules($nama_jurusan, "Jurusan", "required");
+            $this->form_validation->set_message("required", "{field} Wajib diisi");
+            if ($this->form_validation->run() === FALSE) {
+                $error[] = [$nama_jurusan => form_error($nama_jurusan)];
+                $status = FALSE;
+            } else {
                 if ($mode == "add") {
-                    $this->master->create("master_jurusan", $insert, true);
-                    $data["insert"] = $insert;
-                    goto z2riS;
+                    $insert[] = ["nama_jurusan" => $this->input->post($nama_jurusan, true)];
+                } else if ($mode == "edit") {
+                    $update[] = array("id_jurusan" => $this->input->post("id_jurusan[" . $i . "]", true), "nama_jurusan" => $this->input->post($nama_jurusan, true));
                 }
-                if (!($mode == "edit")) {
-                    goto tphNg;
-                }
+                $status = TRUE;
+            }
+            $i++;
+        }
+        if ($status) {
+            if ($mode == "add") {
+                $this->master->create("master_jurusan", $insert, true);
+                $data["insert"] = $insert;
+            } else if ($mode == "edit") {
                 $this->master->update("master_jurusan", $update, "id_jurusan", null, true);
                 $data["update"] = $update;
-                tphNg:
-                z2riS:
-                goto r66Ly;
             }
-            if (!isset($error)) {
-                goto MhBIj;
-            }
+        } else if (isset($error)) {
             $data["errors"] = $error;
-            MhBIj:
-            r66Ly:
-            $data["status"] = $status;
-            $this->output_json($data);
-            // [PHPDeobfuscator] Implied return
-            return;
         }
-        $nama_jurusan = "nama_jurusan[" . $i . "]";
-        $this->form_validation->set_rules($nama_jurusan, "Jurusan", "required");
-        $this->form_validation->set_message("required", "{field} Wajib diisi");
-        if ($this->form_validation->run() === FALSE) {
-            $error[] = [$nama_jurusan => form_error($nama_jurusan)];
-            $status = FALSE;
-            goto z84Sc;
-        }
-        if ($mode == "add") {
-            $insert[] = ["nama_jurusan" => $this->input->post($nama_jurusan, true)];
-            goto oi0b_;
-        }
-        if (!($mode == "edit")) {
-            goto fjJ8U;
-        }
-        $update[] = array("id_jurusan" => $this->input->post("id_jurusan[" . $i . "]", true), "nama_jurusan" => $this->input->post($nama_jurusan, true));
-        fjJ8U:
-        oi0b_:
-        $status = TRUE;
-        z84Sc:
-        $i++;
-        goto crAWp;
+        $data["status"] = $status;
+        $this->output_json($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function update()
     {
@@ -162,41 +133,32 @@ class Datajurusan extends CI_Controller
         foreach ($tabless as $table) {
             $fields = $this->db->field_data($table);
             foreach ($fields as $field) {
-                if (!($field->name == "id_jurusan" || $field->name == "jurusan_id")) {
-                    goto KVuBX;
+                if ($field->name == "id_jurusan" || $field->name == "jurusan_id") {
+                    array_push($tables, $table);
                 }
-                array_push($tables, $table);
-                KVuBX:
             }
         }
         foreach ($tables as $table) {
-            if (!($table != "master_jurusan")) {
-                goto x9Zuv;
+            if ($table != "master_jurusan") {
+                if ($table == "master_kelas") {
+                    $this->db->where_in("jurusan_id", $chk);
+                    $num = $this->db->count_all_results($table);
+                } else {
+                    $this->db->where_in("id_jurusan", $chk);
+                    $num = $this->db->count_all_results($table);
+                }
+                if ($num > 0) {
+                    array_push($messages, $table);
+                }
             }
-            if ($table == "master_kelas") {
-                $this->db->where_in("jurusan_id", $chk);
-                $num = $this->db->count_all_results($table);
-                goto CEjTo;
-            }
-            $this->db->where_in("id_jurusan", $chk);
-            $num = $this->db->count_all_results($table);
-            CEjTo:
-            if (!($num > 0)) {
-                goto FJSEm;
-            }
-            array_push($messages, $table);
-            FJSEm:
-            x9Zuv:
         }
         if (count($messages) > 0) {
             $this->output_json(["status" => false, "total" => "Data Jurusan digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
             goto V5CnT;
         }
-        if (!$this->master->delete("master_jurusan", $chk, "id_jurusan")) {
-            goto E8lNH;
+        if ($this->master->delete("master_jurusan", $chk, "id_jurusan")) {
+            $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        $this->output_json(["status" => true, "total" => count($chk)]);
-        E8lNH:
         V5CnT:
         WGbBd:
     }
@@ -209,11 +171,9 @@ class Datajurusan extends CI_Controller
     {
         $user = $this->ion_auth->user()->row();
         $data = ["user" => $user, "judul" => "Import Jurusan", "subjudul" => "Import Jurusan", "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
-        if (!($import_data != null)) {
-            goto EGAdj;
+        if ($import_data != null) {
+            $data["import"] = $import_data;
         }
-        $data["import"] = $import_data;
-        EGAdj:
         $data["tp"] = $this->dashboard->getTahun();
         $data["tp_active"] = $this->dashboard->getTahunActive();
         $data["smt"] = $this->dashboard->getSemester();
@@ -239,36 +199,31 @@ class Datajurusan extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                goto DPrJC;
+                break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                goto DPrJC;
+                break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-                goto DPrJC;
+                break;
             default:
                 echo "unknown file ext";
                 die;
         }
-        DPrJC:
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $data = [];
         $i = 1;
-        M_7fr:
-        if (!($i < count($sheetData))) {
-            unlink($file);
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < count($sheetData)) {
+            if ($sheetData[$i][0] != null) {
+                $data[] = ["nama" => $sheetData[$i][1], "kode" => $sheetData[$i][2]];
+            }
+            $i++;
         }
-        if (!($sheetData[$i][0] != null)) {
-            goto ggbnJ;
-        }
-        $data[] = ["nama" => $sheetData[$i][1], "kode" => $sheetData[$i][2]];
-        ggbnJ:
-        $i++;
-        goto M_7fr;
+        unlink($file);
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function previewWord()
     {
@@ -298,16 +253,14 @@ class Datajurusan extends CI_Controller
         $tables = $dom->getElementsByTagName("table");
         $rows = $tables->item(0)->getElementsByTagName("tr");
         $i = 1;
-        wOCcY:
-        if (!($i < $rows->count())) {
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < $rows->count()) {
+            $cols = $rows[$i]->getElementsByTagName("td");
+            $data[] = ["nama" => $cols->item(1)->nodeValue, "kode" => $cols->item(2)->nodeValue];
+            $i++;
         }
-        $cols = $rows[$i]->getElementsByTagName("td");
-        $data[] = ["nama" => $cols->item(1)->nodeValue, "kode" => $cols->item(2)->nodeValue];
-        $i++;
-        goto wOCcY;
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function do_import()
     {

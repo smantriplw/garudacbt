@@ -13,14 +13,9 @@ class Useradmin extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto ZdcEf;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto ca3nI;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        ca3nI:
-        ZdcEf:
         $this->load->library("upload");
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Users_model", "users");
@@ -30,19 +25,15 @@ class Useradmin extends CI_Controller
     }
     public function is_admin()
     {
-        if ($this->ion_auth->is_admin()) {
-            goto cOL5L;
+        if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        cOL5L:
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto oM4ZY;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        oM4ZY:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function data()
@@ -120,13 +111,12 @@ class Useradmin extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $data["status"] = false;
             $data["errors"] = ["username" => form_error("username"), "first_name" => form_error("first_name"), "last_name" => form_error("last_name"), "email" => form_error("email")];
-            goto csIqO;
+        } else {
+            $id = $this->input->post("id", true);
+            $input = ["username" => $this->input->post("username", true), "first_name" => $this->input->post("first_name", true), "last_name" => $this->input->post("last_name", true), "email" => $this->input->post("email", true)];
+            $update = $this->master->update("users", $input, "id", $id);
+            $data["status"] = $update ? true : false;
         }
-        $id = $this->input->post("id", true);
-        $input = ["username" => $this->input->post("username", true), "first_name" => $this->input->post("first_name", true), "last_name" => $this->input->post("last_name", true), "email" => $this->input->post("email", true)];
-        $update = $this->master->update("users", $input, "id", $id);
-        $data["status"] = $update ? true : false;
-        csIqO:
         $this->output_json($data);
     }
     public function edit_status()
@@ -136,13 +126,12 @@ class Useradmin extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $data["status"] = false;
             $data["errors"] = ["status" => form_error("status")];
-            goto YTSwH;
+        } else {
+            $id = $this->input->post("id", true);
+            $input = ["active" => $this->input->post("status", true)];
+            $update = $this->master->update("users", $input, "id", $id);
+            $data["status"] = $update ? true : false;
         }
-        $id = $this->input->post("id", true);
-        $input = ["active" => $this->input->post("status", true)];
-        $update = $this->master->update("users", $input, "id", $id);
-        $data["status"] = $update ? true : false;
-        YTSwH:
         $this->output_json($data);
     }
     public function edit_level()
@@ -152,13 +141,12 @@ class Useradmin extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $data["status"] = false;
             $data["errors"] = ["level" => form_error("level")];
-            goto hNhBU;
+        } else {
+            $id = $this->input->post("id", true);
+            $input = ["group_id" => $this->input->post("level", true)];
+            $update = $this->master->update("users_groups", $input, "user_id", $id);
+            $data["status"] = $update ? true : false;
         }
-        $id = $this->input->post("id", true);
-        $input = ["group_id" => $this->input->post("level", true)];
-        $update = $this->master->update("users_groups", $input, "user_id", $id);
-        $data["status"] = $update ? true : false;
-        hNhBU:
         $this->output_json($data);
     }
     public function change_password()
@@ -198,30 +186,26 @@ class Useradmin extends CI_Controller
             if (!$this->upload->do_upload("foto")) {
                 $data["status"] = false;
                 $data["src"] = $this->upload->display_errors();
-                goto iFmUl;
+            } else {
+                $result = $this->upload->data();
+                $data["src"] = base_url() . "uploads/profiles/" . $result["file_name"];
+                $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
+                $data["status"] = true;
             }
-            $result = $this->upload->data();
-            $data["src"] = base_url() . "uploads/profiles/" . $result["file_name"];
-            $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
-            $data["status"] = true;
-            iFmUl:
             $data["type"] = $_FILES["foto"]["type"];
             $data["size"] = $_FILES["foto"]["size"];
-            goto Int_r;
+        } else {
+            $data["src"] = '';
         }
-        $data["src"] = '';
-        Int_r:
         $this->output_json($data);
     }
     function deleteFile()
     {
         $src = $this->input->post("src");
         $file_name = str_replace(base_url(), '', $src);
-        if (!unlink($file_name)) {
-            goto sK0BO;
+        if (unlink($file_name)) {
+            echo "File Delete Successfully";
         }
-        echo "File Delete Successfully";
-        sK0BO:
     }
     function saveProfile()
     {

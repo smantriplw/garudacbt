@@ -13,24 +13,17 @@ class Dataguru extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto XwDbb;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto QN4l3;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        QN4l3:
-        XwDbb:
         $this->load->library(["datatables", "form_validation"]);
         $this->form_validation->set_error_delimiters('', '');
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto JP8IY;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        JP8IY:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -51,13 +44,11 @@ class Dataguru extends CI_Controller
         $data["smt_active"] = $smt;
         $mapels = $this->master->getAllMapel();
         $ret = [];
-        if (!$mapels) {
-            goto AXcdz;
+        if ($mapels) {
+            foreach ($mapels as $key => $row) {
+                $ret[$row->id_mapel] = $row;
+            }
         }
-        foreach ($mapels as $key => $row) {
-            $ret[$row->id_mapel] = $row;
-        }
-        AXcdz:
         $data["mapels"] = $ret;
         $data["extras"] = $this->dropdown->getAllKodeEkskul();
         $data["kelass"] = $this->master->getAllKelas($tp->id_tp, $smt->id_smt);
@@ -137,12 +128,11 @@ class Dataguru extends CI_Controller
         if ($method == "add") {
             $u_nip = "|is_unique[guru.nip]";
             $u_email = "|is_unique[guru.email]";
-            goto yZle6;
+        } else {
+            $dbdata = $this->master->getGuruById($id_guru);
+            $u_nip = $dbdata->nip === $nip ? '' : "|is_unique[guru.nip]";
+            $u_email = $dbdata->email === $email ? '' : "|is_unique[guru.email]";
         }
-        $dbdata = $this->master->getGuruById($id_guru);
-        $u_nip = $dbdata->nip === $nip ? '' : "|is_unique[guru.nip]";
-        $u_email = $dbdata->email === $email ? '' : "|is_unique[guru.email]";
-        yZle6:
         $this->form_validation->set_rules("nip", "NIP", "required|trim|min_length[8]" . $u_nip);
         $this->form_validation->set_rules("nama_guru", "Nama Guru", "required|trim|min_length[3]");
         $this->form_validation->set_rules("email", "Email", "required|trim|valid_email" . $u_email);
@@ -155,14 +145,9 @@ class Dataguru extends CI_Controller
         $input = ["nip" => $nip, "nama_guru" => $nama_guru, "email" => $email, "mapel_id" => $mapel];
         if ($method === "add") {
             $action = $this->master->create("master_guru", $input);
-            goto FwKjX;
+        } else if ($method === "edit") {
+            $action = $this->master->update("master_guru", $input, "id_guru", $id_guru);
         }
-        if (!($method === "edit")) {
-            goto k2JX2;
-        }
-        $action = $this->master->update("master_guru", $input, "id_guru", $id_guru);
-        k2JX2:
-        FwKjX:
         if ($action) {
             $this->output_json(["status" => true]);
             goto uIV3e;
@@ -181,39 +166,31 @@ class Dataguru extends CI_Controller
         foreach ($tabless as $table) {
             $fields = $this->db->field_data($table);
             foreach ($fields as $field) {
-                if (!($field->name == "id_guru" || $field->name == "guru_id")) {
-                    goto bf8aE;
+                if ($field->name == "id_guru" || $field->name == "guru_id") {
+                    array_push($tables, $table);
                 }
-                array_push($tables, $table);
-                bf8aE:
             }
         }
         foreach ($tables as $table) {
-            if (!($table != "master_guru")) {
-                goto SEKbx;
+            if ($table != "master_guru") {
+                if ($table == "master_kelas") {
+                    $this->db->where("guru_id", $chk);
+                    $num = $this->db->count_all_results($table);
+                } else {
+                    $this->db->where("id_guru", $chk);
+                    $num = $this->db->count_all_results($table);
+                }
+                if ($num > 0) {
+                    array_push($messages, $table);
+                }
             }
-            if ($table == "master_kelas") {
-                $this->db->where("guru_id", $chk);
-                $num = $this->db->count_all_results($table);
-                goto A6WJu;
-            }
-            $this->db->where("id_guru", $chk);
-            $num = $this->db->count_all_results($table);
-            A6WJu:
-            if (!($num > 0)) {
-                goto UKbGL;
-            }
-            array_push($messages, $table);
-            UKbGL:
-            SEKbx:
         }
         if (count($messages) > 0) {
             $this->output_json(["count" => count($messages), "status" => false, "message" => "Data guru digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
-            goto lX2We;
+        } else {
+            $data["status"] = $this->master->delete("master_guru", $chk, "id_guru");
+            $this->output_json($data);
         }
-        $data["status"] = $this->master->delete("master_guru", $chk, "id_guru");
-        $this->output_json($data);
-        lX2We:
     }
     public function detail($id_guru)
     {
@@ -239,14 +216,9 @@ class Dataguru extends CI_Controller
         $chk = $this->input->post("checked", true);
         if (!$chk) {
             $this->output_json(["status" => false]);
-            goto gqIu0;
+        } else if ($this->master->delete("master_guru", $chk, "id_guru")) {
+            $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        if (!$this->master->delete("master_guru", $chk, "id_guru")) {
-            goto i8SKj;
-        }
-        $this->output_json(["status" => true, "total" => count($chk)]);
-        i8SKj:
-        gqIu0:
     }
     public function forceDelete()
     {
@@ -270,16 +242,12 @@ class Dataguru extends CI_Controller
         $group = array("2");
         if ($this->ion_auth->username_check($username)) {
             $data = ["status" => false, "msg" => "Username tidak tersedia (sudah digunakan)."];
-            goto SCgny;
-        }
-        if ($this->ion_auth->email_check($email)) {
+        } else if ($this->ion_auth->email_check($email)) {
             $data = ["status" => false, "msg" => "Email tidak tersedia (sudah digunakan)."];
-            goto II4lS;
+        } else {
+            $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+            $data = ["status" => true, "msg" => "User berhasil dibuat. NIP digunakan sebagai password pada saat login."];
         }
-        $this->ion_auth->register($username, $password, $email, $additional_data, $group);
-        $data = ["status" => true, "msg" => "User berhasil dibuat. NIP digunakan sebagai password pada saat login."];
-        II4lS:
-        SCgny:
         $this->output_json($data);
     }
     public function previewExcel()
@@ -299,36 +267,31 @@ class Dataguru extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                goto rZEFp;
+                break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                goto rZEFp;
+                break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-                goto rZEFp;
+                break;
             default:
                 echo "unknown file ext";
                 die;
         }
-        rZEFp:
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $data = [];
         $i = 1;
-        AhrFg:
-        if (!($i < count($sheetData))) {
-            unlink($file);
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < count($sheetData)) {
+            if ($sheetData[$i][0] != null) {
+                $data[] = ["nama" => $sheetData[$i][1], "nip" => $sheetData[$i][2], "kode" => $sheetData[$i][3], "username" => $sheetData[$i][4], "password" => $sheetData[$i][5]];
+            }
+            $i++;
         }
-        if (!($sheetData[$i][0] != null)) {
-            goto mDtPp;
-        }
-        $data[] = ["nama" => $sheetData[$i][1], "nip" => $sheetData[$i][2], "kode" => $sheetData[$i][3], "username" => $sheetData[$i][4], "password" => $sheetData[$i][5]];
-        mDtPp:
-        $i++;
-        goto AhrFg;
+        unlink($file);
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function previewWord()
     {
@@ -358,16 +321,14 @@ class Dataguru extends CI_Controller
         $tables = $dom->getElementsByTagName("table");
         $rows = $tables->item(0)->getElementsByTagName("tr");
         $i = 1;
-        W27oV:
-        if (!($i < $rows->count())) {
-            echo json_encode($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < $rows->count()) {
+            $cols = $rows[$i]->getElementsByTagName("td");
+            $data[] = ["nama" => $cols->item(1)->nodeValue, "nip" => $cols->item(2)->nodeValue, "kode" => $cols->item(3)->nodeValue, "username" => $cols->item(4)->nodeValue, "password" => $cols->item(5)->nodeValue];
+            $i++;
         }
-        $cols = $rows[$i]->getElementsByTagName("td");
-        $data[] = ["nama" => $cols->item(1)->nodeValue, "nip" => $cols->item(2)->nodeValue, "kode" => $cols->item(3)->nodeValue, "username" => $cols->item(4)->nodeValue, "password" => $cols->item(5)->nodeValue];
-        $i++;
-        goto W27oV;
+        echo json_encode($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function import($import_data = null)
     {
@@ -376,11 +337,9 @@ class Dataguru extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $setting = $this->dashboard->getSetting();
         $data = ["user" => $user, "judul" => "Guru", "subjudul" => "Tambah Data Guru", "mapel" => $this->master->getAllMapel(), "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $setting];
-        if (!($import_data != null)) {
-            goto TyJHT;
+        if ($import_data != null) {
+            $data["import"] = $import_data;
         }
-        $data["import"] = $import_data;
-        TyJHT:
         $data["tp"] = $this->dashboard->getTahun();
         $data["tp_active"] = $this->dashboard->getTahunActive();
         $data["smt"] = $this->dashboard->getSemester();
@@ -406,32 +365,29 @@ class Dataguru extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                goto Wr40N;
+                break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                goto Wr40N;
+                break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-                goto Wr40N;
+                break;
             default:
                 echo "unknown file ext";
                 die;
         }
-        Wr40N:
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $data = [];
         $i = 1;
-        MHCGs:
-        if (!($i < count($sheetData))) {
-            unlink($file);
-            $this->import($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i < count($sheetData)) {
+            $data[] = ["nip" => $sheetData[$i][0], "nama_guru" => $sheetData[$i][1], "email" => $sheetData[$i][2], "mapel_id" => $sheetData[$i][3]];
+            $i++;
         }
-        $data[] = ["nip" => $sheetData[$i][0], "nama_guru" => $sheetData[$i][1], "email" => $sheetData[$i][2], "mapel_id" => $sheetData[$i][3]];
-        $i++;
-        goto MHCGs;
+        unlink($file);
+        $this->import($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function do_import()
     {
@@ -460,11 +416,9 @@ class Dataguru extends CI_Controller
         $data["smt"] = $this->dashboard->getSemester();
         $data["smt_active"] = $smt;
         $group = $this->ion_auth->get_users_groups($user->id)->row()->name;
-        if (!($group === "admin")) {
-            goto NNEfU;
+        if ($group === "admin") {
+            $data["groups"] = $this->ion_auth->groups()->result();
         }
-        $data["groups"] = $this->ion_auth->groups()->result();
-        NNEfU:
         $data["kelass"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
         $data["mapels"] = $this->dropdown->getAllMapel();
         $data["levels"] = $this->dropdown->getAllLevelGuru();
@@ -498,10 +452,9 @@ class Dataguru extends CI_Controller
         if ($copy) {
             $tmp_wali = $kelass2[$wali];
             $kelas_wali = $kelass1[$tmp_wali];
-            goto gLpgo;
+        } else {
+            $kelas_wali = $wali;
         }
-        $kelas_wali = $wali;
-        gLpgo:
         $mapels = [];
         $check_mapel = $this->input->post("mapel", true);
         if (!$check_mapel) {
@@ -509,7 +462,6 @@ class Dataguru extends CI_Controller
         }
         $row_mapels = count($this->input->post("mapel", true));
         $i = 0;
-        fOL9r:
         if (!($i <= $row_mapels)) {
             frz84:
             $kelas_mapel_guru = serialize($mapels);
@@ -520,7 +472,6 @@ class Dataguru extends CI_Controller
             }
             $row_ekstras = count($this->input->post("ekstra", true));
             $i = 0;
-            igD1Y:
             if (!($i <= $row_ekstras)) {
                 gSY41:
                 $kelas_ekstra_guru = serialize($ekstras);
@@ -529,11 +480,10 @@ class Dataguru extends CI_Controller
                     $update = $this->db->replace("jabatan_guru", $data);
                     $res["status"] = $update;
                     $res["msg"] = $update ? "Data berhasil disimpan" : "Gagal menyimpan data";
-                    goto QceMl;
+                } else {
+                    $res["status"] = FALSE;
+                    $res["msg"] = "Error post data";
                 }
-                $res["status"] = FALSE;
-                $res["msg"] = "Error post data";
-                QceMl:
                 $this->output_json($res);
                 // [PHPDeobfuscator] Implied return
                 return;
@@ -547,62 +497,46 @@ class Dataguru extends CI_Controller
             $row_kelas = count($this->input->post("kelasekstra" . $ekstra, true));
             $kelas = [];
             $j = 0;
-            FZx7g:
             if (!($j <= $row_kelas)) {
                 $ekstras[] = ["id_ekstra" => $ekstra, "nama_ekstra" => $nama_ekstra, "kelas_ekstra" => $kelas];
                 JefZ9:
                 $i++;
-                goto igD1Y;
             }
             $kelasekstra = $this->input->post("kelasekstra" . $ekstra . "[" . $j . "]", true);
             if ($copy) {
-                if (!isset($kelass2[$kelasekstra])) {
-                    goto rgAVH;
+                if (isset($kelass2[$kelasekstra])) {
+                    $tmp_nama2 = $kelass2[$kelasekstra];
+                    $kelas[] = ["kelas" => $kelass1[$tmp_nama2]];
                 }
-                $tmp_nama2 = $kelass2[$kelasekstra];
-                $kelas[] = ["kelas" => $kelass1[$tmp_nama2]];
-                rgAVH:
-                goto ILIM2;
+            } else {
+                $kelas[] = ["kelas" => $kelasekstra];
             }
-            $kelas[] = ["kelas" => $kelasekstra];
-            ILIM2:
             $j++;
-            goto FZx7g;
         }
         $mapel = $this->input->post("mapel[" . $i . "]", true);
         $nama_mapel = $this->input->post("nama_mapel" . $mapel, true);
         $check = $this->input->post("kelasmapel" . $mapel, true);
-        if (!$check) {
-            goto P4pLl;
-        }
-        $row_kelas = count($this->input->post("kelasmapel" . $mapel, true));
-        $kelas = [];
-        $j = 0;
-        Mu9Qw:
-        if (!($j <= $row_kelas)) {
+        if ($check) {
+            $row_kelas = count($this->input->post("kelasmapel" . $mapel, true));
+            $kelas = [];
+            $j = 0;
+            while ($j <= $row_kelas) {
+                $kelasmapel = $this->input->post("kelasmapel" . $mapel . "[" . $j . "]", true);
+                if ($copy) {
+                    if (isset($kelass2[$kelasmapel])) {
+                        $tmp_nama = $kelass2[$kelasmapel];
+                        if (isset($kelass1[$tmp_nama])) {
+                            $kelas[] = ["kelas" => $kelass1[$tmp_nama]];
+                        }
+                    }
+                } else {
+                    $kelas[] = ["kelas" => $kelasmapel];
+                }
+                $j++;
+            }
             $mapels[] = ["id_mapel" => $mapel, "nama_mapel" => $nama_mapel, "kelas_mapel" => $kelas];
-            P4pLl:
-            $i++;
-            goto fOL9r;
         }
-        $kelasmapel = $this->input->post("kelasmapel" . $mapel . "[" . $j . "]", true);
-        if ($copy) {
-            if (!isset($kelass2[$kelasmapel])) {
-                goto HIwLM;
-            }
-            $tmp_nama = $kelass2[$kelasmapel];
-            if (!isset($kelass1[$tmp_nama])) {
-                goto lk6_5;
-            }
-            $kelas[] = ["kelas" => $kelass1[$tmp_nama]];
-            lk6_5:
-            HIwLM:
-            goto mm2hd;
-        }
-        $kelas[] = ["kelas" => $kelasmapel];
-        mm2hd:
-        $j++;
-        goto Mu9Qw;
+        $i++;
     }
     public function getDataKelas()
     {
@@ -648,10 +582,9 @@ class Dataguru extends CI_Controller
         if ($mode == "1") {
             $insert = ["id_level" => $id, "level" => $this->input->post("level", true)];
             $replaced = $this->db->replace("level_guru", $insert);
-            goto buDZU;
+        } else {
+            $replaced = $this->db->delete("level_guru", "id_level=" . $id);
         }
-        $replaced = $this->db->delete("level_guru", "id_level=" . $id);
-        buDZU:
         $data = ["success" => $replaced, "msg" => $replaced ? "Sukses " . $s_mode . " jabatan" : "Gagal " . $s_mode . " jabatan"];
         $this->output_json($data);
     }

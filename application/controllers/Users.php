@@ -11,11 +11,9 @@ class Users extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->ion_auth->logged_in()) {
-            goto Lufou;
+        if (!($this->ion_auth->logged_in())) {
+            redirect("auth");
         }
-        redirect("auth");
-        Lufou:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Users_model", "users");
         $this->load->model("Master_model", "master");
@@ -24,19 +22,15 @@ class Users extends CI_Controller
     }
     public function is_admin()
     {
-        if ($this->ion_auth->is_admin()) {
-            goto Jv5BW;
+        if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        Jv5BW:
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto J7_na;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        J7_na:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function data($id = null)
@@ -74,13 +68,12 @@ class Users extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $data["status"] = false;
             $data["errors"] = ["username" => form_error("username"), "first_name" => form_error("first_name"), "last_name" => form_error("last_name"), "email" => form_error("email")];
-            goto M2Ksh;
+        } else {
+            $id = $this->input->post("id", true);
+            $input = ["username" => $this->input->post("username", true), "first_name" => $this->input->post("first_name", true), "last_name" => $this->input->post("last_name", true), "email" => $this->input->post("email", true)];
+            $update = $this->master->update("users", $input, "id", $id);
+            $data["status"] = $update ? true : false;
         }
-        $id = $this->input->post("id", true);
-        $input = ["username" => $this->input->post("username", true), "first_name" => $this->input->post("first_name", true), "last_name" => $this->input->post("last_name", true), "email" => $this->input->post("email", true)];
-        $update = $this->master->update("users", $input, "id", $id);
-        $data["status"] = $update ? true : false;
-        M2Ksh:
         $this->output_json($data);
     }
     public function edit_status()
@@ -90,13 +83,12 @@ class Users extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $data["status"] = false;
             $data["errors"] = ["status" => form_error("status")];
-            goto lZhYs;
+        } else {
+            $id = $this->input->post("id", true);
+            $input = ["active" => $this->input->post("status", true)];
+            $update = $this->master->update("users", $input, "id", $id);
+            $data["status"] = $update ? true : false;
         }
-        $id = $this->input->post("id", true);
-        $input = ["active" => $this->input->post("status", true)];
-        $update = $this->master->update("users", $input, "id", $id);
-        $data["status"] = $update ? true : false;
-        lZhYs:
         $this->output_json($data);
     }
     public function edit_level()
@@ -106,13 +98,12 @@ class Users extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $data["status"] = false;
             $data["errors"] = ["level" => form_error("level")];
-            goto wH9ON;
+        } else {
+            $id = $this->input->post("id", true);
+            $input = ["group_id" => $this->input->post("level", true)];
+            $update = $this->master->update("users_groups", $input, "user_id", $id);
+            $data["status"] = $update ? true : false;
         }
-        $id = $this->input->post("id", true);
-        $input = ["group_id" => $this->input->post("level", true)];
-        $update = $this->master->update("users_groups", $input, "user_id", $id);
-        $data["status"] = $update ? true : false;
-        wH9ON:
         $this->output_json($data);
     }
     public function change_password()

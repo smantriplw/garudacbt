@@ -12,14 +12,9 @@ class Dapodik extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto OdHIi;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto YNpDy;
-        }
-        show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
-        YNpDy:
-        OdHIi:
         $this->load->library("upload");
         $this->load->model("Settings_model", "settings");
         $this->load->model("Master_model", "master");
@@ -364,11 +359,9 @@ class Dapodik extends CI_Controller
 
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto AELLo;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        AELLo:
         $this->output->set_content_type("application/json")->set_output($data);
     }
 }

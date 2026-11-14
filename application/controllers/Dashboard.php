@@ -11,11 +11,9 @@ class Dashboard extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->ion_auth->logged_in()) {
-            goto AQURg;
+        if (!($this->ion_auth->logged_in())) {
+            redirect("auth");
         }
-        redirect("auth");
-        AQURg:
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
         $this->load->model("Log_model", "logging");
@@ -27,14 +25,9 @@ class Dashboard extends CI_Controller
         $where = '';
         if ($setting->jenjang == "1") {
             $where = "jenjang=0 OR jenjang=1";
-            goto q75Pq;
-        }
-        if ($setting->jenjang == "2") {
+        } else if ($setting->jenjang == "2") {
             $where = "jenjang=2 OR jenjang=1";
-            goto BkmIW;
         }
-        BkmIW:
-        q75Pq:
         $box = [["box" => "blue", "total" => $this->dashboard->total("master_siswa"), "title" => "Siswa", "url" => "datasiswa", "icon" => "users"], ["box" => "cyan", "total" => $this->dashboard->total("master_kelas", "id_tp=" . $tp . " AND id_smt=" . $smt), "title" => "Rombel", "url" => "datakelas", "icon" => "bell"], ["box" => "teal", "total" => $this->dashboard->total("master_guru"), "title" => "Guru", "url" => "dataguru", "icon" => "user"], ["box" => "fuchsia", "total" => $this->dashboard->totalWaliKelas($tp, $smt), "title" => "Wali Kelas", "url" => "dataguru", "icon" => "user"], ["box" => "success", "total" => $this->dashboard->total("master_mapel", $where), "title" => "Mapel", "url" => "datamapel", "icon" => "book"], ["box" => "yellow", "total" => $this->dashboard->total("master_ekstra"), "title" => "Ekstrakurikuler", "url" => "dataekstra", "icon" => "book"]];
         $info_box = json_decode(json_encode($box), FALSE);
         return $info_box;
@@ -44,14 +37,9 @@ class Dashboard extends CI_Controller
         $where = '';
         if ($setting->jenjang == "1") {
             $where = "jenjang=0 OR jenjang=1";
-            goto NPWMz;
-        }
-        if ($setting->jenjang == "2") {
+        } else if ($setting->jenjang == "2") {
             $where = "jenjang=2 OR jenjang=1";
-            goto ZmrzE;
         }
-        ZmrzE:
-        NPWMz:
         $box = [["box" => "teal", "total" => $this->dashboard->total("master_kelas"), "title" => "Rombel", "icon" => "user"], ["box" => "blue", "total" => $this->dashboard->total("master_siswa"), "title" => "Siswa", "icon" => "users"], ["box" => "fuchsia", "total" => $this->dashboard->total("master_guru"), "title" => "Guru", "icon" => "user"], ["box" => "success", "total" => $this->dashboard->total("master_mapel", $where), "title" => "Mapel", "icon" => "book"]];
         $info_box = json_decode(json_encode($box), FALSE);
         return $info_box;
@@ -80,11 +68,9 @@ class Dashboard extends CI_Controller
         $data["smt"] = $this->dashboard->getSemester();
         $data["smt_active"] = $smt;
         $kelass = [];
-        if (!($tp != null)) {
-            goto I5fmu;
+        if ($tp != null) {
+            $kelass = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
         }
-        $kelass = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
-        I5fmu:
         $data["kelases"] = $kelass;
         $day = date("N", strtotime(date("Y-m-d")));
         $jadwal = $this->dashboard->loadJadwalHariIni($tp->id_tp, $smt->id_smt, null, $day);
@@ -117,8 +103,7 @@ class Dashboard extends CI_Controller
             $this->load->view("members/siswa/templates/header", $data);
             $this->load->view("members/siswa/dashboard");
             $this->load->view("members/siswa/templates/footer");
-            vVtRN:
-            goto Ppxw0;
+            return;
         }
         $token = $this->cbt->getToken();
         $tkn["token"] = '';
@@ -136,12 +121,10 @@ class Dashboard extends CI_Controller
                 foreach ($jadwals as $jadwal) {
                     $jadwal->bank_kelas = unserialize($jadwal->bank_kelas);
                     foreach ($jadwal->bank_kelas as $kb) {
-                        if (!($kb["kelas_id"] != '')) {
-                            goto x338q;
+                        if ($kb["kelas_id"] != '') {
+                            $p = $this->cbt->getKelasUjian($kb["kelas_id"]);
+                            $jadwal->peserta[] = $p;
                         }
-                        $p = $this->cbt->getKelasUjian($kb["kelas_id"]);
-                        $jadwal->peserta[] = $p;
-                        x338q:
                     }
                 }
             }
@@ -161,8 +144,7 @@ class Dashboard extends CI_Controller
             $this->load->view("members/guru/templates/header", $data);
             $this->load->view("members/guru/dashboard");
             $this->load->view("members/guru/templates/footer");
-            sLDNu:
-            goto BYDZa;
+            return;
         }
 
         if ($this->ion_auth->is_admin()) {
@@ -179,9 +161,6 @@ class Dashboard extends CI_Controller
             return;
         }
         
-        BYDZa:
-        db7nA:
-        Ppxw0:
         return;
     }
     public function checkTokenJadwal()
@@ -194,11 +173,9 @@ class Dashboard extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto a9tJ1;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        a9tJ1:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function gantiTahun()
@@ -206,54 +183,48 @@ class Dashboard extends CI_Controller
         $aktif = $this->input->post("active", true);
         $rows = count($this->input->post("tahun", true));
         $i = 0;
-        nV3XW:
-        if (!($i <= $rows)) {
-            $this->dashboard->update("master_tp", $update, "id_tp", null, true);
-            $data["update"] = $update;
-            $data["status"] = true;
-            $this->logging->saveLog(4, "mengganti tahun ajaran aktif");
-            $this->output_json($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i <= $rows) {
+            $id_tp = $this->input->post("id_tp[" . $i . "]", true);
+            $tahun = $this->input->post("tahun[" . $i . "]", true);
+            if ($id_tp === $aktif) {
+                $active = 1;
+            } else {
+                $active = 0;
+            }
+            $update[] = array("id_tp" => $id_tp, "tahun" => $tahun, "active" => $active);
+            $i++;
         }
-        $id_tp = $this->input->post("id_tp[" . $i . "]", true);
-        $tahun = $this->input->post("tahun[" . $i . "]", true);
-        if ($id_tp === $aktif) {
-            $active = 1;
-            goto OXH1J;
-        }
-        $active = 0;
-        OXH1J:
-        $update[] = array("id_tp" => $id_tp, "tahun" => $tahun, "active" => $active);
-        $i++;
-        goto nV3XW;
+        $this->dashboard->update("master_tp", $update, "id_tp", null, true);
+        $data["update"] = $update;
+        $data["status"] = true;
+        $this->logging->saveLog(4, "mengganti tahun ajaran aktif");
+        $this->output_json($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function gantiSemester()
     {
         $aktif = $this->input->post("active", true);
         $rows = count($this->input->post("smt", true));
         $i = 1;
-        au1Fr:
-        if (!($i <= $rows)) {
-            $this->dashboard->update("master_smt", $update, "id_smt", null, true);
-            $data["update"] = $update;
-            $data["status"] = true;
-            $this->logging->saveLog(4, "mengganti semester aktif");
-            $this->output_json($data);
-            // [PHPDeobfuscator] Implied return
-            return;
+        while ($i <= $rows) {
+            $id_smt = $this->input->post("id_smt[" . $i . "]", true);
+            $smt = $this->input->post("smt[" . $i . "]", true);
+            if ($id_smt === $aktif) {
+                $active = 1;
+            } else {
+                $active = 0;
+            }
+            $update[] = array("id_smt" => $id_smt, "smt" => $smt, "active" => $active);
+            $i++;
         }
-        $id_smt = $this->input->post("id_smt[" . $i . "]", true);
-        $smt = $this->input->post("smt[" . $i . "]", true);
-        if ($id_smt === $aktif) {
-            $active = 1;
-            goto vCouB;
-        }
-        $active = 0;
-        vCouB:
-        $update[] = array("id_smt" => $id_smt, "smt" => $smt, "active" => $active);
-        $i++;
-        goto au1Fr;
+        $this->dashboard->update("master_smt", $update, "id_smt", null, true);
+        $data["update"] = $update;
+        $data["status"] = true;
+        $this->logging->saveLog(4, "mengganti semester aktif");
+        $this->output_json($data);
+        // [PHPDeobfuscator] Implied return
+        return;
     }
     public function getLog($limit)
     {
@@ -264,10 +235,9 @@ class Dashboard extends CI_Controller
         $this->db->trans_start();
         if ($this->db->empty_table("log")) {
             $deleted = ["status" => true, "message" => "berhasil"];
-            goto lDwjK;
+        } else {
+            $deleted = ["status" => false, "message" => "gagal"];
         }
-        $deleted = ["status" => false, "message" => "gagal"];
-        lDwjK:
         $this->db->trans_complete();
         $this->output_json($deleted);
     }

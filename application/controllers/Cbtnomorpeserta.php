@@ -12,14 +12,9 @@ class Cbtnomorpeserta extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto j9brA;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto VPlf5;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        VPlf5:
-        j9brA:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->library("upload");
         $this->load->model("Master_model", "master");
@@ -30,11 +25,9 @@ class Cbtnomorpeserta extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto qRdoP;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        qRdoP:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -65,11 +58,10 @@ class Cbtnomorpeserta extends CI_Controller
             $nomorAda = isset($arrNomor[$in->id]) ? $arrNomor[$in->id] : null;
             if ($nomorAda != null && $nomorAda->nomor_peserta == $in->nomor && $nomorAda->id_siswa != $in->id) {
                 $update = false;
-                goto zCgW0;
+            } else {
+                $insert = ["id_nomor" => $in->id . $tp->id_tp, "id_siswa" => $in->id, "id_tp" => $tp->id_tp, "nomor_peserta" => $in->nomor];
+                $update = $this->db->replace("cbt_nomor_peserta", $insert);
             }
-            $insert = ["id_nomor" => $in->id . $tp->id_tp, "id_siswa" => $in->id, "id_tp" => $tp->id_tp, "nomor_peserta" => $in->nomor];
-            $update = $this->db->replace("cbt_nomor_peserta", $insert);
-            zCgW0:
         }
         $this->output_json($update);
     }

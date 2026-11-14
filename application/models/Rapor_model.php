@@ -27,13 +27,11 @@ class Rapor_model extends CI_Model
         $this->db->where_in("id_kkm", $ids);
         $result = $this->db->get("rapor_kkm")->result();
         $ret = [];
-        if (!$result) {
-            goto JjRfb;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_mapel] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_mapel] = $row;
-        }
-        JjRfb:
         return $ret;
     }
     public function getRaporSetting($id_tp, $id_smt)
@@ -110,13 +108,11 @@ class Rapor_model extends CI_Model
         $this->db->where_in("id_nilai_pts", $arr_id);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto eGHkx;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_nilai_pts] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_nilai_pts] = $row;
-        }
-        eGHkx:
         return $ret;
     }
     public function getNilaiPtsKelas($id_mapel, $id_kelas, $id_siswa, $id_tp, $id_smt)
@@ -306,26 +302,22 @@ class Rapor_model extends CI_Model
     {
         $result = $this->db->get("rapor_data_fisik")->result();
         $ret = [];
-        if (!$result) {
-            goto P0s0N;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_kelas][$row->id_tp][$row->id_smt] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_kelas][$row->id_tp][$row->id_smt] = $row;
-        }
-        P0s0N:
         return $ret;
     }
     public function getAllRaporFisik()
     {
         $result = $this->db->get("rapor_fisik")->result();
         $ret = [];
-        if (!$result) {
-            goto X9est;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa][$row->id_tp][$row->id_smt] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa][$row->id_tp][$row->id_smt] = $row;
-        }
-        X9est:
         return $ret;
     }
     public function getDeskripsiFisikKelas($kelas, $id_tp, $id_smt)
@@ -523,16 +515,12 @@ class Rapor_model extends CI_Model
         $this->db->join("master_siswa b", "a.id_siswa=b.id_siswa", "left");
         $this->db->join("master_kelas c", "a.id_kelas=c.id_kelas", "left");
         $this->db->join("rapor_naik d", "a.id_siswa=d.id_siswa AND a.id_tp=d.id_tp AND a.id_smt=d.id_smt", "left");
-        if (!($level != null)) {
-            goto mMg9u;
+        if ($level != null) {
+            $this->db->where("c.level_id", $level);
         }
-        $this->db->where("c.level_id", $level);
-        mMg9u:
-        if (!($id_kelas != null)) {
-            goto lqJ4k;
+        if ($id_kelas != null) {
+            $this->db->where("a.id_kelas", $id_kelas);
         }
-        $this->db->where("a.id_kelas", $id_kelas);
-        lqJ4k:
         $this->db->where("a.id_tp", $id_tp);
         $this->db->where("a.id_smt", $id_smt);
         return $this->db->get()->result();
@@ -581,13 +569,11 @@ class Rapor_model extends CI_Model
     {
         $result = $this->db->get("rapor_admin_setting")->result();
         $ret = [];
-        if (!$result) {
-            goto uudew;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_tp][$row->id_smt] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_tp][$row->id_smt] = $row;
-        }
-        uudew:
         return $ret;
     }
     public function getAllKkm()
@@ -663,13 +649,11 @@ class Rapor_model extends CI_Model
         $this->db->where("id_siswa", $id_siswa);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto z9dTD;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->tp] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->tp] = $row;
-        }
-        z9dTD:
         return $ret;
     }
     public function getDataKumpulanRapor($kelas = null, $tp = null, $smt = null)
@@ -677,30 +661,22 @@ class Rapor_model extends CI_Model
         $this->db->select("*");
         $this->db->from("buku_nilai a");
         $this->db->join("master_siswa b", "a.id_siswa=b.id_siswa");
-        if (!($tp != null)) {
-            goto ghRvl;
+        if ($tp != null) {
+            $this->db->where("a.tp", $tp);
         }
-        $this->db->where("a.tp", $tp);
-        ghRvl:
-        if (!($smt != null)) {
-            goto T7CMA;
+        if ($smt != null) {
+            $this->db->where("a.smt", $smt);
         }
-        $this->db->where("a.smt", $smt);
-        T7CMA:
-        if (!($kelas != null)) {
-            goto U3N53;
+        if ($kelas != null) {
+            $this->db->where("a.kelas", $kelas);
         }
-        $this->db->where("a.kelas", $kelas);
-        U3N53:
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto Xn_QY;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa] = $row;
-        }
-        Xn_QY:
         return $ret;
     }
     public function deleteNilaiRapor()
@@ -734,11 +710,9 @@ class Rapor_model extends CI_Model
         $this->db->join("rapor_catatan_wali m", "a.id_siswa=m.id_siswa AND a.id_tp=m.id_tp AND a.id_smt=m.id_smt", "left");
         $this->db->join("rapor_fisik n", "a.id_siswa=n.id_siswa AND a.id_tp=n.id_tp AND a.id_smt=n.id_smt", "left");
         $this->db->join("master_mapel p", "a.id_mapel=p.id_mapel", "left");
-        if (!($ids_siswa != null)) {
-            goto qVaLO;
+        if ($ids_siswa != null) {
+            $this->db->where_in("a.id_siswa", $ids_siswa);
         }
-        $this->db->where_in("a.id_siswa", $ids_siswa);
-        qVaLO:
         $result = $this->db->get()->result();
         return $result;
     }
@@ -748,13 +722,11 @@ class Rapor_model extends CI_Model
         $this->db->from("kelas_ekstra");
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto GWE5A;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_tp][$row->id_smt][$row->id_kelas] = unserialize($row->ekstra);
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_tp][$row->id_smt][$row->id_kelas] = unserialize($row->ekstra);
-        }
-        GWE5A:
         return $ret;
     }
     public function getAllNilaiEkstra($ids_siswa = null)
@@ -762,11 +734,9 @@ class Rapor_model extends CI_Model
         $this->db->select("a.*, b.nama_ekstra, b.kode_ekstra");
         $this->db->from("rapor_nilai_ekstra a");
         $this->db->join("master_ekstra b", "a.id_ekstra=b.id_ekstra", "left");
-        if (!($ids_siswa != null)) {
-            goto ZnJFP;
+        if ($ids_siswa != null) {
+            $this->db->where_in("a.id_siswa", $ids_siswa);
         }
-        $this->db->where_in("a.id_siswa", $ids_siswa);
-        ZnJFP:
         $result = $this->db->get()->result();
         $ret = [];
         foreach ($result as $res) {
@@ -778,11 +748,9 @@ class Rapor_model extends CI_Model
     {
         $this->db->select("*");
         $this->db->from("rapor_nilai_sikap");
-        if (!($ids_siswa != null)) {
-            goto wSi1J;
+        if ($ids_siswa != null) {
+            $this->db->where_in("id_siswa", $ids_siswa);
         }
-        $this->db->where_in("id_siswa", $ids_siswa);
-        wSi1J:
         $result = $this->db->get()->result();
         $ret = [];
         foreach ($result as $res) {
@@ -794,11 +762,9 @@ class Rapor_model extends CI_Model
     {
         $this->db->select("id_tp, id_smt, id_siswa, kondisi, tinggi, berat");
         $this->db->from("rapor_fisik");
-        if (!($ids_siswa != null)) {
-            goto M5tui;
+        if ($ids_siswa != null) {
+            $this->db->where_in("id_siswa", $ids_siswa);
         }
-        $this->db->where_in("id_siswa", $ids_siswa);
-        M5tui:
         $result = $this->db->get()->result();
         $ret = [];
         foreach ($result as $res) {

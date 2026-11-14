@@ -12,22 +12,18 @@ class Install extends CI_Controller
     {
         parent::__construct();
         include APPPATH."config/database.php";
-        if (!($db["default"]["database"] != '')) {
-            goto if5kg;
+        if ($db["default"]["database"] != '') {
+            $this->load->database();
+            $this->load->dbforge();
         }
-        $this->load->database();
-        $this->load->dbforge();
-        if5kg:
         $this->load->model("Install_model", "install");
         $this->load->model("Dashboard_model", "dashboard");
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto l87de;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        l87de:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -35,25 +31,20 @@ class Install extends CI_Controller
         $res = $this->install->check_installer();
         if ($res == "0") {
             redirect("update");
-            goto c61HO;
+        } else {
+            if ($res == "2") {
+                $data["msg"] = "sebagian tabel belum dibuat";
+            } else if ($res == "3") {
+                $data["msg"] = "belum ada administrator";
+            } else {
+                $data["msg"] = "belum ada data sekolah";
+            }
+            $data = $this->getSaved();
+            $data->error = $res;
+            $this->load->view("install/header", ["data" => $data]);
+            $this->load->view("install/step");
+            $this->load->view("install/footer");
         }
-        if ($res == "2") {
-            $data["msg"] = "sebagian tabel belum dibuat";
-            goto NERhb;
-        }
-        if ($res == "3") {
-            $data["msg"] = "belum ada administrator";
-            goto G_AKF;
-        }
-        $data["msg"] = "belum ada data sekolah";
-        G_AKF:
-        NERhb:
-        $data = $this->getSaved();
-        $data->error = $res;
-        $this->load->view("install/header", ["data" => $data]);
-        $this->load->view("install/step");
-        $this->load->view("install/footer");
-        c61HO:
     }
     function getSaved()
     {
@@ -79,34 +70,29 @@ class Install extends CI_Controller
         $current_page = 2;
         if ($this->db->table_exists("users")) {
             $admin = $this->db->get("users")->row();
-            if (!($admin != null)) {
-                goto gq1QP;
+            if ($admin != null) {
+                $data["nama_admin"] = $admin->first_name . " " . $admin->last_name;
+                $data["user_admin"] = $admin->username;
+                $data["pass_admin"] = $admin->password;
             }
-            $data["nama_admin"] = $admin->first_name . " " . $admin->last_name;
-            $data["user_admin"] = $admin->username;
-            $data["pass_admin"] = $admin->password;
-            gq1QP:
             $setting = $this->dashboard->getSetting();
-            if (!($setting != null)) {
-                goto H8aol;
+            if ($setting != null) {
+                $data["aplikasi"] = $setting->nama_aplikasi;
+                $data["sekolah"] = $setting->sekolah;
+                $data["jenjang"] = $setting->jenjang;
+                $data["satuan"] = $setting->satuan_pendidikan;
+                $data["kepsek"] = $setting->kepsek;
+                $data["alamat"] = $setting->alamat;
+                $data["desa"] = $setting->desa;
+                $data["kec"] = $setting->kecamatan;
+                $data["kota"] = $setting->kota;
+                $data["prov"] = $setting->provinsi;
             }
-            $data["aplikasi"] = $setting->nama_aplikasi;
-            $data["sekolah"] = $setting->sekolah;
-            $data["jenjang"] = $setting->jenjang;
-            $data["satuan"] = $setting->satuan_pendidikan;
-            $data["kepsek"] = $setting->kepsek;
-            $data["alamat"] = $setting->alamat;
-            $data["desa"] = $setting->desa;
-            $data["kec"] = $setting->kecamatan;
-            $data["kota"] = $setting->kota;
-            $data["prov"] = $setting->provinsi;
-            H8aol:
             $current_page = $admin == null ? 2 : ($setting == null ? 3 : 4);
-            goto XoEDa;
+        } else {
+            $current_page = 2;
+            $data["msg"] = "Table `users` belum dibuat";
         }
-        $current_page = 2;
-        $data["msg"] = "Table `users` belum dibuat";
-        XoEDa:
         $data["current_page"] = $current_page;
         return json_decode(json_encode($data));
     }
@@ -142,21 +128,18 @@ class Install extends CI_Controller
                     $data["host"] = true;
                     $data["host_msg"] = "sukses";
                     $data["database"] = true;
-                    goto PbceX;
+                } else {
+                    $data["host"] = false;
+                    $data["host_msg"] = "gagal membuat nama database";
                 }
+            } else {
                 $data["host"] = false;
-                $data["host_msg"] = "gagal membuat nama database";
-                PbceX:
-                goto VcxQg;
+                $data["host_msg"] = "tidak ada akses ke file database.php, pastikan permission sudah dizinkan";
             }
+        } else {
             $data["host"] = false;
-            $data["host_msg"] = "tidak ada akses ke file database.php, pastikan permission sudah dizinkan";
-            VcxQg:
-            goto SIbpl;
+            $data["host_msg"] = "tidak boleh ada yang kosong";
         }
-        $data["host"] = false;
-        $data["host_msg"] = "tidak boleh ada yang kosong";
-        SIbpl:
         $this->output_json($data);
     }
     public function createDb()
@@ -171,13 +154,12 @@ class Install extends CI_Controller
             $data["host"] = true;
             $data["host_msg"] = "sukses";
             $data["database"] = true;
-            goto clWgC;
+        } else {
+            $data["host"] = true;
+            $data["host_msg"] = "step salah";
+            $data["database"] = false;
+            $data["table"] = false;
         }
-        $data["host"] = true;
-        $data["host_msg"] = "step salah";
-        $data["database"] = false;
-        $data["table"] = false;
-        clWgC:
         $this->output_json($data);
     }
     function validate_host($host, $usr, $db)

@@ -13,14 +13,9 @@ class Dbmanager extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto OdHIi;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto YNpDy;
-        }
-        show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
-        YNpDy:
-        OdHIi:
         $this->load->library("upload");
         $this->load->model("Settings_model", "settings");
         $this->load->model("Dashboard_model", "dashboard");
@@ -28,11 +23,9 @@ class Dbmanager extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto NaBzp;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        NaBzp:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -104,36 +97,33 @@ class Dbmanager extends CI_Controller
     {
         if (unlink("./backups/" . $src)) {
             $this->output_json(["status" => true, "message" => "Backup berhasil dihapus"]);
-            goto yh1Nf;
+        } else {
+            $this->output_json(["status" => false, "message" => "Gagal menghapus backup"]);
         }
-        $this->output_json(["status" => false, "message" => "Gagal menghapus backup"]);
-        yh1Nf:
     }
     function formatSizeUnits($bytes)
     {
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 2) . " GB";
-            goto H1LgM;
+            return $bytes;
         }
         if ($bytes >= 1048576) {
             $bytes = number_format($bytes / 1048576, 2) . " MB";
-            goto H1LgM;
+            return $bytes;
         }
         if ($bytes >= 1024) {
             $bytes = number_format($bytes / 1024, 2) . " KB";
-            goto H1LgM;
+            return $bytes;
         }
         if ($bytes > 1) {
             $bytes .= " bytes";
-            goto H1LgM;
+            return $bytes;
         }
         if ($bytes == 1) {
             $bytes .= " byte";
-            goto ro0GU;
+            return $bytes;
         }
         $bytes = "0 bytes";
-        ro0GU:
-        H1LgM:
         return $bytes;
     }
 }

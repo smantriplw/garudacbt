@@ -15,15 +15,11 @@ class Kelas_model extends CI_Model
     {
         if ($this->agent->is_browser()) {
             $agent = $this->agent->browser() . " " . $this->agent->version();
-            goto IcvHK;
-        }
-        if ($this->agent->is_mobile()) {
+        } else if ($this->agent->is_mobile()) {
             $agent = $this->agent->mobile();
-            goto sf40E;
+        } else {
+            $agent = "unknown";
         }
-        $agent = "unknown";
-        sf40E:
-        IcvHK:
         if ($agent == "unknown") {
             return "error";
         }
@@ -114,16 +110,12 @@ class Kelas_model extends CI_Model
         $this->db->join("master_siswa si", "si.id_siswa=k.siswa_id", "left");
         $this->db->order_by("nama_kelas", "ASC");
         $this->db->where("k.id_kelas", $id);
-        if (!($id_tp != null)) {
-            goto v0hLp;
+        if ($id_tp != null) {
+            $this->db->where("k.id_tp", $id_tp);
         }
-        $this->db->where("k.id_tp", $id_tp);
-        v0hLp:
-        if (!($id_smt != null)) {
-            goto RpBiS;
+        if ($id_smt != null) {
+            $this->db->where("k.id_smt", $id_smt);
         }
-        $this->db->where("k.id_smt", $id_smt);
-        RpBiS:
         return $this->db->get()->row();
     }
     public function getKelasByNama($nama_kelas, $id_tp = null, $id_smt = null)
@@ -137,16 +129,12 @@ class Kelas_model extends CI_Model
         $this->db->join("master_siswa si", "si.id_siswa=k.siswa_id", "left");
         $this->db->order_by("nama_kelas", "ASC");
         $this->db->where("k.nama_kelas", $nama_kelas);
-        if (!($id_tp != null)) {
-            goto lQ34x;
+        if ($id_tp != null) {
+            $this->db->where("k.id_tp", $id_tp);
         }
-        $this->db->where("k.id_tp", $id_tp);
-        lQ34x:
-        if (!($id_smt != null)) {
-            goto kKdNg;
+        if ($id_smt != null) {
+            $this->db->where("k.id_smt", $id_smt);
         }
-        $this->db->where("k.id_smt", $id_smt);
-        kKdNg:
         return $this->db->get()->row();
     }
     public function getNamaKelasByNama($id_tp, $id_smt)
@@ -157,13 +145,11 @@ class Kelas_model extends CI_Model
         $this->db->where("id_smt", $id_smt);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto dYwwZ;
+        if ($result) {
+            foreach ($result as $row) {
+                $ret[$row->nama_kelas] = $row->id_kelas;
+            }
         }
-        foreach ($result as $row) {
-            $ret[$row->nama_kelas] = $row->id_kelas;
-        }
-        dYwwZ:
         return $ret;
     }
     public function dummy()
@@ -185,13 +171,11 @@ class Kelas_model extends CI_Model
     {
         $result = $this->db->get("master_jurusan")->result();
         $ret[''] = "Pilih Jurusan :";
-        if (!$result) {
-            goto voVLJ;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_jurusan] = $row->nama_jurusan;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_jurusan] = $row->nama_jurusan;
-        }
-        voVLJ:
         return $ret;
     }
     public function getJurusanById($id)
@@ -204,13 +188,11 @@ class Kelas_model extends CI_Model
     {
         $result = $this->db->get("level_kelas")->result();
         $ret[''] = "Pilih Level :";
-        if (!$result) {
-            goto Q1n6f;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_level] = $row->level;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_level] = $row->level;
-        }
-        Q1n6f:
         return $ret;
     }
     public function getLevel($jenjang)
@@ -218,31 +200,26 @@ class Kelas_model extends CI_Model
         $levels = [];
         if ($jenjang == "1") {
             $levels = ['' => "Pilih Level", "1" => "1", "2" => "2", "3" => "3", "4" => "4", "5" => "5", "6" => "6"];
-            goto wZavM;
+            return $levels;
         }
         if ($jenjang == "2") {
             $levels = ['' => "Pilih Level", "7" => "7", "8" => "8", "9" => "9"];
-            goto wZavM;
+            return $levels;
         }
         if ($jenjang == "3") {
             $levels = ['' => "Pilih Level", "10" => "10", "11" => "11", "12" => "12"];
-            goto xmTvX;
         }
-        xmTvX:
-        wZavM:
         return $levels;
     }
     public function get_guru()
     {
         $result = $this->db->get("master_guru")->result();
         $ret[''] = "Pilih Guru :";
-        if (!$result) {
-            goto LYQmF;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_guru] = $row->nama_guru;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_guru] = $row->nama_guru;
-        }
-        LYQmF:
         return $ret;
     }
     public function getWaliKelas($tp, $smt)
@@ -253,13 +230,11 @@ class Kelas_model extends CI_Model
         $this->db->where("id_jabatan", "4")->where("id_tp", $tp)->where("id_smt", $smt);
         $result = $this->db->get()->result();
         $ret[''] = "Pilih Guru :";
-        if (!$result) {
-            goto wBrBW;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_guru] = $row->nama_guru;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_guru] = $row->nama_guru;
-        }
-        wBrBW:
         return $ret;
     }
     public function getKelasEkskul($kelas, $tp, $smt)
@@ -312,13 +287,11 @@ class Kelas_model extends CI_Model
         $this->db->where("a.id_smt", $smt);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto ShI_F;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa] = $row;
-        }
-        ShI_F:
         return $ret;
     }
     public function getJadwalKbm($tp, $smt, $kelas)
@@ -340,19 +313,16 @@ class Kelas_model extends CI_Model
         $this->db->where_in("id_kelas", $arr_kelas);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto Gtreq;
-        }
-        foreach ($result as $key => $row) {
-            if (isset($ret[$row->id_kelas])) {
-                array_push($ret[$row->id_kelas], $row);
-                goto uVBtH;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                if (isset($ret[$row->id_kelas])) {
+                    array_push($ret[$row->id_kelas], $row);
+                } else {
+                    $ret[$row->id_kelas] = [];
+                    array_push($ret[$row->id_kelas], $row);
+                }
             }
-            $ret[$row->id_kelas] = [];
-            array_push($ret[$row->id_kelas], $row);
-            uVBtH:
         }
-        Gtreq:
         return $ret;
     }
     public function getJadwalMapel($tp, $smt)
@@ -364,23 +334,18 @@ class Kelas_model extends CI_Model
         $this->db->where("id_smt", $smt);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto QWf89;
-        }
-        foreach ($result as $key => $row) {
-            if (!($row->id_mapel != '')) {
-                goto oKNdJ;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                if ($row->id_mapel != '') {
+                    if (isset($ret[$row->id_mapel][$row->id_kelas])) {
+                        array_push($ret[$row->id_mapel][$row->id_kelas], $row);
+                    } else {
+                        $ret[$row->id_mapel][$row->id_kelas] = [];
+                        array_push($ret[$row->id_mapel][$row->id_kelas], $row);
+                    }
+                }
             }
-            if (isset($ret[$row->id_mapel][$row->id_kelas])) {
-                array_push($ret[$row->id_mapel][$row->id_kelas], $row);
-                goto CUU0g;
-            }
-            $ret[$row->id_mapel][$row->id_kelas] = [];
-            array_push($ret[$row->id_mapel][$row->id_kelas], $row);
-            CUU0g:
-            oKNdJ:
         }
-        QWf89:
         return $ret;
     }
     public function getJadwalMapelGroupHari($tp, $smt)
@@ -420,11 +385,9 @@ class Kelas_model extends CI_Model
         $this->db->join("master_mapel b", "a.id_mapel=b.id_mapel", "left");
         $this->db->where("a.id_tp", $tp, FALSE);
         $this->db->where("a.id_smt", $smt, FALSE);
-        if (!($mapel != null)) {
-            goto dv0ri;
+        if ($mapel != null) {
+            $this->db->where("a.id_mapel", $mapel, FALSE);
         }
-        $this->db->where("a.id_mapel", $mapel, FALSE);
-        dv0ri:
         $this->db->where_in("a.id_kelas", $kelas);
         $result = $this->db->get()->result();
         return $result;
@@ -456,14 +419,12 @@ class Kelas_model extends CI_Model
     {
         $inputData = [];
         $i = 1;
-        EBWgo:
-        if (!($i < 7)) {
-            return $inputData;
+        while ($i < 7) {
+            $data = json_decode(json_encode(["id_tp" => $tp, "id_smt" => $smt, "id_hari" => $i, "jam_ke" => $jam, "id_kelas" => $kelas, "id_mapel" => "0", "nama_mapel" => '', "kode" => '']));
+            array_push($inputData, $data);
+            $i++;
         }
-        $data = json_decode(json_encode(["id_tp" => $tp, "id_smt" => $smt, "id_hari" => $i, "jam_ke" => $jam, "id_kelas" => $kelas, "id_mapel" => "0", "nama_mapel" => '', "kode" => '']));
-        array_push($inputData, $data);
-        $i++;
-        goto EBWgo;
+        return $inputData;
     }
     public function getDummyMateri()
     {
@@ -506,13 +467,11 @@ class Kelas_model extends CI_Model
         $this->db->order_by("a.created_on", "DESC");
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto lgs45;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_mapel][$row->jenis][$row->id_materi] = $row->kode_materi;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_mapel][$row->jenis][$row->id_materi] = $row->kode_materi;
-        }
-        lgs45:
         return $ret;
     }
     public function getAllJadwalMateriByKelas($tp, $smt)
@@ -527,13 +486,11 @@ class Kelas_model extends CI_Model
         $this->db->order_by("c.created_on", "DESC");
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto qpD2X;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->jenis][$row->id_kjm] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->jenis][$row->id_kjm] = $row;
-        }
-        qpD2X:
         return $ret;
     }
     public function getAllMateriKelas($id_guru, $jenis)
@@ -545,11 +502,9 @@ class Kelas_model extends CI_Model
         $this->db->join("master_tp e", "a.id_tp=e.id_tp", "left");
         $this->db->join("master_smt f", "a.id_smt=f.id_smt", "left");
         $this->db->where("a.jenis", $jenis);
-        if (!($id_guru != "0")) {
-            goto Brx8r;
+        if ($id_guru != "0") {
+            $this->db->where("a.id_guru", $id_guru);
         }
-        $this->db->where("a.id_guru", $id_guru);
-        Brx8r:
         $this->db->order_by("a.created_on", "DESC");
         $result = $this->db->get()->result();
         return $result;
@@ -621,13 +576,11 @@ class Kelas_model extends CI_Model
         $this->db->where("id_smt", $smt);
         $result = $this->db->get("master_kelas")->result();
         $ret = [];
-        if (!$result) {
-            goto kjLAL;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                array_push($ret, $row->id_kelas);
+            }
         }
-        foreach ($result as $key => $row) {
-            array_push($ret, $row->id_kelas);
-        }
-        kjLAL:
         return $ret;
     }
     public function getNamaKelasById($arr_id)
@@ -636,13 +589,11 @@ class Kelas_model extends CI_Model
         $this->db->where_in("id_kelas", $arr_id);
         $result = $this->db->get("master_kelas")->result();
         $ret = null;
-        if (!$result) {
-            goto ba76I;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_kelas] = $row->nama_kelas;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_kelas] = $row->nama_kelas;
-        }
-        ba76I:
         return $ret;
     }
     public function getNamaKelasByKode($arr_kode)
@@ -651,13 +602,11 @@ class Kelas_model extends CI_Model
         $this->db->where_in("kode_kelas", $arr_kode);
         $result = $this->db->get("master_kelas")->result();
         $ret = null;
-        if (!$result) {
-            goto sNxdz;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_kelas] = $row->nama_kelas;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_kelas] = $row->nama_kelas;
-        }
-        sNxdz:
         return $ret;
     }
     public function getJadwalByMateri($id, $jenis, $tp, $smt)
@@ -669,19 +618,16 @@ class Kelas_model extends CI_Model
         $this->db->where("id_smt", $smt);
         $result = $this->db->get("kelas_jadwal_materi")->result();
         $ret = [];
-        if (!$result) {
-            goto vvezH;
-        }
-        foreach ($result as $key => $row) {
-            if (isset($ret[$row->id_kelas])) {
-                array_push($ret[$row->id_kelas], $row);
-                goto cr4tm;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                if (isset($ret[$row->id_kelas])) {
+                    array_push($ret[$row->id_kelas], $row);
+                } else {
+                    $ret[$row->id_kelas] = [];
+                    array_push($ret[$row->id_kelas], $row);
+                }
             }
-            $ret[$row->id_kelas] = [];
-            array_push($ret[$row->id_kelas], $row);
-            cr4tm:
         }
-        vvezH:
         return $ret;
     }
     public function getKodeMateriMapel($id_tp, $id_smt, $id_mapel, $id_guru = null)
@@ -691,11 +637,9 @@ class Kelas_model extends CI_Model
         $this->db->join("master_mapel b", "b.id_mapel=a.id_mapel", "left");
         $this->db->join("kelas_jadwal_materi c", "a.id_materi=c.id_materi");
         $this->db->join("master_guru d", "a.id_guru=d.id_guru");
-        if (!($id_guru != null)) {
-            goto mM1O1;
+        if ($id_guru != null) {
+            $this->db->where("a.id_guru", $id_guru);
         }
-        $this->db->where("a.id_guru", $id_guru);
-        mM1O1:
         $this->db->where("a.id_mapel", $id_mapel);
         $this->db->where("a.id_tp", $id_tp);
         $this->db->where("a.id_smt", $id_smt);
@@ -708,11 +652,9 @@ class Kelas_model extends CI_Model
         $this->db->from("kelas_materi a");
         $this->db->join("master_mapel b", "b.id_mapel=a.id_mapel", "left");
         $this->db->join("kelas_jadwal_materi c", "a.id_materi=c.id_materi");
-        if (!($id_guru != null)) {
-            goto AUknA;
+        if ($id_guru != null) {
+            $this->db->where("a.id_guru", $id_guru);
         }
-        $this->db->where("a.id_guru", $id_guru);
-        AUknA:
         $this->db->where("a.id_tp", $id_tp);
         $this->db->where("a.id_smt", $id_smt);
         $result = $this->db->get()->result();
@@ -749,13 +691,11 @@ class Kelas_model extends CI_Model
         $this->db->where("id_siswa", $id_siswa);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto nGMhf;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_materi] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_materi] = $row;
-        }
-        nGMhf:
         return $ret;
     }
     public function getStatusMateriSiswa($id_kjm = null)
@@ -763,20 +703,16 @@ class Kelas_model extends CI_Model
         $this->db->select("a.*, b.jadwal_materi");
         $this->db->from("log_materi a");
         $this->db->join("kelas_jadwal_materi b", "b.id_kjm=a.id_materi");
-        if (!($id_kjm != null)) {
-            goto TjNAm;
+        if ($id_kjm != null) {
+            $this->db->where("a.id_materi", $id_kjm);
         }
-        $this->db->where("a.id_materi", $id_kjm);
-        TjNAm:
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto eNrl3;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa] = $row;
-        }
-        eNrl3:
         return $ret;
     }
     public function getNilaiMateriSiswa($id_siswa)
@@ -789,13 +725,11 @@ class Kelas_model extends CI_Model
         $this->db->where("a.id_siswa", $id_siswa);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto Rtay1;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->jenis][] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->jenis][] = $row;
-        }
-        Rtay1:
         return $ret;
     }
     public function getStatusSiswaByMapel($table, $id_mapel)
@@ -838,13 +772,11 @@ class Kelas_model extends CI_Model
         $result = $this->db->get()->result();
         if ($with_key) {
             $ret = [];
-            if (!$result) {
-                goto GyEaO;
+            if ($result) {
+                foreach ($result as $key => $row) {
+                    $ret[$row->jam_ke] = $row;
+                }
             }
-            foreach ($result as $key => $row) {
-                $ret[$row->jam_ke] = $row;
-            }
-            GyEaO:
             return $ret;
         }
         return $result;
@@ -859,13 +791,11 @@ class Kelas_model extends CI_Model
         $this->db->where("a.id_kelas", $id_kelas);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto PtPkb;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_hari][$row->jam_ke] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_hari][$row->jam_ke] = $row;
-        }
-        PtPkb:
         return $ret;
     }
     public function getMateriSiswa($id_kelas, $tgl, $jenis)
@@ -880,18 +810,16 @@ class Kelas_model extends CI_Model
         $this->db->where("a.id_kelas", $id_kelas);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto YZSiV;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $len_kls = strlen($row->id_kelas);
+                $subs_jam = $len_kls + 10;
+                $sisa = strlen($row->id_kjm) - $subs_jam;
+                $len = $sisa === 3 ? 2 : 1;
+                $jam = substr($row->id_kjm, strlen($row->id_kjm) - $len, 1);
+                $ret[$jam] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $len_kls = strlen($row->id_kelas);
-            $subs_jam = $len_kls + 10;
-            $sisa = strlen($row->id_kjm) - $subs_jam;
-            $len = $sisa === 3 ? 2 : 1;
-            $jam = substr($row->id_kjm, strlen($row->id_kjm) - $len, 1);
-            $ret[$jam] = $row;
-        }
-        YZSiV:
         return $ret;
     }
     public function getMateriSiswaSeminggu($id_tp, $id_smt, $id_kelas, $jenis)
@@ -907,18 +835,16 @@ class Kelas_model extends CI_Model
         $this->db->where("a.id_kelas", $id_kelas);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto lElI1;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $len_kls = strlen($row->id_kelas);
+                $subs_jam = $len_kls + 10;
+                $sisa = strlen($row->id_kjm) - $subs_jam;
+                $len = $sisa === 3 ? 2 : 1;
+                $jam = substr($row->id_kjm, strlen($row->id_kjm) - $sisa, $len);
+                $ret[$row->jadwal_materi][$jam] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $len_kls = strlen($row->id_kelas);
-            $subs_jam = $len_kls + 10;
-            $sisa = strlen($row->id_kjm) - $subs_jam;
-            $len = $sisa === 3 ? 2 : 1;
-            $jam = substr($row->id_kjm, strlen($row->id_kjm) - $sisa, $len);
-            $ret[$row->jadwal_materi][$jam] = $row;
-        }
-        lElI1:
         return $ret;
     }
     public function getAllMateriByTgl($id_kelas, $tgl, $arr_mapel)
@@ -929,27 +855,23 @@ class Kelas_model extends CI_Model
         $this->db->join("master_guru c", "b.id_guru=c.id_guru", "left");
         $this->db->join("master_mapel d", "b.id_mapel=d.id_mapel", "left");
         $this->db->where("a.jadwal_materi", $tgl);
-        if (!(count($arr_mapel) > 0)) {
-            goto HDn3e;
+        if (count($arr_mapel) > 0) {
+            $this->db->where_in("a.id_mapel", $arr_mapel);
         }
-        $this->db->where_in("a.id_mapel", $arr_mapel);
-        HDn3e:
         $this->db->where("a.id_kelas", $id_kelas);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto Kl0BM;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $len_kls = strlen($row->id_kelas);
+                $subs_jam = $len_kls + 10;
+                $sisa = strlen($row->id_kjm) - $subs_jam;
+                $len = $sisa === 3 ? 2 : 1;
+                $jam = substr($row->id_kjm, strlen($row->id_kjm) - $sisa, $len);
+                $row->materi_kelas = unserialize($row->materi_kelas);
+                $ret[$row->id_mapel][$jam][$row->jenis] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $len_kls = strlen($row->id_kelas);
-            $subs_jam = $len_kls + 10;
-            $sisa = strlen($row->id_kjm) - $subs_jam;
-            $len = $sisa === 3 ? 2 : 1;
-            $jam = substr($row->id_kjm, strlen($row->id_kjm) - $sisa, $len);
-            $row->materi_kelas = unserialize($row->materi_kelas);
-            $ret[$row->id_mapel][$jam][$row->jenis] = $row;
-        }
-        Kl0BM:
         return $ret;
     }
     public function getRekapStatusMapel($id_siswa, $date, $id_mapel)
@@ -992,21 +914,17 @@ class Kelas_model extends CI_Model
         $this->db->from("kelas_jadwal_materi a");
         $this->db->join("log_materi b", "b.id_materi=a.id_kjm");
         $this->db->where("a.id_kelas", $id_kelas);
-        if (!($id_mapel != null)) {
-            goto KdjPJ;
+        if ($id_mapel != null) {
+            $this->db->where("a.id_mapel", $id_mapel);
         }
-        $this->db->where("a.id_mapel", $id_mapel);
-        KdjPJ:
         $this->db->where("MONTH(a.jadwal_materi)", $bulan)->where("YEAR(a.jadwal_materi)", $tahun);
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto hTc7T;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa][$row->jenis][$row->jadwal_materi][$row->jam_ke] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa][$row->jenis][$row->jadwal_materi][$row->jam_ke] = $row;
-        }
-        hTc7T:
         return $ret;
     }
     public function getRekapBulananMateri($id_siswa, $date, $id_materi)
@@ -1018,46 +936,40 @@ class Kelas_model extends CI_Model
         $this->db->where("a.id_materi", $id_materi);
         $result = $this->db->get()->row();
         $ret = [];
-        if (!$result) {
-            goto A9AmR;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $ret[$row->id_siswa] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $ret[$row->id_siswa] = $row;
-        }
-        A9AmR:
         return $ret;
     }
     public function getRekapMateriSemester($id_kelas, $id_materi = null)
     {
         $this->db->select("id_siswa, id_log, log_time, finish_time, id_materi, DAYOFMONTH(log_time) as tanggal, MONTH(log_time) as bulan, YEAR(log_time) as tahun, TIME_FORMAT(log_time, \"%H:%i\") as jam, nilai");
         $this->db->from("log_materi");
-        if (!($id_materi != null)) {
-            goto aCU0V;
+        if ($id_materi != null) {
+            $this->db->where("id_materi", $id_materi);
         }
-        $this->db->where("id_materi", $id_materi);
-        aCU0V:
         $result = $this->db->get()->result();
         $ret = [];
-        if (!$result) {
-            goto zZ79s;
+        if ($result) {
+            foreach ($result as $key => $row) {
+                $len_kls = strlen($id_kelas);
+                $len_tp_smt = 2;
+                $len_tahun = 4;
+                $len_bln = 2;
+                $len_hari = 2;
+                $subs_bln = $len_kls + $len_tp_smt + $len_tahun;
+                $subs_tgl = $subs_bln + $len_bln;
+                $sisa = strlen($row->id_materi) - ($len_kls + 10);
+                $len = $sisa === 3 ? 2 : 1;
+                $bulan = substr($row->id_materi, $subs_bln, 2);
+                $tgl = substr($row->id_materi, $subs_tgl, 2);
+                $jam = substr($row->id_materi, strlen($row->id_materi) - $sisa, $len);
+                $jenis = substr($row->id_materi, strlen($row->id_materi) - 1, 1);
+                $ret[$jenis][$row->id_siswa][$bulan][$tgl][$jam] = $row;
+            }
         }
-        foreach ($result as $key => $row) {
-            $len_kls = strlen($id_kelas);
-            $len_tp_smt = 2;
-            $len_tahun = 4;
-            $len_bln = 2;
-            $len_hari = 2;
-            $subs_bln = $len_kls + $len_tp_smt + $len_tahun;
-            $subs_tgl = $subs_bln + $len_bln;
-            $sisa = strlen($row->id_materi) - ($len_kls + 10);
-            $len = $sisa === 3 ? 2 : 1;
-            $bulan = substr($row->id_materi, $subs_bln, 2);
-            $tgl = substr($row->id_materi, $subs_tgl, 2);
-            $jam = substr($row->id_materi, strlen($row->id_materi) - $sisa, $len);
-            $jenis = substr($row->id_materi, strlen($row->id_materi) - 1, 1);
-            $ret[$jenis][$row->id_siswa][$bulan][$tgl][$jam] = $row;
-        }
-        zZ79s:
         return $ret;
     }
     public function getStrukturKelas($kelas)

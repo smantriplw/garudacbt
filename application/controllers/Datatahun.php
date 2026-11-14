@@ -13,14 +13,9 @@ class Datatahun extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto diBr2;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto EWXmG;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        EWXmG:
-        diBr2:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -29,11 +24,9 @@ class Datatahun extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto SPJ7Z;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        SPJ7Z:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -65,10 +58,9 @@ class Datatahun extends CI_Controller
             $tahun = $tps->tp;
             if ($id_tp === $aktif) {
                 $active = 1;
-                goto JSN_S;
+            } else {
+                $active = 0;
             }
-            $active = 0;
-            JSN_S:
             $update[] = array("id_tp" => $id_tp, "tahun" => $tahun, "active" => $active);
         }
         $this->dashboard->update("master_tp", $update, "id_tp", null, true);
@@ -87,10 +79,9 @@ class Datatahun extends CI_Controller
             $smt = $tps->Semester;
             if ($id_smt === $aktif) {
                 $active = 1;
-                goto jlwBu;
+            } else {
+                $active = 0;
             }
-            $active = 0;
-            jlwBu:
             $update[] = array("id_smt" => $id_smt, "smt" => $smt, "active" => $active);
         }
         $this->dashboard->update("master_smt", $update, "id_smt", null, true);
@@ -108,13 +99,12 @@ class Datatahun extends CI_Controller
             $insert = ["tahun" => $tahun];
             $data = $this->master->create("master_tp", $insert);
             $this->logging->saveLog(3, "menambah tahun pelajaran");
-            goto g8tQe;
+        } else {
+            $id = $this->input->post("id_tahun", true);
+            $update = array("id_tp" => $id, "tahun" => $tahun);
+            $data = $this->master->update("master_tp", $update, "id_tp", $id);
+            $this->logging->saveLog(4, "mengedit tahun pelajaran");
         }
-        $id = $this->input->post("id_tahun", true);
-        $update = array("id_tp" => $id, "tahun" => $tahun);
-        $data = $this->master->update("master_tp", $update, "id_tp", $id);
-        $this->logging->saveLog(4, "mengedit tahun pelajaran");
-        g8tQe:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function saveHariEfektif()
@@ -132,10 +122,9 @@ class Datatahun extends CI_Controller
         if ($this->dashboard->hapus("master_tp", $id, "id_tp")) {
             $this->logging->saveLog(5, "menghapus tahun pelajaran");
             $data["status"] = true;
-            goto yJ23h;
+        } else {
+            $data["status"] = false;
         }
-        $data["status"] = false;
-        yJ23h:
         $data["msg"] = "Menghapus Tahun Pelajaran";
         $this->output_json($data);
     }
@@ -144,14 +133,9 @@ class Datatahun extends CI_Controller
         $chk = $this->input->post("checked", true);
         if (!$chk) {
             $this->output_json(["status" => false]);
-            goto d5fuL;
+        } else if ($this->dashboard->hapus("master_tp", $chk, "id_tp")) {
+            $this->logging->saveLog(5, "menghapus tahun pelajaran");
+            $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        if (!$this->dashboard->hapus("master_tp", $chk, "id_tp")) {
-            goto T16Kl;
-        }
-        $this->logging->saveLog(5, "menghapus tahun pelajaran");
-        $this->output_json(["status" => true, "total" => count($chk)]);
-        T16Kl:
-        d5fuL:
     }
 }

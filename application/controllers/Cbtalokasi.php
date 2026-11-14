@@ -12,24 +12,17 @@ class Cbtalokasi extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto m_c2i;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto y_nuM;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        y_nuM:
-        m_c2i:
         $this->load->library(["datatables", "form_validation"]);
         $this->form_validation->set_error_delimiters('', '');
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto KmQuy;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        KmQuy:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -48,19 +41,16 @@ class Cbtalokasi extends CI_Controller
         $data["smt_active"] = $smt;
         $id_jenis = $this->cbt->getDistinctJenisJadwal($tp->id_tp, $smt->id_smt);
         $ids = [];
-        if (!(count($id_jenis) > 0)) {
-            goto c_F8b;
+        if (count($id_jenis) > 0) {
+            foreach ($id_jenis as $jenis) {
+                array_push($ids, $jenis->id_jenis);
+            }
         }
-        foreach ($id_jenis as $jenis) {
-            array_push($ids, $jenis->id_jenis);
-        }
-        c_F8b:
         if (count($ids) > 0) {
             $data["jenis"] = $this->cbt->getAllJenisUjianByArrJenis($ids);
-            goto qPEPd;
+        } else {
+            $data["jenis"] = ['' => "belum ada jadwal ujian"];
         }
-        $data["jenis"] = ['' => "belum ada jadwal ujian"];
-        qPEPd:
         $jenis_selected = $this->input->get("jenis", true);
         $level_selected = $this->input->get("level", true);
         $filter_selected = $this->input->get("filter", true);
@@ -73,38 +63,28 @@ class Cbtalokasi extends CI_Controller
         $data["dari_selected"] = $dari_selected;
         $data["sampai_selected"] = $sampai_selected;
         $jadwals = [];
-        if (!($jenis_selected != null && $level_selected != null)) {
-            goto xA7HJ;
+        if ($jenis_selected != null && $level_selected != null) {
+            $jadwals = $this->cbt->getJadwalByJenis($jenis_selected, $level_selected, $dari_selected, $sampai_selected);
         }
-        $jadwals = $this->cbt->getJadwalByJenis($jenis_selected, $level_selected, $dari_selected, $sampai_selected);
-        xA7HJ:
         $data["kelas"] = $this->dropdown->getAllKelas($tp->id_tp, $smt->id_smt);
         $data["ruang"] = $this->dropdown->getAllRuang();
         $levels = [];
         if ($setting->jenjang == "1") {
             $levels = ["0" => "Pilih Level", "1" => "1", "2" => "2", "3" => "3", "4" => "4", "5" => "5", "6" => "6"];
-            goto YJxFD;
-        }
-        if ($setting->jenjang == "2") {
+        } else if ($setting->jenjang == "2") {
             $levels = ["0" => "Pilih Level", "7" => "7", "8" => "8", "9" => "9"];
-            goto YJxFD;
-        }
-        if ($setting->jenjang == "3") {
+        } else if ($setting->jenjang == "3") {
             $levels = ["0" => "Pilih Level", "10" => "10", "11" => "11", "12" => "12"];
-            goto HtE7f;
         }
-        HtE7f:
-        YJxFD:
         $data["levels"] = $levels;
         $ret = [];
         foreach ($jadwals as $key => $row) {
             if (isset($ret[$row->tgl_mulai])) {
                 array_push($ret[$row->tgl_mulai], $row);
-                goto z4hgK;
+            } else {
+                $ret[$row->tgl_mulai] = [];
+                array_push($ret[$row->tgl_mulai], $row);
             }
-            $ret[$row->tgl_mulai] = [];
-            array_push($ret[$row->tgl_mulai], $row);
-            z4hgK:
         }
         $data["jadwals"] = $jadwals;
         $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
@@ -117,11 +97,9 @@ class Cbtalokasi extends CI_Controller
         $input = json_decode($this->input->post("alokasi", true));
         $insert = [];
         foreach ($input as $d) {
-            if (!($d->id_jadwal != "0")) {
-                goto SzYpZ;
+            if ($d->id_jadwal != "0") {
+                array_push($insert, ["id_jadwal" => $d->id_jadwal, "jam_ke" => $d->jam_ke]);
             }
-            array_push($insert, ["id_jadwal" => $d->id_jadwal, "jam_ke" => $d->jam_ke]);
-            SzYpZ:
         }
         $update = $this->db->update_batch("cbt_jadwal", $insert, "id_jadwal");
         $data["status"] = $update;

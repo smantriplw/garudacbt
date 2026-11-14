@@ -12,14 +12,9 @@ class Pengumuman extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto gwBG7;
+        } else if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru")) {
+            show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
-            goto t0ZYw;
-        }
-        show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        t0ZYw:
-        gwBG7:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -30,11 +25,9 @@ class Pengumuman extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto JT1y5;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        JT1y5:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -69,7 +62,6 @@ class Pengumuman extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("pengumuman/data");
         $this->load->view("members/guru/templates/footer");
-        LYL_U:
     }
     public function kepada($kepada, $id_kepada = null)
     {
@@ -113,27 +105,22 @@ class Pengumuman extends CI_Controller
         $data["balasans"] = $balasan;
         if ($kepada === "semua_guru") {
             $data["kepada"] = "Semua Guru";
-            goto nEM50;
-        }
-        if ($kepada === "semua_siswa") {
+        } else if ($kepada === "semua_siswa") {
             $data["kepada"] = "Semua Siswa";
-            goto FPb4Z;
+        } else {
+            $data["kepada"] = urldecode($kepada);
         }
-        $data["kepada"] = urldecode($kepada);
-        FPb4Z:
-        nEM50:
         if ($this->ion_auth->is_admin()) {
             $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("pengumuman/data");
             $this->load->view("_templates/dashboard/_footer");
-            goto ORfrr;
+        } else {
+            $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("pengumuman/data");
+            $this->load->view("members/guru/templates/footer");
         }
-        $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        $this->load->view("members/guru/templates/header", $data);
-        $this->load->view("pengumuman/data");
-        $this->load->view("members/guru/templates/footer");
-        ORfrr:
     }
     public function getPost()
     {
@@ -182,16 +169,14 @@ class Pengumuman extends CI_Controller
     {
         $dari = "0";
         $dari_group = 1;
-        if ($this->ion_auth->is_admin()) {
-            goto lQvE0;
+        if (!($this->ion_auth->is_admin())) {
+            $user = $this->ion_auth->user()->row();
+            $tp = $this->master->getTahunActive();
+            $smt = $this->master->getSemesterActive();
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $dari = $guru->id_guru;
+            $dari_group = 2;
         }
-        $user = $this->ion_auth->user()->row();
-        $tp = $this->master->getTahunActive();
-        $smt = $this->master->getSemesterActive();
-        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        $dari = $guru->id_guru;
-        $dari_group = 2;
-        lQvE0:
         $data = ["id_post" => $this->input->post("id_post"), "dari" => $dari, "dari_group" => $dari_group, "text" => $this->input->post("text")];
         $insert = $this->db->replace("post_comments", $data);
         $id = $this->db->insert_id();
@@ -209,16 +194,14 @@ class Pengumuman extends CI_Controller
     {
         $dari = "0";
         $dari_group = 1;
-        if ($this->ion_auth->is_admin()) {
-            goto qtWlZ;
+        if (!($this->ion_auth->is_admin())) {
+            $user = $this->ion_auth->user()->row();
+            $tp = $this->master->getTahunActive();
+            $smt = $this->master->getSemesterActive();
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $dari = $guru->id_guru;
+            $dari_group = 2;
         }
-        $user = $this->ion_auth->user()->row();
-        $tp = $this->master->getTahunActive();
-        $smt = $this->master->getSemesterActive();
-        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        $dari = $guru->id_guru;
-        $dari_group = 2;
-        qtWlZ:
         $data = ["id_comment" => $this->input->post("id_comment"), "dari" => $dari, "dari_group" => $dari_group, "text" => $this->input->post("text")];
         $insert = $this->db->replace("post_reply", $data);
         $id = $this->db->insert_id();
@@ -241,12 +224,10 @@ class Pengumuman extends CI_Controller
             $deleted["balasan"] = $this->db->delete("post_reply");
         }
         $this->db->where("id_post", $id_post);
-        if (!$this->db->delete("post_comments")) {
-            goto sDDRd;
+        if ($this->db->delete("post_comments")) {
+            $this->db->where("id_post", $id_post);
+            $deleted = $this->db->delete("post");
         }
-        $this->db->where("id_post", $id_post);
-        $deleted = $this->db->delete("post");
-        sDDRd:
         $this->db->trans_complete();
         $this->output_json($deleted);
     }

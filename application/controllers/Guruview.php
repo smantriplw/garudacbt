@@ -11,11 +11,9 @@ class Guruview extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->ion_auth->logged_in()) {
-            goto tjf0d;
+        if (!($this->ion_auth->logged_in())) {
+            redirect("auth");
         }
-        redirect("auth");
-        tjf0d:
         $this->load->library("upload");
         $this->load->library(["datatables", "form_validation"]);
         $this->form_validation->set_error_delimiters('', '');
@@ -24,11 +22,9 @@ class Guruview extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto oJkhq;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        oJkhq:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -37,11 +33,9 @@ class Guruview extends CI_Controller
         $smt = $this->master->getSemesterActive();
         $user = $this->ion_auth->user()->row();
         $guru = $this->dashboard->getDetailGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        if (!($user == null)) {
-            goto uwpmW;
+        if ($user == null) {
+            redirect("auth");
         }
-        redirect("auth");
-        uwpmW:
         $data = ["user" => $user, "judul" => "Profile", "subjudul" => "Profile Saya", "setting" => $this->dashboard->getSetting()];
         $data["tp"] = $this->dashboard->getTahun();
         $data["tp_active"] = $tp;
@@ -110,39 +104,33 @@ class Guruview extends CI_Controller
             if (!$this->upload->do_upload("foto")) {
                 $data["status"] = false;
                 $data["src"] = $this->upload->display_errors();
-                goto wvIu_;
+            } else {
+                $result = $this->upload->data();
+                $data["src"] = base_url() . "uploads/profiles/" . $result["file_name"];
+                $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
+                $data["status"] = true;
+                $this->db->set("foto", "uploads/profiles/" . $result["file_name"]);
+                $this->db->where("id_guru", $id_guru);
+                $this->db->update("master_guru");
             }
-            $result = $this->upload->data();
-            $data["src"] = base_url() . "uploads/profiles/" . $result["file_name"];
-            $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
-            $data["status"] = true;
-            $this->db->set("foto", "uploads/profiles/" . $result["file_name"]);
-            $this->db->where("id_guru", $id_guru);
-            $this->db->update("master_guru");
-            wvIu_:
             $data["type"] = $_FILES["foto"]["type"];
             $data["size"] = $_FILES["foto"]["size"];
-            goto dqd7X;
+        } else {
+            $data["src"] = '';
         }
-        $data["src"] = '';
-        dqd7X:
         $this->output_json($data);
     }
     function deleteFile($id_guru)
     {
         $src = $this->input->get("src");
         $file_name = str_replace(base_url(), '', $src);
-        if (!($file_name != "user.jpg")) {
-            goto F_DBM;
+        if ($file_name != "user.jpg") {
+            if (unlink($file_name)) {
+                $this->db->set("foto", '');
+                $this->db->where("id_guru", $id_guru);
+                $this->db->update("master_guru");
+                echo "File Delete Successfully";
+            }
         }
-        if (!unlink($file_name)) {
-            goto Zoyt5;
-        }
-        $this->db->set("foto", '');
-        $this->db->where("id_guru", $id_guru);
-        $this->db->update("master_guru");
-        echo "File Delete Successfully";
-        Zoyt5:
-        F_DBM:
     }
 }

@@ -13,14 +13,9 @@ class Cbttoken extends CI_Controller
         $this->load->dbforge();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto TLsuY;
+        } else if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru")) {
+            show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
         }
-        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
-            goto QRGV6;
-        }
-        show_error("Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
-        QRGV6:
-        TLsuY:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -30,11 +25,9 @@ class Cbttoken extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto nWcw0;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        nWcw0:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -58,14 +51,13 @@ class Cbttoken extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/token/data");
             $this->load->view("_templates/dashboard/_footer");
-            goto A_8fN;
+        } else {
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $data["guru"] = $guru;
+            $this->load->view("members/guru/templates/header", $data);
+            $this->load->view("members/guru/cbt/token/data");
+            $this->load->view("members/guru/templates/footer");
         }
-        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        $data["guru"] = $guru;
-        $this->load->view("members/guru/templates/header", $data);
-        $this->load->view("members/guru/cbt/token/data");
-        $this->load->view("members/guru/templates/footer");
-        A_8fN:
     }
     public function generateToken()
     {
@@ -78,22 +70,19 @@ class Cbttoken extends CI_Controller
             $post_token->token = $new;
             $post_token->updated = $updated;
             $this->cbt->saveToken($post_token);
-            goto Ms523;
+        } else {
+            $mulai = new DateTime($token->updated);
+            $diff = $mulai->diff(new DateTime());
+            $total_minutes = $diff->days * 24 * 60;
+            $total_minutes += $diff->h * 60;
+            $total_minutes += $diff->i;
+            if ($total_minutes >= $post_token->jarak) {
+                $new = $this->createNewToken();
+                $post_token->token = $new;
+                $post_token->updated = $updated;
+                $this->cbt->saveToken($post_token);
+            }
         }
-        $mulai = new DateTime($token->updated);
-        $diff = $mulai->diff(new DateTime());
-        $total_minutes = $diff->days * 24 * 60;
-        $total_minutes += $diff->h * 60;
-        $total_minutes += $diff->i;
-        if (!($total_minutes >= $post_token->jarak)) {
-            goto VTQnX;
-        }
-        $new = $this->createNewToken();
-        $post_token->token = $new;
-        $post_token->updated = $updated;
-        $this->cbt->saveToken($post_token);
-        VTQnX:
-        Ms523:
         $token = $this->cbt->getToken();
         $token->now = $updated;
         $this->output_json($token);
@@ -103,16 +92,12 @@ class Cbttoken extends CI_Controller
         $dataflds = $this->db->field_data("cbt_token");
         $table_changed = false;
         foreach ($dataflds as $fild) {
-            if (!($fild->name == "updated")) {
-                goto hPJ4p;
+            if ($fild->name == "updated") {
+                if ($fild->type != "varchar") {
+                    $field = ["updated" => array("type" => "VARCHAR", "constraint" => 20, "default" => '')];
+                    $table_changed = $this->dbforge->modify_column("cbt_token", $field);
+                }
             }
-            if (!($fild->type != "varchar")) {
-                goto moL0y;
-            }
-            $field = ["updated" => array("type" => "VARCHAR", "constraint" => 20, "default" => '')];
-            $table_changed = $this->dbforge->modify_column("cbt_token", $field);
-            moL0y:
-            hPJ4p:
         }
         $token = $this->cbt->getToken();
         if ($token == null) {
@@ -120,11 +105,10 @@ class Cbttoken extends CI_Controller
             $data["auto"] = "0";
             $data["elapsed"] = "00:00:00";
             $this->output_json($data);
-            goto ObnF_;
+        } else {
+            $token->now = date("Y-m-d H:i:s");
+            $this->output_json($token);
         }
-        $token->now = date("Y-m-d H:i:s");
-        $this->output_json($token);
-        ObnF_:
     }
     private function createNewToken()
     {
@@ -132,13 +116,11 @@ class Cbttoken extends CI_Controller
         $input_length = strlen($chars);
         $new_token = '';
         $i = 0;
-        YLdD4:
-        if (!($i < 6)) {
-            return $new_token;
+        while ($i < 6) {
+            $random_character = $chars[mt_rand(0, $input_length - 1)];
+            $new_token .= $random_character;
+            $i++;
         }
-        $random_character = $chars[mt_rand(0, $input_length - 1)];
-        $new_token .= $random_character;
-        $i++;
-        goto YLdD4;
+        return $new_token;
     }
 }

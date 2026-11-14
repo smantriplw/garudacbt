@@ -13,14 +13,9 @@ class Settings extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-            goto pQe8i;
+        } else if (!($this->ion_auth->is_admin())) {
+            show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
         }
-        if ($this->ion_auth->is_admin()) {
-            goto LhCVZ;
-        }
-        show_error("Hanya Admin yang boleh mengakses halaman ini", 403, "Akses dilarang");
-        LhCVZ:
-        pQe8i:
         $this->load->library("upload");
         $this->load->model("Settings_model", "settings");
         $this->load->model("Dashboard_model", "dashboard");
@@ -28,11 +23,9 @@ class Settings extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if (!$encode) {
-            goto eJTkC;
+        if ($encode) {
+            $data = json_encode($data);
         }
-        $data = json_encode($data);
-        eJTkC:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -71,30 +64,26 @@ class Settings extends CI_Controller
             if (!$this->upload->do_upload("logo")) {
                 $data["status"] = false;
                 $data["src"] = $this->upload->display_errors();
-                goto wryry;
+            } else {
+                $result = $this->upload->data();
+                $data["src"] = base_url() . "uploads/settings/" . $result["file_name"];
+                $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
+                $data["status"] = true;
             }
-            $result = $this->upload->data();
-            $data["src"] = base_url() . "uploads/settings/" . $result["file_name"];
-            $data["filename"] = pathinfo($result["file_name"], PATHINFO_FILENAME);
-            $data["status"] = true;
-            wryry:
             $data["type"] = $_FILES["logo"]["type"];
             $data["size"] = $_FILES["logo"]["size"];
-            goto APw1U;
+        } else {
+            $data["src"] = '';
         }
-        $data["src"] = '';
-        APw1U:
         $this->output_json($data);
     }
     function deleteFile()
     {
         $src = $this->input->post("src");
         $file_name = str_replace(base_url(), '', $src);
-        if (!unlink($file_name)) {
-            goto XHO6p;
+        if (unlink($file_name)) {
+            echo "File Delete Successfully";
         }
-        echo "File Delete Successfully";
-        XHO6p:
     }
     public function saveSetting()
     {

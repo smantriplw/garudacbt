@@ -12,11 +12,9 @@ class Post_model extends CI_Model
         $this->db->select("a.*, b.nama_guru, b.foto, (SELECT COUNT(post_comments.id_comment) FROM post_comments WHERE a.id_post = post_comments.id_post) AS jml");
         $this->db->from("post a");
         $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
-        if (!($id_user != 0)) {
-            goto eron_;
+        if ($id_user != 0) {
+            $this->db->where("a.dari", $id_user);
         }
-        $this->db->where("a.dari", $id_user);
-        eron_:
         $this->db->order_by("a.updated", "desc");
         $posts = $this->db->get()->result();
         return $posts;
@@ -26,11 +24,9 @@ class Post_model extends CI_Model
         $this->db->select("a.*, b.nama_guru, b.foto, (SELECT COUNT(post_comments.id_comment) FROM post_comments WHERE a.id_post = post_comments.id_post) AS jml");
         $this->db->from("post a");
         $this->db->join("master_guru b", "a.dari=b.id_guru", "left");
-        if (!($kepada != null)) {
-            goto mycvK;
+        if ($kepada != null) {
+            $this->db->where("(a.kepada LIKE " . $kepada . ") OR (a.kepada LIKE " . $kelas . ")");
         }
-        $this->db->where("(a.kepada LIKE " . $kepada . ") OR (a.kepada LIKE " . $kelas . ")");
-        mycvK:
         $this->db->order_by("a.updated", "desc");
         $posts = $this->db->get()->result();
         return $posts;
