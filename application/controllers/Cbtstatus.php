@@ -113,21 +113,19 @@ class Cbtstatus extends CI_Controller
                     if ($durasi->lama_ujian == null) {
                         $mins = (strtotime($durasi->selesai) - strtotime($durasi->mulai)) / 60;
                         $durasi->lama_ujian = round($mins, 2) . " m";
-                        goto IqzRu;
+                    } else {
+                        $lamanya = $durasi->lama_ujian;
+                        if (strpos($lamanya, ":") !== false) {
+                            $elap = explode(":", $lamanya);
+                            $ed = $elap[2] == "00" ? 0 : 1;
+                            $ej = $elap[0] == "00" ? '' : intval($elap[0]) . " j ";
+                            $em = $elap[1] == "00" ? '' : intval($elap[1]) + $ed . " m";
+                            $dd = $ej . $em;
+                            $durasi->lama_ujian = $dd == '' ? "0 m" : $dd;
+                        } else {
+                            $durasi->lama_ujian .= "m";
+                        }
                     }
-                    $lamanya = $durasi->lama_ujian;
-                    if (strpos($lamanya, ":") !== false) {
-                        $elap = explode(":", $lamanya);
-                        $ed = $elap[2] == "00" ? 0 : 1;
-                        $ej = $elap[0] == "00" ? '' : intval($elap[0]) . " j ";
-                        $em = $elap[1] == "00" ? '' : intval($elap[1]) + $ed . " m";
-                        $dd = $ej . $em;
-                        $durasi->lama_ujian = $dd == '' ? "0 m" : $dd;
-                        goto LQO_Y;
-                    }
-                    $durasi->lama_ujian .= "m";
-                    LQO_Y:
-                    IqzRu:
                     $dur_siswa = $durasi;
                 }
             }
@@ -222,21 +220,19 @@ class Cbtstatus extends CI_Controller
                     if ($durasi->lama_ujian == null) {
                         $mins = (strtotime($durasi->selesai) - strtotime($durasi->mulai)) / 60;
                         $durasi->lama_ujian = round($mins, 2) . " m";
-                        goto tEJYB;
+                    } else {
+                        $lamanya = $durasi->lama_ujian;
+                        if (strpos($lamanya, ":") !== false) {
+                            $elap = explode(":", $lamanya);
+                            $ed = $elap[2] == "00" ? 0 : 1;
+                            $ej = $elap[0] == "00" ? '' : intval($elap[0]) . " j ";
+                            $em = $elap[1] == "00" ? '' : intval($elap[1]) + $ed . " m";
+                            $dd = $ej . $em;
+                            $durasi->lama_ujian = $dd == '' ? "0 m" : $dd;
+                        } else {
+                            $durasi->lama_ujian .= "m";
+                        }
                     }
-                    $lamanya = $durasi->lama_ujian;
-                    if (strpos($lamanya, ":") !== false) {
-                        $elap = explode(":", $lamanya);
-                        $ed = $elap[2] == "00" ? 0 : 1;
-                        $ej = $elap[0] == "00" ? '' : intval($elap[0]) . " j ";
-                        $em = $elap[1] == "00" ? '' : intval($elap[1]) + $ed . " m";
-                        $dd = $ej . $em;
-                        $durasi->lama_ujian = $dd == '' ? "0 m" : $dd;
-                        goto I8sUt;
-                    }
-                    $durasi->lama_ujian .= "m";
-                    I8sUt:
-                    tEJYB:
                     $dur_siswa = $durasi;
                 }
             }
@@ -284,21 +280,19 @@ class Cbtstatus extends CI_Controller
                     if ($durasi->lama_ujian == null) {
                         $mins = (strtotime($durasi->selesai) - strtotime($durasi->mulai)) / 60;
                         $durasi->lama_ujian = round($mins, 2) . " m";
-                        goto wrQcT;
+                    } else {
+                        $lamanya = $durasi->lama_ujian;
+                        if (strpos($lamanya, ":") !== false) {
+                            $elap = explode(":", $lamanya);
+                            $ed = $elap[2] == "00" ? 0 : 1;
+                            $ej = $elap[0] == "00" ? '' : intval($elap[0]) . " j ";
+                            $em = $elap[1] == "00" ? '' : intval($elap[1]) + $ed . " m";
+                            $dd = $ej . $em;
+                            $durasi->lama_ujian = $dd == '' ? "0 m" : $dd;
+                        } else {
+                            $durasi->lama_ujian .= "m";
+                        }
                     }
-                    $lamanya = $durasi->lama_ujian;
-                    if (strpos($lamanya, ":") !== false) {
-                        $elap = explode(":", $lamanya);
-                        $ed = $elap[2] == "00" ? 0 : 1;
-                        $ej = $elap[0] == "00" ? '' : intval($elap[0]) . " j ";
-                        $em = $elap[1] == "00" ? '' : intval($elap[1]) + $ed . " m";
-                        $dd = $ej . $em;
-                        $durasi->lama_ujian = $dd == '' ? "0 m" : $dd;
-                        goto z3OYj;
-                    }
-                    $durasi->lama_ujian .= "m";
-                    z3OYj:
-                    wrQcT:
                     $dur_siswa = $durasi;
                 }
             }
