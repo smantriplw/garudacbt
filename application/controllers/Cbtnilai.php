@@ -3443,70 +3443,28 @@ class Cbtnilai extends CI_Controller {
         }
     }
 
-    public function simpanKoreksiEssai() {
+    public function simpanKoreksiEssai()
+    {
         $this->load->model('Cbt_model', 'cbt');
-        goto cF7jg;
-        yNFXS:
-        $blm_selesai = [];
-        goto iA4nx;
-        l4CwG:
-        $nilais = json_decode($this->input->post('nilai', true));
-        goto bOdYG;
-        iG3s9:
-        $data['blm_selesai'] = count($blm_selesai);
-        goto YG4F0;
-        vLzXz:
-        $data['success'] = $update;
-        goto Dam5e;
-        iA4nx:
-        foreach ($nilais as $nilai) {
-            goto Qo0qA;
-            FR41f:
-            cfa2r:
-            goto UIZjk;
-            KikiI:
-            $replace = ['id_nilai'=>$nilai_siswa->id_nilai, 'id_siswa'=>$nilai_siswa->id_siswa, 'id_jadwal'=>$nilai_siswa->id_jadwal, 'pg_benar'=>$nilai_siswa->pg_benar, 'pg_nilai'=>$nilai_siswa->pg_nilai, 'kompleks_nilai'=>isset($nilai->kompleks_nilai) && $nilai->kompleks_nilai != null ? $nilai->kompleks_nilai : "\60", 'jodohkan_nilai'=>isset($nilai->jodohkan_nilai) && $nilai->jodohkan_nilai != null ? $nilai->jodohkan_nilai : "\60", 'isian_nilai'=>isset($nilai->isian_nilai) && $nilai->isian_nilai != null ? $nilai->isian_nilai : "\60", 'essai_nilai'=>isset($nilai->essai_nilai) && $nilai->essai_nilai != null ? $nilai->essai_nilai : '0', 'dikoreksi'=>"\61"];
-            goto KNJH0;
-            Y5p5B:
-            array_push($blm_selesai, $nilai->id_siswa);
-            goto Pyua3;
-            HC6Cn:
-            if (!$up) {
-                goto XoQup;
-            }
-            goto kDo_h;
-            Qo0qA:
-            $nilai_siswa = $this->cbt->getNilaiSiswaByJadwal($jadwal, $nilai->id_siswa);
-            if (!($nilai_siswa != null)) {
-                goto Y5p5B;
-                kDo_h:
-                $update++;
-                XoQup:
-                goto FR41f;
-                Pyua3:
-                goto cfa2r;
-            }
-            goto KikiI;
-            KNJH0:
-            $up = $this->db->replace('cbt_nilai', $replace);
-            goto HC6Cn;
-            UIZjk:
-        }
-        goto mje7S;
-        Dam5e:
-        $data['data'] = $nilais;
-        goto iG3s9;
-        bOdYG:
-        $update = 0;
-        goto yNFXS;
-        mje7S:
-        goto vLzXz;
-        YG4F0:
-        $this->output_json($data);
-        goto DYsrS;
-        cF7jg:
         $jadwal = $this->input->post('jadwal', true);
-        goto l4CwG;
-        DYsrS:
+        $nilais = json_decode($this->input->post('nilai', true));
+        $update = 0;
+        $blm_selesai = [];
+        foreach ($nilais as $nilai) {
+            $nilai_siswa = $this->cbt->getNilaiSiswaByJadwal($jadwal, $nilai->id_siswa);
+            if ($nilai_siswa == null) {
+                array_push($blm_selesai, $nilai->id_siswa);
+                continue;
+            }
+            $replace = ['id_nilai' => $nilai_siswa->id_nilai, 'id_siswa' => $nilai_siswa->id_siswa, 'id_jadwal' => $nilai_siswa->id_jadwal, 'pg_benar' => $nilai_siswa->pg_benar, 'pg_nilai' => $nilai_siswa->pg_nilai, 'kompleks_nilai' => isset($nilai->kompleks_nilai) && $nilai->kompleks_nilai != null ? $nilai->kompleks_nilai : '0', 'jodohkan_nilai' => isset($nilai->jodohkan_nilai) && $nilai->jodohkan_nilai != null ? $nilai->jodohkan_nilai : '0', 'isian_nilai' => isset($nilai->isian_nilai) && $nilai->isian_nilai != null ? $nilai->isian_nilai : '0', 'essai_nilai' => isset($nilai->essai_nilai) && $nilai->essai_nilai != null ? $nilai->essai_nilai : '0', 'dikoreksi' => '1'];
+            $up = $this->db->replace('cbt_nilai', $replace);
+            if ($up) {
+                $update++;
+            }
+        }
+        $data['success'] = $update;
+        $data['data'] = $nilais;
+        $data['blm_selesai'] = count($blm_selesai);
+        $this->output_json($data);
     }
 }
