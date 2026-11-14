@@ -35,7 +35,7 @@ class Kelas_model extends CI_Model
     }
     public function getKelasList($tp, $smt)
     {
-        $this->db->select("a.*, b.nama_jurusan, d.nama_guru, e.nama, (SELECT COUNT(id_kelas_siswa) FROM kelas_siswa k WHERE a.id_kelas=k.id_kelas) AS jml_siswa");
+        $this->db->select("a.*, b.nama_jurusan, d.nama_guru, e.nama, (SELECT COUNT(*) FROM kelas_siswa k JOIN master_siswa s ON s.id_siswa=k.id_siswa WHERE k.id_kelas=a.id_kelas AND k.id_tp=a.id_tp AND k.id_smt=a.id_smt) AS jml_siswa", false);
         $this->db->from("master_kelas a");
         $this->db->join("master_jurusan b", "b.id_jurusan=a.jurusan_id", "left");
         $this->db->join("level_kelas c", "c.id_level=a.level_id", "left");
@@ -274,7 +274,6 @@ class Kelas_model extends CI_Model
         $this->db->select("a.id_siswa, a.id_kelas, b.nis, b.nama");
         $this->db->from("kelas_siswa a");
         $this->db->join("master_siswa b", "b.id_siswa=a.id_siswa");
-        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND i.status=1");
         $this->db->where("a.id_kelas", $id);
         $this->db->where("a.id_tp", $tp);
         $this->db->where("a.id_smt", $smt);
