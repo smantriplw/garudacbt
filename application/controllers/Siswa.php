@@ -669,47 +669,40 @@ class Siswa extends CI_Controller
                         $mulai_baru_d = true;
                         $insert = ["id_durasi" => $id_siswa . "0" . $id_jadwal, "id_siswa" => $id_siswa, "id_jadwal" => $id_jadwal, "status" => 1, "mulai" => date("Y-m-d H:i:s"), "lama_ujian" => "00:00:00", "reset" => 0];
                         $this->db->insert("cbt_durasi_siswa", $insert);
-                        goto jvPEM;
+                    } else {
+                        $mulai_baru_d = $elapsed->reset == "3";
+                        if ($elapsed->reset == "1") {
+                            $ada_waktu = true;
+                            $this->db->set("lama_ujian", "00:00:00");
+                            $this->db->set("mulai", date("Y-m-d H:i:s"));
+                            $this->db->set("reset", 0);
+                            $this->db->where("id_durasi", $id_siswa . "0" . $id_jadwal);
+                            $data["update_reset"] = $this->db->update("cbt_durasi_siswa");
+                        } elseif ($elapsed->reset == "2") {
+                            $ada_waktu = true;
+                            $dt = explode(":", $elapsed->lama_ujian);
+                            $time = new DateTime();
+                            $time->sub(new DateInterval("PT" . $dt[0] . "H" . $dt[1] . "M" . $dt[2] . "S"));
+                            $this->db->set("mulai", $time->format("Y-m-d H:i:s"));
+                            $this->db->set("reset", 0);
+                            $this->db->where("id_durasi", $id_siswa . "0" . $id_jadwal);
+                            $data["update_reset"] = $this->db->update("cbt_durasi_siswa");
+                        } elseif ($elapsed->reset == "3") {
+                            $ada_waktu = true;
+                            $this->db->set("lama_ujian", "00:00:00");
+                            $this->db->set("mulai", date("Y-m-d H:i:s"));
+                            $this->db->set("reset", 0);
+                            $this->db->where("id_durasi", $id_siswa . "0" . $id_jadwal);
+                            $data["update_reset"] = $this->db->update("cbt_durasi_siswa");
+                        } else {
+                            $mulai = new DateTime($elapsed->mulai);
+                            $interval = $mulai->diff(new DateTime());
+                            $minutes = $interval->days * 24 * 60 + $interval->h * 60 + $interval->i;
+                            $data["interval"] = ["days" => $interval->days, "hari" => $interval->d, "jam" => $interval->h, "menit" => $interval->i, "detik" => $interval->s, "total" => $minutes];
+                            $ada_waktu = $minutes < $info->durasi_ujian;
+                            $data["warn"] = ["durasi_ujian" => $info->durasi_ujian, "siswa_mulai" => $elapsed->mulai, "durasi_siswa" => $elapsed->lama_ujian, "timer_elapsed" => $minutes, "terlampaui" => $minutes - $info->durasi_ujian, "status" => $ada_waktu ? 0 : 1, "msg" => $ada_waktu ? '' : "Waktu ujian sudah habis"];
+                        }
                     }
-                    $mulai_baru_d = $elapsed->reset == "3";
-                    if ($elapsed->reset == "1") {
-                        $ada_waktu = true;
-                        $this->db->set("lama_ujian", "00:00:00");
-                        $this->db->set("mulai", date("Y-m-d H:i:s"));
-                        $this->db->set("reset", 0);
-                        $this->db->where("id_durasi", $id_siswa . "0" . $id_jadwal);
-                        $data["update_reset"] = $this->db->update("cbt_durasi_siswa");
-                        goto CVi_M;
-                    }
-                    if ($elapsed->reset == "2") {
-                        $ada_waktu = true;
-                        $dt = explode(":", $elapsed->lama_ujian);
-                        $time = new DateTime();
-                        $time->sub(new DateInterval("PT" . $dt[0] . "H" . $dt[1] . "M" . $dt[2] . "S"));
-                        $this->db->set("mulai", $time->format("Y-m-d H:i:s"));
-                        $this->db->set("reset", 0);
-                        $this->db->where("id_durasi", $id_siswa . "0" . $id_jadwal);
-                        $data["update_reset"] = $this->db->update("cbt_durasi_siswa");
-                        goto CVi_M;
-                    }
-                    if ($elapsed->reset == "3") {
-                        $ada_waktu = true;
-                        $this->db->set("lama_ujian", "00:00:00");
-                        $this->db->set("mulai", date("Y-m-d H:i:s"));
-                        $this->db->set("reset", 0);
-                        $this->db->where("id_durasi", $id_siswa . "0" . $id_jadwal);
-                        $data["update_reset"] = $this->db->update("cbt_durasi_siswa");
-                        goto vGeUO;
-                    }
-                    $mulai = new DateTime($elapsed->mulai);
-                    $interval = $mulai->diff(new DateTime());
-                    $minutes = $interval->days * 24 * 60 + $interval->h * 60 + $interval->i;
-                    $data["interval"] = ["days" => $interval->days, "hari" => $interval->d, "jam" => $interval->h, "menit" => $interval->i, "detik" => $interval->s, "total" => $minutes];
-                    $ada_waktu = $minutes < $info->durasi_ujian;
-                    $data["warn"] = ["durasi_ujian" => $info->durasi_ujian, "siswa_mulai" => $elapsed->mulai, "durasi_siswa" => $elapsed->lama_ujian, "timer_elapsed" => $minutes, "terlampaui" => $minutes - $info->durasi_ujian, "status" => $ada_waktu ? 0 : 1, "msg" => $ada_waktu ? '' : "Waktu ujian sudah habis"];
-                    vGeUO:
-                    CVi_M:
-                    jvPEM:
                 }
                 $data["ada_waktu"] = $ada_waktu;
                 $data["elapsed"] = $this->cbt->getElapsed($id_siswa . "0" . $id_jadwal);

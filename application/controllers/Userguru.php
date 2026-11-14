@@ -82,17 +82,15 @@ class Userguru extends CI_Controller
     {
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             $data = ["status" => false, "msg" => "You must be an administrator to view this page."];
-            goto mN066;
+        } else {
+            $id = (int) $id;
+            if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
+                $deleted = $this->ion_auth->delete_user($id);
+                $data = ["status" => $deleted, "msg" => "telah dinonaktifkan."];
+            } else {
+                $data = ["status" => false, "msg" => "Anda bukan admin."];
+            }
         }
-        $id = (int) $id;
-        if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
-            $deleted = $this->ion_auth->delete_user($id);
-            $data = ["status" => $deleted, "msg" => "telah dinonaktifkan."];
-            goto G2uHp;
-        }
-        $data = ["status" => false, "msg" => "Anda bukan admin."];
-        G2uHp:
-        mN066:
         $this->output_json($data);
     }
     public function aktifkanSemua()
@@ -224,16 +222,14 @@ class Userguru extends CI_Controller
         $username = $this->input->get("username", true);
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
             $data = ["status" => false, "msg" => "You must be an administrator to view this page."];
-            goto GMmZr;
+        } else {
+            $this->db->where("login", $username);
+            if ($this->db->delete("login_attempts")) {
+                $data = ["status" => true, "msg" => " berhasil direset"];
+            } else {
+                $data = ["status" => false, "msg" => " gagal direset"];
+            }
         }
-        $this->db->where("login", $username);
-        if ($this->db->delete("login_attempts")) {
-            $data = ["status" => true, "msg" => " berhasil direset"];
-            goto IUsdR;
-        }
-        $data = ["status" => false, "msg" => " gagal direset"];
-        IUsdR:
-        GMmZr:
         $this->output_json($data, true);
     }
 }
