@@ -5,57 +5,26 @@
     |________________________________________|
 */
 class Cbtanalisis extends CI_Controller {
-    public function __construct() {
-        goto qXk7W;
-        x8pi2:
-        mCN0v:
-        goto vr_4p;
-        qXk7W:
+    public function __construct()
+    {
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
-            goto mCN0v;
+            redirect('auth');
+        } elseif (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group('guru')) {
+            show_error('Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href="' . base_url('dashboard') . '">Kembali ke menu awal</a>', 403, 'Akses Terlarang');
         }
-        goto JSGpy;
-        an7jQ:
-        show_error('Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href="' . base_url('dashboard') . '">Kembali ke menu awal</a>', 403, 'Akses Terlarang');
-        goto mHLuh;
-        okV26:
         $this->load->library(['datatables', 'form_validation']);
-        goto W0C87;
-        BbG8_:
-        zU40I:
-        goto okV26;
-        uP9DF:
-        goto zU40I;
-        goto x8pi2;
-        JSGpy:
-        if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group('guru')) {
-            goto an7jQ;
-            W0C87:
-            $this->form_validation->set_error_delimiters('', '');
-            goto WqYu8;
-            mHLuh:
-        }
-        goto uP9DF;
-        vr_4p:
-        redirect('auth');
-        goto BbG8_;
-        WqYu8:
+        $this->form_validation->set_error_delimiters('', '');
     }
-    public function output_json($data, $encode = true) {
-        goto BFh1h;
-        z2j57:
-        $data = json_encode($data);
-        f5okH:
-        goto JxVa0;
-        BFh1h:
-        if (!$encode) {
-            goto f5okH;
+
+    public function output_json($data, $encode = true)
+    {
+        if ($encode) {
+            $data = json_encode($data);
         }
-        goto z2j57;
-        JxVa0:
         $this->output->set_content_type('application/json')->set_output($data);
     }
+
     public function index() {
         goto F2zZe;
         rUk3l:
@@ -648,336 +617,88 @@ class Cbtanalisis extends CI_Controller {
         goto Llo1B;
         ygd1V:
     }
-    private function pearson($x, $y) {
-        goto V7_15;
-        p1803:
-        ux9dh:
-        goto BA5y8;
-        Tk_Vv:
-        $y = array_values($y);
-        goto VLSGQ;
-        at1RD:
-        $cy = count($y);
-        goto f8HnO;
-        jmB6Y:
-        $yr = $y[$i] - $ys;
-        goto WTtYt;
-        V7_15:
-        $cx = count($x);
-        goto at1RD;
-        jKFm5:
-        $by = 0;
-        goto JY_nh;
-        MlEnt:
-        $a = 0;
-        goto N6eyv;
-        SPjV4:
-        goto jfE49;
-        TRotO:
-        jwtGk:
-        goto T1iLH;
-        JY_nh:
-        $i = 0;
-        goto THg4m;
-        vb4Lj:
-        if ($i < count($x)) {
-            goto UIUjO;
-            hHvne:
-            $i++;
-            goto ZEeyS;
-            RflIi:
-            goto OFbjq;
-            goto N_CU3;
-            jfE49:
-            $i++;
-            goto RflIi;
-            IRu2Q:
-        }
-        goto lBfsf;
-        GMusS:
-        $ret = - 1;
-        goto MFpVv;
-        lBfsf:
-        $b = sqrt($bx * $by);
-        goto GMusS;
-        RuXFD:
-        $ret = $a / $b;
-        return $ret;
-        wz8AM:
-        if ($cx > $cy) {
-            goto dSaRp;
-            return $ret;
-            dSaRp:
-            $d = $cx - $cy;
-            goto x401D;
-            z_d5_:
-            if (!($i < $d)) {
-                goto nIvBA;
-            }
-            goto ff3sm;
-            mjvdP:
-            goto DW0IP;
-            goto IRu2Q;
-            f8HnO:
-            if ($cx === 0 || $cy === 0) {
-                return - 1;
-                goto t7dzx;
-                N_CU3:
-                nIvBA:
-                goto YjEYN;
-                t7dzx:
-            }
-            goto YIDkY;
-            hHdfj:
-            $by += pow($yr, 2);
-            goto JQdSz;
-            return $ret;
-            goto jw6JR;
-            el9EE:
-            if (!($i < $d)) {
-                goto ux9dh;
-            }
-            goto yP8Tk;
-            return - 1;
-            goto TRotO;
-            WaWTz:
-            $d = $cy - $cx;
-            goto oMZvU;
-            YjEYN:
-        }
-        goto sMSj5;
-        MFpVv:
-        if (!($b > 0)) {
-            return $ret;
-        }
-        goto RuXFD;
-        oMZvU:
-        $i = 0;
-        sypYq:
-        goto el9EE;
-        VLSGQ:
-        $xs = array_sum($x) / count($x);
-        goto qqinP;
-        ATbE9:
-        OFbjq:
-        goto z_d5_;
-        YIDkY:
-        if ($cx < $cy) {
-            goto WaWTz;
-            THg4m:
-            DW0IP:
-            goto vb4Lj;
-            x401D:
-            $i = 0;
-            goto ATbE9;
-            BA5y8:
-        }
-        goto wz8AM;
-        N6eyv:
-        $bx = 0;
-        goto jKFm5;
-        T1iLH:
+    private function pearson($x, $y)
+    {
         $x = array_values($x);
-        goto Tk_Vv;
-        ff3sm:
-        array_pop($x);
-        goto SPjV4;
-        fg_kp:
-        $bx += pow($xr, 2);
-        goto hHdfj;
-        JQdSz:
-        $i++;
-        goto mjvdP;
-        UIUjO:
-        $xr = $x[$i] - $xs;
-        goto jmB6Y;
-        tgTyx:
-        goto hHvne;
-        sMSj5:
-        if (!(count($x) !== count($y))) {
-            goto jwtGk;
+        $y = array_values($y);
+        $cx = count($x);
+        $cy = count($y);
+        if ($cx === 0 || $cy === 0) {
+            return -1;
         }
-        return - 1;
-        qqinP:
-        $ys = array_sum($y) / count($y);
-        goto MlEnt;
-        WTtYt:
-        $a += $xr * $yr;
-        goto fg_kp;
-        ZEeyS:
-        goto sypYq;
-        goto p1803;
-        yP8Tk:
-        array_pop($y);
-        goto tgTyx;
-        jw6JR:
+        if ($cx !== $cy) {
+            return -1;
+        }
+        $xs = array_sum($x) / $cx;
+        $ys = array_sum($y) / $cy;
+        $a = 0;
+        $bx = 0;
+        $by = 0;
+        for ($i = 0; $i < $cx; $i++) {
+            $xr = $x[$i] - $xs;
+            $yr = $y[$i] - $ys;
+            $a += $xr * $yr;
+            $bx += pow($xr, 2);
+            $by += pow($yr, 2);
+        }
+        $b = sqrt($bx * $by);
+        if ($b <= 0) {
+            return -1;
+        }
+        return $a / $b;
     }
-    public function getNilaiKelas() {
-        goto RBomZ;
-        iusYt:
-        $smt = $this->dashboard->getSemesterActive();
-        goto S_pcL;
-        tc8fL:
-        $data['siswa'] = $siswas;
-        goto ZIKj2;
-        RBomZ:
+
+    public function getNilaiKelas()
+    {
         $this->load->model('Dashboard_model', 'dashboard');
-        goto Fm8Dm;
-        RdBkK:
-        $this->output_json($data);
-        goto uGzK2;
-        lg7T7:
+        $this->load->model('Cbt_model', 'cbt');
+        $kelas = $this->input->get('kelas');
+        $sesi = $this->input->get('sesi');
         $jadwal = $this->input->get('jadwal');
         $tp = $this->dashboard->getTahunActive();
-        goto iusYt;
-        N93F6:
-        $data['info'] = $info;
-        goto RdBkK;
-        iMPVJ:
-        $sesi = $this->input->get('sesi');
-        goto lg7T7;
-        jF7Yy:
-        foreach ($siswas as $siswa) {
-            goto GTUn2;
-            stjt1:
-            $arrDur[$siswa->id_siswa] = ['dur'=>$this->cbt->getDurasiSiswa($siswa->id_siswa . '0' . $jadwal), 'jawab_pg'=>$arrJawab_pg[$siswa->id_siswa], 'jawab_essai'=>$jawab_essai, 'log'=>$this->cbt->getLogUjian($siswa->id_siswa, $jadwal)];
-            goto ETEkE;
-            el7nH:
-            $arrJawab_essai[$siswa->id_siswa][] = array('id_jawaban'=>0, 'jawaban'=>'', 'jawaban_benar'=>'', 'koreksi'=>0);
-            goto Ccy16;
-            tZod0:
-            $arrJawab_essai[$siswa->id_siswa][] = $jawaban;
-            goto ulP7K;
-            KGMw6:
-            $jawaban = $this->cbt->getJawabanSiswa($siswa->id_siswa . "\60" . $jadwal . $info->id_bank . 2 . ($j + 1));
-            goto ALhdO;
-            miD5V:
-            if ($j < $info->tampil_esai) {
-                goto KGMw6;
-                Ccy16:
-                goto gRWIQ;
-                goto vhE1y;
-                L2TIm:
-                $j = 0;
-                goto WTQjl;
-                ETEkE:
-                goto YYxpT;
-                cWOej:
-                if ($i < $info->tampil_pg) {
-                    goto yk8O0;
-                    jcvDO:
-                    goto WG2PU;
-                    QG0iE:
-                    $arrJawab_essai = [];
-                    goto SJa2T;
-                    FAcxw:
-                    goto WuUBU;
-                    goto sNUVY;
-                    ulP7K:
-                    gRWIQ:
-                    goto NKvJi;
-                    sNUVY:
-                }
-                goto L2TIm;
-                WG2PU:
-                $i++;
-                goto FAcxw;
-                GTUn2:
-                $arrJawab_pg = [];
-                goto QG0iE;
-                vDftk:
-                goto qquMf;
-                goto Q6Wzq;
-                vhE1y:
-                ELfSE:
-                goto tZod0;
-                NKvJi:
-                goto bT9Ou;
-                D_f50:
-                WuUBU:
-                goto cWOej;
-                yk8O0:
-                $arrJawab_pg[$siswa->id_siswa][] = $this->cbt->getJawabanSiswa($siswa->id_siswa . "\60" . $jadwal . $info->id_bank . 1 . ($i + 1));
-                goto jcvDO;
-                bT9Ou:
-                $j++;
-                goto vDftk;
-                Q6Wzq:
-            }
-            goto P_FPL;
-            ALhdO:
-            if ($jawaban != null) {
-                goto ELfSE;
-            }
-            goto el7nH;
-            P_FPL:
-            $jawab_essai = isset($arrJawab_essai[$siswa->id_siswa]) ? $arrJawab_essai[$siswa->id_siswa] : [];
-            goto stjt1;
-            WTQjl:
-            qquMf:
-            goto miD5V;
-            SJa2T:
-            $i = 0;
-            goto D_f50;
-            YYxpT:
-        }
-        goto tc8fL;
-        ZFsP4:
-        $kelas = $this->input->get('kelas');
-        goto iMPVJ;
-        ZIKj2:
-        $data['jawaban'] = $arrDur;
-        goto N93F6;
-        YeX0D:
-        $siswas = $this->cbt->getSiswaByKelas($tp->id_tp, $smt->id_smt, $kelas);
-        goto PDueQ;
-        S_pcL:
+        $smt = $this->dashboard->getSemesterActive();
         $info = $this->cbt->getJadwalById($jadwal, $sesi);
-        goto YeX0D;
-        PDueQ:
+        $siswas = $this->cbt->getSiswaByKelas($tp->id_tp, $smt->id_smt, $kelas);
         $arrDur = [];
-        goto jF7Yy;
-        Fm8Dm:
-        $this->load->model('Cbt_model', 'cbt');
-        goto ZFsP4;
-        uGzK2:
-    }
-    public function getJadwalUjianByJadwal() {
-        goto YJuTp;
-        miGes:
-        goto KOIfC;
-        wPMxh:
-        foreach ($kelas as $key=>$value) {
-            $kelases[$value['kelas_id']] = $this->dropdown->getNamaKelasById($info->id_tp, $info->id_smt, $value['kelas_id']);
+        foreach ($siswas as $siswa) {
+            $arrJawab_pg = [];
+            $arrJawab_essai = [];
+            for ($i = 0; $i < $info->tampil_pg; $i++) {
+                $arrJawab_pg[$siswa->id_siswa][] = $this->cbt->getJawabanSiswa($siswa->id_siswa . "0" . $jadwal . $info->id_bank . 1 . ($i + 1));
+            }
+            for ($j = 0; $j < $info->tampil_esai; $j++) {
+                $jawaban = $this->cbt->getJawabanSiswa($siswa->id_siswa . "0" . $jadwal . $info->id_bank . 2 . ($j + 1));
+                if ($jawaban != null) {
+                    $arrJawab_essai[$siswa->id_siswa][] = $jawaban;
+                } else {
+                    $arrJawab_essai[$siswa->id_siswa][] = ['id_jawaban' => 0, 'jawaban' => '', 'jawaban_benar' => '', 'koreksi' => 0];
+                }
+            }
+            $jawab_essai = isset($arrJawab_essai[$siswa->id_siswa]) ? $arrJawab_essai[$siswa->id_siswa] : [];
+            $arrDur[$siswa->id_siswa] = ['dur' => $this->cbt->getDurasiSiswa($siswa->id_siswa . '0' . $jadwal), 'jawab_pg' => $arrJawab_pg[$siswa->id_siswa], 'jawab_essai' => $jawab_essai, 'log' => $this->cbt->getLogUjian($siswa->id_siswa, $jadwal)];
         }
-        goto miGes;
-        q74JP:
-        $info = $this->cbt->getJadwalById($jadwal);
-        goto xHTSR;
-        CBLzw:
-        $kelases = [];
-        goto wPMxh;
-        YJuTp:
+        $data['siswa'] = $siswas;
+        $data['jawaban'] = $arrDur;
+        $data['info'] = $info;
+        $this->output_json($data);
+    }
+
+    public function getJadwalUjianByJadwal()
+    {
         $this->load->model('Cbt_model', 'cbt');
-        goto fcf3L;
-        KOIfC:
-        $this->output_json($kelases);
-        goto yRCy2;
-        SNPZK:
-        $jadwal = $this->input->get('jadwal');
-        goto zWtz3;
-        fcf3L:
         $this->load->model('Dropdown_model', 'dropdown');
-        goto SNPZK;
-        zWtz3:
+        $jadwal = $this->input->get('jadwal');
         $tp = $this->input->get('thn');
         $smt = $this->input->get('smt');
-        goto q74JP;
-        xHTSR:
+        $info = $this->cbt->getJadwalById($jadwal);
         $kelas = unserialize($info->bank_kelas);
-        goto CBLzw;
-        yRCy2:
+        $kelases = [];
+        foreach ($kelas as $key => $value) {
+            $kelases[$value['kelas_id']] = $this->dropdown->getNamaKelasById($info->id_tp, $info->id_smt, $value['kelas_id']);
+        }
+        $this->output_json($kelases);
     }
+
     public function kalkulasi() {
         $jadwal = $this->input->get('jadwal');
         $update = $this->generateNilaiUjian($jadwal);
@@ -1656,90 +1377,33 @@ class Cbtanalisis extends CI_Controller {
         goto BshbU;
         BTLDq:
     }
-    private function nilaiSignifikansi($jml) {
-        goto J_nhY;
-        naE9c:
-        $keys = 4;
-        goto QUScm;
-        uPwdQ:
-        if (!($keys < 4)) {
-            goto SzSg6;
-        }
-        goto naE9c;
-        hLqK9:
-        if (!(isset($list[$jml]))) {
-            goto A473_;
-            J_nhY:
-            $list = [3=>[5=>0.997], [1=>0.999], 4=>[5=>0.95], [1=>0.99], 5=>[5=>0.878], [1=>0.959], 6=>[5=>0.8110000000000001], [1=>0.917], 7=>[5=>0.754], [1=>0.874], 8=>[5=>0.707], [1=>0.834], 9=>[5=>0.666], [1=>0.798], 10=>[5=>0.632], [1=>0.765], 11=>[5=>0.602], [1=>0.735], 12=>[5=>0.576], [1=>0.708], 13=>[5=>0.553], [1=>0.6840000000000001], 14=>[5=>0.532], [1=>0.661], 15=>[5=>0.514], [1=>0.641], 16=>[5=>0.497], [1=>0.623], 17=>[5=>0.482], [1=>0.606], 18=>[5=>0.468], [1=>0.59], 19=>[5=>0.456], [1=>0.575], 20=>[5=>0.444], [1=>0.5610000000000001], 21=>[5=>0.433], [1=>0.549], 22=>[5=>0.423], [1=>0.537], 23=>[5=>0.413], [1=>0.526], 24=>[5=>0.404], [1=>0.515], 25=>[5=>0.396], [1=>0.505], 26=>[5=>0.388], [1=>0.496], 27=>[5=>0.381], [1=>0.487], 28=>[5=>0.374], [1=>0.478], 29=>[5=>0.367], [1=>0.47], 30=>[5=>0.361], [1=>0.463], 31=>[5=>0.355], [1=>0.456], 32=>[5=>0.349], [1=>0.449], 33=>[5=>0.344], [1=>0.442], 34=>[5=>0.339], [1=>0.436], 35=>[5=>0.334], [1=>0.43], 36=>[5=>0.329], [1=>0.424], 37=>[5=>0.325], [1=>0.418], 38=>[5=>0.32], [1=>0.413], 39=>[5=>0.316], [1=>0.408], 40=>[5=>0.312], [1=>0.403], 41=>[5=>0.308], [1=>0.398], 42=>[5=>0.304], [1=>0.393], 43=>[5=>0.301], [1=>0.389], 44=>[5=>0.297], [1=>0.384], 45=>[5=>0.294], [1=>0.38], 46=>[5=>0.291], [1=>0.376], 47=>[5=>0.288], [1=>0.372], 48=>[5=>0.284], [1=>0.368], 49=>[5=>0.281], [1=>0.364], 50=>[5=>0.279], [1=>0.361], 55=>[5=>0.266], [1=>0.345], 60=>[5=>0.254], [1=>0.33], 65=>[5=>0.244], [1=>0.317], 70=>[5=>0.235], [1=>0.306], 75=>[5=>0.227], [1=>0.296], 80=>[5=>0.22], [1=>0.286], 85=>[5=>0.213], [1=>0.278], 90=>[5=>0.207], [1=>0.27], 95=>[5=>0.202], [1=>0.263], 100=>[5=>0.195], [1=>0.256], 125=>[5=>0.176], [1=>0.23], 150=>[5=>0.159], [1=>0.21], 175=>[5=>0.149], [1=>0.194], 200=>[5=>0.138], [1=>0.191], 300=>[5=>0.113], [1=>0.181], 400=>[5=>0.098], [1=>0.148], 500=>[5=>0.08799999999999999], [1=>0.128], 600=>[5=>0.08], [1=>0.115], 700=>[5=>0.074], [1=>0.105], 800=>[5=>0.07000000000000001], [1=>0.091], 900=>[5=>0.065], [1=>0.08599999999999999], 1000=>[5=>0.062], [1=>0.081]];
-            goto hLqK9;
-            yZfGx:
-            im3g5:
-            goto KzTUF;
-            return $list[$jml]["\61"];
-            goto ELaQB;
-            return $list[$keys]["\61"];
-            goto HQYZr;
-            return $list[$keys]['5'];
-            goto HardN;
-            return $list[$keys]['5'];
-            NZYMW:
-            goto im3g5;
-            goto zT6op;
-            return $list[$jml]['5'];
-            kNLLk:
-            if (isset($list[$keys]['5'])) {
-                return $list[$keys]['5'];
-            }
-            return $list[$keys]["\61"];
-            QUScm:
-            SzSg6:
-            goto kNLLk;
-            A473_:
+    private function nilaiSignifikansi($jml)
+    {
+        $list = [3=>[5=>0.997], [1=>0.999], 4=>[5=>0.95], [1=>0.99], 5=>[5=>0.878], [1=>0.959], 6=>[5=>0.8110000000000001], [1=>0.917], 7=>[5=>0.754], [1=>0.874], 8=>[5=>0.707], [1=>0.834], 9=>[5=>0.666], [1=>0.798], 10=>[5=>0.632], [1=>0.765], 11=>[5=>0.602], [1=>0.735], 12=>[5=>0.576], [1=>0.708], 13=>[5=>0.553], [1=>0.6840000000000001], 14=>[5=>0.532], [1=>0.661], 15=>[5=>0.514], [1=>0.641], 16=>[5=>0.497], [1=>0.623], 17=>[5=>0.482], [1=>0.606], 18=>[5=>0.468], [1=>0.59], 19=>[5=>0.456], [1=>0.575], 20=>[5=>0.444], [1=>0.5610000000000001], 21=>[5=>0.433], [1=>0.549], 22=>[5=>0.423], [1=>0.537], 23=>[5=>0.413], [1=>0.526], 24=>[5=>0.404], [1=>0.515], 25=>[5=>0.396], [1=>0.505], 26=>[5=>0.388], [1=>0.496], 27=>[5=>0.381], [1=>0.487], 28=>[5=>0.374], [1=>0.478], 29=>[5=>0.367], [1=>0.47], 30=>[5=>0.361], [1=>0.463], 31=>[5=>0.355], [1=>0.456], 32=>[5=>0.349], [1=>0.449], 33=>[5=>0.344], [1=>0.442], 34=>[5=>0.339], [1=>0.436], 35=>[5=>0.334], [1=>0.43], 36=>[5=>0.329], [1=>0.424], 37=>[5=>0.325], [1=>0.418], 38=>[5=>0.32], [1=>0.413], 39=>[5=>0.316], [1=>0.408], 40=>[5=>0.312], [1=>0.403], 41=>[5=>0.308], [1=>0.398], 42=>[5=>0.304], [1=>0.393], 43=>[5=>0.301], [1=>0.389], 44=>[5=>0.297], [1=>0.384], 45=>[5=>0.294], [1=>0.38], 46=>[5=>0.291], [1=>0.376], 47=>[5=>0.288], [1=>0.372], 48=>[5=>0.284], [1=>0.368], 49=>[5=>0.281], [1=>0.364], 50=>[5=>0.279], [1=>0.361], 55=>[5=>0.266], [1=>0.345], 60=>[5=>0.254], [1=>0.33], 65=>[5=>0.244], [1=>0.317], 70=>[5=>0.235], [1=>0.306], 75=>[5=>0.227], [1=>0.296], 80=>[5=>0.22], [1=>0.286], 85=>[5=>0.213], [1=>0.278], 90=>[5=>0.207], [1=>0.27], 95=>[5=>0.202], [1=>0.263], 100=>[5=>0.195], [1=>0.256], 125=>[5=>0.176], [1=>0.23], 150=>[5=>0.159], [1=>0.21], 175=>[5=>0.149], [1=>0.194], 200=>[5=>0.138], [1=>0.191], 300=>[5=>0.113], [1=>0.181], 400=>[5=>0.098], [1=>0.148], 500=>[5=>0.08799999999999999], [1=>0.128], 600=>[5=>0.08], [1=>0.115], 700=>[5=>0.074], [1=>0.105], 800=>[5=>0.07000000000000001], [1=>0.091], 900=>[5=>0.065], [1=>0.08599999999999999], 1000=>[5=>0.062], [1=>0.081]];
+        if (!isset($list[$jml])) {
             $keys = $this->getClosest($jml, array_keys($list));
-            goto uPwdQ;
-            zT6op:
+            if ($keys < 4) {
+                $keys = 4;
+            }
+            if (isset($list[$keys][5])) {
+                return $list[$keys][5];
+            }
+            return $list[$keys][1];
         }
-        goto sz6Ss;
-        return $list[$jml]['5'];
-        U56wi:
-        goto yZfGx;
-        HardN:
-        TNwKs:
-        goto NZYMW;
-        sz6Ss:
-        if (isset($list[$jml]['5'])) {
-            return $list[$jml]['5'];
+        if (isset($list[$jml][5])) {
+            return $list[$jml][5];
         }
-        return $list[$jml]["\61"];
-        ELaQB:
-        goto U56wi;
-        return $list[$jml]['5'];
-        HQYZr:
-        goto TNwKs;
-        return $list[$keys]['5'];
-        KzTUF:
+        return $list[$jml][1];
     }
-    function getClosest($search, $arr) {
+
+    function getClosest($search, $arr)
+    {
         $closest = null;
         foreach ($arr as $item) {
-            goto t0pZc;
-            BHJPa:
-            $closest = $item;
-            goto vhH9M;
-            t0pZc:
             if ($closest === null || abs($search - $closest) > abs($item - $search)) {
-                goto BHJPa;
-                Hf8Lg:
-                goto Uykid;
-                vhH9M:
+                $closest = $item;
             }
-            goto Hf8Lg;
-            Uykid:
         }
         return $closest;
-        return $closest;
-        goto Kx8Zu;
-        return $closest;
-        Kx8Zu:
     }
 }

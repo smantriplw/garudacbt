@@ -5,62 +5,29 @@
     |________________________________________|
 */
 class Cbtnilai extends CI_Controller {
-    public function __construct() {
-        goto D26hY;
-        YRFEB:
-        show_error('Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href="' . base_url('dashboard') . '">Kembali ke menu awal</a>', 403, 'Akses Terlarang');
-        goto kOszk;
-        q05Od:
-        yPgtN:
-        goto pisF_;
-        AAphy:
-        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group('guru'))) {
-            goto Fecv1;
-        }
-        goto YRFEB;
-        yuirU:
+    public function __construct()
+    {
+        parent::__construct();
         if ($this->ion_auth->logged_in()) {
-            goto AAphy;
-            JKyJK:
-            $this->load->library('upload');
-            goto m42L2;
-            INlcy:
-            goto yPgtN;
-            goto EhnwK;
-            kOszk:
-            Fecv1:
-            goto INlcy;
-            m42L2:
-            $this->form_validation->set_error_delimiters('', '');
-            goto qfrM8;
-            D26hY:
-            parent::__construct();
-            goto yuirU;
-            EhnwK:
+            if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group('guru')) {
+                show_error('Hanya Administrator yang diberi hak untuk mengakses halaman ini, <a href="' . base_url('dashboard') . '">Kembali ke menu awal</a>', 403, 'Akses Terlarang');
+            }
+        } else {
+            redirect('auth');
         }
-        redirect('auth');
-        goto q05Od;
-        pisF_:
         $this->load->library(['datatables', 'form_validation']);
-        goto JKyJK;
-        qfrM8:
+        $this->load->library('upload');
+        $this->form_validation->set_error_delimiters('', '');
     }
-    public function output_json($data, $encode = true) {
-        goto VPQ65;
-        T_GII:
-        $this->output->set_content_type('application/json')->set_output($data);
-        goto np2CP;
-        r1_Dq:
-        $data = json_encode($data);
-        cFftK:
-        goto T_GII;
-        VPQ65:
-        if (!$encode) {
-            goto cFftK;
+
+    public function output_json($data, $encode = true)
+    {
+        if ($encode) {
+            $data = json_encode($data);
         }
-        goto r1_Dq;
-        np2CP:
+        $this->output->set_content_type('application/json')->set_output($data);
     }
+
     public function index() {
         goto HAq9W;
         CwYO3:
@@ -2796,93 +2763,41 @@ class Cbtnilai extends CI_Controller {
         goto Ex1A6;
         SLJ70:
     }
-    public function simpanKoreksi() {
-        goto bkaT_;
-        DLOBy:
-        $nilais = json_decode($this->input->post('nilai', true));
-        goto Gq2fC;
-        ysymb:
+    public function simpanKoreksi()
+    {
+        $siswa = $this->input->post('siswa', true);
         $jadwal = $this->input->post('jadwal', true);
         $jenis = $this->input->post('jenis', true);
-        goto DLOBy;
-        bkaT_:
-        $siswa = $this->input->post('siswa', true);
-        goto ysymb;
-        FZ9G4:
-        goto FA3xy;
-        WxuFf:
-        CIq7v:
-        goto QhNu0;
-        DAPaz:
-        $this->db->update('cbt_nilai');
-        goto WxuFf;
-        sO7q9:
-        $this->output_json($data);
-        goto z_SlR;
-        eZFkc:
-        $jml = 0;
-        goto Wo1Wx;
-        Oa9RI:
+        $nilais = json_decode($this->input->post('nilai', true));
+        $updated = [];
         $ids = [];
-        goto eZFkc;
-        FA3xy:
-        $updated = $this->db->update_batch('cbt_soal_siswa', $updated, 'id_soal_siswa');
-        if (!$updated) {
-            goto CIq7v;
-        }
-        goto Sc8t8;
-        Wo1Wx:
+        $jml = 0;
         foreach ($nilais as $nilai) {
             array_push($ids, $nilai->id_soal);
             $jml += $nilai->koreksi;
-            goto GT8wF;
-            FnXvy:
-            goto BNo4q;
-            GT8wF:
-            $updated[] = ['id_soal_siswa'=>$nilai->id_soal, 'nilai_koreksi'=>$nilai->koreksi, 'nilai_otomatis'=>1];
-            goto FnXvy;
-            BNo4q:
+            $updated[] = ['id_soal_siswa' => $nilai->id_soal, 'nilai_koreksi' => $nilai->koreksi, 'nilai_otomatis' => 1];
         }
-        goto FZ9G4;
-        O9t03:
-        $this->db->where('id_nilai', $siswa . '0' . $jadwal);
-        goto DAPaz;
-        Gq2fC:
-        $updated = [];
-        goto Oa9RI;
-        Sc8t8:
-        $this->db->set($jenis, $jml);
-        goto O9t03;
-        QhNu0:
+        $updated = $this->db->update_batch('cbt_soal_siswa', $updated, 'id_soal_siswa');
+        if ($updated) {
+            $this->db->set($jenis, $jml);
+            $this->db->where('id_nilai', $siswa . '0' . $jadwal);
+            $this->db->update('cbt_nilai');
+        }
         $data['success'] = $updated;
-        goto sO7q9;
-        z_SlR:
-    }
-    public function tandaiKoreksi() {
-        goto MJGRv;
-        G4_0y:
-        $this->db->set('dikoreksi', 1);
-        goto Rcx2v;
-        Ukrhn:
-        $jadwal = $this->input->post('jadwal', true);
-        goto G4_0y;
-        FYLm0:
         $this->output_json($data);
-        goto ze7CW;
-        kpop2:
-        $updated = $this->db->update('cbt_nilai');
-        goto fxGlT;
-        Rcx2v:
-        $this->db->where('id_nilai', $siswa . '0' . $jadwal);
-        goto kpop2;
-        fxGlT:
-        $data['success'] = $updated;
-        goto FYLm0;
-        MJGRv:
-        $siswa = $this->input->post('siswa', true);
-        goto Ukrhn;
-        ze7CW:
     }
+
+    public function tandaiKoreksi()
+    {
+        $siswa = $this->input->post('siswa', true);
+        $jadwal = $this->input->post('jadwal', true);
+        $this->db->set('dikoreksi', 1);
+        $this->db->where('id_nilai', $siswa . '0' . $jadwal);
+        $updated = $this->db->update('cbt_nilai');
+        $data['success'] = $updated;
+        $this->output_json($data);
+    }
+
     public function tandaisemua() {
         goto r2Nf8;
         tKkYX:
@@ -3481,142 +3396,53 @@ class Cbtnilai extends CI_Controller {
         goto Sf3rS;
         Y3T8n:
     }
-    public function inputEssai() {
-        goto OPkXO;
-        Iuipy:
-        $data['nama_kelas'] = $this->dropdown->getNamaKelasById($tp->id_tp, $smt->id_smt, $kelas_selected);
-        goto eSic3;
-        rZeWw:
-        goto rBJVP;
-        goto J7Df9;
-        BaiPd:
-        $info = $this->cbt->getJadwalById($jadwal_selected);
-        goto eCZl9;
-        ZWP6P:
-        $data['smt_active'] = $smt;
-        goto Iuipy;
-        blV3j:
-        if (!($this->ion_auth->is_admin())) {
-            goto JwlQb;
-            mvD_z:
-            $ids = [];
-            goto Xpq7t;
-            FiI0N:
-            goto vO4eF;
-            w4XMb:
-            $data['siswas'] = $siswas;
-            goto blV3j;
-            vO4eF:
-            $nilai = $this->cbt->getNilaiAllSiswa([$jadwal_selected], $ids);
-            goto GPPYM;
-            eF5rc:
-            goto UVIkq;
-            odrdg:
-            $jadwal_selected = $this->input->get('jadwal');
-            goto BaiPd;
-            C1dvg:
-            $this->load->view('members/guru/templates/footer');
-            goto rZeWw;
-            uytW2:
-            $this->load->view('members/guru/templates/header', $data);
-            goto EYnX3;
-            JSXYh:
-            $smt = $this->dashboard->getSemesterActive();
-            goto xKSN_;
-            HIyRy:
-            $data['smt'] = $this->dashboard->getSemester();
-            goto cZtoo;
-            TjUUq:
-            $this->load->model('Cbt_model', 'cbt');
-            goto URuxx;
-            GPPYM:
-            foreach ($siswas as $siswa) {
-                goto om9p9;
-                nu8SC:
-                $siswa->skor_jod = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->jodohkan_nilai : '0';
-                goto uEIL5;
-                om9p9:
-                $siswa->skor_pg = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->pg_nilai : '0';
-                goto GZmYj;
-                yfGLV:
-                goto hsGZ0;
-                GZmYj:
-                $siswa->skor_pg2 = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->kompleks_nilai : "\60";
-                goto nu8SC;
-                uEIL5:
-                $siswa->skor_isian = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->isian_nilai : "\60";
-                $siswa->skor_essai = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->essai_nilai : '0';
-                goto yfGLV;
-                hsGZ0:
-            }
-            goto eF5rc;
-            cZtoo:
-            $data['tp_active'] = $tp;
-            goto ZWP6P;
-            uPF0a:
-            rBJVP:
-            goto xp5n_;
-            NsPyy:
-            $data['tp'] = $this->dashboard->getTahun();
-            goto HIyRy;
-            xKSN_:
-            $siswas = $this->cbt->getSiswaByKelas($tp->id_tp, $smt->id_smt, $kelas_selected);
-            goto mvD_z;
-            JwlQb:
-            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            goto LjJLz;
-            f9dDP:
-            $this->load->view('cbt/nilai/nilai_essai');
-            goto Qcpwo;
-            iaoPH:
-            $data['jadwal_selected'] = $jadwal_selected;
-            goto yrAGm;
-            J7Df9:
-        }
-        goto twk64;
-        EYnX3:
-        $this->load->view('cbt/nilai/nilai_essai');
-        goto C1dvg;
-        eCZl9:
-        $tp = $this->dashboard->getTahunActive();
-        goto JSXYh;
-        yrAGm:
-        $data['jadwal'] = $info;
-        goto w4XMb;
-        LjJLz:
-        $data['guru'] = $guru;
-        goto uytW2;
-        HX_e9:
-        $data = ['user'=>$user, 'judul'=>'Input Nilai Manual', 'subjudul'=>'', 'profile'=>$this->dashboard->getProfileAdmin($user->id), 'setting'=>$this->dashboard->getSetting()];
-        goto NsPyy;
-        OPkXO:
+    public function inputEssai()
+    {
         $this->load->model('Dashboard_model', 'dashboard');
-        goto TjUUq;
-        URuxx:
+        $this->load->model('Cbt_model', 'cbt');
         $this->load->model('Dropdown_model', 'dropdown');
-        goto xreLT;
-        eSic3:
-        $data['kelas_selected'] = $kelas_selected;
-        goto iaoPH;
-        Xpq7t:
-        foreach ($siswas as $key=>$val) {
+        $kelas_selected = $this->input->get('kelas');
+        $jadwal_selected = $this->input->get('jadwal');
+        $info = $this->cbt->getJadwalById($jadwal_selected);
+        $tp = $this->dashboard->getTahunActive();
+        $smt = $this->dashboard->getSemesterActive();
+        $siswas = $this->cbt->getSiswaByKelas($tp->id_tp, $smt->id_smt, $kelas_selected);
+        $ids = [];
+        foreach ($siswas as $key => $val) {
             array_push($ids, $val->id_siswa);
         }
-        goto FiI0N;
-        Qcpwo:
-        $this->load->view('_templates/dashboard/_footer');
-        goto uPF0a;
-        UVIkq:
+        $nilai = $this->cbt->getNilaiAllSiswa([$jadwal_selected], $ids);
+        foreach ($siswas as $siswa) {
+            $siswa->skor_pg = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->pg_nilai : '0';
+            $siswa->skor_pg2 = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->kompleks_nilai : '0';
+            $siswa->skor_jod = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->jodohkan_nilai : '0';
+            $siswa->skor_isian = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->isian_nilai : '0';
+            $siswa->skor_essai = isset($nilai[$siswa->id_siswa]) ? $nilai[$siswa->id_siswa]->essai_nilai : '0';
+        }
         $user = $this->ion_auth->user()->row();
-        goto HX_e9;
-        twk64:
-        $this->load->view('_templates/dashboard/_header', $data);
-        goto f9dDP;
-        xreLT:
-        $kelas_selected = $this->input->get('kelas');
-        goto odrdg;
-        xp5n_:
+        $data = ['user' => $user, 'judul' => 'Input Nilai Manual', 'subjudul' => '', 'profile' => $this->dashboard->getProfileAdmin($user->id), 'setting' => $this->dashboard->getSetting()];
+        $data['tp'] = $this->dashboard->getTahun();
+        $data['smt'] = $this->dashboard->getSemester();
+        $data['tp_active'] = $tp;
+        $data['smt_active'] = $smt;
+        $data['nama_kelas'] = $this->dropdown->getNamaKelasById($tp->id_tp, $smt->id_smt, $kelas_selected);
+        $data['kelas_selected'] = $kelas_selected;
+        $data['jadwal_selected'] = $jadwal_selected;
+        $data['jadwal'] = $info;
+        $data['siswas'] = $siswas;
+        if (!$this->ion_auth->is_admin()) {
+            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+            $data['guru'] = $guru;
+            $this->load->view('members/guru/templates/header', $data);
+            $this->load->view('cbt/nilai/nilai_essai');
+            $this->load->view('members/guru/templates/footer');
+        } else {
+            $this->load->view('_templates/dashboard/_header', $data);
+            $this->load->view('cbt/nilai/nilai_essai');
+            $this->load->view('_templates/dashboard/_footer');
+        }
     }
+
     public function simpanKoreksiEssai() {
         $this->load->model('Cbt_model', 'cbt');
         goto cF7jg;
