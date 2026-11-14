@@ -2798,603 +2798,184 @@ class Cbtnilai extends CI_Controller {
         $this->output_json($data);
     }
 
-    public function tandaisemua() {
-        goto r2Nf8;
-        tKkYX:
+    public function tandaisemua()
+    {
+        $this->load->model('Cbt_model', 'cbt');
+        $id_jadwal = $this->input->post('id_jadwal', true);
         $siswas = $this->input->post('ids', true);
         $updated = 0;
         $test_data = [];
-        goto Ua2kg;
-        cCqlA:
-        $id_jadwal = $this->input->post('id_jadwal', true);
-        goto tKkYX;
-        ly2HQ:
-        $this->output_json($data);
-        goto Y3T8n;
-        HWJ2i:
-        $data['success'] = $updated;
-        goto ZCu06;
-        r2Nf8:
-        $this->load->model('Cbt_model', 'cbt');
-        goto cCqlA;
-        ZCu06:
-        $data['siswa'] = $siswas;
-        goto ly2HQ;
-        Sf3rS:
-        goto HWJ2i;
-        Ua2kg:
-        foreach ($siswas as $id_siswa=>$memulai) {
-            goto EW86I;
-            cfsts:
-            Bq6q2:
-            goto rxDz8;
-            qbER7:
-            if (!($info->tampil_jodohkan > 0)) {
-                goto Bq6q2;
-            }
-            goto ncRNO;
-            Rv1lJ:
-            $bobot_pg = $info->bobot_pg / 100;
-            goto AMKFM;
-            GYLfl:
-            $otomatis_jod = 0;
-            goto qbER7;
-            ysagU:
-            if (!(count($jawaban_pg) > 0)) {
-                goto asHW5;
-            }
-            goto F854b;
-            InhIi:
-            if (count($jawaban_pg2) > 0) {
-                goto Cjpwk;
-                HkVzz:
-                if (!($info->tampil_kompleks > 0)) {
-                    goto nO7HR;
-                }
-                goto InhIi;
-                OkjXi:
-                $upd = $this->db->replace('cbt_nilai', $insert);
-                goto E7p_9;
-                ZDtXO:
-                $skor_es = $otomatis_es == 0 ? $s_es : $skor_koreksi_es;
-                goto Hk_k_;
-                eXgDC:
-                $skor_pg = $bagi_pg == 0 ? 0 : $benar_pg / $bagi_pg * $bobot_pg;
-                goto WnXCp;
-                cZtXh:
-                $test_data[] = $insert;
-                goto OkjXi;
-                tAsf8:
-                $skor_pg2 = $otomatis_pg2 == 0 ? $s_pg2 : $skor_koreksi_pg2;
-                goto jiCVD;
-                iV53N:
-            }
-            goto O44SL;
-            fVkwF:
-            $jawaban_pg = isset($jawabans_siswa['1']) ? $jawabans_siswa['1'] : [];
-            goto LjqNK;
-            EW86I:
+        foreach ($siswas as $id_siswa => $memulai) {
             $info = $this->cbt->getJadwalById($id_jadwal);
-            goto vfun1;
-            DwhVU:
-            $otomatis_es = 0;
-            goto hZm2G;
-            AklOv:
-            $s_is = $bagi_isian == 0 ? 0 : $benar_is / $bagi_isian * $bobot_isian;
-            goto EMjW6;
-            LWNoV:
+            $jawabans = $this->cbt->getJawabanByBank($info->id_bank, $id_siswa);
+            $jawabans_siswa = [];
             foreach ($jawabans as $jawaban_siswa) {
-                goto GEIJD;
-                EiKSG:
-                $jawaban_siswa->jawaban_benar = array_filter($jawaban_siswa->jawaban_benar, 'strlen');
-                goto eH__2;
-                OC6d2:
-                if (!($jawaban_siswa->jenis_soal == '3')) {
-                    goto E81O1;
-                }
-                goto ygUAn;
-                TPokV:
-                $jawaban_siswa->jawaban_benar = array_map('strtoupper', $jawaban_siswa->jawaban_benar);
-                goto EiKSG;
-                dXB0L:
-                $jawaban_siswa->jawaban_siswa = json_decode(json_encode($jawaban_siswa->jawaban_siswa));
-                goto LgioB;
-                cbAJ4:
-                $jawaban_siswa->jawaban_benar = @unserialize($jawaban_siswa->jawaban_benar);
-                goto dXB0L;
-                T0zZt:
-                $jawaban_siswa->jawaban_siswa = @unserialize($jawaban_siswa->jawaban_siswa);
-                goto dC12Q;
-                LgioB:
-                $jawaban_siswa->jawaban_benar = json_decode(json_encode($jawaban_siswa->jawaban_benar));
-                goto ysRXr;
-                fpUTK:
-                goto giOi9;
-                GEIJD:
                 if ($jawaban_siswa->jenis_soal == '2') {
                     $jawaban_siswa->opsi_a = @unserialize($jawaban_siswa->opsi_a);
-                    goto T0zZt;
-                    I7K7J:
-                    $jawabans_siswa[$jawaban_siswa->jenis_soal][] = $jawaban_siswa;
-                    goto fpUTK;
-                    ysRXr:
-                    E81O1:
-                    goto I7K7J;
-                    ygUAn:
                     $jawaban_siswa->jawaban_siswa = @unserialize($jawaban_siswa->jawaban_siswa);
-                    goto cbAJ4;
-                    eH__2:
+                    $jawaban_siswa->jawaban_benar = @unserialize($jawaban_siswa->jawaban_benar);
+                    $jawaban_siswa->jawaban_benar = array_map('strtoupper', $jawaban_siswa->jawaban_benar);
+                    $jawaban_siswa->jawaban_benar = array_filter($jawaban_siswa->jawaban_benar, 'strlen');
+                } elseif ($jawaban_siswa->jenis_soal == '3') {
+                    $jawaban_siswa->jawaban_siswa = @unserialize($jawaban_siswa->jawaban_siswa);
+                    $jawaban_siswa->jawaban_benar = @unserialize($jawaban_siswa->jawaban_benar);
+                    $jawaban_siswa->jawaban_siswa = json_decode(json_encode($jawaban_siswa->jawaban_siswa));
+                    $jawaban_siswa->jawaban_benar = json_decode(json_encode($jawaban_siswa->jawaban_benar));
                 }
-                goto OC6d2;
-                dC12Q:
-                $jawaban_siswa->jawaban_benar = @unserialize($jawaban_siswa->jawaban_benar);
-                goto TPokV;
-                giOi9:
+                $jawabans_siswa[$jawaban_siswa->jenis_soal][] = $jawaban_siswa;
             }
-            goto do4mP;
-            w6YWI:
-            $skor_koreksi_is = 0.0;
-            goto s4Pve;
-            DenHd:
-            $jawabans_siswa = [];
-            goto LWNoV;
-            qwvZ6:
-            $benar_pg2 = 0;
-            goto f2VFZ;
-            B1jkK:
-            QFx1T:
-            goto gCey5;
-            kOqQZ:
-            $bobot_jodoh = $info->bobot_jodohkan / 100;
-            goto TbBPX;
-            ZHxyz:
-            $bobot_isian = $info->bobot_isian / 100;
-            goto qflCz;
-            osghB:
-            xAYFb:
-            goto AklOv;
-            BFYcd:
-            if (!($info->tampil_pg > 0)) {
-                goto vVrTx;
-            }
-            goto ysagU;
-            JeYNB:
-            if (!($info->tampil_isian > 0)) {
-                goto xAYFb;
-            }
-            goto xVGJC;
-            ACe2p:
-            foreach ($jawaban_jodoh as $num=>$jawab_jod) {
-                goto ZyceU;
-                Afm31:
-                $item_benar = 0;
-                goto SLc7B;
-                DudSh:
-                foreach ($arrJawab as $kolJawab) {
-                    goto Q2JJt;
-                    Q0RsA:
-                    array_push($arrJwbJawab, $jwbs);
-                    goto J0oNg;
-                    UAjWz:
-                    goto Q0RsA;
-                    Q2JJt:
-                    $jwbs = new stdClass();
-                    goto oE8eD;
-                    J0oNg:
-                    goto EipXP;
-                    oE8eD:
-                    foreach ($kolJawab as $po=>$kol) {
-                        goto atk4T;
-                        Rbu9w:
-                        $sub = $headJawab[$po];
-                        goto Jzh4u;
-                        atk4T:
-                        if ($kol == '1') {
-                            goto Rbu9w;
-                            tuHxb:
-                        }
-                        goto B_e5I;
-                        Jzh4u:
-                        $jwbs->subtitle[] = $sub;
-                        goto tuHxb;
-                        B_e5I:
-                    }
-                    goto UAjWz;
-                    EipXP:
-                }
-                goto BsAW0;
-                ZyceU:
-                $skor_koreksi_jod += $jawab_jod->nilai_koreksi;
-                goto cd4AY;
-                rk0uW:
-                foreach ($arrSoal as $kolSoal) {
-                    goto iX6fY;
-                    mVqys:
-                    goto IMgOM;
-                    iX6fY:
-                    $jwb = new stdClass();
-                    foreach ($kolSoal as $pos=>$kol) {
-                        goto demeO;
-                        kYaQs:
-                        lpkKB:
-                        goto h6fAF;
-                        VsE_a:
-                        $items++;
-                        goto kYaQs;
-                        demeO:
-                        if (!($kol == '1')) {
-                            goto lpkKB;
-                        }
-                        $jwb->subtitle[] = $headSoal[$pos];
-                        goto VsE_a;
-                        h6fAF:
-                    }
-                    goto voHFX;
-                    sQAQc:
-                    $jwb->title = array_shift($kolSoal);
-                    goto pyBbn;
-                    voHFX:
-                    goto sQAQc;
-                    pyBbn:
-                    array_push($arrJwbSoal, $jwb);
-                    goto mVqys;
-                    IMgOM:
-                }
-                goto yMbnU;
-                SC7pd:
-                $otomatis_jod = $jawab_jod->nilai_otomatis;
-                goto WfOcA;
-                yMbnU:
-                goto gzOCv;
-                BsAW0:
-                goto Afm31;
-                SLc7B:
-                $item_salah = 0;
-                goto AnAES;
-                O3COG:
-                $headJawab = array_shift($arrJawab);
-                goto xB22E;
-                WfOcA:
-                goto w5JfB;
-                AnAES:
-                foreach ($arrJwbJawab as $p=>$ajjs) {
-                    goto iN3oy;
-                    u7929:
-                    goto DKiQL;
-                    iN3oy:
-                    if (isset($ajjs->subtitle)) {
-                        foreach ($ajjs->subtitle as $pp=>$ajs) {
-                            goto wANgA;
-                            VcrhK:
-                            C79kO:
-                            goto v6nPE;
-                            sFJAQ:
-                            $item_benar++;
-                            goto VcrhK;
-                            wANgA:
-                            if (!(in_array($ajs, $arrJwbSoal[$p]->subtitle))) {
-                                goto apBVW;
-                                x7X6Z:
-                            }
-                            goto sFJAQ;
-                            apBVW:
-                            $item_salah++;
-                            goto C79kO;
-                            goto x7X6Z;
-                            v6nPE:
-                        }
-                        goto CF9dI;
-                        eodDF:
-                    }
-                    goto u7929;
-                    CF9dI:
-                    goto eodDF;
-                    DKiQL:
-                }
-                goto co13c;
-                WdgAK:
-                $arrJwbSoal = [];
-                goto Six0S;
-                xB22E:
-                $arrJwbJawab = [];
-                goto DudSh;
-                Six0S:
-                $items = 0;
-                goto rk0uW;
-                ji31P:
-                $benar_jod += 1 / $items * $item_benar;
-                goto SC7pd;
-                fnSrJ:
-                $headSoal = array_shift($arrSoal);
-                goto WdgAK;
-                cd4AY:
-                $arrSoal = $jawab_jod->jawaban_benar->jawaban;
-                goto fnSrJ;
-                gzOCv:
-                $arrJawab = $jawab_jod->jawaban_siswa->jawaban;
-                goto O3COG;
-                co13c:
-                goto ji31P;
-                w5JfB:
-            }
-            goto XSAFC;
-            o4z1P:
-            goto sg5RI;
-            WnXCp:
-            $jawaban_pg2 = isset($jawabans_siswa["\62"]) ? $jawabans_siswa["\62"] : [];
-            goto qwvZ6;
-            hZm2G:
-            if ($info->tampil_esai > 0) {
-                goto UCYbW;
-                K8aUr:
-                $ada_jawaban_essai = isset($jawabans_siswa['5']);
-                goto ushPZ;
-                GduXM:
-                $skor_jod = $otomatis_jod == 0 ? $s_jod : $skor_koreksi_jod;
-                goto S0wKz;
-                f3pWY:
-                gdZFs:
-                goto QCAv_;
-                JryXC:
-                d1k_N:
-                goto cfsts;
-                Kg46D:
-                foreach ($jawaban_es as $num=>$jawab_es) {
-                    $skor_koreksi_es += $jawab_es->nilai_koreksi;
-                    goto TBbjp;
-                    q0ze5:
-                    $otomatis_es = $jawab_es->nilai_otomatis;
-                    goto IHXya;
-                    mlP1E:
-                    yHtfy:
-                    goto q0ze5;
-                    TBbjp:
-                    $benar = $jawab_es != null && strtolower($jawab_es->jawaban_siswa) == strtolower($jawab_es->jawaban_benar);
-                    goto LXlcZ;
-                    rwFjQ:
-                    $benar_es++;
-                    goto mlP1E;
-                    LXlcZ:
-                    if (!$benar) {
-                        goto yHtfy;
-                    }
-                    goto rwFjQ;
-                    IHXya:
-                }
-                goto CDcuF;
-                tDTtG:
-                $jawaban_es = $ada_jawaban_essai ? $jawabans_siswa["\65"] : [];
-                goto wBVP3;
-                rxDz8:
-                $s_jod = $bagi_jodoh == 0 ? 0 : $benar_jod / $bagi_jodoh * $bobot_jodoh;
-                goto GduXM;
-                ncRNO:
-                if (!(count($jawaban_jodoh) > 0)) {
-                    goto d1k_N;
-                }
-                goto ACe2p;
-                S0wKz:
-                $jawaban_is = $ada_jawaban_isian ? $jawabans_siswa['4'] : [];
-                goto H9hyV;
-                ING1m:
-                $s_es = $bagi_essai == 0 ? 0 : $benar_es / $bagi_essai * $bobot_essai;
-                goto ZDtXO;
-                H9hyV:
-                $benar_is = 0;
-                goto w6YWI;
-                nrOoH:
-                $benar_jod = 0;
-                goto WNNMY;
-                UCYbW:
-                if (!(count($jawaban_es) > 0)) {
-                    goto QFx1T;
-                }
-                goto Kg46D;
-                wt0H2:
-                $bobot_essai = $info->bobot_esai / 100;
-                goto fVkwF;
-                y93me:
-                $salah_pg = 0;
-                goto BFYcd;
-                s4Pve:
-                $otomatis_is = 0;
-                goto JeYNB;
-                nH8rT:
-                $bobot_pg2 = $info->bobot_kompleks / 100;
-                goto AnyDJ;
-                do4mP:
-                goto D_OS4;
-                vfun1:
-                $jawabans = $this->cbt->getJawabanByBank($info->id_bank, $id_siswa);
-                goto DenHd;
-                GXxA5:
-                KvC6z:
-                goto osghB;
-                wBVP3:
-                $benar_es = 0;
-                goto iwbiQ;
-                Eh6yC:
-                vVrTx:
-                goto eXgDC;
-                D_OS4:
-                $ada_jawaban_isian = isset($jawabans_siswa['4']);
-                goto K8aUr;
-                Cjpwk:
-                foreach ($jawaban_pg2 as $num=>$jawab_pg2) {
-                    goto UMyuJ;
-                    eZ_Vj:
-                    foreach ($jawab_pg2->jawaban_siswa as $js) {
-                        goto JFqkM;
-                        Kujx8:
-                        ZqKY1:
-                        goto W2rtQ;
-                        JFqkM:
-                        if (!in_array($js, $jawab_pg2->jawaban_benar)) {
-                            goto ZqKY1;
-                        }
-                        array_push($arr_benar, true);
-                        goto Kujx8;
-                        W2rtQ:
-                    }
-                    goto mNgFI;
-                    xidpO:
-                    $arr_benar = [];
-                    goto eZ_Vj;
-                    mNgFI:
-                    if (count($jawab_pg2->jawaban_benar) > 0) {
-                        goto AqJFS;
-                        ulsNa:
-                        goto HxjHL;
-                        hsS00:
-                    }
-                    goto ulsNa;
-                    AqJFS:
-                    $benar_pg2 += 1 / count($jawab_pg2->jawaban_benar) * count($arr_benar);
-                    goto hsS00;
-                    iT2KS:
-                    $skor_koreksi_pg2 += $jawab_pg2->nilai_koreksi;
-                    goto xidpO;
-                    UMyuJ:
-                    $otomatis_pg2 = $jawab_pg2->nilai_otomatis;
-                    goto iT2KS;
-                    HxjHL:
-                }
-                goto n4s13;
-                CDcuF:
-                goto B1jkK;
-                n4s13:
-                goto iV53N;
-                WNNMY:
-                $skor_koreksi_jod = 0.0;
-                goto GYLfl;
-                xVGJC:
-                if (!(count($jawaban_is) > 0)) {
-                    goto KvC6z;
-                }
-                goto qvUV6;
-                AMKFM:
-                $bagi_pg2 = $info->tampil_kompleks / 100;
-                goto nH8rT;
-                IRfAs:
-                $insert = ['id_nilai'=>$id_siswa . "\60" . $id_jadwal, 'id_siswa'=>$id_siswa, 'id_jadwal'=>$id_jadwal, 'pg_benar'=>$benar_pg, 'pg_nilai'=>round($skor_pg, 2), 'kompleks_nilai'=>round($skor_pg2, 2), 'jodohkan_nilai'=>round($skor_jod, 2), 'isian_nilai'=>round($skor_is, 2), 'essai_nilai'=>round($skor_es, 2), 'dikoreksi'=>$memulai === '2' ? '0' : "\61"];
-                goto cZtXh;
-                F854b:
-                foreach ($jawaban_pg as $jwb_pg) {
-                    goto YxguE;
-                    tB4WN:
-                    cI4CR:
-                    goto oh9Bi;
-                    s3nF0:
-                    bE1xv:
-                    goto COTDH;
-                    oh9Bi:
-                    $benar_pg += 1;
-                    goto rOunY;
-                    COTDH:
-                    goto bPWd5;
-                    rOunY:
-                    XayIm:
-                    goto s3nF0;
-                    EVo2I:
-                    $salah_pg += 1;
-                    goto XayIm;
-                    goto tB4WN;
-                    oUjtW:
-                    if (strtoupper($jwb_pg->jawaban_siswa) == strtoupper($jwb_pg->jawaban_benar)) {
-                        goto cI4CR;
-                    }
-                    goto EVo2I;
-                    YxguE:
-                    if (!($jwb_pg != null && $jwb_pg->jawaban_siswa != null)) {
-                        goto bE1xv;
-                    }
-                    goto oUjtW;
-                    bPWd5:
-                }
-                goto o4z1P;
-                E7p_9:
-                if (!$upd) {
-                    goto gdZFs;
-                }
-                goto rH4I_;
-                TbBPX:
-                $bagi_isian = $info->tampil_isian / 100;
-                goto ZHxyz;
-                XSAFC:
-                goto JryXC;
-                f2VFZ:
-                $skor_koreksi_pg2 = 0.0;
-                goto MkFxI;
-                ushPZ:
-                $bagi_pg = $info->tampil_pg / 100;
-                goto Rv1lJ;
-                MkFxI:
-                $otomatis_pg2 = 0;
-                goto HkVzz;
-                O44SL:
-                nO7HR:
-                $s_pg2 = $bagi_pg2 == 0 ? 0 : $benar_pg2 / $bagi_pg2 * $bobot_pg2;
-                goto tAsf8;
-                q2RXk:
-                goto GXxA5;
-                EMjW6:
-                $skor_is = $otomatis_is == 0 ? $s_is : $skor_koreksi_is;
-                goto tDTtG;
-                sg5RI:
-                asHW5:
-                goto Eh6yC;
-                Hk_k_:
-                $total = $skor_pg + $skor_pg2 + $skor_jod + $skor_is + $skor_es;
-                goto IRfAs;
-                QCAv_:
-                goto XZXxu;
-                rH4I_:
-                $updated++;
-                goto f3pWY;
-                LjqNK:
-                $benar_pg = 0;
-                goto y93me;
-                gCey5:
-            }
-            goto ING1m;
-            AnyDJ:
+
+            $ada_jawaban_isian = isset($jawabans_siswa['4']);
+            $ada_jawaban_essai = isset($jawabans_siswa['5']);
+
+            $bagi_pg = $info->tampil_pg / 100;
+            $bobot_pg = $info->bobot_pg / 100;
+            $bagi_pg2 = $info->tampil_kompleks / 100;
+            $bobot_pg2 = $info->bobot_kompleks / 100;
             $bagi_jodoh = $info->tampil_jodohkan / 100;
-            goto kOqQZ;
-            qvUV6:
-            foreach ($jawaban_is as $num=>$jawab_is) {
-                goto SgocP;
-                sd87I:
-                if ($benar) {
-                    $benar_is++;
-                    goto ejpSx;
-                    zqjj4:
-                    goto YWfe6;
-                    SgocP:
+            $bobot_jodoh = $info->bobot_jodohkan / 100;
+            $bagi_isian = $info->tampil_isian / 100;
+            $bobot_isian = $info->bobot_isian / 100;
+            $bagi_essai = $info->tampil_esai / 100;
+            $bobot_essai = $info->bobot_esai / 100;
+
+            $jawaban_pg = isset($jawabans_siswa['1']) ? $jawabans_siswa['1'] : [];
+            $benar_pg = 0;
+            if ($info->tampil_pg > 0 && count($jawaban_pg) > 0) {
+                foreach ($jawaban_pg as $jwb_pg) {
+                    if (!($jwb_pg != null && $jwb_pg->jawaban_siswa != null)) {
+                        continue;
+                    }
+                    if (strtoupper($jwb_pg->jawaban_siswa) == strtoupper($jwb_pg->jawaban_benar)) {
+                        $benar_pg += 1;
+                    }
+                }
+            }
+            $skor_pg = $bagi_pg == 0 ? 0 : $benar_pg / $bagi_pg * $bobot_pg;
+
+            $jawaban_pg2 = isset($jawabans_siswa["2"]) ? $jawabans_siswa["2"] : [];
+            $benar_pg2 = 0;
+            $skor_koreksi_pg2 = 0.0;
+            $otomatis_pg2 = 0;
+            if ($info->tampil_kompleks > 0 && count($jawaban_pg2) > 0) {
+                foreach ($jawaban_pg2 as $num => $jawab_pg2) {
+                    $otomatis_pg2 = $jawab_pg2->nilai_otomatis;
+                    $skor_koreksi_pg2 += $jawab_pg2->nilai_koreksi;
+                    $arr_benar = [];
+                    foreach ($jawab_pg2->jawaban_siswa as $js) {
+                        if (in_array($js, $jawab_pg2->jawaban_benar)) {
+                            array_push($arr_benar, true);
+                        }
+                    }
+                    if (count($jawab_pg2->jawaban_benar) > 0) {
+                        $benar_pg2 += 1 / count($jawab_pg2->jawaban_benar) * count($arr_benar);
+                    }
+                }
+            }
+            $s_pg2 = $bagi_pg2 == 0 ? 0 : $benar_pg2 / $bagi_pg2 * $bobot_pg2;
+            $skor_pg2 = $otomatis_pg2 == 0 ? $s_pg2 : $skor_koreksi_pg2;
+
+            $jawaban_jodoh = isset($jawabans_siswa["3"]) ? $jawabans_siswa["3"] : [];
+            $benar_jod = 0;
+            $skor_koreksi_jod = 0.0;
+            $otomatis_jod = 0;
+            if ($info->tampil_jodohkan > 0 && count($jawaban_jodoh) > 0) {
+                foreach ($jawaban_jodoh as $num => $jawab_jod) {
+                    $skor_koreksi_jod += $jawab_jod->nilai_koreksi;
+
+                    $arrSoal = $jawab_jod->jawaban_benar->jawaban;
+                    $headSoal = array_shift($arrSoal);
+                    $arrJwbSoal = [];
+                    $items = 0;
+                    foreach ($arrSoal as $kolSoal) {
+                        $jwb = new stdClass();
+                        foreach ($kolSoal as $pos => $kol) {
+                            if ($kol == '1') {
+                                $jwb->subtitle[] = $headSoal[$pos];
+                                $items++;
+                            }
+                        }
+                        $jwb->title = array_shift($kolSoal);
+                        array_push($arrJwbSoal, $jwb);
+                    }
+
+                    $arrJawab = $jawab_jod->jawaban_siswa->jawaban;
+                    $headJawab = array_shift($arrJawab);
+                    $arrJwbJawab = [];
+                    foreach ($arrJawab as $kolJawab) {
+                        $jwbs = new stdClass();
+                        foreach ($kolJawab as $po => $kol) {
+                            if ($kol == '1') {
+                                $jwbs->subtitle[] = $headJawab[$po];
+                            }
+                        }
+                        array_push($arrJwbJawab, $jwbs);
+                    }
+
+                    $item_benar = 0;
+                    $item_salah = 0;
+                    foreach ($arrJwbJawab as $p => $ajjs) {
+                        if (isset($ajjs->subtitle)) {
+                            foreach ($ajjs->subtitle as $pp => $ajs) {
+                                if (in_array($ajs, $arrJwbSoal[$p]->subtitle)) {
+                                    $item_benar++;
+                                } else {
+                                    $item_salah++;
+                                }
+                            }
+                        }
+                    }
+                    $benar_jod += 1 / $items * $item_benar;
+                    $otomatis_jod = $jawab_jod->nilai_otomatis;
+                }
+            }
+            $s_jod = $bagi_jodoh == 0 ? 0 : $benar_jod / $bagi_jodoh * $bobot_jodoh;
+            $skor_jod = $otomatis_jod == 0 ? $s_jod : $skor_koreksi_jod;
+
+            $jawaban_is = $ada_jawaban_isian ? $jawabans_siswa['4'] : [];
+            $benar_is = 0;
+            $skor_koreksi_is = 0.0;
+            $otomatis_is = 0;
+            if ($info->tampil_isian > 0 && count($jawaban_is) > 0) {
+                foreach ($jawaban_is as $num => $jawab_is) {
                     $skor_koreksi_is += $jawab_is->nilai_koreksi;
                     $benar = $jawab_is != null && strtolower($jawab_is->jawaban_siswa) == strtolower($jawab_is->jawaban_benar);
-                    goto sd87I;
-                    WTee8:
+                    if ($benar) {
+                        $benar_is++;
+                    }
                     $otomatis_is = $jawab_is->nilai_otomatis;
-                    goto zqjj4;
-                    ejpSx:
                 }
-                goto WTee8;
-                YWfe6:
             }
-            goto q2RXk;
-            qflCz:
-            $bagi_essai = $info->tampil_esai / 100;
-            goto wt0H2;
-            jiCVD:
-            $jawaban_jodoh = isset($jawabans_siswa["\63"]) ? $jawabans_siswa["\63"] : [];
-            goto nrOoH;
-            iwbiQ:
+            $s_is = $bagi_isian == 0 ? 0 : $benar_is / $bagi_isian * $bobot_isian;
+            $skor_is = $otomatis_is == 0 ? $s_is : $skor_koreksi_is;
+
+            $jawaban_es = $ada_jawaban_essai ? $jawabans_siswa["5"] : [];
+            $benar_es = 0;
             $skor_koreksi_es = 0.0;
-            goto DwhVU;
-            XZXxu:
+            $otomatis_es = 0;
+            if ($info->tampil_esai > 0 && count($jawaban_es) > 0) {
+                foreach ($jawaban_es as $num => $jawab_es) {
+                    $skor_koreksi_es += $jawab_es->nilai_koreksi;
+                    $benar = $jawab_es != null && strtolower($jawab_es->jawaban_siswa) == strtolower($jawab_es->jawaban_benar);
+                    if ($benar) {
+                        $benar_es++;
+                    }
+                    $otomatis_es = $jawab_es->nilai_otomatis;
+                }
+            }
+            $s_es = $bagi_essai == 0 ? 0 : $benar_es / $bagi_essai * $bobot_essai;
+            $skor_es = $otomatis_es == 0 ? $s_es : $skor_koreksi_es;
+
+            $insert = ['id_nilai' => $id_siswa . "0" . $id_jadwal, 'id_siswa' => $id_siswa, 'id_jadwal' => $id_jadwal, 'pg_benar' => $benar_pg, 'pg_nilai' => round($skor_pg, 2), 'kompleks_nilai' => round($skor_pg2, 2), 'jodohkan_nilai' => round($skor_jod, 2), 'isian_nilai' => round($skor_is, 2), 'essai_nilai' => round($skor_es, 2), 'dikoreksi' => $memulai === '2' ? '0' : '1'];
+            $test_data[] = $insert;
+            $upd = $this->db->replace('cbt_nilai', $insert);
+            if ($upd) {
+                $updated++;
+            }
         }
-        goto Sf3rS;
-        Y3T8n:
+        $data['success'] = $updated;
+        $data['siswa'] = $siswas;
+        $this->output_json($data);
     }
     public function inputEssai()
     {
