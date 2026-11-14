@@ -82,6 +82,249 @@ class Dapodik extends CI_Controller
         return "Pengaturan Dapodik belum lengkap: " . implode(", ", $missing) . ".";
     }
 
+    public function previewGtk()
+    {
+        $fetched = $this->fetch_rows("/WebService/getGtk", 60);
+        if (isset($fetched["error"])) {
+            return $this->output_json(["status" => false, "message" => $fetched["error"]]);
+        }
+        $plan = $this->build_gtk_plan($fetched["rows"]);
+        $insert = 0;
+        $update = 0;
+        foreach ($plan["items"] as $item) {
+            if ($item["action"] === "insert") {
+                $insert++;
+            } else {
+                $update++;
+            }
+        }
+        return $this->output_json([
+            "status" => true,
+            "summary" => [
+                "total" => count($fetched["rows"]),
+                "insert" => $insert,
+                "update" => $update,
+                "invalid" => count($plan["invalid"]),
+            ],
+            "rows" => array_slice($plan["items"], 0, 500),
+            "invalid" => $plan["invalid"],
+        ]);
+    }
+
+    public function previewSiswa()
+    {
+        $fetched = $this->fetch_rows("/WebService/getPesertaDidik", 90);
+        if (isset($fetched["error"])) {
+            return $this->output_json(["status" => false, "message" => $fetched["error"]]);
+        }
+        $plan = $this->build_siswa_plan($fetched["rows"]);
+        $baru = 0;
+        $update = 0;
+        foreach ($plan["items"] as $item) {
+            if ($item["is_new"]) {
+                $baru++;
+            } else {
+                $update++;
+            }
+        }
+        return $this->output_json([
+            "status" => true,
+            "summary" => [
+                "total" => count($fetched["rows"]),
+                "insert" => $baru,
+                "update" => $update,
+                "invalid" => count($plan["invalid"]),
+                "classes" => count($plan["classes"]),
+            ],
+            "classes" => $plan["classes"],
+            "rows" => array_slice($plan["items"], 0, 500),
+            "invalid" => $plan["invalid"],
+        ]);
+    }
+
+    private function fetch_rows($path, $timeout)
+    {
+        $error = $this->config_error();
+        if ($error !== null) {
+            return ["error" => $error];
+        }
+        try {
+            $response = $this->get_dapodik_httpclient()->get($path, ["timeout" => $timeout]);
+        } catch (\Throwable $e) {
+            return ["error" => "Gagal terhubung ke webservice: " . $e->getMessage()];
+        }
+        $json = json_decode((string) $response->getBody());
+        if (!isset($json->rows) || !is_array($json->rows)) {
+            return ["error" => "Respons webservice tidak dikenali (field rows tidak ada)."];
+        }
+        return ["rows" => $json->rows];
+    }
+
+    /**
+     * Dry run for the GTK import: what would be inserted, what updated, and
+     * which rows can not be imported at all.
+     */
+    private function build_gtk_plan(array $rows)
+    {
+        $items = [];
+        $invalid = [];
+        $nips = [];
+        foreach ($rows as $value) {
+            $nip = isset($value->nip) ? trim((string) $value->nip) : "";
+            $nama = isset($value->nama) ? $value->nama : "-";
+            if (strlen($nip) < 5) {
+                $invalid[] = ["nama" => $nama, "nip" => $nip, "reason" => "NIP kosong atau kurang dari 5 digit"];
+                continue;
+            }
+            $nips[] = $nip;
+            $items[] = [
+                "nip" => $nip,
+                "nama" => $nama,
+                "jenis_kelamin" => isset($value->jenis_kelamin) ? $value->jenis_kelamin : "",
+                "agama" => isset($value->agama_id_str) ? $value->agama_id_str : "",
+                "tahun_ajaran_id" => isset($value->tahun_ajaran_id) ? $value->tahun_ajaran_id : "",
+            ];
+        }
+
+        $existingGuru = [];
+        $existingUser = [];
+        if (count($nips) > 0) {
+            foreach ($this->db->select("nip")->from("master_guru")->where_in("nip", $nips)->get()->result() as $row) {
+                $existingGuru[$row->nip] = true;
+            }
+            foreach ($this->db->select("id, username")->from("users")->where_in("username", $nips)->get()->result() as $row) {
+                $existingUser[$row->username] = $row->id;
+            }
+        }
+
+        $plan = [];
+        foreach ($items as $item) {
+            $plan[] = [
+                "nip" => $item["nip"],
+                "nama" => $item["nama"],
+                "jenis_kelamin" => $item["jenis_kelamin"],
+                "agama" => $item["agama"],
+                "action" => isset($existingGuru[$item["nip"]]) ? "update" : "insert",
+                "user" => isset($existingUser[$item["nip"]]) ? "ada" : "baru",
+            ];
+        }
+        return ["items" => $plan, "invalid" => $invalid];
+    }
+
+    /**
+     * Dry run for the student import. The class summary is the important part:
+     * it shows, per rombel, whether the class already exists, which level and
+     * jurusan it maps to, and how many students would be added.
+     */
+    private function build_siswa_plan(array $rows)
+    {
+        $items = [];
+        $invalid = [];
+        $nisns = [];
+        $kodes = [];
+
+        foreach ($rows as $value) {
+            $rombel = isset($value->nama_rombel) ? trim((string) $value->nama_rombel) : "";
+            $nisn = isset($value->nisn) ? trim((string) $value->nisn) : "";
+            $nis = isset($value->nipd) ? trim((string) $value->nipd) : "";
+            $nama = isset($value->nama) ? $value->nama : "-";
+            if ($nis === "" || $nisn === "") {
+                $invalid[] = ["nama" => $nama, "nisn" => $nisn, "nis" => $nis, "reason" => "NIS atau NISN kosong"];
+                continue;
+            }
+            $kode = strtolower(preg_replace("/\s+/", "_", $rombel));
+            list($level, $jurusanKode, $jurusanNama) = $this->parse_rombel($rombel);
+            $nisns[] = $nisn;
+            $kodes[$kode] = true;
+            $items[] = [
+                "nisn" => $nisn,
+                "nis" => $nis,
+                "nama" => $nama,
+                "rombel" => $rombel,
+                "kode" => $kode,
+                "level" => $level,
+                "jurusan_kode" => $jurusanKode,
+                "jurusan_nama" => $jurusanNama,
+            ];
+        }
+
+        $existingSiswa = [];
+        if (count($nisns) > 0) {
+            foreach ($this->db->select("id_siswa, nisn")->from("master_siswa")->where_in("nisn", $nisns)->get()->result() as $row) {
+                $existingSiswa[$row->nisn] = $row->id_siswa;
+            }
+        }
+
+        $existingKelas = [];
+        $jurusanByKode = [];
+        if (count($kodes) > 0) {
+            foreach ($this->db->select("id_kelas, kode_kelas, level_id, jurusan_id")->from("master_kelas")->where_in("kode_kelas", array_keys($kodes))->get()->result() as $row) {
+                $existingKelas[$row->kode_kelas] = $row;
+            }
+            $jurusanKodes = array_values(array_unique(array_map(function ($item) { return $item["jurusan_kode"]; }, $items)));
+            foreach ($this->db->select("id_jurusan, kode_jurusan")->from("master_jurusan")->where_in("kode_jurusan", $jurusanKodes)->get()->result() as $row) {
+                $jurusanByKode[$row->kode_jurusan] = $row->id_jurusan;
+            }
+        }
+
+        $classes = [];
+        $plan = [];
+        foreach ($items as $item) {
+            $kode = $item["kode"];
+            if (!isset($classes[$kode])) {
+                $kelas = isset($existingKelas[$kode]) ? $existingKelas[$kode] : null;
+                $jurusanId = isset($jurusanByKode[$item["jurusan_kode"]]) ? $jurusanByKode[$item["jurusan_kode"]] : null;
+                $warnings = [];
+                if ($kelas === null) {
+                    $warnings[] = "Kelas belum ada, akan dibuat.";
+                } else {
+                    if ((string) $kelas->level_id !== (string) $item["level"]) {
+                        $warnings[] = "Level tersimpan " . $kelas->level_id . ", Dapodik " . $item["level"] . ".";
+                    }
+                    if ($jurusanId !== null && (string) $kelas->jurusan_id !== (string) $jurusanId) {
+                        $warnings[] = "Jurusan kelas tersimpan berbeda dengan Dapodik.";
+                    }
+                }
+                $classes[$kode] = [
+                    "nama_rombel" => $item["rombel"],
+                    "kode" => $kode,
+                    "level" => $item["level"],
+                    "jurusan_kode" => $item["jurusan_kode"],
+                    "jurusan_nama" => $item["jurusan_nama"],
+                    "jurusan_baru" => $jurusanId === null,
+                    "kelas_ada" => $kelas !== null,
+                    "siswa" => 0,
+                    "baru" => 0,
+                    "update" => 0,
+                    "warnings" => $warnings,
+                ];
+            }
+            $isNew = !isset($existingSiswa[$item["nisn"]]);
+            $classes[$kode]["siswa"]++;
+            $classes[$kode][$isNew ? "baru" : "update"]++;
+            $item["is_new"] = $isNew;
+            $item["id_siswa"] = $isNew ? null : $existingSiswa[$item["nisn"]];
+            $plan[] = $item;
+        }
+
+        return ["items" => $plan, "classes" => array_values($classes), "invalid" => $invalid];
+    }
+
+    private function parse_rombel($rombel)
+    {
+        $parts = preg_split("/\s+/", trim($rombel));
+        $level = 10;
+        if (isset($parts[0]) && $parts[0] === "XI") {
+            $level = 11;
+        } elseif (isset($parts[0]) && $parts[0] === "XII") {
+            $level = 12;
+        }
+        if (count($parts) > 2) {
+            return [$level, $parts[1], $parts[1]];
+        }
+        return [$level, "NONJURUSAN", "Non Jurusan"];
+    }
+
     public function index()
     {
         $user = $this->ion_auth->user()->row();
@@ -154,19 +397,11 @@ class Dapodik extends CI_Controller
 
     public function tarikDataGtk()
     {
-        $error = $this->config_error();
-        if ($error !== null) {
-            return $this->output_json(["error" => $error]);
+        $fetched = $this->fetch_rows("/WebService/getGtk", 120);
+        if (isset($fetched["error"])) {
+            return $this->output_json(["error" => $fetched["error"]]);
         }
-        try {
-            $response = $this->get_dapodik_httpclient()->get("/WebService/getGtk", ["timeout" => 120]);
-        } catch (\Throwable $e) {
-            return $this->output_json(["error" => "Gagal terhubung ke webservice: " . $e->getMessage()]);
-        }
-        $json = json_decode((string) $response->getBody());
-        if (!isset($json->rows) || !is_array($json->rows)) {
-            return $this->output_json(["error" => "Respons webservice tidak dikenali (field rows tidak ada)."]);
-        }
+        $json = (object) ["rows" => $fetched["rows"]];
 
         $nama_fails = [];
         $berhasil = 0;
@@ -222,19 +457,11 @@ class Dapodik extends CI_Controller
 
     public function tarikDataSiswa()
     {
-        $error = $this->config_error();
-        if ($error !== null) {
-            return $this->output_json(["error" => $error]);
+        $fetched = $this->fetch_rows("/WebService/getPesertaDidik", 180);
+        if (isset($fetched["error"])) {
+            return $this->output_json(["error" => $fetched["error"]]);
         }
-        try {
-            $response = $this->get_dapodik_httpclient()->get("/WebService/getPesertaDidik", ["timeout" => 180]);
-        } catch (\Throwable $e) {
-            return $this->output_json(["error" => "Gagal terhubung ke webservice: " . $e->getMessage()]);
-        }
-        $json = json_decode((string) $response->getBody());
-        if (!isset($json->rows) || !is_array($json->rows)) {
-            return $this->output_json(["error" => "Respons webservice tidak dikenali (field rows tidak ada)."]);
-        }
+        $json = (object) ["rows" => $fetched["rows"]];
 
         $id_tp = $this->master->getTahunActive()->id_tp;
         $id_smt = $this->master->getSemesterActive()->id_smt;

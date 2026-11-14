@@ -71,6 +71,12 @@
                         <?= $subjudul ?>
                     </div>
                     <div class="card-tools">
+                        <a href="#" id="previewSiswa" class="btn btn-outline-primary <?= !$dapodik_ready ? 'disabled' : '' ?>">
+                            Pratinjau Siswa
+                        </a>
+                        <a href="#" id="previewGtk" class="btn btn-outline-secondary <?= !$dapodik_ready ? 'disabled' : '' ?>">
+                            Pratinjau GTK
+                        </a>
                         <a href="#" id="dapodikTarikSiswa" class="btn btn-primary <?= !$dapodik_ready ? 'disabled' : '' ?>">
                             Tarik Siswa
                         </a>
@@ -82,6 +88,22 @@
             </div>
         </div>
 </section>
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewTitle">Pratinjau</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="previewBody"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function() {
         ajaxcsrf();
@@ -95,6 +117,108 @@
                 icon: "warning"
             });
         }
+
+        function esc(value) {
+            return $('<div>').text(value === null || value === undefined ? '' : value).html();
+        }
+
+        function badge(text, cls) {
+            return '<span class="badge badge-' + cls + '">' + esc(text) + '</span>';
+        }
+
+        function previewError(message) {
+            $('#previewBody').html('<div class="alert alert-danger mb-0">' + esc(message) + '</div>');
+            $('#previewTitle').text('Pratinjau gagal');
+            $('#previewModal').modal('show');
+        }
+
+        function loadPreview(kind) {
+            const url = base_url + 'dapodik/' + (kind === 'siswa' ? 'previewSiswa' : 'previewGtk');
+            $('#previewTitle').text(kind === 'siswa' ? 'Pratinjau Data Siswa' : 'Pratinjau Data GTK');
+            $('#previewBody').html('<p class="text-muted mb-0">Mengambil data dari webservice...</p>');
+            $('#previewModal').modal('show');
+
+            $.get(url, function(res) {
+                if (!res.status) {
+                    return previewError(res.message || 'Gagal mengambil pratinjau.');
+                }
+                $('#previewBody').html(kind === 'siswa' ? renderSiswa(res) : renderGtk(res));
+            }, 'json').fail(function(xhr) {
+                previewError('Permintaan gagal (' + xhr.status + ').');
+            });
+        }
+
+        function summaryCards(items) {
+            return '<div class="row mb-3">' + items.map(function(it) {
+                return '<div class="col"><div class="border rounded p-2 text-center">' +
+                    '<div class="h5 mb-0">' + esc(it.value) + '</div>' +
+                    '<small class="text-muted">' + esc(it.label) + '</small>' +
+                    '</div></div>';
+            }).join('') + '</div>';
+        }
+
+        function renderGtk(res) {
+            let html = summaryCards([
+                { label: 'Data Dapodik', value: res.summary.total },
+                { label: 'Akan dibuat', value: res.summary.insert },
+                { label: 'Akan diupdate', value: res.summary.update },
+                { label: 'Tidak valid', value: res.summary.invalid },
+            ]);
+            html += '<div class="table-responsive"><table class="table table-sm table-bordered mb-0">' +
+                '<thead><tr><th>NIP</th><th>Nama</th><th>Jenis Kelamin</th><th>Agama</th><th>Aksi</th><th>Akun</th></tr></thead><tbody>';
+            res.rows.forEach(function(row) {
+                html += '<tr><td>' + esc(row.nip) + '</td><td>' + esc(row.nama) + '</td><td>' + esc(row.jenis_kelamin) +
+                    '</td><td>' + esc(row.agama) + '</td><td>' +
+                    badge(row.action === 'insert' ? 'Dibuat' : 'Diupdate', row.action === 'insert' ? 'success' : 'info') +
+                    '</td><td>' + badge(row.user, row.user === 'baru' ? 'secondary' : 'light') + '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+            if (res.invalid.length) {
+                html += '<h6 class="mt-3">Tidak bisa diimport</h6><ul class="mb-0">' +
+                    res.invalid.map(function(row) { return '<li>' + esc(row.nama) + ' — ' + esc(row.reason) + '</li>'; }).join('') +
+                    '</ul>';
+            }
+            return html;
+        }
+
+        function renderSiswa(res) {
+            let html = summaryCards([
+                { label: 'Data Dapodik', value: res.summary.total },
+                { label: 'Siswa baru', value: res.summary.insert },
+                { label: 'Akan diupdate', value: res.summary.update },
+                { label: 'Kelas terdeteksi', value: res.summary.classes },
+                { label: 'Tidak valid', value: res.summary.invalid },
+            ]);
+            html += '<h6>Per kelas</h6><div class="table-responsive"><table class="table table-sm table-bordered mb-3">' +
+                '<thead><tr><th>Rombel</th><th>Kode</th><th>Level</th><th>Jurusan</th><th>Kelas</th><th>Siswa</th><th>Catatan</th></tr></thead><tbody>';
+            res.classes.forEach(function(k) {
+                html += '<tr><td>' + esc(k.nama_rombel) + '</td><td><code>' + esc(k.kode) + '</code></td><td>' + esc(k.level) +
+                    '</td><td>' + esc(k.jurusan_nama) + (k.jurusan_baru ? ' ' + badge('baru', 'secondary') : '') +
+                    '</td><td>' + (k.kelas_ada ? badge('ada', 'info') : badge('dibuat', 'success')) +
+                    '</td><td>' + esc(k.siswa) + ' <small class="text-muted">(' + esc(k.baru) + ' baru, ' + esc(k.update) + ' update)</small>' +
+                    '</td><td>' + (k.warnings.length ? '<span class="text-warning">' + k.warnings.map(esc).join('<br />') + '</span>' : '-') +
+                    '</td></tr>';
+            });
+            html += '</tbody></table></div>';
+            if (res.invalid.length) {
+                html += '<h6>Tidak bisa diimport</h6><ul class="mb-0">' +
+                    res.invalid.map(function(row) { return '<li>' + esc(row.nama) + ' — ' + esc(row.reason) + '</li>'; }).join('') +
+                    '</ul>';
+            }
+            return html;
+        }
+
+        $('#previewSiswa').on('click', function(e) {
+            e.preventDefault();
+            if (!dapodikReady) { return notReady(); }
+            loadPreview('siswa');
+        });
+
+        $('#previewGtk').on('click', function(e) {
+            e.preventDefault();
+            if (!dapodikReady) { return notReady(); }
+            loadPreview('gtk');
+        });
 
         $('#toggleToken').on('click', function() {
             const input = $('#dapodik_token');
