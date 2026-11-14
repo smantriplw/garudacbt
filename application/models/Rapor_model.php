@@ -108,10 +108,12 @@ class Rapor_model extends CI_Model
     }
     public function getNilaiHarianKelas($id_mapel, $id_kelas, $id_siswa, $id_tp, $id_smt)
     {
-        $this->db->select("*");
-        $this->db->from("rapor_nilai_harian");
-        $this->db->where("id_nilai_harian", $id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt);
-        return $this->db->get()->row();
+        static $cache = [];
+        $group = $id_mapel . "|" . $id_kelas . "|" . $id_tp . "|" . $id_smt;
+        if (!isset($cache[$group])) {
+            $cache[$group] = $this->getNilaiHarianKelasBatch($id_mapel, $id_kelas, $id_tp, $id_smt);
+        }
+        return $cache[$group][$id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt] ?? null;
     }
     public function getAllNilaiHarianKelas($id_kelas)
     {
@@ -156,7 +158,9 @@ class Rapor_model extends CI_Model
         $this->db->where("id_smt", $id_smt);
         $ret = [];
         foreach ($this->db->get("rapor_nilai_ekstra")->result() as $row) {
-            $ret[$row->id_siswa] = $row;
+            $key = $row->id_siswa;
+            unset($row->id_siswa);
+            $ret[$key] = $row;
         }
         return $ret;
     }
@@ -187,10 +191,12 @@ class Rapor_model extends CI_Model
     }
     public function getNilaiPtsKelas($id_mapel, $id_kelas, $id_siswa, $id_tp, $id_smt)
     {
-        $this->db->select("*");
-        $this->db->from("rapor_nilai_pts");
-        $this->db->where("id_nilai_pts", $id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt);
-        return $this->db->get()->row();
+        static $cache = [];
+        $group = $id_mapel . "|" . $id_kelas . "|" . $id_tp . "|" . $id_smt;
+        if (!isset($cache[$group])) {
+            $cache[$group] = $this->getNilaiPtsKelasBatch($id_mapel, $id_kelas, $id_tp, $id_smt);
+        }
+        return $cache[$group][$id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt] ?? null;
     }
     public function getAllNilaiPtsKelas($id_kelas)
     {
@@ -201,13 +207,12 @@ class Rapor_model extends CI_Model
     }
     public function getEkstraKelas($id_mapel, $id_siswa, $id_tp, $id_smt)
     {
-        $this->db->select("nilai, predikat, deskripsi");
-        $this->db->from("rapor_nilai_ekstra");
-        $this->db->where("id_ekstra", $id_mapel);
-        $this->db->where("id_siswa", $id_siswa);
-        $this->db->where("id_tp", $id_tp);
-        $this->db->where("id_smt", $id_smt);
-        return $this->db->get()->row();
+        static $cache = [];
+        $group = $id_mapel . "|" . $id_tp . "|" . $id_smt;
+        if (!isset($cache[$group])) {
+            $cache[$group] = $this->getEkstraKelasBatch($id_mapel, $id_tp, $id_smt);
+        }
+        return $cache[$group][$id_siswa] ?? null;
     }
     public function cekNilaiEkstraKelas($id_mapel, $id_kelas, $id_tp, $id_smt)
     {
@@ -245,17 +250,12 @@ class Rapor_model extends CI_Model
     }
     public function getNilaiAkhirKelas($id_mapel, $id_kelas, $id_siswa, $id_tp, $id_smt)
     {
-        static $bigSelects = false;
-        if (!$bigSelects) {
-            $this->db->query("SET SQL_BIG_SELECTS=1");
-            $bigSelects = true;
+        static $cache = [];
+        $group = $id_mapel . "|" . $id_kelas . "|" . $id_tp . "|" . $id_smt;
+        if (!isset($cache[$group])) {
+            $cache[$group] = $this->getNilaiAkhirKelasBatch($id_mapel, $id_kelas, $id_tp, $id_smt);
         }
-        $this->db->select("a.p_rata_rata as nhar, a.p_deskripsi, a.k_rata_rata, a.k_predikat, a.k_deskripsi, b.nilai as npts, c.nilai as npas, c.predikat");
-        $this->db->from("rapor_nilai_harian a");
-        $this->db->join("rapor_nilai_pts b", "b.id_nilai_pts=a.id_nilai_harian", "left");
-        $this->db->join("rapor_nilai_akhir c", "c.id_nilai_akhir=a.id_nilai_harian", "left");
-        $this->db->where("id_nilai_harian", $id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt);
-        return $this->db->get()->row();
+        return $cache[$group][$id_mapel . $id_kelas . $id_siswa . $id_tp . $id_smt] ?? null;
     }
     public function getAllNilaiAkhirKelas($id_kelas)
     {
@@ -401,10 +401,72 @@ class Rapor_model extends CI_Model
     }
     public function getFisikKelas($id_kelas, $id_siswa, $id_tp, $id_smt)
     {
-        $this->db->select("*");
-        $this->db->from("rapor_fisik");
-        $this->db->where("id_fisik", $id_kelas . $id_siswa . $id_tp . $id_smt);
-        return $this->db->get()->row();
+        static $cache = [];
+        $group = $id_kelas . "|" . $id_tp . "|" . $id_smt;
+        if (!isset($cache[$group])) {
+            $cache[$group] = $this->getFisikKelasBatch($id_kelas, $id_tp, $id_smt);
+        }
+        return $cache[$group][$id_kelas . $id_siswa . $id_tp . $id_smt] ?? null;
+    }
+    public function getNilaiPtsKelasBatch($id_mapel, $id_kelas, $id_tp, $id_smt)
+    {
+        $this->db->where("id_mapel", $id_mapel);
+        $this->db->where("id_kelas", $id_kelas);
+        $this->db->where("id_tp", $id_tp);
+        $this->db->where("id_smt", $id_smt);
+        $ret = [];
+        foreach ($this->db->get("rapor_nilai_pts")->result() as $row) {
+            $ret[$row->id_nilai_pts] = $row;
+        }
+        return $ret;
+    }
+    public function getNilaiAkhirKelasBatch($id_mapel, $id_kelas, $id_tp, $id_smt)
+    {
+        static $bigSelects = false;
+        if (!$bigSelects) {
+            $this->db->query("SET SQL_BIG_SELECTS=1");
+            $bigSelects = true;
+        }
+        $this->db->select("a.p_rata_rata as nhar, a.p_deskripsi, a.k_rata_rata, a.k_predikat, a.k_deskripsi, b.nilai as npts, c.nilai as npas, c.predikat, a.id_nilai_harian");
+        $this->db->from("rapor_nilai_harian a");
+        $this->db->join("rapor_nilai_pts b", "b.id_nilai_pts=a.id_nilai_harian", "left");
+        $this->db->join("rapor_nilai_akhir c", "c.id_nilai_akhir=a.id_nilai_harian", "left");
+        $this->db->where("a.id_mapel", $id_mapel);
+        $this->db->where("a.id_kelas", $id_kelas);
+        $this->db->where("a.id_tp", $id_tp);
+        $this->db->where("a.id_smt", $id_smt);
+        $ret = [];
+        foreach ($this->db->get()->result() as $row) {
+            $key = $row->id_nilai_harian;
+            unset($row->id_nilai_harian);
+            $ret[$key] = $row;
+        }
+        return $ret;
+    }
+    public function getFisikKelasBatch($id_kelas, $id_tp, $id_smt)
+    {
+        $this->db->where("id_kelas", $id_kelas);
+        $this->db->where("id_tp", $id_tp);
+        $this->db->where("id_smt", $id_smt);
+        $ret = [];
+        foreach ($this->db->get("rapor_fisik")->result() as $row) {
+            $ret[$row->id_fisik] = $row;
+        }
+        return $ret;
+    }
+    public function getEkstraKelasMultiBatch(array $idEkstra, $id_tp, $id_smt)
+    {
+        $ret = [];
+        if (count($idEkstra) === 0) {
+            return $ret;
+        }
+        $this->db->where_in("id_ekstra", $idEkstra);
+        $this->db->where("id_tp", $id_tp);
+        $this->db->where("id_smt", $id_smt);
+        foreach ($this->db->get("rapor_nilai_ekstra")->result() as $row) {
+            $ret[$row->id_ekstra][$row->id_siswa] = $row;
+        }
+        return $ret;
     }
     public function getAllFisikKelas($id_kelas)
     {

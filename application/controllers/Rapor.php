@@ -573,10 +573,13 @@ class Rapor extends CI_Controller
         $siswas = $this->kelas->getKelasSiswa($id_kelas, $tp->id_tp, $smt->id_smt);
         $nilai = [];
         $i = 0;
-        while ($i < count($siswas)) {
+        $nilaiMap = $this->rapor->getNilaiHarianKelasBatch($id_mapel, $id_kelas, $tp->id_tp, $smt->id_smt);
+        $jmlSiswa = count($siswas);
+        while ($i < $jmlSiswa) {
             $siswa = $siswas[$i];
             $dummyNilai = ["p1" => '', "p2" => '', "p3" => '', "p4" => '', "p5" => '', "p6" => '', "p7" => '', "p8" => '', "p_rata_rata" => '', "p_predikat" => "=", "p_deskripsi" => '', "k1" => '', "k2" => '', "k3" => '', "k4" => '', "k5" => '', "k6" => '', "k7" => '', "k8" => '', "k_rata_rata" => '', "k_predikat" => '', "k_deskripsi" => ''];
-            $ns = $this->rapor->getNilaiHarianKelas($id_mapel, $id_kelas, $siswa->id_siswa, $tp->id_tp, $smt->id_smt);
+            $nilaiKey = $id_mapel . $id_kelas . $siswa->id_siswa . $tp->id_tp . $smt->id_smt;
+            $ns = $nilaiMap[$nilaiKey] ?? null;
             $nilai[$siswa->id_siswa] = $ns == null ? $dummyNilai : $ns;
             $i++;
         }
@@ -592,17 +595,17 @@ class Rapor extends CI_Controller
         $arrKiKd[] = [];
         if ($id_kelas != null) {
             $aspek = ["1", "2"];
+            $kikdIds = [];
             foreach ($aspek as $asp) {
-                $i = 0;
-                while ($i < 8) {
-                    $no = $i + 1;
-                    $r = $this->rapor->getKikdMapel($id_mapel . $id_kelas . $asp . $no, $tp->id_tp, $smt->id_smt);
-                    if ($r == null) {
-                        $r = $this->rapor->getKikdMapel($id_mapel . $id_kelas . $asp . $no, $tp->id_tp - 1, $smt->id_smt);
-                    }
-                    $arrKiKd[$asp][$id_mapel . $id_kelas . $asp . $no] = $r;
-                    $i++;
+                for ($no = 1; $no <= 8; $no++) {
+                    $kikdIds[] = $id_mapel . $id_kelas . $asp . $no;
                 }
+            }
+            $kikdMap = $this->rapor->getKikdMapelBatch($kikdIds, $tp->id_tp, $smt->id_smt);
+            $kikdMissing = array_values(array_diff($kikdIds, array_keys($kikdMap)));
+            $kikdPrev = count($kikdMissing) > 0 ? $this->rapor->getKikdMapelBatch($kikdMissing, $tp->id_tp - 1, $smt->id_smt) : [];
+            foreach ($kikdIds as $kikdId) {
+                $arrKiKd[substr($kikdId, strlen($id_mapel . $id_kelas), 1)][$kikdId] = $kikdMap[$kikdId] ?? $kikdPrev[$kikdId] ?? null;
             }
         }
         $data = ["user" => $user, "judul" => "Nilai Harian Kelas ", "subjudul" => "Input Nilai Harian Mapel ", "setting" => $this->dashboard->getSetting(), "guru" => $guru, "mapel" => $mapel, "kelas" => $kelas, "siswa" => $siswas, "nilai" => $nilai, "kkm" => $kkm];
