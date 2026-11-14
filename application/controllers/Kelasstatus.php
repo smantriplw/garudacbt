@@ -121,17 +121,15 @@ class Kelasstatus extends CI_Controller
                     $arrKelasMateri[$m->id_kelas] = [];
                     array_push($arrKelasMateri[$m->id_kelas], $arrMateri);
                 }
-                goto V4y9J;
+            } else {
+                $arrTugas = ["id_materi" => $m->id_materi, "id_kjm" => $m->id_kjm, "jadwal" => $m->jadwal_materi, "kode" => $m->kode_materi, "mapel" => $kode_mapel, "guru" => $m->nama_guru];
+                if (isset($arrKelasTugas[$m->id_kelas])) {
+                    array_push($arrKelasMateri[$m->id_kelas], $arrTugas);
+                } else {
+                    $arrKelasTugas[$m->id_kelas] = [];
+                    array_push($arrKelasTugas[$m->id_kelas], $arrTugas);
+                }
             }
-            $arrTugas = ["id_materi" => $m->id_materi, "id_kjm" => $m->id_kjm, "jadwal" => $m->jadwal_materi, "kode" => $m->kode_materi, "mapel" => $kode_mapel, "guru" => $m->nama_guru];
-            if (isset($arrKelasTugas[$m->id_kelas])) {
-                array_push($arrKelasMateri[$m->id_kelas], $arrTugas);
-                goto iu9A8;
-            }
-            $arrKelasTugas[$m->id_kelas] = [];
-            array_push($arrKelasTugas[$m->id_kelas], $arrTugas);
-            iu9A8:
-            V4y9J:
             if (isset($arrKelas[$m->jenis])) {
                 if (!(in_array($m->id_kelas, $arrKelas[$m->jenis]))) {
                     array_push($arrKelas[$m->jenis], $m->id_kelas);

@@ -415,26 +415,24 @@ class Kelasmateri extends CI_Controller
             $result["status"] = $saved;
             $result["message"] = "Materi berhasil dibuat";
             $this->logging->saveLog(3, "membuat materi");
-            goto kiZk1;
+        } else {
+            $cek_materi = $this->kelas->getMateriKelasById($id_materi, $jenis);
+            if ($cek_materi->id_tp == $tp->id_tp && $cek_materi->id_smt == $smt->id_smt) {
+                $data["updated_on"] = date("Y-m-d H:i:s");
+                $data["id_materi"] = $id_materi;
+                $saved = $this->master->update("kelas_materi", $data, "id_materi", $id_materi);
+                $result["status"] = $saved;
+                $result["message"] = "Materi berhasil diupdate";
+                $this->logging->saveLog(4, "mengedit materi");
+            } else {
+                $data["created_on"] = date("Y-m-d H:i:s");
+                $data["updated_on"] = date("Y-m-d H:i:s");
+                $saved = $this->master->create("kelas_materi", $data);
+                $result["status"] = $saved;
+                $result["message"] = "Materi berhasil dibuat";
+                $this->logging->saveLog(3, "membuat materi");
+            }
         }
-        $cek_materi = $this->kelas->getMateriKelasById($id_materi, $jenis);
-        if ($cek_materi->id_tp == $tp->id_tp && $cek_materi->id_smt == $smt->id_smt) {
-            $data["updated_on"] = date("Y-m-d H:i:s");
-            $data["id_materi"] = $id_materi;
-            $saved = $this->master->update("kelas_materi", $data, "id_materi", $id_materi);
-            $result["status"] = $saved;
-            $result["message"] = "Materi berhasil diupdate";
-            $this->logging->saveLog(4, "mengedit materi");
-            goto WK31M;
-        }
-        $data["created_on"] = date("Y-m-d H:i:s");
-        $data["updated_on"] = date("Y-m-d H:i:s");
-        $saved = $this->master->create("kelas_materi", $data);
-        $result["status"] = $saved;
-        $result["message"] = "Materi berhasil dibuat";
-        $this->logging->saveLog(3, "membuat materi");
-        WK31M:
-        kiZk1:
         $this->output_json($result);
         // [PHPDeobfuscator] Implied return
         return;

@@ -113,17 +113,15 @@ class Users extends CI_Controller
         $this->form_validation->set_rules("new_confirm", $this->lang->line("change_password_validation_new_password_confirm_label"), "required");
         if ($this->form_validation->run() === FALSE) {
             $data = ["status" => false, "errors" => ["old" => form_error("old"), "new" => form_error("new"), "new_confirm" => form_error("new_confirm")]];
-            goto flnyn;
+        } else {
+            $identity = $this->session->userdata("identity");
+            $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
+            if ($change) {
+                $data["status"] = true;
+            } else {
+                $data = ["status" => false, "msg" => $this->ion_auth->errors()];
+            }
         }
-        $identity = $this->session->userdata("identity");
-        $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
-        if ($change) {
-            $data["status"] = true;
-            goto Dh7Xo;
-        }
-        $data = ["status" => false, "msg" => $this->ion_auth->errors()];
-        Dh7Xo:
-        flnyn:
         $this->output_json($data);
     }
     public function delete($id)

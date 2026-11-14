@@ -162,17 +162,15 @@ class Datakelas extends CI_Controller
             } else {
                 $status = FALSE;
             }
-            goto RCuiP;
+        } else {
+            $this->form_validation->set_rules($config);
+            if ($this->form_validation->run() == TRUE) {
+                $status = $this->db->insert("master_kelas", $insert);
+                $id_new = $this->db->insert_id();
+            } else {
+                $status = FALSE;
+            }
         }
-        $this->form_validation->set_rules($config);
-        if ($this->form_validation->run() == TRUE) {
-            $status = $this->db->insert("master_kelas", $insert);
-            $id_new = $this->db->insert_id();
-            goto uyQ_Y;
-        }
-        $status = FALSE;
-        uyQ_Y:
-        RCuiP:
         $updated = false;
         $siswa_inserted = 0;
         $this->db->query("SET FOREIGN_KEY_CHECKS=0");
