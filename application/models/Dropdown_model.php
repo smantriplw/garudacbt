@@ -207,13 +207,18 @@ class Dropdown_model extends CI_Model
     }
     public function getNamaKelasById($tp, $smt, $id)
     {
+        static $cache = [];
+        $key = $tp . "|" . $smt . "|" . $id;
+        if (array_key_exists($key, $cache)) {
+            return $cache[$key];
+        }
         $this->db->select("nama_kelas");
         $this->db->where("id_kelas", $id);
         $this->db->where("id_tp", $tp);
         $this->db->where("id_smt", $smt);
         $result = $this->db->get("master_kelas")->row();
         if ($result != null) {
-            return $result->nama_kelas;
+            return $cache[$key] = $result->nama_kelas;
         }
         return null;
     }
