@@ -919,8 +919,8 @@ class Cbtnilai extends CI_Controller {
         $siswas = $this->input->post('ids', true);
         $updated = 0;
         $test_data = [];
+        $info = $this->cbt->getJadwalById($id_jadwal);
         foreach ($siswas as $id_siswa => $memulai) {
-            $info = $this->cbt->getJadwalById($id_jadwal);
             $jawabans = $this->cbt->getJawabanByBank($info->id_bank, $id_siswa);
             $jawabans_siswa = [];
             foreach ($jawabans as $jawaban_siswa) {

@@ -238,9 +238,11 @@ class Datajurusan extends CI_Controller
         }
         unlink($file);
         $text = file_get_contents("./uploads/temp/doc.html");
+        @unlink("./uploads/temp/doc.html");
         unset($phpWord, $htmlWriter);
         $dom = new DOMDocument();
         $dom->loadHTML($text);
+        unset($text);
         $data = [];
         $dom->preserveWhiteSpace = false;
         $tables = $dom->getElementsByTagName("table");
@@ -251,6 +253,7 @@ class Datajurusan extends CI_Controller
             $data[] = ["nama" => $cols->item(1)->nodeValue, "kode" => $cols->item(2)->nodeValue];
             $i++;
         }
+        unset($dom);
         echo json_encode($data);
         return;
     }

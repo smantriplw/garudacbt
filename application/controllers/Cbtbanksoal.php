@@ -656,6 +656,7 @@ class Cbtbanksoal extends CI_Controller
             }
             $i++;
         }
+        unset($sheetData);
         unlink($file);
         echo json_encode($data);
         return;
@@ -681,11 +682,13 @@ class Cbtbanksoal extends CI_Controller
         }
         unlink($file);
         $text = file_get_contents("./uploads/temp/doc.html");
+        @unlink("./uploads/temp/doc.html");
         unset($phpWord, $htmlWriter);
         $dom = new DOMDocument();
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadHTML($text);
+        unset($text);
         $images = $dom->getElementsByTagName("img");
         $numimg = 1;
         foreach ($images as $image) {
@@ -708,6 +711,7 @@ class Cbtbanksoal extends CI_Controller
         }
         $newhtml = $dom->saveHTML();
         $dataInsert = json_decode(json_encode($newhtml));
+        unset($dom, $newhtml);
         $result["pg"] = $dataInsert;
         $result["type"] = "html";
         $this->output_json($result);
@@ -832,6 +836,7 @@ class Cbtbanksoal extends CI_Controller
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, "Word2007");
         header("Content-Disposition: attachment; filename=Soal " . $bank->nama_mapel . ".docx");
         $objWriter->save("php://output");
+        unset($phpWord, $objWriter, $soals, $essai, $list, $listEss);
         return;
     }
     public function getSoalSiswa($id_bank)

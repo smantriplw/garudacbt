@@ -1932,6 +1932,12 @@ class Rapor extends CI_Controller
         }
         $nilai_sikap = $this->rapor->getNilaiSikapByKelas($id_kelas, $tp->id_tp, $smt->id_smt);
         $nilai_rapor = $this->rapor->getNilaiRaporByKelas($id_kelas, $tp->id_tp, $smt->id_smt);
+        $nilaiRaporByKey = [];
+        foreach ($nilai_rapor as $nr) {
+            if (!isset($nilaiRaporByKey[$nr->id_nilai_harian])) {
+                $nilaiRaporByKey[$nr->id_nilai_harian] = $nr;
+            }
+        }
         $prestasis = $this->rapor->getPrestasiByKelas($id_kelas, $tp->id_tp, $smt->id_smt);
         $catatans = $this->rapor->getCatatanWaliByKelas($id_kelas, $tp->id_tp, $smt->id_smt);
         foreach ($catatans as $catatan) {
@@ -1957,10 +1963,9 @@ class Rapor extends CI_Controller
             }
             foreach ($mapels as $mapel) {
                 $dummyNilai = ["p_deskripsi" => '', "k_rata_rata" => '', "k_deskripsi" => '', "k_predikat" => '', "nilai" => '', "predikat" => ''];
-                $key_mapel = array_search($mapel->id_mapel . $id_kelas . $id_siswa . $tp->id_tp . $smt->id_smt, array_column($nilai_rapor, "id_nilai_harian"));
-                if ($key_mapel !== false) {
-                    $nr = $nilai_rapor[$key_mapel];
-                    $nilai[$id_siswa][$mapel->id_mapel] = $nr;
+                $key_mapel = $mapel->id_mapel . $id_kelas . $id_siswa . $tp->id_tp . $smt->id_smt;
+                if (isset($nilaiRaporByKey[$key_mapel])) {
+                    $nilai[$id_siswa][$mapel->id_mapel] = $nilaiRaporByKey[$key_mapel];
                 }
             }
             $dummyDesks = ["ranking" => '', "rank_deskripsi" => '', "p1" => '', "p1_desk" => '', "p2" => '', "p2_desk" => '', "p3" => '', "p3_desk" => ''];
