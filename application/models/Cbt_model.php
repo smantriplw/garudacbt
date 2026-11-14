@@ -703,8 +703,6 @@ class Cbt_model extends CI_Model
         $this->datatables->from("cbt_bank_soal a");
         $this->datatables->join("master_mapel b", "b.id_mapel=a.bank_mapel_id", "left");
         $this->datatables->join("master_guru c", "c.id_guru=a.bank_guru_id", "left");
-        $this->datatables->join("master_jurusan d", "d.id_jurusan=a.bank_jurusan_id", "left");
-        $this->datatables->join("cbt_jenis e", "e.id_jenis=a.bank_jenis_id", "left");
         if ($guru !== null) {
             $this->datatables->where("a.bank_guru_id", $guru);
         }
@@ -749,6 +747,12 @@ class Cbt_model extends CI_Model
         if ($jenis != null) {
             $this->db->where("jenis", $jenis);
         }
+        return $this->db->get("cbt_soal")->num_rows();
+    }
+    public function getTotalSoalTampil($id_bank)
+    {
+        $this->db->where("bank_id", $id_bank);
+        $this->db->where("tampilkan", "1");
         return $this->db->get("cbt_soal")->num_rows();
     }
     public function getNomorSoalById($id_soal)
@@ -846,10 +850,11 @@ class Cbt_model extends CI_Model
         }
         return $this->db->get("cbt_soal")->result();
     }
-    public function cekSoalBelumKomplit($jenis, $opsi_ganda)
+    public function cekSoalBelumKomplit($jenis, $opsi_ganda, $id_bank = null)
     {
         $this->db->select("id_soal, bank_id, jenis, nomor_soal, mapel_id");
         $this->db->from("cbt_soal");
+        $this->db->group_start();
         $this->db->where("jenis", $jenis);
         $this->db->where("soal IS NULL")->or_where("soal =\"\"");
         if ($jenis == "1") {
@@ -868,6 +873,10 @@ class Cbt_model extends CI_Model
             $this->db->where("opsi_a IS NULL")->or_where("opsi_a =\"\"");
         }
         $this->db->where("jawaban IS NULL")->or_where("jawaban =\"\"");
+        $this->db->group_end();
+        if ($id_bank != null) {
+            $this->db->where("bank_id", $id_bank);
+        }
         $ret = [];
         $result = $this->db->get()->result();
         foreach ($result as $key => $row) {
@@ -986,30 +995,19 @@ class Cbt_model extends CI_Model
         }
         return $ret;
     }
-    public function getBankTerpakai($id_banks = null)
+    public function getJumlahSiswaBank($id_banks = null)
     {
-        $this->db->select("id_bank,id_soal,id_siswa");
+        $this->db->select("id_bank, COUNT(DISTINCT id_siswa) AS total_siswa", false);
         $this->db->from("cbt_soal_siswa");
         if ($id_banks != null) {
             $this->db->where_in("id_bank", $id_banks);
         }
-        $result = $this->db->get()->result();
+        $this->db->group_by("id_bank");
         $ret = [];
-        foreach ($result as $key => $row) {
-            $ret[$row->id_bank][$row->id_siswa] = $row;
+        foreach ($this->db->get()->result() as $row) {
+            $ret[$row->id_bank] = (int) $row->total_siswa;
         }
         return $ret;
-    }
-    public function getCountBankTerpakai($id_bank = null)
-    {
-        $this->db->select("id_bank,COUNT(id_siswa) as siswa");
-        $this->db->from("cbt_soal_siswa");
-        if ($id_bank != null) {
-            $this->db->where("id_bank", $id_bank);
-        }
-        $this->db->group_by("id_bank");
-        $result = $this->db->get()->result();
-        return $result;
     }
     public function getRekapByJadwalKelas($jadwal, $guru = null)
     {

@@ -28,3 +28,9 @@ ALTER TABLE rapor_admin_setting ADD INDEX idx_setting (id_tp, id_smt);
 -- CBT recap: scores per student per exam
 ALTER TABLE cbt_nilai ADD INDEX idx_nilai_jadwal_siswa (id_jadwal, id_siswa);
 ALTER TABLE cbt_nilai ADD INDEX idx_nilai_id_siswa (id_siswa);
+
+-- Bank soal: list per bank, "is it used" counters, and the question editor
+ALTER TABLE cbt_soal ADD INDEX idx_soal_bank_jenis (bank_id, jenis, nomor_soal);
+ALTER TABLE cbt_soal ADD INDEX idx_soal_bank_tampil (bank_id, tampilkan);
+ALTER TABLE cbt_jadwal ADD INDEX idx_jadwal_bank_status (id_bank, status);
+ALTER TABLE cbt_soal_siswa ADD INDEX idx_soal_siswa_bank (id_bank, id_siswa);

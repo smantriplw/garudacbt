@@ -83,24 +83,15 @@ class Cbtbanksoal extends CI_Controller
             }
             if ($type != null) {
                 $data["banks"] = $banks;
-                $jadwal_terpakai = [];
-                if (count($banks) > 0) {
-                    $ids = [];
-                    foreach ($banks as $bank) {
-                        foreach ($bank as $tp) {
-                            foreach ($tp as $smt) {
-                                $ids[] = $smt->id_bank;
-                            }
-                        }
-                    }
-                    if (count($ids) > 0) {
-                        $terpakai = $this->cbt->getBankTerpakai($ids);
-                        foreach ($terpakai as $idj => $rows) {
-                            $jadwal_terpakai[$idj] = count($rows);
+                $ids = [];
+                foreach ($banks as $bank) {
+                    foreach ($bank as $tp) {
+                        foreach ($tp as $smt) {
+                            $ids[] = $smt->id_bank;
                         }
                     }
                 }
-                $data["total_siswa"] = $jadwal_terpakai;
+                $data["total_siswa"] = count($ids) > 0 ? $this->cbt->getJumlahSiswaBank($ids) : [];
             }
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/data");
@@ -134,24 +125,15 @@ class Cbtbanksoal extends CI_Controller
             }
             if ($type != null) {
                 $data["banks"] = $banks;
-                $jadwal_terpakai = [];
-                if (count($banks) > 0) {
-                    $ids = [];
-                    foreach ($banks as $bank) {
-                        foreach ($bank as $tp) {
-                            foreach ($tp as $smt) {
-                                $ids[] = $smt->id_bank;
-                            }
-                        }
-                    }
-                    if (count($ids) > 0) {
-                        $terpakai = $this->cbt->getBankTerpakai($ids);
-                        foreach ($terpakai as $idj => $rows) {
-                            $jadwal_terpakai[$idj] = count($rows);
+                $ids = [];
+                foreach ($banks as $bank) {
+                    foreach ($bank as $tp) {
+                        foreach ($tp as $smt) {
+                            $ids[] = $smt->id_bank;
                         }
                     }
                 }
-                $data["total_siswa"] = $jadwal_terpakai;
+                $data["total_siswa"] = count($ids) > 0 ? $this->cbt->getJumlahSiswaBank($ids) : [];
             }
             $this->load->view("members/guru/templates/header", $data);
             $this->load->view("cbt/banksoal/data");
@@ -418,8 +400,8 @@ class Cbtbanksoal extends CI_Controller
         $data["bank"] = $this->cbt->getDataBankById($id);
         $data["soals"] = $this->cbt->getAllSoalByBank($id);
         $data["kelas"] = $this->cbt->getKelas($tp->id_tp, $smt->id_smt);
-        $terpakai = $this->cbt->getBankTerpakai([$id]);
-        $data["total_siswa"] = isset($terpakai[$id]) ? count($terpakai[$id]) : 0;
+        $terpakai = $this->cbt->getJumlahSiswaBank([$id]);
+        $data["total_siswa"] = isset($terpakai[$id]) ? $terpakai[$id] : 0;
         if ($this->ion_auth->is_admin()) {
             $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
             $this->load->view("_templates/dashboard/_header", $data);
@@ -449,22 +431,17 @@ class Cbtbanksoal extends CI_Controller
             }
             $i++;
         }
-        $updated = 0;
-        foreach ($arrId as $id) {
-            $this->db->set("tampilkan", 1);
-            $this->db->where("id_soal", $id);
-            $this->db->update("cbt_soal");
-            $updated++;
+        $updated = count($arrId);
+        if ($updated > 0) {
+            $this->db->where_in("id_soal", $arrId);
+            $this->db->update("cbt_soal", ["tampilkan" => 1]);
         }
-        foreach ($unchek as $id) {
-            $this->db->set("tampilkan", 0);
-            $this->db->where("id_soal", $id);
-            $this->db->update("cbt_soal");
+        if (is_array($unchek) && count($unchek) > 0) {
+            $this->db->where_in("id_soal", $unchek);
+            $this->db->update("cbt_soal", ["tampilkan" => 0]);
         }
-        sleep(1);
         $bank = $this->cbt->getDataBankById($bank_id);
-        $soals = $this->cbt->getAllSoalByBank($bank_id);
-        $total_soal_tampil = isset(array_count_values(array_column($soals, "tampilkan"))["1"]) ? array_count_values(array_column($soals, "tampilkan"))["1"] : 0;
+        $total_soal_tampil = $this->cbt->getTotalSoalTampil($bank_id);
         $total_soal_seharusnya_tampil = $bank->tampil_pg + $bank->tampil_kompleks + $bank->tampil_jodohkan + $bank->tampil_isian + $bank->tampil_esai;
         $tampil_kurang = $total_soal_tampil < $total_soal_seharusnya_tampil;
         $status_soal = $tampil_kurang ? "0" : "1";
@@ -527,7 +504,7 @@ class Cbtbanksoal extends CI_Controller
         $bank = $this->cbt->getDataBankById($id_bank);
         $data["soal"] = null;
         $data["soal_ada"] = $this->cbt->cekSoalAda($id_bank, $jenis);
-        $data_komplit = $this->cbt->cekSoalBelumKomplit($jenis, $bank->opsi);
+        $data_komplit = $this->cbt->cekSoalBelumKomplit($jenis, $bank->opsi, $id_bank);
         $data["soal_belum_komplit"] = isset($data_komplit[$id_bank]) ? $data_komplit[$id_bank] : [];
         if ($jenis == "1") {
             $data["jml_pg"] = $this->cbt->getNomorSoalTerbesar($id_bank, 1);
