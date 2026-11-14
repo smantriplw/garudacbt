@@ -142,7 +142,7 @@ class Dapodik extends CI_Controller
         ]);
     }
 
-    private function fetch_rows($path, $timeout)
+    protected function fetch_rows($path, $timeout)
     {
         $error = $this->config_error();
         if ($error !== null) {
@@ -425,9 +425,16 @@ class Dapodik extends CI_Controller
             if (isset($userGuruRow)) {
                 $data["id_user"] = $userGuruRow->id;
             }
-            $rowGuru = $this->db->select("nip")->from("master_guru")->where("nip", $value->nip)->get()->num_rows();
-            if ($rowGuru > 0) {
-                $act = $this->master->update("master_guru", $data, "nip", $value->nip);
+            $rowGuru = $this->db->select("nip, username, password")->from("master_guru")->where("nip", $value->nip)->get()->row();
+            if ($rowGuru !== null) {
+                $update = $data;
+                if (trim((string) $rowGuru->username) !== "") {
+                    unset($update["username"]);
+                }
+                if (trim((string) $rowGuru->password) !== "") {
+                    unset($update["password"]);
+                }
+                $act = $this->master->update("master_guru", $update, "nip", $value->nip);
             } else {
                 $act = $this->master->create("master_guru", $data);
             }
@@ -520,9 +527,16 @@ class Dapodik extends CI_Controller
                 continue;
             }
 
-            $row = $this->db->select("nama, id_siswa")->from("master_siswa")->where("nisn", $data["nisn"])->get()->row();
+            $row = $this->db->select("nama, id_siswa, username, password")->from("master_siswa")->where("nisn", $data["nisn"])->get()->row();
             if (isset($row)) {
-                $tersimpan = $this->master->update("master_siswa", $data, "nisn", $data["nisn"]);
+                $update = $data;
+                if (trim((string) $row->username) !== "") {
+                    unset($update["username"]);
+                }
+                if (trim((string) $row->password) !== "") {
+                    unset($update["password"]);
+                }
+                $tersimpan = $this->master->update("master_siswa", $update, "nisn", $data["nisn"]);
                 $id_siswa = $row->id_siswa;
             } else {
                 $this->db->set("uid", "UUID()", FALSE);

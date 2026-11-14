@@ -96,9 +96,14 @@ $(document).ready(function () {
 				console.log("response:", data);
                 //window.history.back();
                 if (data.status) {
+                    let teks = (data.baru || 0) + " siswa baru, " + (data.update || 0) + " siswa diperbarui.";
+                    const gagal = data.errors ? Object.keys(data.errors) : [];
+                    if (gagal.length) {
+                        teks += " " + gagal.length + " baris dilewati: " + gagal.join(", ");
+                    }
                     swal.fire({
                         title: "Berhasil",
-                        text: "Data siswa berhasil diimpor",
+                        text: teks,
                         icon: "success"
                     }).then(result => {
                         if (result.value) {
@@ -257,20 +262,20 @@ function preview(action, data, filename) {
                 htmlError.append($(`<li>Ada ${arrUserDup.length} duplikat USERNAME, silakan cek kembali USERNAME berikut: <br /><b>${arrUserDup.join(", ")}</b></li>`))
             }
 
-            let invalidDb = false;
-            let dbError = $('<ul><b>DUPLIKAT DATABASE</b></ul>');
+            let infoDb = false;
+            let dbInfo = $('<ul><b>SUDAH ADA DI DATABASE</b></ul>');
             if (arrSiswaDup.length > 0) {
-                invalidDb = true;
-                dbError.append($(`<li><b>${arrSiswaDup.length}</b> Siswa menggunakan NISN/NIS/USERNAME yang sudah digunakan dalam DATABASE, silakan cek kembali Siswa berikut: <br /><b>${arrSiswaDup.join(", ")}</b></li>`))
+                infoDb = true;
+                dbInfo.append($(`<li><b>${arrSiswaDup.length}</b> siswa sudah ada dan akan <b>diperbarui</b>, bukan diduplikasi: <br /><b>${arrSiswaDup.join(", ")}</b></li>`))
             }
 
             let alert = $('<div class="alert alert-default-danger align-content-center" role="alert"></div>');
             if (invalidTemp) alert.append(htmlError)
-            if (invalidDb) alert.append(dbError)
+            if (infoDb) alert.append(dbInfo)
 
             const content = $('#file-preview')
             content.html('')
-            if ((invalidTemp || invalidDb) && typeImport === "add") {
+            if ((invalidTemp || infoDb) && typeImport === "add") {
                 content.append(alert)
             }
             content.append(html)
@@ -284,7 +289,7 @@ function preview(action, data, filename) {
 				"info":     false,
 				"scrollX": 	true
 			});
-			if (typeImport === "add" && (invalidTemp || invalidDb)) {
+			if (typeImport === "add" && invalidTemp) {
                 $('#submit-excel').attr('disabled', 'disabled');
             } else {
                 $('#submit-excel').removeAttr('disabled');

@@ -393,12 +393,52 @@ class Dataguru extends CI_Controller
     {
         $this->load->model("Master_model", "master");
         $input = json_decode($this->input->post("guru", true));
-        $data = [];
-        foreach ($input as $d) {
-            $data[] = ["nama_guru" => trim($d->nama), "nip" => trim($d->nip), "username" => trim($d->username), "password" => trim($d->password), "foto" => "uploads/profiles/" . trim($d->nip) . ".jpg"];
+        if (!is_array($input)) {
+            return $this->output_json(["status" => false, "baru" => 0, "update" => 0, "gagal" => []]);
         }
-        $save = $this->master->create("master_guru", $data, true);
-        $this->output->set_content_type("application/json")->set_output($save);
+        $baru = 0;
+        $update = 0;
+        $gagal = [];
+        $diproses = [];
+
+        $this->db->trans_start();
+        foreach ($input as $d) {
+            $nama = isset($d->nama) ? trim((string) $d->nama) : "";
+            $nip = isset($d->nip) ? trim((string) $d->nip) : "";
+            if (strlen($nip) < 5) {
+                $gagal[] = ["nama" => $nama, "nip" => $nip, "alasan" => "NIP kosong atau kurang dari 5 digit"];
+                continue;
+            }
+            if (isset($diproses[$nip])) {
+                $gagal[] = ["nama" => $nama, "nip" => $nip, "alasan" => "NIP ganda di dalam file"];
+                continue;
+            }
+            $diproses[$nip] = true;
+
+            $row = [
+                "nama_guru" => $nama,
+                "nip" => $nip,
+                "username" => isset($d->username) ? trim((string) $d->username) : $nip,
+                "password" => isset($d->password) ? trim((string) $d->password) : "",
+                "foto" => "uploads/profiles/" . $nip . ".jpg",
+            ];
+            $existing = $this->db->select("id_guru")->from("master_guru")->where("nip", $nip)->get()->row();
+            if ($existing !== null) {
+                $this->master->update("master_guru", $row, "id_guru", $existing->id_guru);
+                $update++;
+            } else {
+                $this->master->create("master_guru", $row);
+                $baru++;
+            }
+        }
+        $this->db->trans_complete();
+
+        $this->output_json([
+            "status" => ($baru + $update) > 0,
+            "baru" => $baru,
+            "update" => $update,
+            "gagal" => $gagal,
+        ]);
     }
     public function editJabatan($id)
     {

@@ -293,54 +293,107 @@ class Datasiswa extends CI_Controller
     public function do_import()
     {
         $input = json_decode($this->input->post("siswa", true));
+        if (!is_array($input)) {
+            return $this->output_json(["status" => false, "errors" => [], "baru" => 0, "update" => 0]);
+        }
         $errors = [];
-        $duplikat = [];
-        foreach ($input as $key1 => $val1) {
+        $diproses = [];
+        $ids = [];
+        $baru = 0;
+        $update = 0;
+
+        $this->db->trans_start();
+        foreach ($input as $val1) {
             $data = [];
-            foreach (((array) $input)[$key1] as $key => $val) {
+            foreach ((array) $val1 as $key => $val) {
                 $data[$key] = $val;
             }
-            $this->form_validation->set_data($data);
-            $u_nis = "|is_unique[master_siswa.nis]";
-            $u_nisn = "|is_unique[master_siswa.nisn]";
-            $u_name = "|is_unique[master_siswa.username]";
-            $this->form_validation->set_rules("nis", "NIS", "required|numeric|trim|min_length[6]|max_length[30]|is_unique[master_siswa.nis]");
-            $this->form_validation->set_rules("nisn", "NISN", "required|numeric|trim|min_length[6]|max_length[20]|is_unique[master_siswa.nisn]");
-            $this->form_validation->set_rules("username", "Username", "required|trim|is_unique[master_siswa.username]");
-            if ($this->form_validation->run() == FALSE) {
-                $duplikat[] = $data;
-                $errors[$data["nama"]] = ["nis" => form_error("nis"), "nisn" => form_error("nisn"), "username" => form_error("username")];
+            $nisn = isset($data["nisn"]) ? trim((string) $data["nisn"]) : "";
+            $nis = isset($data["nis"]) ? trim((string) $data["nis"]) : "";
+            $nama = isset($data["nama"]) ? trim((string) $data["nama"]) : "";
+            $username = isset($data["username"]) ? trim((string) $data["username"]) : "";
+            $label = $nama !== "" ? $nama : ($nisn !== "" ? $nisn : $nis);
+
+            $pesan = ["nis" => "", "nisn" => "", "username" => ""];
+            if ($nis === "" || !ctype_digit($nis) || strlen($nis) < 6 || strlen($nis) > 30) {
+                $pesan["nis"] = "NIS harus angka 6-30 digit";
             }
-        }
-        if (count($errors) > 0) {
-            $data = ["status" => false, "errors" => $errors, "duplikat" => $duplikat];
-            $this->output_json($data);
-        } else {
-            $this->db->trans_start();
-            foreach ($input as $key1 => $val1) {
-                $data = [];
-                foreach (((array) $input)[$key1] as $key => $val) {
-                    if ($key == "status_keluarga" && $val == null) {
-                        $data[$key] = "1";
-                    } else {
-                        $data[$key] = $val;
-                    }
+            if ($nisn === "" || !ctype_digit($nisn) || strlen($nisn) < 6 || strlen($nisn) > 20) {
+                $pesan["nisn"] = "NISN harus angka 6-20 digit";
+            }
+            if ($username === "") {
+                $pesan["username"] = "Username wajib diisi";
+            }
+            $kunci = $nisn !== "" ? "N" . $nisn : "S" . $nis;
+            if (isset($diproses[$kunci])) {
+                $pesan["nisn"] = "NISN/NIS ganda di dalam file";
+            }
+
+            $existing = null;
+            if (array_filter($pesan) === []) {
+                if ($nisn !== "") {
+                    $existing = $this->db->select("id_siswa")->from("master_siswa")->where("nisn", $nisn)->get()->row();
                 }
-                $data["foto"] = "uploads/foto_siswa/" . $data["nis"] . ".jpg";
+                if ($existing === null && $nis !== "") {
+                    $existing = $this->db->select("id_siswa")->from("master_siswa")->where("nis", $nis)->get()->row();
+                }
+                $bentrok = $this->db->select("id_siswa")->from("master_siswa")->where("username", $username)->get()->row();
+                if ($bentrok !== null && ($existing === null || (string) $bentrok->id_siswa !== (string) $existing->id_siswa)) {
+                    $pesan["username"] = "Username dipakai siswa lain";
+                }
+                $bentrokNis = $this->db->select("id_siswa")->from("master_siswa")->where("nis", $nis)->get()->row();
+                if ($bentrokNis !== null && ($existing === null || (string) $bentrokNis->id_siswa !== (string) $existing->id_siswa)) {
+                    $pesan["nis"] = "NIS dipakai siswa lain";
+                }
+            }
+
+            if (array_filter($pesan) !== []) {
+                $errors[$label] = $pesan;
+                continue;
+            }
+            $diproses[$kunci] = true;
+
+            if (!isset($data["status_keluarga"]) || $data["status_keluarga"] == null) {
+                $data["status_keluarga"] = "1";
+            }
+            $data["foto"] = "uploads/foto_siswa/" . $nis . ".jpg";
+            unset($data["id_siswa"]);
+
+            if ($existing !== null) {
+                $this->db->where("id_siswa", $existing->id_siswa)->update("master_siswa", $data);
+                $ids[] = $existing->id_siswa;
+                $update++;
+            } else {
                 $this->db->set("uid", "UUID()", FALSE);
-                $save = $this->db->insert("master_siswa", $data);
+                $this->db->insert("master_siswa", $data);
+                $ids[] = $this->db->insert_id();
+                $baru++;
             }
-            $uids = $this->db->select("id_siswa, uid")->from("master_siswa")->get()->result();
-            foreach ($uids as $uid) {
-                $check = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $uid->id_siswa);
-                if ($check->get()->num_rows() == 0) {
-                    $this->db->insert("buku_induk", $uid);
+        }
+
+        if (count($ids) > 0) {
+            $ada = [];
+            foreach ($this->db->select("id_siswa")->from("buku_induk")->where_in("id_siswa", $ids)->get()->result() as $row) {
+                $ada[$row->id_siswa] = true;
+            }
+            $ins = [];
+            foreach ($this->db->select("id_siswa, uid")->from("master_siswa")->where_in("id_siswa", $ids)->get()->result() as $row) {
+                if (!isset($ada[$row->id_siswa])) {
+                    $ins[] = ["id_siswa" => $row->id_siswa, "uid" => $row->uid];
                 }
             }
-            $this->db->trans_complete();
-            $data = ["status" => true, "errors" => []];
-            $this->output_json($data);
+            if (count($ins) > 0) {
+                $this->db->insert_batch("buku_induk", $ins);
+            }
         }
+        $this->db->trans_complete();
+
+        $this->output_json([
+            "status" => ($baru + $update) > 0,
+            "baru" => $baru,
+            "update" => $update,
+            "errors" => $errors,
+        ]);
     }
     public function update()
     {
