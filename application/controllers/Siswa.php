@@ -734,81 +734,94 @@ class Siswa extends CI_Controller
         $this->load->model("Cbt_model", "cbt");
         $cek_soal = $this->cbt->getAllIdSoal($id_bank);
         $jadwal = $this->cbt->getInfoJadwal($id_bank);
-        $num1 = isset($cek_soal["1"]) ? count($cek_soal["1"]) : 0;
-        $num2 = isset($cek_soal["2"]) ? count($cek_soal["2"]) : 0;
-        $num3 = isset($cek_soal["3"]) ? count($cek_soal["3"]) : 0;
-        $num4 = isset($cek_soal["4"]) ? count($cek_soal["4"]) : 0;
-        $num5 = isset($cek_soal["5"]) ? count($cek_soal["5"]) : 0;
-        $total = $num1 + $num2 + $num3 + $num4 + $num5;
-        $ada1 = $num1 == (int) $jadwal->tampil_pg;
-        $ada2 = $num2 == (int) $jadwal->tampil_kompleks;
-        $ada3 = $num3 == (int) $jadwal->tampil_jodohkan;
-        $ada4 = $num4 == (int) $jadwal->tampil_isian;
-        $ada5 = $num5 == (int) $jadwal->tampil_esai;
-        if ($ada1 && $ada2 && $ada3 && $ada4 && $ada5) {
-            $opsis = $jadwal->opsi;
-            if ($opsis == "2") {
-                $arrOpsi = ["A", "B"];
-            } else if ($opsis == "3") {
-                $arrOpsi = ["A", "B", "C"];
-            } else if ($opsis == "4") {
-                $arrOpsi = ["A", "B", "C", "D"];
-            } else {
-                $arrOpsi = ["A", "B", "C", "D", "E"];
+
+        // Build the queue from the questions that are actually available,
+        // capped at the number configured per type. A shortfall used to make
+        // the whole exam impossible to start, so a single missing question
+        // blocked every other type as well.
+        $batas = [
+            "1" => $jadwal !== null ? (int) $jadwal->tampil_pg : 0,
+            "2" => $jadwal !== null ? (int) $jadwal->tampil_kompleks : 0,
+            "3" => $jadwal !== null ? (int) $jadwal->tampil_jodohkan : 0,
+            "4" => $jadwal !== null ? (int) $jadwal->tampil_isian : 0,
+            "5" => $jadwal !== null ? (int) $jadwal->tampil_esai : 0,
+        ];
+        $ambil = [];
+        $total = 0;
+        foreach ($cek_soal as $jenis => $soals) {
+            $maks = isset($batas[$jenis]) ? $batas[$jenis] : 0;
+            if ($maks < 1 || count($soals) === 0) {
+                continue;
             }
-            $arrNum = range(1, $total);
-            if ($jadwal->acak_soal == "1") {
-                shuffle($arrNum);
-            }
-            $items = [];
-            $j = 0;
-            foreach ($cek_soal as $jenis => $soals) {
-                foreach ($soals as $soal) {
-                    if ($jenis == "1") {
-                        if ($jadwal->acak_opsi == "1") {
-                            shuffle($arrOpsi);
-                        }
-                    }
-                    $item_soal["id_soal_siswa"] = $id_siswa . "0" . $id_jadwal . $id_bank . $arrNum[$j];
-                    $item_soal["id_bank"] = $id_bank;
-                    $item_soal["id_jadwal"] = $id_jadwal;
-                    $item_soal["id_soal"] = $soal->id_soal;
-                    $item_soal["id_siswa"] = $id_siswa;
-                    $item_soal["jenis_soal"] = $jenis;
-                    $item_soal["no_soal_alias"] = $arrNum[$j];
-                    if ($jenis == "1") {
-                        $item_soal["opsi_alias_a"] = $arrOpsi[0];
-                        $item_soal["opsi_alias_b"] = $arrOpsi[1];
-                        $item_soal["opsi_alias_c"] = isset($arrOpsi[2]) ? $arrOpsi[2] : '';
-                        $item_soal["opsi_alias_d"] = isset($arrOpsi[3]) ? $arrOpsi[3] : '';
-                        $item_soal["opsi_alias_e"] = isset($arrOpsi[4]) ? $arrOpsi[4] : '';
-                        $item_soal["point_soal"] = $jadwal->bobot_pg > 0 ? round($jadwal->bobot_pg / $jadwal->tampil_pg, 2) : 0;
-                    } else if ($jenis == "2") {
-                        $item_soal["opsi_alias_a"] = "A";
-                        $item_soal["opsi_alias_b"] = '';
-                        $item_soal["opsi_alias_c"] = '';
-                        $item_soal["opsi_alias_d"] = '';
-                        $item_soal["opsi_alias_e"] = '';
-                        $item_soal["point_soal"] = $jadwal->bobot_kompleks > 0 ? round($jadwal->bobot_kompleks / $jadwal->tampil_kompleks, 2) : 0;
-                    } else if ($jenis == "3") {
-                        $item_soal["point_soal"] = $jadwal->bobot_jodohkan > 0 ? round($jadwal->bobot_jodohkan / $jadwal->tampil_jodohkan, 2) : 0;
-                    } else if ($jenis == "4") {
-                        $item_soal["point_soal"] = $jadwal->bobot_isian > 0 ? round($jadwal->bobot_isian / $jadwal->tampil_isian, 2) : 0;
-                    } else if ($jenis == "5") {
-                        $item_soal["point_soal"] = $jadwal->bobot_esai > 0 ? round($jadwal->bobot_esai / $jadwal->tampil_esai, 2) : 0;
-                    }
-                    $item_soal["jawaban_benar"] = $soal->jawaban;
-                    $item_soal["soal_end"] = $j + 1 === count($arrNum) ? "1" : "0";
-                    array_push($items, $item_soal);
-                    $j++;
-                }
-            }
-            usort($items, function ($a, $b) {
-                return $a["no_soal_alias"] <=> $b["no_soal_alias"];
-            });
-            return $items;
+            $ambil[$jenis] = count($soals) > $maks ? array_slice($soals, 0, $maks) : $soals;
+            $total += count($ambil[$jenis]);
         }
-        return array();
+        if ($total < 1) {
+            return [];
+        }
+        $opsis = $jadwal->opsi;
+        if ($opsis == "2") {
+            $arrOpsi = ["A", "B"];
+        } else if ($opsis == "3") {
+            $arrOpsi = ["A", "B", "C"];
+        } else if ($opsis == "4") {
+            $arrOpsi = ["A", "B", "C", "D"];
+        } else {
+            $arrOpsi = ["A", "B", "C", "D", "E"];
+        }
+        $arrNum = range(1, $total);
+        if ($jadwal->acak_soal == "1") {
+            shuffle($arrNum);
+        }
+        $items = [];
+        $j = 0;
+        $item_soal = ["opsi_alias_a" => "", "opsi_alias_b" => "", "opsi_alias_c" => "", "opsi_alias_d" => "", "opsi_alias_e" => ""];
+        foreach ($ambil as $jenis => $soals) {
+            $jumlah = count($soals);
+            foreach ($soals as $soal) {
+                if ($jenis == "1") {
+                    if ($jadwal->acak_opsi == "1") {
+                        shuffle($arrOpsi);
+                    }
+                }
+                $item_soal["id_soal_siswa"] = $id_siswa . "0" . $id_jadwal . $id_bank . $arrNum[$j];
+                $item_soal["id_bank"] = $id_bank;
+                $item_soal["id_jadwal"] = $id_jadwal;
+                $item_soal["id_soal"] = $soal->id_soal;
+                $item_soal["id_siswa"] = $id_siswa;
+                $item_soal["jenis_soal"] = $jenis;
+                $item_soal["no_soal_alias"] = $arrNum[$j];
+                if ($jenis == "1") {
+                    $item_soal["opsi_alias_a"] = $arrOpsi[0];
+                    $item_soal["opsi_alias_b"] = $arrOpsi[1];
+                    $item_soal["opsi_alias_c"] = isset($arrOpsi[2]) ? $arrOpsi[2] : '';
+                    $item_soal["opsi_alias_d"] = isset($arrOpsi[3]) ? $arrOpsi[3] : '';
+                    $item_soal["opsi_alias_e"] = isset($arrOpsi[4]) ? $arrOpsi[4] : '';
+                    $item_soal["point_soal"] = $jadwal->bobot_pg > 0 ? round($jadwal->bobot_pg / $jumlah, 2) : 0;
+                } else if ($jenis == "2") {
+                    $item_soal["opsi_alias_a"] = "A";
+                    $item_soal["opsi_alias_b"] = '';
+                    $item_soal["opsi_alias_c"] = '';
+                    $item_soal["opsi_alias_d"] = '';
+                    $item_soal["opsi_alias_e"] = '';
+                    $item_soal["point_soal"] = $jadwal->bobot_kompleks > 0 ? round($jadwal->bobot_kompleks / $jumlah, 2) : 0;
+                } else if ($jenis == "3") {
+                    $item_soal["point_soal"] = $jadwal->bobot_jodohkan > 0 ? round($jadwal->bobot_jodohkan / $jumlah, 2) : 0;
+                } else if ($jenis == "4") {
+                    $item_soal["point_soal"] = $jadwal->bobot_isian > 0 ? round($jadwal->bobot_isian / $jumlah, 2) : 0;
+                } else if ($jenis == "5") {
+                    $item_soal["point_soal"] = $jadwal->bobot_esai > 0 ? round($jadwal->bobot_esai / $jumlah, 2) : 0;
+                }
+                $item_soal["jawaban_benar"] = $soal->jawaban;
+                $item_soal["soal_end"] = $j + 1 === count($arrNum) ? "1" : "0";
+                array_push($items, $item_soal);
+                $j++;
+            }
+        }
+        usort($items, function ($a, $b) {
+            return $a["no_soal_alias"] <=> $b["no_soal_alias"];
+        });
+        return $items;
     }
     public function penilaian($id_jadwal)
     {
