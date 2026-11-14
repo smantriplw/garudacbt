@@ -36,7 +36,7 @@ class Rapor extends CI_Controller
     public function index()
     {
         $this->load->model("Dashboard_model", "dashboard");
-        $no_update = $this->db->field_exists("nip_kepsek", "rapor_admin_setting");
+        $no_update = schema_has_column("rapor_admin_setting", "nip_kepsek");
         if (!($no_update)) {
             $field = array("nip_kepsek" => array("type" => "int", "constraint" => 1, "default" => 0), "nip_walikelas" => array("type" => "int", "constraint" => 1, "default" => 0));
             $this->dbforge->add_column("rapor_admin_setting", $field);
@@ -266,6 +266,11 @@ class Rapor extends CI_Controller
         $harian = [];
         $pts = [];
         $pas = [];
+        $countSiswa = $this->kelas->countKelasSiswaBatch($tp->id_tp, $smt->id_smt);
+        $harianMap = $this->rapor->cekNilaiKelasBatch("rapor_nilai_harian", "id_mapel", "p_rata_rata", $tp->id_tp, $smt->id_smt);
+        $ptsMap = $this->rapor->cekNilaiKelasBatch("rapor_nilai_pts", "id_mapel", "predikat", $tp->id_tp, $smt->id_smt);
+        $pasMap = $this->rapor->cekNilaiKelasBatch("rapor_nilai_akhir", "id_mapel", null, $tp->id_tp, $smt->id_smt);
+        $ekstraMap = $this->rapor->cekNilaiKelasBatch("rapor_nilai_ekstra", "id_ekstra", null, $tp->id_tp, $smt->id_smt);
         foreach ($mapel as $m) {
             $arrMapel[$m->id_mapel] = $m->nama_mapel;
             foreach ($m->kelas_mapel as $kls) {
@@ -273,10 +278,11 @@ class Rapor extends CI_Controller
                 if ($kelas_guru != null) {
                     $levelsMapel[] = $kelas_guru->level_id;
                     $arrKelasMapel[$m->id_mapel][] = ["id_kelas" => $kelas_guru->id_kelas, "level" => $kelas_guru->level_id, "nama_kelas" => $kelas_guru->nama_kelas];
-                    $siswas[$m->id_mapel][$kelas_guru->nama_kelas] = count($this->kelas->getKelasSiswa($kelas_guru->id_kelas, $tp->id_tp, $smt->id_smt));
-                    $harian[$m->id_mapel][$kelas_guru->nama_kelas] = $this->rapor->cekNilaiHarianKelas($m->id_mapel, $kelas_guru->id_kelas, $tp->id_tp, $smt->id_smt);
-                    $pts[$m->id_mapel][$kelas_guru->nama_kelas] = $this->rapor->cekNilaiPtsKelas($m->id_mapel, $kelas_guru->id_kelas, $tp->id_tp, $smt->id_smt);
-                    $pas[$m->id_mapel][$kelas_guru->nama_kelas] = $this->rapor->cekNilaiAkhirKelas($m->id_mapel, $kelas_guru->id_kelas, $tp->id_tp, $smt->id_smt);
+                    $key = $m->id_mapel . ":" . $kelas_guru->id_kelas;
+                    $siswas[$m->id_mapel][$kelas_guru->nama_kelas] = $countSiswa[$kelas_guru->id_kelas] ?? 0;
+                    $harian[$m->id_mapel][$kelas_guru->nama_kelas] = $harianMap[$key] ?? 0;
+                    $pts[$m->id_mapel][$kelas_guru->nama_kelas] = $ptsMap[$key] ?? 0;
+                    $pas[$m->id_mapel][$kelas_guru->nama_kelas] = $pasMap[$key] ?? 0;
                 }
             }
         }
@@ -299,8 +305,8 @@ class Rapor extends CI_Controller
                     $kelas_guru = $this->kelas->get_one($kls->kelas);
                     if ($kelas_guru != null) {
                         $arrKelasEkstra[$m->id_ekstra][] = ["id_kelas" => $kelas_guru->id_kelas, "level" => $kelas_guru->level_id, "nama_kelas" => $kelas_guru->nama_kelas];
-                        $siswae[$m->id_ekstra][$kelas_guru->nama_kelas] = count($this->kelas->getKelasSiswa($kelas_guru->id_kelas, $tp->id_tp, $smt->id_smt));
-                        $ektras[$m->id_ekstra][$kelas_guru->nama_kelas] = $this->rapor->cekNilaiEkstraKelas($m->id_ekstra, $kelas_guru->id_kelas, $tp->id_tp, $smt->id_smt);
+                        $siswae[$m->id_ekstra][$kelas_guru->nama_kelas] = $countSiswa[$kelas_guru->id_kelas] ?? 0;
+                        $ektras[$m->id_ekstra][$kelas_guru->nama_kelas] = $ekstraMap[$m->id_ekstra . ":" . $kelas_guru->id_kelas] ?? 0;
                     }
                 }
             }
@@ -356,12 +362,17 @@ class Rapor extends CI_Controller
             $arrKiKd[] = [];
             if ($guru->wali_kelas != null) {
                 $aspek = ["1", "2"];
+                $kikdIds = [];
                 foreach ($aspek as $asp) {
-                    $i = 0;
-                    while ($i < 8) {
-                        $no = $i + 1;
-                        $arrKiKd[$asp][$id_mapel . $guru->wali_kelas . $asp . $no] = $this->rapor->getKikdMapel($id_mapel . $guru->wali_kelas . $asp . $no, $tp->id_tp, $smt->id_smt);
-                        $i++;
+                    for ($no = 1; $no <= 8; $no++) {
+                        $kikdIds[] = $id_mapel . $guru->wali_kelas . $asp . $no;
+                    }
+                }
+                $kikdMap = $this->rapor->getKikdMapelBatch($kikdIds, $tp->id_tp, $smt->id_smt);
+                foreach ($aspek as $asp) {
+                    for ($no = 1; $no <= 8; $no++) {
+                        $kikdId = $id_mapel . $guru->wali_kelas . $asp . $no;
+                        $arrKiKd[$asp][$kikdId] = $kikdMap[$kikdId] ?? null;
                     }
                 }
             }
@@ -379,10 +390,13 @@ class Rapor extends CI_Controller
                     }
                 }
                 $i = 0;
-                while ($i < count($siswas)) {
+                $nilaiMap = $this->rapor->getNilaiHarianKelasBatch($id_mapel, $guru->wali_kelas, $tp->id_tp, $smt->id_smt);
+                $jmlSiswa = count($siswas);
+                while ($i < $jmlSiswa) {
                     $siswa = $siswas[$i];
                     $dummyNilai = ["p1" => '', "p2" => '', "p3" => '', "p4" => '', "p5" => '', "p6" => '', "p7" => '', "p8" => '', "p_rata_rata" => '', "p_predikat" => "=", "p_deskripsi" => '', "k1" => '', "k2" => '', "k3" => '', "k4" => '', "k5" => '', "k6" => '', "k7" => '', "k8" => '', "k_rata_rata" => '', "k_predikat" => '', "k_deskripsi" => ''];
-                    $ns = $this->rapor->getNilaiHarianKelas($id_mapel, $guru->wali_kelas, $siswa->id_siswa, $tp->id_tp, $smt->id_smt);
+                    $nilaiKey = $id_mapel . $guru->wali_kelas . $siswa->id_siswa . $tp->id_tp . $smt->id_smt;
+                    $ns = $nilaiMap[$nilaiKey] ?? null;
                     $nilai[$siswa->id_siswa] = $ns == null ? json_decode(json_encode($dummyNilai)) : $ns;
                     $i++;
                 }
@@ -401,9 +415,11 @@ class Rapor extends CI_Controller
                 }
                 $dummyEkstra = ["deskripsi" => '', "nilai" => '', "predikat" => ''];
                 $i = 0;
-                while ($i < count($siswas)) {
+                $ekstraNilai = $this->rapor->getEkstraKelasBatch($id_mapel, $tp->id_tp, $smt->id_smt);
+                $jmlSiswa = count($siswas);
+                while ($i < $jmlSiswa) {
                     $siswa = $siswas[$i];
-                    $ne = $this->rapor->getEkstraKelas($id_mapel, $siswa->id_siswa, $tp->id_tp, $smt->id_smt);
+                    $ne = $ekstraNilai[$siswa->id_siswa] ?? null;
                     $nilai[$siswa->id_siswa] = $ne == null ? json_decode(json_encode($dummyEkstra)) : $ne;
                     $i++;
                 }
@@ -461,12 +477,17 @@ class Rapor extends CI_Controller
             $arrKiKd[] = [];
             if ($guru->wali_kelas != null) {
                 $aspek = ["1", "2"];
+                $kikdIds = [];
                 foreach ($aspek as $asp) {
-                    $i = 0;
-                    while ($i < 8) {
-                        $no = $i + 1;
-                        $arrKiKd[$asp][$id_mapel . $guru->wali_kelas . $asp . $no] = $this->rapor->getKikdMapel($id_mapel . $guru->wali_kelas . $asp . $no, $tp->id_tp, $smt->id_smt);
-                        $i++;
+                    for ($no = 1; $no <= 8; $no++) {
+                        $kikdIds[] = $id_mapel . $guru->wali_kelas . $asp . $no;
+                    }
+                }
+                $kikdMap = $this->rapor->getKikdMapelBatch($kikdIds, $tp->id_tp, $smt->id_smt);
+                foreach ($aspek as $asp) {
+                    for ($no = 1; $no <= 8; $no++) {
+                        $kikdId = $id_mapel . $guru->wali_kelas . $asp . $no;
+                        $arrKiKd[$asp][$kikdId] = $kikdMap[$kikdId] ?? null;
                     }
                 }
             }
@@ -484,10 +505,13 @@ class Rapor extends CI_Controller
                     }
                 }
                 $i = 0;
-                while ($i < count($siswas)) {
+                $nilaiMap = $this->rapor->getNilaiHarianKelasBatch($id_mapel, $guru->wali_kelas, $tp->id_tp, $smt->id_smt);
+                $jmlSiswa = count($siswas);
+                while ($i < $jmlSiswa) {
                     $siswa = $siswas[$i];
                     $dummyNilai = ["p1" => '', "p2" => '', "p3" => '', "p4" => '', "p5" => '', "p6" => '', "p7" => '', "p8" => '', "p_rata_rata" => '', "p_predikat" => "=", "p_deskripsi" => '', "k1" => '', "k2" => '', "k3" => '', "k4" => '', "k5" => '', "k6" => '', "k7" => '', "k8" => '', "k_rata_rata" => '', "k_predikat" => '', "k_deskripsi" => ''];
-                    $ns = $this->rapor->getNilaiHarianKelas($id_mapel, $guru->wali_kelas, $siswa->id_siswa, $tp->id_tp, $smt->id_smt);
+                    $nilaiKey = $id_mapel . $guru->wali_kelas . $siswa->id_siswa . $tp->id_tp . $smt->id_smt;
+                    $ns = $nilaiMap[$nilaiKey] ?? null;
                     $nilai[$siswa->id_siswa] = $ns == null ? json_decode(json_encode($dummyNilai)) : $ns;
                     $i++;
                 }
@@ -506,9 +530,11 @@ class Rapor extends CI_Controller
                 }
                 $dummyEkstra = ["deskripsi" => '', "nilai" => '', "predikat" => ''];
                 $i = 0;
-                while ($i < count($siswas)) {
+                $ekstraNilai = $this->rapor->getEkstraKelasBatch($id_mapel, $tp->id_tp, $smt->id_smt);
+                $jmlSiswa = count($siswas);
+                while ($i < $jmlSiswa) {
                     $siswa = $siswas[$i];
-                    $ne = $this->rapor->getEkstraKelas($id_mapel, $siswa->id_siswa, $tp->id_tp, $smt->id_smt);
+                    $ne = $ekstraNilai[$siswa->id_siswa] ?? null;
                     $nilai[$siswa->id_siswa] = $ne == null ? json_decode(json_encode($dummyEkstra)) : $ne;
                     $i++;
                 }
@@ -707,9 +733,13 @@ class Rapor extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -723,6 +753,8 @@ class Rapor extends CI_Controller
         $siswas = $this->kelas->getKelasSiswa($id_kelas, $tp->id_tp, $smt->id_smt);
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $datas = [];
         $kikdp = [];
         $kikdk = [];
@@ -893,9 +925,13 @@ class Rapor extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -909,6 +945,8 @@ class Rapor extends CI_Controller
         $siswas = $this->kelas->getKelasSiswa($id_kelas, $tp->id_tp, $smt->id_smt);
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $datas = [];
         $readed = 0;
         foreach ($siswas as $siswa) {
@@ -1055,9 +1093,13 @@ class Rapor extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -1071,6 +1113,8 @@ class Rapor extends CI_Controller
         $siswas = $this->kelas->getKelasSiswa($id_kelas, $tp->id_tp, $smt->id_smt);
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $datas = [];
         $readed = 0;
         foreach ($siswas as $siswa) {
@@ -1216,9 +1260,13 @@ class Rapor extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -1232,6 +1280,8 @@ class Rapor extends CI_Controller
         $siswas = $this->kelas->getKelasSiswa($id_kelas, $tp->id_tp, $smt->id_smt);
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $datas = [];
         $readed = 0;
         foreach ($siswas as $siswa) {

@@ -25,7 +25,7 @@ class Auth extends CI_Controller
     public function index()
     {
         $this->load->model("Settings_model", "settings");
-        if (count($this->db->list_tables()) == 0) {
+        if (schema_table_count() == 0) {
             redirect("install");
         }
         $setting = $this->settings->getSetting();

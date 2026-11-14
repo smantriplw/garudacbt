@@ -77,16 +77,7 @@ class Dataekstra extends CI_Controller
     public function delete($id)
     {
         $messages = [];
-        $tables = [];
-        $tabless = $this->db->list_tables();
-        foreach ($tabless as $table) {
-            $fields = $this->db->field_data($table);
-            foreach ($fields as $field) {
-                if ($field->name == "id_ekstra" || $field->name == "ekstra_id") {
-                    array_push($tables, $table);
-                }
-            }
-        }
+        $tables = array_keys(schema_tables_with_columns(["id_ekstra", "ekstra_id"]));
         $this->output_json($tables);
         foreach ($tables as $table) {
             if ($table != "master_ekstra") {

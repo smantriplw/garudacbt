@@ -33,7 +33,11 @@ class Settings_model extends CI_Model
     }
     public function getSetting()
     {
-        return $this->db->get("setting")->row();
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
+        return $cached = $this->db->get("setting")->row();
     }
     function toJSON($table)
     {

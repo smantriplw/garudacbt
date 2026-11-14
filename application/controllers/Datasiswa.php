@@ -249,9 +249,13 @@ class Datasiswa extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -262,6 +266,8 @@ class Datasiswa extends CI_Controller
         }
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $data = [];
         $arr_nisn = [];
         $arr_nis = [];
@@ -502,9 +508,13 @@ class Datasiswa extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -515,6 +525,8 @@ class Datasiswa extends CI_Controller
         }
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $data = [];
         $i = 1;
         while ($i < count($sheetData)) {

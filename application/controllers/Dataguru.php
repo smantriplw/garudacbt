@@ -157,16 +157,7 @@ class Dataguru extends CI_Controller
         $this->load->model("Master_model", "master");
         $chk = $this->input->post("id_guru", true);
         $messages = [];
-        $tables = [];
-        $tabless = $this->db->list_tables();
-        foreach ($tabless as $table) {
-            $fields = $this->db->field_data($table);
-            foreach ($fields as $field) {
-                if ($field->name == "id_guru" || $field->name == "guru_id") {
-                    array_push($tables, $table);
-                }
-            }
-        }
+        $tables = array_keys(schema_tables_with_columns(["id_guru", "guru_id"]));
         foreach ($tables as $table) {
             if ($table != "master_guru") {
                 if ($table == "master_kelas") {
@@ -263,9 +254,13 @@ class Dataguru extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -276,6 +271,8 @@ class Dataguru extends CI_Controller
         }
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $data = [];
         $i = 1;
         while ($i < count($sheetData)) {
@@ -309,6 +306,7 @@ class Dataguru extends CI_Controller
         }
         unlink($file);
         $text = file_get_contents("./uploads/temp/doc.html");
+        unset($phpWord, $htmlWriter);
         $dom = new DOMDocument();
         $dom->loadHTML($text);
         $data = [];
@@ -359,9 +357,13 @@ class Dataguru extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -372,6 +374,8 @@ class Dataguru extends CI_Controller
         }
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $data = [];
         $i = 1;
         while ($i < count($sheetData)) {

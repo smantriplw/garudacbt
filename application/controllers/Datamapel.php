@@ -34,20 +34,9 @@ class Datamapel extends CI_Controller
         }
         $this->output->set_content_type("application/json")->set_output($data);
     }
-    private function updateUrutanTampil()
-    {
-        $mapels = $this->db->select("*")->from("master_mapel")->get()->result();
-        $insert = [];
-        foreach ($mapels as $mapel) {
-            $insert = ["id_mapel" => $mapel->id_mapel, "nama_mapel" => $mapel->id_mapel, "kode" => $mapel->id_mapel, "kelompok" => $mapel->id_mapel, "bobot_p" => $mapel->id_mapel, "bobot_k" => $mapel->id_mapel, "jenjang" => $mapel->id_mapel, "urutan" => $mapel->id_mapel, "urutan_tampil" => $mapel->id_mapel, "status" => $mapel->id_mapel, "deletable" => $mapel->id_mapel];
-        }
-        if (count($insert) > 0) {
-            $this->db->update_batch("master_mapel", $insert);
-        }
-    }
     public function index()
     {
-        if (!($this->db->field_exists("urutan_tampil", "master_mapel"))) {
+        if (!schema_has_column("master_mapel", "urutan_tampil")) {
             $fields = array("urutan_tampil" => array("type" => "int(3)", "after" => "urutan"));
             $this->dbforge->add_column("master_mapel", $fields);
         }
@@ -154,16 +143,7 @@ class Datamapel extends CI_Controller
             return;
         }
         $messages = [];
-        $tables = [];
-        $tabless = $this->db->list_tables();
-        foreach ($tabless as $table) {
-            $fields = $this->db->field_data($table);
-            foreach ($fields as $field) {
-                if ($field->name == "id_mapel" || $field->name == "mapel_id") {
-                    array_push($tables, $table);
-                }
-            }
-        }
+        $tables = array_keys(schema_tables_with_columns(["id_mapel", "mapel_id"]));
         foreach ($tables as $table) {
             if ($table != "master_mapel") {
                 if ($table == "cbt_soal") {
@@ -218,9 +198,13 @@ class Datamapel extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $reader->setReadDataOnly(TRUE);
+                $reader->setReadEmptyCells(FALSE);
                 break;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
@@ -231,6 +215,8 @@ class Datamapel extends CI_Controller
         }
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
+        $spreadsheet->disconnectWorksheets();
+        unset($spreadsheet);
         $data = [];
         $i = 1;
         while ($i < count($sheetData)) {
@@ -264,6 +250,7 @@ class Datamapel extends CI_Controller
         }
         unlink($file);
         $text = file_get_contents("./uploads/temp/doc.html");
+        unset($phpWord, $htmlWriter);
         $dom = new DOMDocument();
         $dom->loadHTML($text);
         $data = [];

@@ -89,15 +89,11 @@ class Cbttoken extends CI_Controller
     }
     public function loadToken()
     {
-        $dataflds = $this->db->field_data("cbt_token");
         $table_changed = false;
-        foreach ($dataflds as $fild) {
-            if ($fild->name == "updated") {
-                if ($fild->type != "varchar") {
-                    $field = ["updated" => array("type" => "VARCHAR", "constraint" => 20, "default" => '')];
-                    $table_changed = $this->dbforge->modify_column("cbt_token", $field);
-                }
-            }
+        $updatedType = schema_column_type("cbt_token", "updated");
+        if ($updatedType !== null && $updatedType != "varchar") {
+            $field = ["updated" => array("type" => "VARCHAR", "constraint" => 20, "default" => '')];
+            $table_changed = $this->dbforge->modify_column("cbt_token", $field);
         }
         $token = $this->cbt->getToken();
         if ($token == null) {

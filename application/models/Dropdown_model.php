@@ -9,6 +9,10 @@ class Dropdown_model extends CI_Model
 {
     public function getBulan()
     {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
         $result = $this->db->get("bulan")->result();
         $ret = [];
         if ($result) {
@@ -16,21 +20,30 @@ class Dropdown_model extends CI_Model
                 $ret[$row->id_bln] = $row->nama_bln;
             }
         }
-        return $ret;
+        return $cached = $ret;
     }
     public function getAllSesi()
     {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
         $this->db->select("id_sesi, nama_sesi, kode_sesi");
         $result = $this->db->get("cbt_sesi")->result();
+        $ret = [];
         if ($result) {
             foreach ($result as $key => $row) {
                 $ret[$row->id_sesi] = $row->nama_sesi;
             }
         }
-        return $ret;
+        return $cached = $ret;
     }
     public function getAllRuang()
     {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
         $result = $this->db->get("cbt_ruang")->result();
         $ret = [];
         if ($result) {
@@ -38,17 +51,22 @@ class Dropdown_model extends CI_Model
                 $ret[$row->id_ruang] = $row->nama_ruang;
             }
         }
-        return $ret;
+        return $cached = $ret;
     }
     public function getAllWaktuSesi()
     {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
         $result = $this->db->get("cbt_sesi")->result();
+        $ret = [];
         if ($result) {
             foreach ($result as $key => $row) {
                 $ret[$row->id_sesi] = ["mulai" => $row->waktu_mulai, "akhir" => $row->waktu_akhir];
             }
         }
-        return $ret;
+        return $cached = $ret;
     }
     public function getDataKelompokMapel()
     {

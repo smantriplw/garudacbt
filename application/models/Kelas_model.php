@@ -249,11 +249,15 @@ class Kelas_model extends CI_Model
     }
     public function getEkskulById($id)
     {
+        static $cache = [];
+        if (array_key_exists($id, $cache)) {
+            return $cache[$id];
+        }
         $this->db->select("*");
         $this->db->from("master_ekstra");
         $this->db->where("id_ekstra", $id);
         $result = $this->db->get()->row();
-        return $result;
+        return $cache[$id] = $result;
     }
     public function getAllSiswa($tp, $smt)
     {
@@ -671,6 +675,26 @@ class Kelas_model extends CI_Model
         $this->db->where("a.id_smt", $id_smt);
         $this->db->order_by("b.nama", "ASC");
         return $this->db->get()->result();
+    }
+    public function countKelasSiswa($id_kelas, $id_tp, $id_smt)
+    {
+        $this->db->where("id_kelas", $id_kelas);
+        $this->db->where("id_tp", $id_tp);
+        $this->db->where("id_smt", $id_smt);
+        return (int) $this->db->count_all_results("kelas_siswa");
+    }
+    public function countKelasSiswaBatch($id_tp, $id_smt)
+    {
+        $this->db->select("id_kelas, COUNT(*) AS jml", false);
+        $this->db->from("kelas_siswa");
+        $this->db->where("id_tp", $id_tp);
+        $this->db->where("id_smt", $id_smt);
+        $this->db->group_by("id_kelas");
+        $ret = [];
+        foreach ($this->db->get()->result() as $row) {
+            $ret[$row->id_kelas] = (int) $row->jml;
+        }
+        return $ret;
     }
     public function getKelasSiswaDuaSmt($id_kelas, $id_tp, $id_smt)
     {

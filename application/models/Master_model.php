@@ -654,19 +654,27 @@ class Master_model extends CI_Model
     }
     public function getTahunActive()
     {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
         $this->db->select("id_tp, tahun");
         $this->db->from("master_tp");
         $this->db->where("active", 1);
         $result = $this->db->get()->row();
-        return $result;
+        return $cached = $result;
     }
     public function getSemesterActive()
     {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
         $this->db->select("id_smt, nama_smt, smt");
         $this->db->from("master_smt");
         $this->db->where("active", 1);
         $result = $this->db->get()->row();
-        return $result;
+        return $cached = $result;
     }
     public function getJmlHariEfektif($id)
     {
