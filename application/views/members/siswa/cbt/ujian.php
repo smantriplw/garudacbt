@@ -319,6 +319,12 @@
     }
 
     function setKonten(data) {
+        if (!data || !data.soal_jenis) {
+            $('#loading').addClass('d-none');
+            var pesan = data && data.error ? $('<div>').text(data.error).html() : 'Soal tidak dapat dimuat. Muat ulang halaman atau hubungi pengawas.';
+            $('#konten-jawaban').html('<div class="alert alert-warning mb-0">' + pesan + '</div>');
+            return;
+        }
         console.log('max_jawaban', data.max_jawaban);
         idSoal = data.soal_id;
         idSoalSiswa = data.soal_siswa_id;
@@ -373,70 +379,71 @@
             });
             $('#konten-jawaban').html(html);
         } else if (jenis == "3") {
-            modelSoal = data.soal_opsi.model;
-            typeSoal = data.soal_opsi.type;
-            let konten = $('#konten-jawaban')
+            const dataJawab = data.soal_opsi || {};
+            modelSoal = dataJawab.model;
+            typeSoal = dataJawab.type;
+            let konten = $('#konten-jawaban');
             konten.html('');
 
-            const dataJawab = data.soal_opsi
-            const copy = $.extend(true, {}, dataJawab);
-            console.log('test', copy)
+            const tabel = Array.isArray(dataJawab.tabel) ? dataJawab.tabel : [];
+            const tbody = Array.isArray(dataJawab.tbody) ? dataJawab.tbody : [];
 
-            let arrData = [copy.tabel[0]]
-            if (Array.isArray(copy.tbody)) {
-                for (let i = 0; i < copy.tbody.length; i++) {
-                    let val = copy.tbody[i]
-                    for (let j = 0; j < val.length; j++) {
-                        if (j === 0) val[j] = copy.tabel[i+1][0]
-                    }
-                    arrData.push(val)
-                }
+            if (tabel.length === 0) {
+                konten.html('<div class="alert alert-warning mb-0">Soal menjodohkan ini belum memiliki data jawaban. Laporkan ke pengawas.</div>');
             } else {
-                for (let i = 0; i < copy.tabel.length; i++) {
-                    let val = copy.tbody[i]
-                    if (val) {
-                        for (let j = 0; j < val.length; j++) {
-                            if (j === 0) val[j] = copy.tabel[i][0]
+                const copy = $.extend(true, {}, dataJawab);
+                let arrData = [copy.tabel[0]];
+                for (let i = 0; i < tbody.length; i++) {
+                    let val = Array.isArray(tbody[i]) ? tbody[i].slice() : [];
+                    if (val.length === 0) {
+                        continue;
+                    }
+                    const label = copy.tabel[i + 1] && copy.tabel[i + 1][0] != null ? copy.tabel[i + 1][0] : val[0];
+                    val[0] = label;
+                    arrData.push(val);
+                }
+
+                let dataMax = {};
+                if (Array.isArray(data.max_jawaban)) {
+                    data.max_jawaban.forEach(function (val, key) {
+                        dataMax[key] = val;
+                    });
+                } else if (data.max_jawaban) {
+                    let keys = 0;
+                    $.each(data.max_jawaban, function (key, val) {
+                        dataMax[keys] = val;
+                        keys++;
+                    });
+                }
+
+                let objJawaban = {
+                    jawaban: arrData,
+                    max: dataMax,
+                    model: modelSoal,
+                    type: typeSoal,
+                }
+                console.log('obj', objJawaban)
+                konten.linkerList({
+                    enableEditor: false,
+                    data: objJawaban,
+                    viewMode: '2',
+                    id: nomorSoal,
+                    callback: function (id, data, hasLinks, isOffset) {
+                        if (isOffset !== '0') {
+                            $.toast({
+                                heading: 'Warning',
+                                text: 'Maksimal <b>' + isOffset + ' jawaban',
+                                showHideTransition: 'slide',
+                                icon: 'error',
+                                loaderBg: '#f2a654',
+                                position: 'bottom-center'
+                            })
+                        } else {
+                            submitJawaban(data)
                         }
-                        arrData.push(val)
                     }
-                }
+                });
             }
-
-            let keys = 0
-            let dataMax = {}
-            $.each(data.max_jawaban, function (key, val) {
-                dataMax[keys] = val
-                keys ++
-            })
-
-            let objJawaban = {
-                jawaban: arrData,
-                max: dataMax,
-                model: modelSoal,
-                type: typeSoal,
-            }
-            console.log('obj', objJawaban)
-            konten.linkerList({
-                enableEditor: false,
-                data: objJawaban,
-                viewMode: '2',
-                id: nomorSoal,
-                callback: function (id, data, hasLinks, isOffset) {
-                    if (isOffset !== '0') {
-                        $.toast({
-                            heading: 'Warning',
-                            text: 'Maksimal <b>' + isOffset + ' jawaban',
-                            showHideTransition: 'slide',
-                            icon: 'error',
-                            loaderBg: '#f2a654',
-                            position: 'bottom-center'
-                        })
-                    } else {
-                        submitJawaban(data)
-                    }
-                }
-            });
         } else if (jenis == "4") {
             html += '<div class="pr-4">' +
                 '<span class="">JAWABAN:</span><br>' +

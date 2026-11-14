@@ -892,19 +892,19 @@ class Siswa extends CI_Controller
         $siswa = $this->cbt->getDataSiswaById($tp->id_tp, $smt->id_smt, $id_siswa);
         $soals = $this->cbt->getALLSoalSiswa($id_bank, $siswa->id_siswa);
         $s = 0;
-
         while ($s < count($soals)) {
             if ($soals[$s]->jenis_soal == "3") {
-                $soals[$s]->jawaban = unserialize($soals[$s]->jawaban);
-                $ada_jawab = $soals[$s]->jawaban_siswa != null;
-                if ($ada_jawab) {
-                    $soals[$s]->jawaban_siswa = unserialize($soals[$s]->jawaban_siswa);
-                }
+                $soals[$s]->jawaban = $this->jodohkan_payload($soals[$s]->jawaban);
+                $soals[$s]->jawaban_siswa = $this->jodohkan_payload($soals[$s]->jawaban_siswa);
             }
             $s++;
         }
         $id_soal_siswa = $siswa->id_siswa . "0" . $id_jadwal . $id_bank . $nomor;
         $ind_soal = array_search($id_soal_siswa, array_column($soals, "id_soal_siswa"));
+        if ($ind_soal === false) {
+            $this->output_json(["error" => "Soal nomor " . $nomor . " tidak ditemukan. Muat ulang halaman atau hubungi pengawas."]);
+            return;
+        }
         $item_soal = $soals[$ind_soal];
         $max_jawaban = [];
         if ($item_soal->jenis_soal == "1") {
@@ -914,9 +914,9 @@ class Siswa extends CI_Controller
                 return $a["valAlias"] <=> $b["valAlias"];
             });
         } else if ($item_soal->jenis_soal == "2") {
-            $max_jawaban = [count(array_filter(unserialize($item_soal->jawaban)))];
-            $item_soal->opsi_a = unserialize($item_soal->opsi_a);
-            $item_soal->jawaban_siswa = unserialize($item_soal->jawaban_siswa);
+            $max_jawaban = [count(array_filter($item_soal->jawaban != null ? (array) unserialize($item_soal->jawaban) : []))];
+            $item_soal->opsi_a = $item_soal->opsi_a != null ? unserialize($item_soal->opsi_a) : [];
+            $item_soal->jawaban_siswa = $item_soal->jawaban_siswa != null ? unserialize($item_soal->jawaban_siswa) : null;
             $jwbSiswa = $item_soal->jawaban_siswa != null ? $item_soal->jawaban_siswa : [];
             $opsis = [];
             foreach ($item_soal->opsi_a as $key => $opsi) {
@@ -927,42 +927,52 @@ class Siswa extends CI_Controller
                 return $a["value"] <=> $b["value"];
             });
         } else if ($item_soal->jenis_soal == "3") {
-            $jwbs = $item_soal->jawaban;
-            if (isset($jwbs["jawaban"])) {
-                foreach ($jwbs["jawaban"] as $jwb) {
-                    $max_jawaban[$jwb[0]] = 0;
-                    $i = 1;
-                    while ($i < count($jwb)) {
-                        if ($jwb[$i] == "1") {
-                            $max_jawaban[$jwb[0]] += 1;
-                        }
-                        $i++;
+            $kunci = $item_soal->jawaban === null ? [] : $item_soal->jawaban["jawaban"];
+            $jawaban_siswa = $item_soal->jawaban_siswa === null ? [] : $item_soal->jawaban_siswa["jawaban"];
+            $max_jawaban = [];
+            foreach ($kunci as $row) {
+                $benar = 0;
+                for ($i = 1; $i < count($row); $i++) {
+                    if ((string) $row[$i] === "1") {
+                        $benar++;
                     }
                 }
+                $max_jawaban[] = $benar;
             }
-            $ada_jawab = $item_soal->jawaban_siswa != null;
-            $jawaban_siswa = $ada_jawab ? $item_soal->jawaban_siswa : json_decode(json_encode($item_soal->jawaban));
-            $theader = [];
             $tbody = [];
-            if (isset($jawaban_siswa->jawaban)) {
-                foreach ($jawaban_siswa->jawaban as $key => $jawaban) {
-                    if ($key === 0) {
-                        $theader = $jawaban;
-                    } else if ($ada_jawab) {
-                        array_push($tbody, $jawaban);
-                    } else {
-                        $tbody[$key] = [];
-                        foreach ($jawaban as $index => $nbaris) {
-                            if ($index === 0) {
-                                array_push($tbody[$key], $nbaris);
-                            } else {
-                                array_push($tbody[$key], '');
-                            }
-                        }
+            $theader = [];
+            if (count($jawaban_siswa) > 1) {
+                $theader = $jawaban_siswa[0];
+                $tbody = array_slice($jawaban_siswa, 1);
+            } else if (count($kunci) > 0) {
+                $theader = $kunci[0];
+                for ($i = 1; $i < count($kunci); $i++) {
+                    $row = [isset($kunci[$i][0]) ? $kunci[$i][0] : ""];
+                    for ($j = 1; $j < count($kunci[$i]); $j++) {
+                        $row[] = "";
                     }
+                    $tbody[] = $row;
                 }
             }
-            $opsis = ["tabel" => isset($jwbs["jawaban"]) ? $jwbs["jawaban"] : [], "thead" => $theader, "tbody" => $tbody, "model" => isset($item_soal->jawaban["model"]) ? $item_soal->jawaban["model"] : "2", "type" => $item_soal->jawaban["type"]];
+            $tabel = [];
+            foreach ($kunci as $i => $row) {
+                if ($i === 0) {
+                    $tabel[] = $row;
+                    continue;
+                }
+                $display = [isset($row[0]) ? $row[0] : ""];
+                for ($j = 1; $j < count($row); $j++) {
+                    $display[] = "";
+                }
+                $tabel[] = $display;
+            }
+            $opsis = [
+                "tabel" => $tabel,
+                "thead" => $theader,
+                "tbody" => $tbody,
+                "model" => $item_soal->jawaban !== null ? $item_soal->jawaban["model"] : "2",
+                "type" => $item_soal->jawaban !== null ? $item_soal->jawaban["type"] : "2",
+            ];
         } else {
             $opsis = [];
         }
@@ -980,54 +990,44 @@ class Siswa extends CI_Controller
         $arrJawaban = [];
         $modal = "<div class=\"d-flex flex-wrap justify-content-center grid-nomor-pg\">";
         foreach ($soals as $key => $soal) {
-            if ($soal->jawaban_siswa != null) {
-                if ($soal->jenis_soal === "3") {
-                    $ada_jawaban3 = [];
+            if ($soal->jenis_soal === "3") {
+                $terjawab = false;
+                $baris_siswa = $soal->jawaban_siswa === null ? [] : $soal->jawaban_siswa["jawaban"];
+                $baris_kunci = $soal->jawaban === null ? [] : $soal->jawaban["jawaban"];
+                if (count($baris_siswa) > 1) {
                     $tes_jawaban = [];
-                    if (isset($soal->jawaban_siswa->jawaban)) {
-                        foreach ($soal->jawaban_siswa->jawaban as $keyi => $jwbn_siswa) {
-                            if ($keyi > 0) {
-                                $tes_jawaban[$jwbn_siswa[0]] = 0;
-                                foreach ($jwbn_siswa as $keyj => $jwbn) {
-                                    if ($keyj > 0) {
-                                        if ($jwbn !== "0") {
-                                            $tes_jawaban[$jwbn_siswa[0]] += 1;
-                                        }
-                                    }
-                                }
+                    foreach (array_slice($baris_siswa, 1) as $jwbn_siswa) {
+                        $label = isset($jwbn_siswa[0]) ? $jwbn_siswa[0] : "";
+                        $tes_jawaban[$label] = 0;
+                        for ($keyj = 1; $keyj < count($jwbn_siswa); $keyj++) {
+                            if ((string) $jwbn_siswa[$keyj] !== "0") {
+                                $tes_jawaban[$label] += 1;
                             }
                         }
-                        $max_jawaban = [];
-                        $jwbs = $soal->jawaban;
-                        if (isset($jwbs["jawaban"])) {
-                            foreach ($jwbs["jawaban"] as $jwb) {
-                                $max_jawaban[$jwb[0]] = 0;
-                                $i = 1;
-                                while ($i < count($jwb)) {
-                                    if ($jwb[$i] == "1") {
-                                        $max_jawaban[$jwb[0]] += 1;
-                                    }
-                                    $i++;
-                                }
-                            }
-                        }
-                        $arrKeys = array_keys($max_jawaban);
-                        foreach ($arrKeys as $kkey => $akey) {
-                            if ($kkey > 0) {
-                                if (isset($max_jawaban[$akey]) && isset($tes_jawaban[$akey])) {
-                                    $ada_jawaban3[] = $max_jawaban[$akey] > 0 && $tes_jawaban[$akey] > 0 ? "1" : "0";
-                                } else {
-                                    $ada_jawaban3[] = "0";
-                                }
-                            }
-                        }
-                        $terjawab = in_array("1", $ada_jawaban3);
-                    } else {
-                        $terjawab = false;
                     }
-                } else {
-                    $terjawab = $soal->jawaban_siswa != '';
+                    $max_jawaban = [];
+                    foreach ($baris_kunci as $jwb) {
+                        $label = isset($jwb[0]) ? $jwb[0] : "";
+                        $max_jawaban[$label] = 0;
+                        for ($i = 1; $i < count($jwb); $i++) {
+                            if ((string) $jwb[$i] === "1") {
+                                $max_jawaban[$label] += 1;
+                            }
+                        }
+                    }
+                    $kkey = 0;
+                    foreach ($max_jawaban as $akey => $jumlah) {
+                        if ($kkey++ === 0) {
+                            continue;
+                        }
+                        if (isset($tes_jawaban[$akey]) && $jumlah > 0 && $tes_jawaban[$akey] > 0) {
+                            $terjawab = true;
+                            break;
+                        }
+                    }
                 }
+            } else if ($soal->jawaban_siswa != null) {
+                $terjawab = $soal->jawaban_siswa != '';
             } else {
                 $terjawab = false;
             }
@@ -1049,6 +1049,49 @@ class Siswa extends CI_Controller
         $this->output_json($data);
         return;
     }
+    /**
+     * Jodohkan data is stored serialized, but rows written by older versions
+     * (or edited by hand) may hold JSON, an already decoded object, or nothing
+     * at all. Normalise everything to:
+     *   ["jawaban" => [[label, cells...], ...], "model" => string, "type" => string]
+     * and return null when there is nothing usable.
+     */
+    private function jodohkan_payload($raw)
+    {
+        if ($raw === null || $raw === "" || $raw === false) {
+            return null;
+        }
+        if (is_string($raw)) {
+            $decoded = @unserialize($raw);
+            if (!is_array($decoded) && !is_object($decoded)) {
+                $decoded = json_decode($raw, true);
+            }
+            $raw = $decoded;
+        }
+        if (is_object($raw)) {
+            $raw = json_decode(json_encode($raw), true);
+        }
+        if (!is_array($raw)) {
+            return null;
+        }
+        $rows = [];
+        if (isset($raw["jawaban"]) && is_array($raw["jawaban"])) {
+            foreach ($raw["jawaban"] as $row) {
+                if (is_object($row)) {
+                    $row = json_decode(json_encode($row), true);
+                }
+                if (is_array($row)) {
+                    $rows[] = array_values($row);
+                }
+            }
+        }
+        return [
+            "jawaban" => $rows,
+            "model" => isset($raw["model"]) ? (string) $raw["model"] : "2",
+            "type" => isset($raw["type"]) ? (string) $raw["type"] : "2",
+        ];
+    }
+
     public function saveSoalSiswa()
     {
         $this->load->model("Master_model", "master");
