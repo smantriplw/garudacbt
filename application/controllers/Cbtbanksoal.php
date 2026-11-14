@@ -12,18 +12,25 @@ class Cbtbanksoal extends CI_Controller
         parent::__construct();
         if (!$this->ion_auth->logged_in()) {
             redirect("auth");
-        } else if (!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru")) {
-            show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+            goto lnKKX;
         }
+        if (!(!$this->ion_auth->is_admin() && !$this->ion_auth->in_group("guru"))) {
+            goto HibA7;
+        }
+        show_error("Hanya Administrator dan guru yang diberi hak untuk mengakses halaman ini, <a href=\"" . base_url("dashboard") . "\">Kembali ke menu awal</a>", 403, "Akses Terlarang");
+        HibA7:
+        lnKKX:
         $this->load->library("upload");
         $this->load->library(["datatables", "form_validation"]);
         $this->form_validation->set_error_delimiters('', '');
     }
     public function output_json($data, $encode = true)
     {
-        if ($encode) {
-            $data = json_encode($data);
+        if (!$encode) {
+            goto ZgKmO;
         }
+        $data = json_encode($data);
+        ZgKmO:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -58,105 +65,130 @@ class Cbtbanksoal extends CI_Controller
                 $data["id_guru"] = null;
                 $data["id_mapel"] = null;
                 $data["id_level"] = null;
-            } else if ($type == "1") {
+                goto wywHq;
+            }
+            if ($type == "1") {
                 $id_guru = $this->input->get("id");
                 $data["id_guru"] = $id_guru;
                 $banks = $this->cbt->getDataBank($id_guru);
                 $data["id_mapel"] = '';
                 $data["id_level"] = '';
-            } else if ($type == "2") {
+                goto wywHq;
+            }
+            if ($type == "2") {
                 $id_mapel = $this->input->get("id");
                 $data["id_mapel"] = $id_mapel;
                 $banks = $this->cbt->getDataBank(null, $id_mapel);
                 $data["id_guru"] = '';
                 $data["id_level"] = '';
-            } else if ($type == "3") {
+                goto wywHq;
+            }
+            if ($type == "3") {
                 $id_level = $this->input->get("id");
                 $data["id_level"] = $id_level;
                 $banks = $this->cbt->getDataBank(null, null, $id_level);
                 $data["id_guru"] = '';
                 $data["id_mapel"] = '';
-            } else {
-                $data["id_guru"] = null;
-                $data["id_mapel"] = null;
-                $data["id_level"] = null;
+                goto jR6Le;
             }
-            if ($type != null) {
-                $data["banks"] = $banks;
-                $jadwal_terpakai = [];
-                if (count($banks) > 0) {
-                    $ids = [];
-                    foreach ($banks as $bank) {
-                        foreach ($bank as $tp) {
-                            foreach ($tp as $smt) {
-                                $ids[] = $smt->id_bank;
-                            }
-                        }
-                    }
-                    if (count($ids) > 0) {
-                        $terpakai = $this->cbt->getBankTerpakai($ids);
-                        foreach ($terpakai as $idj => $rows) {
-                            $jadwal_terpakai[$idj] = count($rows);
-                        }
+            $data["id_guru"] = null;
+            $data["id_mapel"] = null;
+            $data["id_level"] = null;
+            jR6Le:
+            wywHq:
+            if (!($type != null)) {
+                goto A8GOe;
+            }
+            $data["banks"] = $banks;
+            $jadwal_terpakai = [];
+            if (!(count($banks) > 0)) {
+                goto RH5Y1;
+            }
+            $ids = [];
+            foreach ($banks as $bank) {
+                foreach ($bank as $tp) {
+                    foreach ($tp as $smt) {
+                        $ids[] = $smt->id_bank;
                     }
                 }
-                $data["total_siswa"] = $jadwal_terpakai;
             }
+            if (!(count($ids) > 0)) {
+                goto dtNS0;
+            }
+            $terpakai = $this->cbt->getBankTerpakai($ids);
+            foreach ($terpakai as $idj => $rows) {
+                $jadwal_terpakai[$idj] = count($rows);
+            }
+            dtNS0:
+            RH5Y1:
+            $data["total_siswa"] = $jadwal_terpakai;
+            A8GOe:
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/data");
             $this->load->view("_templates/dashboard/_footer");
-        } else {
-            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            $nguru[$guru->id_guru] = $guru->nama_guru;
-            $data["guru"] = $guru;
-            $data["gurus"] = $nguru;
-            $data["kelas"] = $this->cbt->getKelas($tp->id_tp, $smt->id_smt);
-            $data["filters"] = ["0" => "Semua", "2" => "Mapel", "3" => "Level"];
-            $data["id_filter"] = $type == null ? '' : $type;
-            $banks = [];
-            if ($type == "2") {
-                $id_mapel = $this->input->get("id");
-                $data["id_mapel"] = $id_mapel;
-                $banks = $this->cbt->getDataBank($guru->id_guru, $id_mapel);
-                $data["id_guru"] = '';
-                $data["id_level"] = '';
-            } else if ($type == "3") {
-                $id_level = $this->input->get("id");
-                $data["id_level"] = $id_level;
-                $banks = $this->cbt->getDataBank($guru->id_guru, null, $id_level);
-                $data["id_guru"] = '';
-                $data["id_mapel"] = '';
-            } else {
-                $data["id_guru"] = $guru->id_guru;
-                $banks = $this->cbt->getDataBank($guru->id_guru);
-                $data["id_mapel"] = '';
-                $data["id_level"] = '';
-            }
-            if ($type != null) {
-                $data["banks"] = $banks;
-                $jadwal_terpakai = [];
-                if (count($banks) > 0) {
-                    $ids = [];
-                    foreach ($banks as $bank) {
-                        foreach ($bank as $tp) {
-                            foreach ($tp as $smt) {
-                                $ids[] = $smt->id_bank;
-                            }
-                        }
-                    }
-                    if (count($ids) > 0) {
-                        $terpakai = $this->cbt->getBankTerpakai($ids);
-                        foreach ($terpakai as $idj => $rows) {
-                            $jadwal_terpakai[$idj] = count($rows);
-                        }
-                    }
-                }
-                $data["total_siswa"] = $jadwal_terpakai;
-            }
-            $this->load->view("members/guru/templates/header", $data);
-            $this->load->view("cbt/banksoal/data");
-            $this->load->view("members/guru/templates/footer");
+            goto nqWxL;
         }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $data["guru"] = $guru;
+        $data["gurus"] = $nguru;
+        $data["kelas"] = $this->cbt->getKelas($tp->id_tp, $smt->id_smt);
+        $data["filters"] = ["0" => "Semua", "2" => "Mapel", "3" => "Level"];
+        $data["id_filter"] = $type == null ? '' : $type;
+        $banks = [];
+        if ($type == "2") {
+            $id_mapel = $this->input->get("id");
+            $data["id_mapel"] = $id_mapel;
+            $banks = $this->cbt->getDataBank($guru->id_guru, $id_mapel);
+            $data["id_guru"] = '';
+            $data["id_level"] = '';
+            goto pK9VY;
+        }
+        if ($type == "3") {
+            $id_level = $this->input->get("id");
+            $data["id_level"] = $id_level;
+            $banks = $this->cbt->getDataBank($guru->id_guru, null, $id_level);
+            $data["id_guru"] = '';
+            $data["id_mapel"] = '';
+            goto HfLUR;
+        }
+        $data["id_guru"] = $guru->id_guru;
+        $banks = $this->cbt->getDataBank($guru->id_guru);
+        $data["id_mapel"] = '';
+        $data["id_level"] = '';
+        HfLUR:
+        pK9VY:
+        if (!($type != null)) {
+            goto kC0fO;
+        }
+        $data["banks"] = $banks;
+        $jadwal_terpakai = [];
+        if (!(count($banks) > 0)) {
+            goto gwyEP;
+        }
+        $ids = [];
+        foreach ($banks as $bank) {
+            foreach ($bank as $tp) {
+                foreach ($tp as $smt) {
+                    $ids[] = $smt->id_bank;
+                }
+            }
+        }
+        if (!(count($ids) > 0)) {
+            goto UnCn5;
+        }
+        $terpakai = $this->cbt->getBankTerpakai($ids);
+        foreach ($terpakai as $idj => $rows) {
+            $jadwal_terpakai[$idj] = count($rows);
+        }
+        UnCn5:
+        gwyEP:
+        $data["total_siswa"] = $jadwal_terpakai;
+        kC0fO:
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("cbt/banksoal/data");
+        $this->load->view("members/guru/templates/footer");
+        nqWxL:
     }
     public function data($guru = null)
     {
@@ -178,11 +210,13 @@ class Cbtbanksoal extends CI_Controller
         $mapel_guru = $this->kelas->getGuruMapelKelas($id_guru, $tp->id_tp, $smt->id_smt);
         $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
         $arrMapel = [];
-        if ($mapel != null) {
-            foreach ($mapel as $m) {
-                $arrMapel[$m->id_mapel] = $m->nama_mapel;
-            }
+        if (!($mapel != null)) {
+            goto rol4L;
         }
+        foreach ($mapel as $m) {
+            $arrMapel[$m->id_mapel] = $m->nama_mapel;
+        }
+        rol4L:
         $this->output_json($arrMapel);
     }
     public function getGuruMapel()
@@ -196,13 +230,17 @@ class Cbtbanksoal extends CI_Controller
         $arrGuru = [];
         foreach ($mapel_guru as $guru) {
             $mapel = json_decode(json_encode(unserialize($guru->mapel_kelas)));
-            if ($mapel != null) {
-                foreach ($mapel as $m) {
-                    if (isset($m->id_mapel) && $m->id_mapel == $id_mapel) {
-                        $arrGuru[$guru->id_guru] = $guru->nama_guru;
-                    }
-                }
+            if (!($mapel != null)) {
+                goto Behr2;
             }
+            foreach ($mapel as $m) {
+                if (!(isset($m->id_mapel) && $m->id_mapel == $id_mapel)) {
+                    goto zQdBU;
+                }
+                $arrGuru[$guru->id_guru] = $guru->nama_guru;
+                zQdBU:
+            }
+            Behr2:
         }
         $this->output_json($arrGuru);
     }
@@ -222,11 +260,13 @@ class Cbtbanksoal extends CI_Controller
         $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
         foreach ($mapel as $m) {
             $arrMapel[$m->id_mapel] = $m->nama_mapel;
-            if ($id_mapel === $m->id_mapel) {
-                foreach ($m->kelas_mapel as $kls) {
-                    array_push($arrKelas, $kls->kelas);
-                }
+            if (!($id_mapel === $m->id_mapel)) {
+                goto NxCrZ;
             }
+            foreach ($m->kelas_mapel as $kls) {
+                array_push($arrKelas, $kls->kelas);
+            }
+            NxCrZ:
         }
         $this->output_json(["mapel" => $arrMapel, "kelas" => count($arrKelas) > 0 ? $this->cbt->getKelasByLevel($level, $arrKelas) : []]);
     }
@@ -263,36 +303,39 @@ class Cbtbanksoal extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/add");
             $this->load->view("_templates/dashboard/_footer");
-        } else {
-            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            $nguru[$guru->id_guru] = $guru->nama_guru;
-            $data["gurus"] = $nguru;
-            $data["guru"] = $guru;
-            $data["id_guru"] = $guru->id_guru;
-            $mapel_guru = $this->kelas->getGuruMapelKelas($guru->id_guru, $tp->id_tp, $smt->id_smt);
-            $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
-            $arrMapel = [];
-            $arrKelas = [];
-            foreach ($mapel as $m) {
-                $arrMapel[$m->id_mapel] = $m->nama_mapel;
-                foreach ($m->kelas_mapel as $kls) {
-                    $arrKelas[$m->id_mapel][] = ["id_kelas" => $kls->kelas, "nama_kelas" => $this->dropdown->getNamaKelasById($tp->id_tp, $smt->id_smt, $kls->kelas)];
-                }
-            }
-            $arrId = [];
-            if (count($mapel) > 0) {
-                foreach ($mapel[0]->kelas_mapel as $id_mapel) {
-                    array_push($arrId, $id_mapel->kelas);
-                }
-            }
-            $data["mapel_guru"] = $mapel_guru;
-            $data["mapel"] = $arrMapel;
-            $data["arrkelas"] = $arrKelas;
-            $data["kelas"] = count($arrId) > 0 ? $this->dropdown->getAllKelasByArrayId($tp->id_tp, $smt->id_smt, $arrId) : [];
-            $this->load->view("members/guru/templates/header", $data);
-            $this->load->view("cbt/banksoal/add");
-            $this->load->view("members/guru/templates/footer");
+            goto hP1Xa;
         }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $data["gurus"] = $nguru;
+        $data["guru"] = $guru;
+        $data["id_guru"] = $guru->id_guru;
+        $mapel_guru = $this->kelas->getGuruMapelKelas($guru->id_guru, $tp->id_tp, $smt->id_smt);
+        $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
+        $arrMapel = [];
+        $arrKelas = [];
+        foreach ($mapel as $m) {
+            $arrMapel[$m->id_mapel] = $m->nama_mapel;
+            foreach ($m->kelas_mapel as $kls) {
+                $arrKelas[$m->id_mapel][] = ["id_kelas" => $kls->kelas, "nama_kelas" => $this->dropdown->getNamaKelasById($tp->id_tp, $smt->id_smt, $kls->kelas)];
+            }
+        }
+        $arrId = [];
+        if (!(count($mapel) > 0)) {
+            goto bGODb;
+        }
+        foreach ($mapel[0]->kelas_mapel as $id_mapel) {
+            array_push($arrId, $id_mapel->kelas);
+        }
+        bGODb:
+        $data["mapel_guru"] = $mapel_guru;
+        $data["mapel"] = $arrMapel;
+        $data["arrkelas"] = $arrKelas;
+        $data["kelas"] = count($arrId) > 0 ? $this->dropdown->getAllKelasByArrayId($tp->id_tp, $smt->id_smt, $arrId) : [];
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("cbt/banksoal/add");
+        $this->load->view("members/guru/templates/footer");
+        hP1Xa:
     }
     public function editBank()
     {
@@ -330,24 +373,25 @@ class Cbtbanksoal extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/add");
             $this->load->view("_templates/dashboard/_footer");
-        } else {
-            $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            $nguru[$guru->id_guru] = $guru->nama_guru;
-            $mapel_guru = $this->kelas->getGuruMapelKelas($guru->id_guru, $tp->id_tp, $smt->id_smt);
-            $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
-            $arrMapel = [];
-            foreach ($mapel as $m) {
-                $arrMapel[$m->id_mapel] = $m->nama_mapel;
-            }
-            $data["gurus"] = $nguru;
-            $data["mapel_guru"] = $mapel_guru;
-            $data["guru"] = $guru;
-            $data["id_guru"] = $guru->id_guru;
-            $data["mapel"] = $arrMapel;
-            $this->load->view("members/guru/templates/header", $data);
-            $this->load->view("cbt/banksoal/add");
-            $this->load->view("members/guru/templates/footer");
+            goto fqjcE;
         }
+        $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $nguru[$guru->id_guru] = $guru->nama_guru;
+        $mapel_guru = $this->kelas->getGuruMapelKelas($guru->id_guru, $tp->id_tp, $smt->id_smt);
+        $mapel = json_decode(json_encode(unserialize($mapel_guru->mapel_kelas)));
+        $arrMapel = [];
+        foreach ($mapel as $m) {
+            $arrMapel[$m->id_mapel] = $m->nama_mapel;
+        }
+        $data["gurus"] = $nguru;
+        $data["mapel_guru"] = $mapel_guru;
+        $data["guru"] = $guru;
+        $data["id_guru"] = $guru->id_guru;
+        $data["mapel"] = $arrMapel;
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("cbt/banksoal/add");
+        $this->load->view("members/guru/templates/footer");
+        fqjcE:
     }
     public function saveBank()
     {
@@ -359,16 +403,18 @@ class Cbtbanksoal extends CI_Controller
             $smt = $this->master->getSemesterActive();
             $this->cbt->saveBankSoal($tp->id_tp, $smt->id_smt);
             $status = TRUE;
-        } else {
-            $status = FALSE;
+            goto fLKZO;
         }
+        $status = FALSE;
+        fLKZO:
         $data["status"] = $status;
         $id = $this->input->post("id_bank", true);
         if (!$id) {
             $this->logging->saveLog(3, "menambah bank soal");
-        } else {
-            $this->logging->saveLog(4, "mengedit bank soal");
+            goto Awvlt;
         }
+        $this->logging->saveLog(4, "mengedit bank soal");
+        Awvlt:
         $this->output_json($data);
     }
     public function deleteBank()
@@ -379,12 +425,19 @@ class Cbtbanksoal extends CI_Controller
         $id = $this->input->get("id_bank", true);
         if ($this->cbt->cekJadwalBankSoal($id) > 0) {
             $this->output_json(["status" => false, "message" => "Ada jadwal ujian yang menggunakan bank soal ini"]);
-        } else if ($this->master->delete("cbt_soal", $id, "bank_id")) {
-            if ($this->master->delete("cbt_bank_soal", $id, "id_bank")) {
-                $this->logging->saveLog(5, "menghapus bank soal");
-                $this->output_json(["status" => true, "message" => "berhasil"]);
-            }
+            goto BItNg;
         }
+        if (!$this->master->delete("cbt_soal", $id, "bank_id")) {
+            goto vbxaX;
+        }
+        if (!$this->master->delete("cbt_bank_soal", $id, "id_bank")) {
+            goto UvYfo;
+        }
+        $this->logging->saveLog(5, "menghapus bank soal");
+        $this->output_json(["status" => true, "message" => "berhasil"]);
+        UvYfo:
+        vbxaX:
+        BItNg:
     }
     public function deleteAllBank()
     {
@@ -394,12 +447,19 @@ class Cbtbanksoal extends CI_Controller
         $ids = json_decode($this->input->post("ids", true));
         if ($this->cbt->cekJadwalBankSoal($ids) > 0) {
             $this->output_json(["status" => false, "message" => "Ada jadwal ujian yang menggunakan bank soal ini"]);
-        } else if ($this->master->delete("cbt_soal", $ids, "bank_id")) {
-            if ($this->master->delete("cbt_bank_soal", $ids, "id_bank")) {
-                $this->logging->saveLog(5, "menghapus bank soal");
-                $this->output_json(["status" => true, "message" => "berhasil"]);
-            }
+            goto qgyJQ;
         }
+        if (!$this->master->delete("cbt_soal", $ids, "bank_id")) {
+            goto X3hrm;
+        }
+        if (!$this->master->delete("cbt_bank_soal", $ids, "id_bank")) {
+            goto X9Md7;
+        }
+        $this->logging->saveLog(5, "menghapus bank soal");
+        $this->output_json(["status" => true, "message" => "berhasil"]);
+        X9Md7:
+        X3hrm:
+        qgyJQ:
     }
     public function detail($id)
     {
@@ -425,12 +485,13 @@ class Cbtbanksoal extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/detail");
             $this->load->view("_templates/dashboard/_footer");
-        } else {
-            $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            $this->load->view("members/guru/templates/header", $data);
-            $this->load->view("cbt/banksoal/detail");
-            $this->load->view("members/guru/templates/footer");
+            goto qxCJz;
         }
+        $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("cbt/banksoal/detail");
+        $this->load->view("members/guru/templates/footer");
+        qxCJz:
     }
     public function saveSelected()
     {
@@ -442,39 +503,43 @@ class Cbtbanksoal extends CI_Controller
         $unchek = json_decode($this->input->post("uncheck", true));
         $arrId = [];
         $i = 0;
-        while ($i <= $soal) {
-            $id = $this->input->post("soal[" . $i . "]", true);
-            if ($id != null) {
-                array_push($arrId, $id);
+        M1v0S:
+        if (!($i <= $soal)) {
+            $updated = 0;
+            foreach ($arrId as $id) {
+                $this->db->set("tampilkan", 1);
+                $this->db->where("id_soal", $id);
+                $this->db->update("cbt_soal");
+                $updated++;
             }
-            $i++;
+            foreach ($unchek as $id) {
+                $this->db->set("tampilkan", 0);
+                $this->db->where("id_soal", $id);
+                $this->db->update("cbt_soal");
+            }
+            sleep(1);
+            $bank = $this->cbt->getDataBankById($bank_id);
+            $soals = $this->cbt->getAllSoalByBank($bank_id);
+            $total_soal_tampil = isset(array_count_values(array_column($soals, "tampilkan"))["1"]) ? array_count_values(array_column($soals, "tampilkan"))["1"] : 0;
+            $total_soal_seharusnya_tampil = $bank->tampil_pg + $bank->tampil_kompleks + $bank->tampil_jodohkan + $bank->tampil_isian + $bank->tampil_esai;
+            $tampil_kurang = $total_soal_tampil < $total_soal_seharusnya_tampil;
+            $status_soal = $tampil_kurang ? "0" : "1";
+            $this->db->set("status_soal", $status_soal);
+            $this->db->where("id_bank", $bank_id);
+            $this->db->update("cbt_bank_soal");
+            $data["check"] = $updated;
+            $this->output_json($data);
+            // [PHPDeobfuscator] Implied return
+            return;
         }
-        $updated = 0;
-        foreach ($arrId as $id) {
-            $this->db->set("tampilkan", 1);
-            $this->db->where("id_soal", $id);
-            $this->db->update("cbt_soal");
-            $updated++;
+        $id = $this->input->post("soal[" . $i . "]", true);
+        if (!($id != null)) {
+            goto PHAEz;
         }
-        foreach ($unchek as $id) {
-            $this->db->set("tampilkan", 0);
-            $this->db->where("id_soal", $id);
-            $this->db->update("cbt_soal");
-        }
-        sleep(1);
-        $bank = $this->cbt->getDataBankById($bank_id);
-        $soals = $this->cbt->getAllSoalByBank($bank_id);
-        $total_soal_tampil = isset(array_count_values(array_column($soals, "tampilkan"))["1"]) ? array_count_values(array_column($soals, "tampilkan"))["1"] : 0;
-        $total_soal_seharusnya_tampil = $bank->tampil_pg + $bank->tampil_kompleks + $bank->tampil_jodohkan + $bank->tampil_isian + $bank->tampil_esai;
-        $tampil_kurang = $total_soal_tampil < $total_soal_seharusnya_tampil;
-        $status_soal = $tampil_kurang ? "0" : "1";
-        $this->db->set("status_soal", $status_soal);
-        $this->db->where("id_bank", $bank_id);
-        $this->db->update("cbt_bank_soal");
-        $data["check"] = $updated;
-        $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
-        return;
+        array_push($arrId, $id);
+        PHAEz:
+        $i++;
+        goto M1v0S;
     }
     public function copyBankSoal($id_bank)
     {
@@ -489,16 +554,18 @@ class Cbtbanksoal extends CI_Controller
         $data = ["id_tp" => $tp->id_tp, "id_smt" => $smt->id_smt, "bank_jenis_id" => $bank->bank_jenis_id, "bank_kode" => $bank->bank_kode . "_COPY", "bank_level" => $bank->bank_level, "bank_kelas" => $bank->bank_kelas, "bank_mapel_id" => $bank->bank_mapel_id, "bank_jurusan_id" => $bank->bank_jurusan_id, "bank_guru_id" => $bank->bank_guru_id, "bank_nama" => $bank->bank_nama, "kkm" => $bank->kkm, "deskripsi" => $bank->deskripsi, "jml_soal" => $bank->jml_soal, "tampil_pg" => $bank->tampil_pg, "bobot_pg" => $bank->bobot_pg, "jml_kompleks" => $bank->jml_kompleks, "tampil_kompleks" => $bank->tampil_kompleks, "bobot_kompleks" => $bank->bobot_kompleks, "jml_jodohkan" => $bank->jml_jodohkan, "tampil_jodohkan" => $bank->tampil_jodohkan, "bobot_jodohkan" => $bank->bobot_jodohkan, "jml_isian" => $bank->jml_isian, "tampil_isian" => $bank->tampil_isian, "bobot_isian" => $bank->bobot_isian, "jml_esai" => $bank->jml_esai, "tampil_esai" => $bank->tampil_esai, "bobot_esai" => $bank->bobot_esai, "opsi" => $bank->opsi, "date" => date("Y-m-d H:i:s"), "status" => $bank->status, "soal_agama" => $bank->soal_agama];
         $result = $this->master->create("cbt_bank_soal", $data);
         $id = $this->db->insert_id();
-        if (count($soals) > 0) {
-            foreach ($soals as $soal) {
-                unset($soal->id_soal);
-                $soal->bank_id = $id;
-                $soal->created_on = time();
-                $soal->updated_on = time();
-            }
-            $this->db->insert_batch("cbt_soal", $soals);
-            $this->logging->saveLog(3, "membuat bank soal");
+        if (!(count($soals) > 0)) {
+            goto utiD9;
         }
+        foreach ($soals as $soal) {
+            unset($soal->id_soal);
+            $soal->bank_id = $id;
+            $soal->created_on = time();
+            $soal->updated_on = time();
+        }
+        $this->db->insert_batch("cbt_soal", $soals);
+        $this->logging->saveLog(3, "membuat bank soal");
+        utiD9:
         $this->output_json($result);
     }
     public function buatsoal($id_bank)
@@ -532,15 +599,26 @@ class Cbtbanksoal extends CI_Controller
         $data["soal_belum_komplit"] = isset($data_komplit[$id_bank]) ? $data_komplit[$id_bank] : [];
         if ($jenis == "1") {
             $data["jml_pg"] = $this->cbt->getNomorSoalTerbesar($id_bank, 1);
-        } else if ($jenis == "2") {
-            $data["jml_pg2"] = $this->cbt->getNomorSoalTerbesar($id_bank, 2);
-        } else if ($jenis == "3") {
-            $data["jml_jodohkan"] = $this->cbt->getNomorSoalTerbesar($id_bank, 3);
-        } else if ($jenis == "4") {
-            $data["jml_isian"] = $this->cbt->getNomorSoalTerbesar($id_bank, 4);
-        } else if ($jenis == "5") {
-            $data["jml_essai"] = $this->cbt->getNomorSoalTerbesar($id_bank, 5);
+            goto d2qmm;
         }
+        if ($jenis == "2") {
+            $data["jml_pg2"] = $this->cbt->getNomorSoalTerbesar($id_bank, 2);
+            goto d2qmm;
+        }
+        if ($jenis == "3") {
+            $data["jml_jodohkan"] = $this->cbt->getNomorSoalTerbesar($id_bank, 3);
+            goto d2qmm;
+        }
+        if ($jenis == "4") {
+            $data["jml_isian"] = $this->cbt->getNomorSoalTerbesar($id_bank, 4);
+            goto d2qmm;
+        }
+        if ($jenis == "5") {
+            $data["jml_essai"] = $this->cbt->getNomorSoalTerbesar($id_bank, 5);
+            goto DBPs6;
+        }
+        DBPs6:
+        d2qmm:
         $data["bank"] = $bank;
         $data["soals"] = $this->cbt->getAllSoalByBank($id_bank, $jenis);
         $data["jurusan"] = $this->cbt->getAllJurusan();
@@ -551,12 +629,13 @@ class Cbtbanksoal extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/soal");
             $this->load->view("_templates/dashboard/_footer");
-        } else {
-            $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            $this->load->view("members/guru/templates/header", $data);
-            $this->load->view("cbt/banksoal/soal");
-            $this->load->view("members/guru/templates/footer");
+            goto d77MH;
         }
+        $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("cbt/banksoal/soal");
+        $this->load->view("members/guru/templates/footer");
+        d77MH:
     }
     public function getSoalByNomor()
     {
@@ -572,26 +651,39 @@ class Cbtbanksoal extends CI_Controller
                 $t = @unserialize($soal->opsi_a);
                 if ($t !== false) {
                     $data->opsi_a = $t;
-                } else {
-                    $data->opsi_a = false;
+                    goto os8nO;
                 }
+                $data->opsi_a = false;
+                os8nO:
                 $j = @unserialize($soal->jawaban);
                 if ($j !== false) {
                     $data->jawaban = $j;
-                } else {
-                    $data->jawaban = false;
+                    goto yENmc;
                 }
-            } else if ($jenis == "3") {
-                $j = @unserialize($soal->jawaban);
-                if ($j !== false) {
-                    $data->jawaban = $j;
-                } else {
-                    $data->jawaban = false;
-                }
+                $data->jawaban = false;
+                yENmc:
+                goto St0wm;
             }
-        } else if ($nomor != 1) {
-            $data = ["bank_id" => $bank_id, "jenis" => $jenis, "nomor_soal" => $nomor];
+            if ($jenis == "3") {
+                $j = @unserialize($soal->jawaban);
+                if ($j !== false) {
+                    $data->jawaban = $j;
+                    goto bqlZb;
+                }
+                $data->jawaban = false;
+                bqlZb:
+                goto ACJa5;
+            }
+            ACJa5:
+            St0wm:
+            goto wZXPd;
         }
+        if (!($nomor != 1)) {
+            goto t6Cib;
+        }
+        $data = ["bank_id" => $bank_id, "jenis" => $jenis, "nomor_soal" => $nomor];
+        t6Cib:
+        wZXPd:
         $this->output_json($data);
     }
     public function tambahSoal()
@@ -629,12 +721,13 @@ class Cbtbanksoal extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("cbt/banksoal/import");
             $this->load->view("_templates/dashboard/_footer");
-        } else {
-            $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-            $this->load->view("members/guru/templates/header", $data);
-            $this->load->view("cbt/banksoal/import");
-            $this->load->view("members/guru/templates/footer");
+            goto BPOLV;
         }
+        $data["guru"] = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
+        $this->load->view("members/guru/templates/header", $data);
+        $this->load->view("cbt/banksoal/import");
+        $this->load->view("members/guru/templates/footer");
+        BPOLV:
     }
     public function previewExcel()
     {
@@ -653,31 +746,36 @@ class Cbtbanksoal extends CI_Controller
         switch ($ext) {
             case ".xlsx":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-                break;
+                goto j5EvN;
             case ".xls":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                break;
+                goto j5EvN;
             case ".csv":
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
-                break;
+                goto j5EvN;
             default:
                 echo "unknown file ext";
                 die;
         }
+        j5EvN:
         $spreadsheet = $reader->load($file);
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         $data = [];
         $i = 1;
-        while ($i < count($sheetData)) {
-            if ($sheetData[$i][0] != null) {
-                $data[] = ["nama" => $sheetData[$i][1], "nip" => $sheetData[$i][2], "kode" => $sheetData[$i][3], "username" => $sheetData[$i][4], "password" => $sheetData[$i][5]];
-            }
-            $i++;
+        uzfKk:
+        if (!($i < count($sheetData))) {
+            unlink($file);
+            echo json_encode($data);
+            // [PHPDeobfuscator] Implied return
+            return;
         }
-        unlink($file);
-        echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
-        return;
+        if (!($sheetData[$i][0] != null)) {
+            goto qaQbb;
+        }
+        $data[] = ["nama" => $sheetData[$i][1], "nip" => $sheetData[$i][2], "kode" => $sheetData[$i][3], "username" => $sheetData[$i][4], "password" => $sheetData[$i][5]];
+        qaQbb:
+        $i++;
+        goto uzfKk;
     }
     public function previewWord($id_bank)
     {
@@ -713,13 +811,17 @@ class Cbtbanksoal extends CI_Controller
             $data = $splited[1];
             $mime_split_without_base64 = explode(";", $mime, 2);
             $mime_split = explode("/", $mime_split_without_base64[0], 2);
-            if (count($mime_split) == 2) {
-                $extension = $mime_split[1];
-                if ($extension == "jpeg") {
-                    $extension = "jpg";
-                }
-                $output_file = "img_" . $id_bank . date("YmdHis") . $numimg . "." . $extension;
+            if (!(count($mime_split) == 2)) {
+                goto cdOMo;
             }
+            $extension = $mime_split[1];
+            if (!($extension == "jpeg")) {
+                goto tkGi1;
+            }
+            $extension = "jpg";
+            tkGi1:
+            $output_file = "img_" . $id_bank . date("YmdHis") . $numimg . "." . $extension;
+            cdOMo:
             file_put_contents("./uploads/bank_soal/" . $output_file, base64_decode($data));
             $image->setAttribute("src", "uploads/bank_soal/" . $output_file);
             $numimg++;
@@ -764,6 +866,7 @@ class Cbtbanksoal extends CI_Controller
         $phpWord->addTableStyle("tab style", $tableStyle);
         $table = $section->addTable("tab style");
         $r = 1;
+        jbDPj:
         if (!($r <= count($soals))) {
             $section->addPageBreak();
             $section->addText("II. ESSAI", $header);
@@ -772,6 +875,7 @@ class Cbtbanksoal extends CI_Controller
             $phpWord->addTableStyle("tab style", $tableStyle);
             $table = $section->addTable("tab style");
             $r = 1;
+            lAC_T:
             if (!($r <= count($essai))) {
                 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, "Word2007");
                 header("Content-Disposition: attachment; filename=Soal " . $bank->nama_mapel . ".docx");
@@ -783,90 +887,127 @@ class Cbtbanksoal extends CI_Controller
             $arrVal = ['', '', isset($soal) ? $soal->soal : '', isset($soal) ? $soal->jawaban : ''];
             $table->addRow();
             $c = 1;
+            wuU9H:
             if (!($c <= $cols)) {
                 $r++;
+                goto lAC_T;
             }
             $width = 4000;
             $align = array("align" => "left", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 100, "right" => 100));
             if ($c == 1) {
                 $align = array("align" => "center", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 100, "right" => 100));
                 $width = 500;
-            } else if ($c == 2) {
-                $width = 8000;
+                goto wLdLW;
             }
+            if ($c == 2) {
+                $width = 8000;
+                goto fNiZ6;
+            }
+            fNiZ6:
+            wLdLW:
             $fontStyle = array("size" => 10, "bold" => false);
             $no = $r - 1;
-            if ($r == 1) {
-                $no = "NO";
-                $align = array("align" => "center", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 50, "right" => 50));
-                $fontStyle = array("size" => 10, "bold" => true);
+            if (!($r == 1)) {
+                goto o_wg0;
             }
+            $no = "NO";
+            $align = array("align" => "center", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 50, "right" => 50));
+            $fontStyle = array("size" => 10, "bold" => true);
+            o_wg0:
             if ($r == 1) {
                 if ($c == 1) {
                     $table->addCell($width)->addText($no, $fontStyle, $align);
-                } else {
-                    $table->addCell($width)->addText($arrHeader[$c], $fontStyle, $align);
+                    goto YvEoL;
                 }
-            } else if ($c == 1) {
-                $table->addCell($width)->addText($no, $fontStyle, $align);
-            } else {
-                $tagRemoved = strip_tags($arrVal[$c]);
-                $html = htmlspecialchars($tagRemoved);
-                $table->addCell($width)->addText($this->cleanString($html), $fontStyle, $align);
+                $table->addCell($width)->addText($arrHeader[$c], $fontStyle, $align);
+                YvEoL:
+                goto E97yx;
             }
+            if ($c == 1) {
+                $table->addCell($width)->addText($no, $fontStyle, $align);
+                goto Tyl6Z;
+            }
+            $tagRemoved = strip_tags($arrVal[$c]);
+            $html = htmlspecialchars($tagRemoved);
+            $table->addCell($width)->addText($this->cleanString($html), $fontStyle, $align);
+            Tyl6Z:
+            E97yx:
             $c++;
+            goto wuU9H;
         }
         $soal = $soals[$r - 1];
         $arrVal = ['', '', isset($soal) ? $soal->soal : '', isset($soal) ? $soal->opsi_a : '', isset($soal) ? $soal->opsi_b : '', isset($soal) ? $soal->opsi_c : '', isset($soal) ? $soal->opsi_d : '', isset($soal) ? $soal->opsi_e : '', isset($soal) ? $soal->jawaban : ''];
         $table->addRow();
         $c = 1;
-        while ($c <= $cols) {
-            $width = 4000;
-            $align = array("align" => "left", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 100, "right" => 100));
-            if ($c == 1) {
-                $align = array("align" => "center", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 100, "right" => 100));
-                $width = 500;
-            } else if ($c == 2) {
-                $width = 8000;
-            }
-            $fontStyle = array("size" => 10, "bold" => false);
-            $no = $r - 1;
-            if ($r == 1) {
-                $no = "NO";
-                $align = array("align" => "center", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 50, "right" => 50));
-                $fontStyle = array("size" => 10, "bold" => true);
-            }
-            if ($r == 1) {
-                if ($c == 1) {
-                    $table->addCell($width)->addText($no, $fontStyle, $align);
-                } else {
-                    $table->addCell($width)->addText($arrHeader[$c], $fontStyle, $align);
-                }
-            } else if ($c == 1) {
-                $table->addCell($width)->addText($no, $fontStyle, $align);
-            } else {
-                $tagRemoved = strip_tags($arrVal[$c]);
-                $html = htmlspecialchars($tagRemoved);
-                $table->addCell($width)->addText($this->cleanString($html), $fontStyle, $align);
-            }
-            $c++;
+        ulDVm:
+        if (!($c <= $cols)) {
+            $r++;
+            goto jbDPj;
         }
-        $r++;
+        $width = 4000;
+        $align = array("align" => "left", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 100, "right" => 100));
+        if ($c == 1) {
+            $align = array("align" => "center", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 100, "right" => 100));
+            $width = 500;
+            goto Hw2zf;
+        }
+        if ($c == 2) {
+            $width = 8000;
+            goto rjcSH;
+        }
+        rjcSH:
+        Hw2zf:
+        $fontStyle = array("size" => 10, "bold" => false);
+        $no = $r - 1;
+        if (!($r == 1)) {
+            goto wv4Ec;
+        }
+        $no = "NO";
+        $align = array("align" => "center", "space" => array("before" => 50, "after" => 50), "indentation" => array("left" => 50, "right" => 50));
+        $fontStyle = array("size" => 10, "bold" => true);
+        wv4Ec:
+        if ($r == 1) {
+            if ($c == 1) {
+                $table->addCell($width)->addText($no, $fontStyle, $align);
+                goto vjO6g;
+            }
+            $table->addCell($width)->addText($arrHeader[$c], $fontStyle, $align);
+            vjO6g:
+            goto ysf_b;
+        }
+        if ($c == 1) {
+            $table->addCell($width)->addText($no, $fontStyle, $align);
+            goto dy7KT;
+        }
+        $tagRemoved = strip_tags($arrVal[$c]);
+        $html = htmlspecialchars($tagRemoved);
+        $table->addCell($width)->addText($this->cleanString($html), $fontStyle, $align);
+        dy7KT:
+        ysf_b:
+        $c++;
+        goto ulDVm;
     }
     public function getSoalSiswa($id_bank)
     {
         $this->load->model("Cbt_model", "cbt");
         $soals = $this->cbt->getAllSoalByBank($id_bank);
         foreach ($soals as $soal) {
-            if (isset($soal->file)) {
-                $soal->file = unserialize($soal->file);
+            if (!isset($soal->file)) {
+                goto Svgnc;
             }
+            $soal->file = unserialize($soal->file);
+            Svgnc:
             if ($soal->jenis == "2") {
                 $soal->jawaban = unserialize($soal->jawaban);
                 $soal->opsi_a = unserialize($soal->opsi_a);
-            } else if ($soal->jenis == "3") {
-                $soal->jawaban = unserialize($soal->jawaban);
+                goto tLE1z;
             }
+            if ($soal->jenis == "3") {
+                $soal->jawaban = unserialize($soal->jawaban);
+                goto C3rYj;
+            }
+            C3rYj:
+            tLE1z:
         }
         $data["soal"] = $soals;
         $this->output_json($data);
@@ -893,16 +1034,24 @@ class Cbtbanksoal extends CI_Controller
         $this->form_validation->set_rules("soal", "Soal", "required");
         if ($jenis == 1) {
             $this->form_validation->set_rules("jawaban_pg", "Kunci Jawaban", "required");
-        } else if ($jenis == 2) {
+            goto R1rbT;
+        }
+        if ($jenis == 2) {
             $this->form_validation->set_rules("jawaban2_a", "Kunci Jawaban", "required");
             $this->form_validation->set_rules("jawaban_benar_pg2[]", "Kunci Jawaban", "required");
-        } else if ($jenis == 3) {
-            $this->form_validation->set_rules("jawaban[][]", "Kunci Jawaban", "required");
-        } else if ($jenis == 4) {
-            $this->form_validation->set_rules("jawaban_isian", "Kunci Jawaban", "required");
-        } else {
-            $this->form_validation->set_rules("jawaban_essai", "Kunci Jawaban", "required");
+            goto R1rbT;
         }
+        if ($jenis == 3) {
+            $this->form_validation->set_rules("jawaban[][]", "Kunci Jawaban", "required");
+            goto R1rbT;
+        }
+        if ($jenis == 4) {
+            $this->form_validation->set_rules("jawaban_isian", "Kunci Jawaban", "required");
+            goto xcM3w;
+        }
+        $this->form_validation->set_rules("jawaban_essai", "Kunci Jawaban", "required");
+        xcM3w:
+        R1rbT:
     }
     public function saveSoal()
     {
@@ -926,11 +1075,13 @@ class Cbtbanksoal extends CI_Controller
         if ($jenis == 2) {
             $opsis = [];
             $i = 97;
+            L6aX6:
             if (!($i < 117)) {
                 $data["opsi_a"] = serialize($opsis);
                 $jawabans = [];
                 $jwb_pg2 = count($this->input->post("jawaban_benar_pg2", true));
                 $i = 0;
+                jBdQO:
                 if (!($i <= $jwb_pg2)) {
                     $data["jawaban"] = serialize($jawabans);
                     goto Kcpee;
@@ -938,29 +1089,39 @@ class Cbtbanksoal extends CI_Controller
                 $jwb = $this->input->post("jawaban_benar_pg2[" . $i . "]", true);
                 array_push($jawabans, $jwb);
                 $i++;
+                goto jBdQO;
             }
             $op = $this->input->post("jawaban2_" . chr($i), false);
-            if ($op != null) {
-                $opsis[chr($i)] = $op;
+            if (!($op != null)) {
+                goto xHRXd;
             }
+            $opsis[chr($i)] = $op;
+            xHRXd:
             $i++;
+            goto L6aX6;
         }
         if ($jenis == 3) {
             $jawabans = $this->input->post("jawaban", false);
             $i = 0;
+            g4Ix0:
             if (!($i < count($jawabans))) {
                 $jwb_jodohkan = ["model" => $this->input->post("model", true), "type" => $this->input->post("type", true), "jawaban" => $jawabans];
                 $data["jawaban"] = serialize($jwb_jodohkan);
                 goto Kcpee;
             }
             $j = 0;
+            HUxhx:
             if (!($j < count($jawabans[$i]))) {
                 $i++;
+                goto g4Ix0;
             }
-            if ($j === 0) {
-                $jawabans[$i][$j] = $this->decode_data($jawabans[$i][$j], $bank_id, $jenis, $nomor_soal);
+            if (!($j === 0)) {
+                goto Q0IsI;
             }
+            $jawabans[$i][$j] = $this->decode_data($jawabans[$i][$j], $bank_id, $jenis, $nomor_soal);
+            Q0IsI:
             $j++;
+            goto HUxhx;
         }
         if ($jenis == 4) {
             $data["jawaban"] = $this->input->post("jawaban_isian", true);
@@ -972,21 +1133,28 @@ class Cbtbanksoal extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             $result["status"] = "error";
             $result["error"] = form_error();
-        } else if ($method === "add") {
+            goto W3unl;
+        }
+        if ($method === "add") {
             $data["created_on"] = time();
             $data["updated_on"] = time();
             $this->master->create("cbt_soal", $data);
             $result["status"] = "Soal berhasil dibuat";
             $this->logging->saveLog(3, "membuat soal");
-        } else if ($method === "edit") {
+            goto dmx87;
+        }
+        if ($method === "edit") {
             $id_soal = $this->input->post("soal_id", true);
             $data["updated_on"] = time();
             $this->master->update("cbt_soal", $data, "id_soal", $id_soal);
             $result["status"] = "Soal berhasil diupdate";
             $this->logging->saveLog(4, "mengedit soal");
-        } else {
-            $result["status"] = "400 Method not found";
+            goto OxJW4;
         }
+        $result["status"] = "400 Method not found";
+        OxJW4:
+        dmx87:
+        W3unl:
         $this->output_json($result);
     }
     function base64_to_jpeg($base64_string, $output_file)
@@ -1006,17 +1174,21 @@ class Cbtbanksoal extends CI_Controller
         $nomor = $result->nomor_soal;
         $this->db->where("id_soal", $id_soal);
         $deleted = $this->db->delete("cbt_soal");
-        if ($deleted) {
-            $update = [];
-            $nomor_baru = 1;
-            foreach ($all_soal as $soal) {
-                $update[] = ["id_soal" => $soal->id_soal, "nomor_soal" => $nomor_baru];
-                $nomor_baru++;
-            }
-            if (count($update) > 0) {
-                $this->db->update_batch("cbt_soal", $update, "id_soal");
-            }
+        if (!$deleted) {
+            goto QG1K2;
         }
+        $update = [];
+        $nomor_baru = 1;
+        foreach ($all_soal as $soal) {
+            $update[] = ["id_soal" => $soal->id_soal, "nomor_soal" => $nomor_baru];
+            $nomor_baru++;
+        }
+        if (!(count($update) > 0)) {
+            goto cf16r;
+        }
+        $this->db->update_batch("cbt_soal", $update, "id_soal");
+        cf16r:
+        QG1K2:
         $this->output_json($deleted);
     }
     function uploadFile()
@@ -1025,35 +1197,38 @@ class Cbtbanksoal extends CI_Controller
         $id_soal = $this->input->get("id_soal", true);
         $soal = $this->cbt->getFileSoalById($id_soal);
         $files = $soal == null || $soal->file == null ? [] : unserialize($soal->file);
-        if (isset($_FILES["file_uploads"]["name"])) {
-            $nama_file_asal = $_FILES["file_uploads"]["name"];
-            $kode_file = $id_soal . "_" . time();
-            $config["upload_path"] = "./uploads/bank_soal/";
-            $config["allowed_types"] = "mpeg|mpg|mpeg3|mp3|wav|wave|mp4|avi";
-            $config["file_name"] = $kode_file;
-            $this->upload->initialize($config);
-            if (!$this->upload->do_upload("file_uploads")) {
-                $data["status"] = false;
-                $src = '';
-                $filename = '';
-                $data["src"] = $this->upload->display_errors();
-            } else {
-                $file = $this->upload->data();
-                $ext = pathinfo($file["file_name"], PATHINFO_EXTENSION);
-                $src = "uploads/bank_soal/" . $kode_file . "." . $ext;
-                $data["src"] = $src;
-                $data["filename"] = $nama_file_asal;
-                $data["status"] = true;
-                $type = $_FILES["file_uploads"]["type"];
-                $data["type"] = $type;
-                $data["size"] = $_FILES["file_uploads"]["size"];
-                $data["soal"] = $soal;
-                $files[] = ["file_name" => $nama_file_asal, "alias" => $kode_file, "src" => $src, "type" => $type];
-                $this->db->set("file", serialize($files));
-                $this->db->where("id_soal", $id_soal);
-                $this->db->update("cbt_soal");
-            }
+        if (!isset($_FILES["file_uploads"]["name"])) {
+            goto U5be1;
         }
+        $nama_file_asal = $_FILES["file_uploads"]["name"];
+        $kode_file = $id_soal . "_" . time();
+        $config["upload_path"] = "./uploads/bank_soal/";
+        $config["allowed_types"] = "mpeg|mpg|mpeg3|mp3|wav|wave|mp4|avi";
+        $config["file_name"] = $kode_file;
+        $this->upload->initialize($config);
+        if (!$this->upload->do_upload("file_uploads")) {
+            $data["status"] = false;
+            $src = '';
+            $filename = '';
+            $data["src"] = $this->upload->display_errors();
+            goto fQ2uY;
+        }
+        $file = $this->upload->data();
+        $ext = pathinfo($file["file_name"], PATHINFO_EXTENSION);
+        $src = "uploads/bank_soal/" . $kode_file . "." . $ext;
+        $data["src"] = $src;
+        $data["filename"] = $nama_file_asal;
+        $data["status"] = true;
+        $type = $_FILES["file_uploads"]["type"];
+        $data["type"] = $type;
+        $data["size"] = $_FILES["file_uploads"]["size"];
+        $data["soal"] = $soal;
+        $files[] = ["file_name" => $nama_file_asal, "alias" => $kode_file, "src" => $src, "type" => $type];
+        $this->db->set("file", serialize($files));
+        $this->db->where("id_soal", $id_soal);
+        $this->db->update("cbt_soal");
+        fQ2uY:
+        U5be1:
         $data["files"] = $files;
         $this->output_json($data);
     }
@@ -1182,39 +1357,67 @@ class Cbtbanksoal extends CI_Controller
         foreach ($json as $jenis => $values) {
             $data_soal = [];
             foreach ($values as $val) {
-                if (isset($val->NO)) {
-                    $no = trim($val->NO);
-                    if (isset($val->SOAL) && $val->SOAL != '') {
-                        $data_soal[$no]["soal"] = $val->SOAL;
-                    }
-                    if ($jenis == "1") {
-                        if (isset($val->OPSI)) {
-                            $data_soal[$no]["opsi"][strtoupper($val->OPSI)] = $val->JAWABAN;
-                            if (isset($val->KUNCI) && strtolower($val->KUNCI) == "v") {
-                                $data_soal[$no]["kunci"][strtolower($val->KUNCI)] = strtoupper($val->OPSI);
-                            }
-                        }
-                    } else if ($jenis == "2") {
-                        if (isset($val->OPSI)) {
-                            $data_soal[$no]["opsi"][strtoupper($val->OPSI)] = $val->JAWABAN;
-                            if (isset($val->KUNCI) && strtolower($val->KUNCI) == "v") {
-                                $data_soal[$no]["kunci"][strtoupper($val->OPSI)] = strtolower($val->KUNCI);
-                            }
-                        }
-                    } else if ($jenis == "3") {
-                        if (isset($val->KD_BARIS)) {
-                            $data_soal[$no]["baris"][strtoupper($val->KD_BARIS)] = $val->BARIS;
-                            if (isset($val->KUNCI)) {
-                                $data_soal[$no]["kunci"][strtoupper($val->KD_KUNCI)] = strtoupper($val->KUNCI);
-                            }
-                        }
-                        if (isset($val->KD_KOLOM)) {
-                            $data_soal[$no]["kolom"][strtoupper($val->KD_KOLOM)] = $val->KOLOM;
-                        }
-                    } else if (isset($val->KUNCI)) {
-                        $data_soal[$no]["kunci"] = $val->KUNCI;
-                    }
+                if (!isset($val->NO)) {
+                    goto jt8ue;
                 }
+                $no = trim($val->NO);
+                if (!(isset($val->SOAL) && $val->SOAL != '')) {
+                    goto dzWjt;
+                }
+                $data_soal[$no]["soal"] = $val->SOAL;
+                dzWjt:
+                if ($jenis == "1") {
+                    if (!isset($val->OPSI)) {
+                        goto j28vb;
+                    }
+                    $data_soal[$no]["opsi"][strtoupper($val->OPSI)] = $val->JAWABAN;
+                    if (!(isset($val->KUNCI) && strtolower($val->KUNCI) == "v")) {
+                        goto nQVox;
+                    }
+                    $data_soal[$no]["kunci"][strtolower($val->KUNCI)] = strtoupper($val->OPSI);
+                    nQVox:
+                    j28vb:
+                    goto BtQja;
+                }
+                if ($jenis == "2") {
+                    if (!isset($val->OPSI)) {
+                        goto g7WJI;
+                    }
+                    $data_soal[$no]["opsi"][strtoupper($val->OPSI)] = $val->JAWABAN;
+                    if (!(isset($val->KUNCI) && strtolower($val->KUNCI) == "v")) {
+                        goto fNyRu;
+                    }
+                    $data_soal[$no]["kunci"][strtoupper($val->OPSI)] = strtolower($val->KUNCI);
+                    fNyRu:
+                    g7WJI:
+                    goto BtQja;
+                }
+                if ($jenis == "3") {
+                    if (!isset($val->KD_BARIS)) {
+                        goto Cr0W8;
+                    }
+                    $data_soal[$no]["baris"][strtoupper($val->KD_BARIS)] = $val->BARIS;
+                    if (!isset($val->KUNCI)) {
+                        goto B9pJ2;
+                    }
+                    $data_soal[$no]["kunci"][strtoupper($val->KD_KUNCI)] = strtoupper($val->KUNCI);
+                    B9pJ2:
+                    Cr0W8:
+                    if (!isset($val->KD_KOLOM)) {
+                        goto wicua;
+                    }
+                    $data_soal[$no]["kolom"][strtoupper($val->KD_KOLOM)] = $val->KOLOM;
+                    wicua:
+                    goto fI34C;
+                }
+                if (!isset($val->KUNCI)) {
+                    goto NAG1B;
+                }
+                $data_soal[$no]["kunci"] = $val->KUNCI;
+                NAG1B:
+                fI34C:
+                BtQja:
+                jt8ue:
             }
             $datas[$jenis] = $data_soal;
         }
@@ -1222,91 +1425,127 @@ class Cbtbanksoal extends CI_Controller
         foreach ($datas as $jenis => $keys) {
             foreach ($keys as $no => $v) {
                 $isi_soal = isset($v["soal"]) ? $v["soal"] : '';
-                if ($isi_soal != '') {
-                    $insert = ["jenis" => $jenis, "nomor_soal" => $no, "soal" => $isi_soal, "file" => serialize([])];
-                    if ($jenis == "1") {
-                        $insert["opsi_a"] = isset($v["opsi"]) && isset($v["opsi"]["A"]) ? $v["opsi"]["A"] : '';
-                        $insert["opsi_b"] = isset($v["opsi"]) && isset($v["opsi"]["B"]) ? $v["opsi"]["B"] : '';
-                        $insert["opsi_c"] = isset($v["opsi"]) && isset($v["opsi"]["C"]) ? $v["opsi"]["C"] : '';
-                        $insert["opsi_d"] = isset($v["opsi"]) && isset($v["opsi"]["D"]) ? $v["opsi"]["D"] : '';
-                        $insert["opsi_e"] = isset($v["opsi"]) && isset($v["opsi"]["E"]) ? $v["opsi"]["E"] : '';
-                        $insert["jawaban"] = isset($v["kunci"]) && isset($v["kunci"]["v"]) ? $v["kunci"]["v"] : '';
-                    } else if ($jenis == "2") {
-                        $opsis = [];
-                        $kuncis = [];
-                        if (isset($v["opsi"])) {
-                            foreach ($v["opsi"] as $opsi => $jawaban) {
-                                $opsis[strtolower($opsi)] = $jawaban;
-                            }
-                        }
-                        if (isset($v["kunci"])) {
-                            foreach ($v["kunci"] as $kunci => $jawaban) {
-                                if ($jawaban == "v") {
-                                    $kuncis[] = strtolower($kunci);
-                                }
-                            }
-                        }
-                        $insert["opsi_a"] = serialize($opsis);
-                        $insert["jawaban"] = serialize($kuncis);
-                    } else if ($jenis == "3") {
-                        $baris = [];
-                        $kolom = [];
-                        $header = [];
-                        array_push($header, "#");
-                        $arrKol = [];
-                        foreach ($v["kolom"] as $kd_kol => $kol) {
-                            $kolom[$kd_kol] = $kol;
-                            if ($kol != '') {
-                                array_push($header, $kol);
-                            }
-                            foreach ($v["kunci"] as $kd_bar => $kd_kol) {
-                                if ($kd_kol != '') {
-                                    $arrKol[$kd_bar] = explode(",", $kd_kol);
-                                }
-                            }
-                        }
-                        array_push($baris, $header);
-                        $jwbnBaris = [];
-                        foreach ($v["baris"] as $kd_bar => $bar) {
-                            $jwbn = [];
-                            if ($kd_bar != '') {
-                                array_push($jwbn, $bar);
-                            }
-                            foreach ($kolom as $kk => $val) {
-                                if ($kd_bar != '' && $val != '' && isset($arrKol[$kd_bar])) {
-                                    $match = in_array($kk, $arrKol[$kd_bar]);
-                                    array_push($jwbn, $match ? "1" : "0");
-                                }
-                            }
-                            if (count($jwbn) > 0) {
-                                array_push($baris, $jwbn);
-                            }
-                            if ($kd_bar != '') {
-                                array_shift($jwbn);
-                                $jwbnBaris[$kd_bar] = $jwbn;
-                            }
-                        }
-                        $types = [];
-                        foreach ($jwbnBaris as $brs => $jml) {
-                            $jmlType = array_count_values($jml);
-                            if (isset($jmlType[1]) && $jmlType[1] > 1) {
-                                array_push($types, "checkbox");
-                            }
-                        }
-                        $type = count($types) > 0 ? "1" : "2";
-                        $jml_baris = count($baris);
-                        $jml_kolom = count($baris[0]);
-                        $jwb_jodohkan = ["model" => $jml_baris == $jml_kolom ? "1" : "2", "type" => $type, "jawaban" => $baris];
-                        $insert["jawaban"] = serialize($jwb_jodohkan);
-                    } else if ($jenis == "4") {
-                        if (isset($v["kunci"])) {
-                            $insert["jawaban"] = strip_tags($v["kunci"]);
-                        }
-                    } else if (isset($v["kunci"])) {
-                        $insert["jawaban"] = $v["kunci"];
-                    }
-                    $data_insert[] = $insert;
+                if (!($isi_soal != '')) {
+                    goto WtmXo;
                 }
+                $insert = ["jenis" => $jenis, "nomor_soal" => $no, "soal" => $isi_soal, "file" => serialize([])];
+                if ($jenis == "1") {
+                    $insert["opsi_a"] = isset($v["opsi"]) && isset($v["opsi"]["A"]) ? $v["opsi"]["A"] : '';
+                    $insert["opsi_b"] = isset($v["opsi"]) && isset($v["opsi"]["B"]) ? $v["opsi"]["B"] : '';
+                    $insert["opsi_c"] = isset($v["opsi"]) && isset($v["opsi"]["C"]) ? $v["opsi"]["C"] : '';
+                    $insert["opsi_d"] = isset($v["opsi"]) && isset($v["opsi"]["D"]) ? $v["opsi"]["D"] : '';
+                    $insert["opsi_e"] = isset($v["opsi"]) && isset($v["opsi"]["E"]) ? $v["opsi"]["E"] : '';
+                    $insert["jawaban"] = isset($v["kunci"]) && isset($v["kunci"]["v"]) ? $v["kunci"]["v"] : '';
+                    goto u4kzj;
+                }
+                if ($jenis == "2") {
+                    $opsis = [];
+                    $kuncis = [];
+                    if (!isset($v["opsi"])) {
+                        goto on9qb;
+                    }
+                    foreach ($v["opsi"] as $opsi => $jawaban) {
+                        $opsis[strtolower($opsi)] = $jawaban;
+                    }
+                    on9qb:
+                    if (!isset($v["kunci"])) {
+                        goto MicAf;
+                    }
+                    foreach ($v["kunci"] as $kunci => $jawaban) {
+                        if (!($jawaban == "v")) {
+                            goto aHyb7;
+                        }
+                        $kuncis[] = strtolower($kunci);
+                        aHyb7:
+                    }
+                    MicAf:
+                    $insert["opsi_a"] = serialize($opsis);
+                    $insert["jawaban"] = serialize($kuncis);
+                    goto u4kzj;
+                }
+                if ($jenis == "3") {
+                    $baris = [];
+                    $kolom = [];
+                    $header = [];
+                    array_push($header, "#");
+                    $arrKol = [];
+                    foreach ($v["kolom"] as $kd_kol => $kol) {
+                        $kolom[$kd_kol] = $kol;
+                        if (!($kol != '')) {
+                            goto ijHCQ;
+                        }
+                        array_push($header, $kol);
+                        ijHCQ:
+                        foreach ($v["kunci"] as $kd_bar => $kd_kol) {
+                            if (!($kd_kol != '')) {
+                                goto vEoDF;
+                            }
+                            $arrKol[$kd_bar] = explode(",", $kd_kol);
+                            vEoDF:
+                        }
+                    }
+                    array_push($baris, $header);
+                    $jwbnBaris = [];
+                    foreach ($v["baris"] as $kd_bar => $bar) {
+                        $jwbn = [];
+                        if (!($kd_bar != '')) {
+                            goto lGxBz;
+                        }
+                        array_push($jwbn, $bar);
+                        lGxBz:
+                        foreach ($kolom as $kk => $val) {
+                            if (!($kd_bar != '' && $val != '' && isset($arrKol[$kd_bar]))) {
+                                goto D_rBu;
+                            }
+                            $match = in_array($kk, $arrKol[$kd_bar]);
+                            array_push($jwbn, $match ? "1" : "0");
+                            D_rBu:
+                        }
+                        if (!(count($jwbn) > 0)) {
+                            goto ZbDB0;
+                        }
+                        array_push($baris, $jwbn);
+                        ZbDB0:
+                        if (!($kd_bar != '')) {
+                            goto Bdg8_;
+                        }
+                        array_shift($jwbn);
+                        $jwbnBaris[$kd_bar] = $jwbn;
+                        Bdg8_:
+                    }
+                    $types = [];
+                    foreach ($jwbnBaris as $brs => $jml) {
+                        $jmlType = array_count_values($jml);
+                        if (!(isset($jmlType[1]) && $jmlType[1] > 1)) {
+                            goto Bm5JJ;
+                        }
+                        array_push($types, "checkbox");
+                        Bm5JJ:
+                    }
+                    $type = count($types) > 0 ? "1" : "2";
+                    $jml_baris = count($baris);
+                    $jml_kolom = count($baris[0]);
+                    $jwb_jodohkan = ["model" => $jml_baris == $jml_kolom ? "1" : "2", "type" => $type, "jawaban" => $baris];
+                    $insert["jawaban"] = serialize($jwb_jodohkan);
+                    goto u4kzj;
+                }
+                if ($jenis == "4") {
+                    if (!isset($v["kunci"])) {
+                        goto xBOKp;
+                    }
+                    $insert["jawaban"] = strip_tags($v["kunci"]);
+                    xBOKp:
+                    goto jAyDm;
+                }
+                if (!isset($v["kunci"])) {
+                    goto yblwT;
+                }
+                $insert["jawaban"] = $v["kunci"];
+                yblwT:
+                jAyDm:
+                u4kzj:
+                $data_insert[] = $insert;
+                WtmXo:
             }
         }
         $inserted = [];
@@ -1319,12 +1558,15 @@ class Cbtbanksoal extends CI_Controller
         $data["json"] = $json;
         if (count($inserted) > 0) {
             $this->db->where("bank_id", $bank_id);
-            if ($this->db->delete("cbt_soal")) {
-                $data["insert"] = $this->db->insert_batch("cbt_soal", $inserted);
+            if (!$this->db->delete("cbt_soal")) {
+                goto b7SzU;
             }
-        } else {
-            $data["insert"] = 0;
+            $data["insert"] = $this->db->insert_batch("cbt_soal", $inserted);
+            b7SzU:
+            goto FsGq0;
         }
+        $data["insert"] = 0;
+        FsGq0:
         $this->output_json($data);
     }
     function uploadSoal()
@@ -1342,96 +1584,128 @@ class Cbtbanksoal extends CI_Controller
         foreach ($datas as $jenis => $nomor) {
             foreach ($nomor as $no => $v) {
                 $isi_soal = isset($v["soal"]) ? $this->decode_data(rawurldecode($v["soal"]), $bank_id, $jenis, $no) : '';
-                if ($isi_soal != '') {
-                    $insert = ["jenis" => $jenis, "nomor_soal" => $no, "soal" => $isi_soal, "file" => serialize([])];
-                    if ($jenis == 1) {
-                        $insert["opsi_a"] = isset($v["opsi"]) && isset($v["opsi"]["A"]) ? $this->decode_data(rawurldecode($v["opsi"]["A"]), $bank_id, $jenis, $no) : '';
-                        $insert["opsi_b"] = isset($v["opsi"]) && isset($v["opsi"]["B"]) ? $this->decode_data(rawurldecode($v["opsi"]["B"]), $bank_id, $jenis, $no) : '';
-                        $insert["opsi_c"] = isset($v["opsi"]) && isset($v["opsi"]["C"]) ? $this->decode_data(rawurldecode($v["opsi"]["C"]), $bank_id, $jenis, $no) : '';
-                        $insert["opsi_d"] = isset($v["opsi"]) && isset($v["opsi"]["D"]) ? $this->decode_data(rawurldecode($v["opsi"]["D"]), $bank_id, $jenis, $no) : '';
-                        $insert["opsi_e"] = isset($v["opsi"]) && isset($v["opsi"]["E"]) ? $this->decode_data(rawurldecode($v["opsi"]["E"]), $bank_id, $jenis, $no) : '';
-                        $insert["jawaban"] = isset($v["kunci"]) && count($v["kunci"]) > 0 ? $v["kunci"][0] : '';
-                        $jml_spg1++;
-                    } else if ($jenis == "2") {
-                        $opsis = [];
-                        $kuncis = [];
-                        if (isset($v["opsi"])) {
-                            foreach ($v["opsi"] as $opsi => $jawaban) {
-                                $opsis[strtolower($opsi)] = $this->decode_data(rawurldecode($jawaban), $bank_id, $jenis, $no);
-                            }
-                        }
-                        if (isset($v["kunci"])) {
-                            foreach ($v["kunci"] as $jawaban) {
-                                array_push($kuncis, strtolower($jawaban));
-                            }
-                        }
-                        $insert["opsi_a"] = serialize($opsis);
-                        $insert["jawaban"] = serialize($kuncis);
-                        $jml_spg2++;
-                    } else if ($jenis == "3") {
-                        $baris = [];
-                        $kolom = [];
-                        $header = [];
-                        array_push($header, "#");
-                        $arrKol = [];
-                        foreach ($v["kolom"] as $kd_kol => $kol) {
-                            $kolom[$kd_kol] = $kol;
-                            if ($kol != '') {
-                                array_push($header, $this->decode_data(rawurldecode($kol), $bank_id, $jenis, $no));
-                            }
-                            foreach ($v["kunci"] as $kd_bar => $kd_kol) {
-                                if ($kd_kol != '') {
-                                    $arrKol[$kd_bar] = explode(",", $kd_kol);
-                                }
-                            }
-                        }
-                        array_push($baris, $header);
-                        $jwbnBaris = [];
-                        foreach ($v["baris"] as $kd_bar => $bar) {
-                            $jwbn = [];
-                            if ($kd_bar != '') {
-                                array_push($jwbn, $this->decode_data(rawurldecode($bar), $bank_id, $jenis, $no));
-                            }
-                            foreach ($kolom as $kk => $val) {
-                                if ($kd_bar != '' && $val != '' && isset($arrKol[$kd_bar])) {
-                                    $match = in_array($kk, $arrKol[$kd_bar]);
-                                    array_push($jwbn, $match ? "1" : "0");
-                                }
-                            }
-                            if (count($jwbn) > 0) {
-                                array_push($baris, $jwbn);
-                            }
-                            if ($kd_bar != '') {
-                                array_shift($jwbn);
-                                $jwbnBaris[$kd_bar] = $jwbn;
-                            }
-                        }
-                        $types = [];
-                        foreach ($jwbnBaris as $brs => $jml) {
-                            $jmlType = array_count_values($jml);
-                            if (isset($jmlType[1]) && $jmlType[1] > 1) {
-                                array_push($types, "checkbox");
-                            }
-                        }
-                        $type = count($types) > 0 ? "1" : "2";
-                        $jml_baris = count($baris);
-                        $jml_kolom = count($baris[0]);
-                        $jwb_jodohkan = ["model" => $jml_baris == $jml_kolom ? "1" : "2", "type" => $type, "jawaban" => $baris];
-                        $insert["jawaban"] = serialize($jwb_jodohkan);
-                        $jml_sjod++;
-                    } else if ($jenis == "4") {
-                        if (isset($v["kunci"])) {
-                            $insert["jawaban"] = strip_tags($this->decode_data(rawurldecode($v["kunci"]), $bank_id, $jenis, $no));
-                        }
-                        $jml_siss++;
-                    } else {
-                        if (isset($v["kunci"])) {
-                            $insert["jawaban"] = $this->decode_data(rawurldecode($v["kunci"]), $bank_id, $jenis, $no);
-                        }
-                        $jml_sess++;
-                    }
-                    $data_insert[] = $insert;
+                if (!($isi_soal != '')) {
+                    goto R9UpN;
                 }
+                $insert = ["jenis" => $jenis, "nomor_soal" => $no, "soal" => $isi_soal, "file" => serialize([])];
+                if ($jenis == 1) {
+                    $insert["opsi_a"] = isset($v["opsi"]) && isset($v["opsi"]["A"]) ? $this->decode_data(rawurldecode($v["opsi"]["A"]), $bank_id, $jenis, $no) : '';
+                    $insert["opsi_b"] = isset($v["opsi"]) && isset($v["opsi"]["B"]) ? $this->decode_data(rawurldecode($v["opsi"]["B"]), $bank_id, $jenis, $no) : '';
+                    $insert["opsi_c"] = isset($v["opsi"]) && isset($v["opsi"]["C"]) ? $this->decode_data(rawurldecode($v["opsi"]["C"]), $bank_id, $jenis, $no) : '';
+                    $insert["opsi_d"] = isset($v["opsi"]) && isset($v["opsi"]["D"]) ? $this->decode_data(rawurldecode($v["opsi"]["D"]), $bank_id, $jenis, $no) : '';
+                    $insert["opsi_e"] = isset($v["opsi"]) && isset($v["opsi"]["E"]) ? $this->decode_data(rawurldecode($v["opsi"]["E"]), $bank_id, $jenis, $no) : '';
+                    $insert["jawaban"] = isset($v["kunci"]) && count($v["kunci"]) > 0 ? $v["kunci"][0] : '';
+                    $jml_spg1++;
+                    goto HOt83;
+                }
+                if ($jenis == "2") {
+                    $opsis = [];
+                    $kuncis = [];
+                    if (!isset($v["opsi"])) {
+                        goto ym8lk;
+                    }
+                    foreach ($v["opsi"] as $opsi => $jawaban) {
+                        $opsis[strtolower($opsi)] = $this->decode_data(rawurldecode($jawaban), $bank_id, $jenis, $no);
+                    }
+                    ym8lk:
+                    if (!isset($v["kunci"])) {
+                        goto JoXZd;
+                    }
+                    foreach ($v["kunci"] as $jawaban) {
+                        array_push($kuncis, strtolower($jawaban));
+                    }
+                    JoXZd:
+                    $insert["opsi_a"] = serialize($opsis);
+                    $insert["jawaban"] = serialize($kuncis);
+                    $jml_spg2++;
+                    goto HOt83;
+                }
+                if ($jenis == "3") {
+                    $baris = [];
+                    $kolom = [];
+                    $header = [];
+                    array_push($header, "#");
+                    $arrKol = [];
+                    foreach ($v["kolom"] as $kd_kol => $kol) {
+                        $kolom[$kd_kol] = $kol;
+                        if (!($kol != '')) {
+                            goto oAtfM;
+                        }
+                        array_push($header, $this->decode_data(rawurldecode($kol), $bank_id, $jenis, $no));
+                        oAtfM:
+                        foreach ($v["kunci"] as $kd_bar => $kd_kol) {
+                            if (!($kd_kol != '')) {
+                                goto fgDDo;
+                            }
+                            $arrKol[$kd_bar] = explode(",", $kd_kol);
+                            fgDDo:
+                        }
+                    }
+                    array_push($baris, $header);
+                    $jwbnBaris = [];
+                    foreach ($v["baris"] as $kd_bar => $bar) {
+                        $jwbn = [];
+                        if (!($kd_bar != '')) {
+                            goto KyjmZ;
+                        }
+                        array_push($jwbn, $this->decode_data(rawurldecode($bar), $bank_id, $jenis, $no));
+                        KyjmZ:
+                        foreach ($kolom as $kk => $val) {
+                            if (!($kd_bar != '' && $val != '' && isset($arrKol[$kd_bar]))) {
+                                goto qf2XC;
+                            }
+                            $match = in_array($kk, $arrKol[$kd_bar]);
+                            array_push($jwbn, $match ? "1" : "0");
+                            qf2XC:
+                        }
+                        if (!(count($jwbn) > 0)) {
+                            goto H9aKb;
+                        }
+                        array_push($baris, $jwbn);
+                        H9aKb:
+                        if (!($kd_bar != '')) {
+                            goto UgMHf;
+                        }
+                        array_shift($jwbn);
+                        $jwbnBaris[$kd_bar] = $jwbn;
+                        UgMHf:
+                    }
+                    $types = [];
+                    foreach ($jwbnBaris as $brs => $jml) {
+                        $jmlType = array_count_values($jml);
+                        if (!(isset($jmlType[1]) && $jmlType[1] > 1)) {
+                            goto UdvVY;
+                        }
+                        array_push($types, "checkbox");
+                        UdvVY:
+                    }
+                    $type = count($types) > 0 ? "1" : "2";
+                    $jml_baris = count($baris);
+                    $jml_kolom = count($baris[0]);
+                    $jwb_jodohkan = ["model" => $jml_baris == $jml_kolom ? "1" : "2", "type" => $type, "jawaban" => $baris];
+                    $insert["jawaban"] = serialize($jwb_jodohkan);
+                    $jml_sjod++;
+                    goto HOt83;
+                }
+                if ($jenis == "4") {
+                    if (!isset($v["kunci"])) {
+                        goto vATs2;
+                    }
+                    $insert["jawaban"] = strip_tags($this->decode_data(rawurldecode($v["kunci"]), $bank_id, $jenis, $no));
+                    vATs2:
+                    $jml_siss++;
+                    goto OQWGX;
+                }
+                if (!isset($v["kunci"])) {
+                    goto yBz9u;
+                }
+                $insert["jawaban"] = $this->decode_data(rawurldecode($v["kunci"]), $bank_id, $jenis, $no);
+                yBz9u:
+                $jml_sess++;
+                OQWGX:
+                HOt83:
+                $data_insert[] = $insert;
+                R9UpN:
             }
         }
         $tmpl["1"] = $jml_spg1 == $bank->tampil_pg ? "1" : "0";
@@ -1448,19 +1722,24 @@ class Cbtbanksoal extends CI_Controller
         $data["total"] = count($inserted);
         if (count($inserted) > 0) {
             $this->db->where("bank_id", $bank_id);
-            if ($this->db->delete("cbt_soal")) {
-                $data["insert"] = $this->db->insert_batch("cbt_soal", $inserted);
+            if (!$this->db->delete("cbt_soal")) {
+                goto idmg0;
             }
-        } else {
-            $data["insert"] = 0;
+            $data["insert"] = $this->db->insert_batch("cbt_soal", $inserted);
+            idmg0:
+            goto fhQv2;
         }
-        if (count($inserted)) {
-            $status_soal = $tmpl["1"] == "1" && $tmpl["2"] == "1" && $tmpl["3"] == "1" && $tmpl["4"] == "1" && $tmpl["5"] == "1" ? "1" : "0";
-            $this->db->set("status_soal", $status_soal);
-            $this->db->where("id_bank", $bank_id);
-            $soal_updated = $this->db->update("cbt_bank_soal");
-            $data["selesai"] = $soal_updated;
+        $data["insert"] = 0;
+        fhQv2:
+        if (!count($inserted)) {
+            goto LsRv2;
         }
+        $status_soal = $tmpl["1"] == "1" && $tmpl["2"] == "1" && $tmpl["3"] == "1" && $tmpl["4"] == "1" && $tmpl["5"] == "1" ? "1" : "0";
+        $this->db->set("status_soal", $status_soal);
+        $this->db->where("id_bank", $bank_id);
+        $soal_updated = $this->db->update("cbt_bank_soal");
+        $data["selesai"] = $soal_updated;
+        LsRv2:
         $this->output_json($data);
     }
     function decode_data($html, $id_bank, $jenis, $nomor)
@@ -1484,23 +1763,28 @@ class Cbtbanksoal extends CI_Controller
                     $data = $splited[1];
                     $mime_split_without_base64 = explode(";", $mime, 2);
                     $mime_split = explode("/", $mime_split_without_base64[0], 2);
-                    if (count($mime_split) == 2) {
-                        $extension = $mime_split[1];
-                        if ($extension == "jpeg") {
-                            $extension = "jpg";
-                        }
-                        try {
-                            $bytes = random_bytes(10);
-                        } catch (Exception $e) {
-                        }
-                        $output_file = "img_" . $id_bank . $jenis . $nomor . "_" . bin2hex($bytes) . "." . $extension;
-                        file_put_contents("./uploads/bank_soal/" . $output_file, base64_decode($data));
-                        $image->setAttribute("src", "uploads/bank_soal/" . $output_file);
-                        $numimg++;
+                    if (!(count($mime_split) == 2)) {
+                        goto mr6wn;
                     }
-                } else {
-                    $image->setAttribute("src", str_replace(base_url(), '', $src));
+                    $extension = $mime_split[1];
+                    if (!($extension == "jpeg")) {
+                        goto vYkYH;
+                    }
+                    $extension = "jpg";
+                    vYkYH:
+                    try {
+                        $bytes = random_bytes(10);
+                    } catch (Exception $e) {
+                    }
+                    $output_file = "img_" . $id_bank . $jenis . $nomor . "_" . bin2hex($bytes) . "." . $extension;
+                    file_put_contents("./uploads/bank_soal/" . $output_file, base64_decode($data));
+                    $image->setAttribute("src", "uploads/bank_soal/" . $output_file);
+                    $numimg++;
+                    mr6wn:
+                    goto bVOqm;
                 }
+                $image->setAttribute("src", str_replace(base_url(), '', $src));
+                bVOqm:
             }
             $res = $dom->saveHTML();
             return preg_replace('/^\s*(?:<\?xml[^>]*>|<!--\?xml[^>]*-->)\s*/i', '', $res);

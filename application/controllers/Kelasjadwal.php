@@ -10,9 +10,11 @@ class Kelasjadwal extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!($this->ion_auth->logged_in())) {
-            redirect("auth");
+        if ($this->ion_auth->logged_in()) {
+            goto kG1Z5;
         }
+        redirect("auth");
+        kG1Z5:
         $this->load->library(["datatables", "form_validation"]);
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
@@ -24,9 +26,11 @@ class Kelasjadwal extends CI_Controller
     }
     public function output_json($data, $encode = true)
     {
-        if ($encode) {
-            $data = json_encode($data);
+        if (!$encode) {
+            goto BitnU;
         }
+        $data = json_encode($data);
+        BitnU:
         $this->output->set_content_type("application/json")->set_output($data);
     }
     public function index()
@@ -49,13 +53,18 @@ class Kelasjadwal extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("kelas/jadwal/data");
             $this->load->view("_templates/dashboard/_footer");
-        } else if ($this->ion_auth->in_group("guru")) {
+            goto a_qf1;
+        }
+        if ($this->ion_auth->in_group("guru")) {
             $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
             $data["guru"] = $guru;
             $this->load->view("members/guru/templates/header", $data);
             $this->load->view("members/guru/kelas/jadwal/data");
             $this->load->view("members/guru/templates/footer");
+            goto RRgSe;
         }
+        RRgSe:
+        a_qf1:
     }
     public function kelas($kelas)
     {
@@ -72,25 +81,29 @@ class Kelasjadwal extends CI_Controller
         $jadk = $this->kelas->getJadwalKbm($tp->id_tp, $smt->id_smt, $kelas);
         if ($jadk == null) {
             $data["jadwal_kbm"] = json_decode(json_encode(["id_tp" => $tp->tahun, "id_smt" => $smt->smt, "id_kelas" => $kelas, "kbm_jam_pel" => '', "kbm_jam_mulai" => '', "kbm_jml_mapel_hari" => '', "istirahat" => serialize([]), "ada" => false]));
-        } else {
-            $data["jadwal_kbm"] = $jadk;
+            goto WqM1o;
         }
+        $data["jadwal_kbm"] = $jadk;
+        WqM1o:
         $data["id_kelas"] = $kelas;
         $jadm = $this->kelas->getJadwalMapelGroupJam($tp->id_tp, $smt->id_smt, $kelas);
         $jml_mapel = $jadk == null ? 1 : $jadk->kbm_jml_mapel_hari;
         if ($jadm == null) {
             $i = 0;
+            bCFeU:
             if (!($i < $jml_mapel)) {
                 $data["method"] = "add";
-            } else {
-                $jadwal_mapel[] = ["jadwal" => $this->kelas->getDummyJadwalMapel($tp->id_tp, $smt->id_smt, $i + 1, $kelas)];
-                $i++;
+                goto I1rhj;
             }
-            foreach ($jadm as $j) {
-                $jadwal_mapel[] = ["jadwal" => $this->kelas->getJadwalMapelByHari($tp->id_tp, $smt->id_smt, $j->jam_ke, $kelas)];
-            }
-            $data["method"] = "edit";
-            }
+            $jadwal_mapel[] = ["jadwal" => $this->kelas->getDummyJadwalMapel($tp->id_tp, $smt->id_smt, $i + 1, $kelas)];
+            $i++;
+            goto bCFeU;
+        }
+        foreach ($jadm as $j) {
+            $jadwal_mapel[] = ["jadwal" => $this->kelas->getJadwalMapelByHari($tp->id_tp, $smt->id_smt, $j->jam_ke, $kelas)];
+        }
+        $data["method"] = "edit";
+        I1rhj:
         $data["jadwal_mapel"] = $jadwal_mapel;
         $data["mapels"] = $this->dropdown->getAllKodeMapel();
         if ($this->ion_auth->is_admin()) {
@@ -98,35 +111,44 @@ class Kelasjadwal extends CI_Controller
             $this->load->view("_templates/dashboard/_header", $data);
             $this->load->view("kelas/jadwal/data");
             $this->load->view("_templates/dashboard/_footer");
-        } else if ($this->ion_auth->in_group("guru")) {
+            goto s5ZEu;
+        }
+        if ($this->ion_auth->in_group("guru")) {
             $data["guru"] = $this->dashboard->getDetailGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
             $this->load->view("members/guru/templates/header", $data);
             $this->load->view("members/guru/kelas/jadwal/data");
             $this->load->view("members/guru/templates/footer");
+            goto IOCDF;
         }
+        IOCDF:
+        s5ZEu:
     }
     public function setJadwal()
     {
         $istirahat = [];
         $i = 1;
-        while ($i < 5) {
-            $jamke = $this->input->post("ist" . $i, true);
-            $durasi = $this->input->post("dur_ist" . $i, true);
-            if ($jamke) {
-                $istirahat[] = ["ist" => $jamke, "dur" => $durasi];
-            }
-            $i++;
+        pmyra:
+        if (!($i < 5)) {
+            $id_tp = $this->master->getTahunActive()->id_tp;
+            $id_smt = $this->master->getSemesterActive()->id_smt;
+            $id_kelas = $this->input->post("id_kelas", true);
+            $insert = ["id_kbm" => $id_tp . $id_smt . $id_kelas, "id_tp" => $id_tp, "id_smt" => $id_smt, "id_kelas" => $id_kelas, "kbm_jam_pel" => $this->input->post("jam_mapel", true), "kbm_jam_mulai" => $this->input->post("jam_mulai", true), "kbm_jml_mapel_hari" => $this->input->post("jml_mapel", true), "istirahat" => serialize($istirahat)];
+            $update = $this->db->replace("kelas_jadwal_kbm", $insert);
+            $this->logging->saveLog(3, "merubah jadwal pelajaran");
+            $data["status"] = $update;
+            $this->output_json($data);
+            // [PHPDeobfuscator] Implied return
+            return;
         }
-        $id_tp = $this->master->getTahunActive()->id_tp;
-        $id_smt = $this->master->getSemesterActive()->id_smt;
-        $id_kelas = $this->input->post("id_kelas", true);
-        $insert = ["id_kbm" => $id_tp . $id_smt . $id_kelas, "id_tp" => $id_tp, "id_smt" => $id_smt, "id_kelas" => $id_kelas, "kbm_jam_pel" => $this->input->post("jam_mapel", true), "kbm_jam_mulai" => $this->input->post("jam_mulai", true), "kbm_jml_mapel_hari" => $this->input->post("jml_mapel", true), "istirahat" => serialize($istirahat)];
-        $update = $this->db->replace("kelas_jadwal_kbm", $insert);
-        $this->logging->saveLog(3, "merubah jadwal pelajaran");
-        $data["status"] = $update;
-        $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
-        return;
+        $jamke = $this->input->post("ist" . $i, true);
+        $durasi = $this->input->post("dur_ist" . $i, true);
+        if (!$jamke) {
+            goto mH3pE;
+        }
+        $istirahat[] = ["ist" => $jamke, "dur" => $durasi];
+        mH3pE:
+        $i++;
+        goto pmyra;
     }
     public function setMapel()
     {
