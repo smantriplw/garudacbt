@@ -125,7 +125,7 @@ class Datajurusan extends CI_Controller
         $chk = $this->input->post("checked", true);
         if (!$chk) {
             $this->output_json(["status" => false, "total" => "Tidak ada data yang dipilih!"]);
-            goto WGbBd;
+            return;
         }
         $messages = [];
         $tables = [];
@@ -154,13 +154,11 @@ class Datajurusan extends CI_Controller
         }
         if (count($messages) > 0) {
             $this->output_json(["status" => false, "total" => "Data Jurusan digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
-            goto V5CnT;
+            return;
         }
         if ($this->master->delete("master_jurusan", $chk, "id_jurusan")) {
             $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        V5CnT:
-        WGbBd:
     }
     public function load_jurusan()
     {

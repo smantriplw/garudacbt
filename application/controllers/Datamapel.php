@@ -151,7 +151,7 @@ class Datamapel extends CI_Controller
         $chk = $this->input->post("checked", true);
         if (!$chk) {
             $this->output_json(["status" => false, "total" => "Tidak ada data yang dipilih!"]);
-            goto A6B0r;
+            return;
         }
         $messages = [];
         $tables = [];
@@ -180,13 +180,11 @@ class Datamapel extends CI_Controller
         }
         if (count($messages) > 0) {
             $this->output_json(["status" => false, "total" => "Mapel digunakan di " . count($messages) . " tabel:<br>" . implode("<br>", $messages)]);
-            goto d__MT;
+            return;
         }
         if ($this->master->delete("master_mapel", $chk, "id_mapel")) {
             $this->output_json(["status" => true, "total" => count($chk)]);
         }
-        d__MT:
-        A6B0r:
     }
     public function import($import_data = null)
     {

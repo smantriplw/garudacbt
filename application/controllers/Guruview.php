@@ -76,17 +76,15 @@ class Guruview extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $data = ["status" => false, "errors" => ["nip" => form_error("nip"), "nama_guru" => form_error("nama_guru")]];
             $this->output_json($data);
-            goto oDyj3;
+            return;
         }
         $input = ["nip" => $nip, "nama_guru" => $nama_guru, "email" => $email, "jenis_kelamin" => $jenis_kelamin, "no_hp" => $no_hp, "agama" => $agama, "no_ktp" => $no_ktp, "tempat_lahir" => $tempat_lahir, "tgl_lahir" => $this->strContains($tgl_lahir, "0000-") ? null : $tgl_lahir, "alamat_jalan" => $alamat_jalan, "kecamatan" => $kecamatan, "kabupaten" => $kabupaten, "provinsi" => $provinsi, "kode_pos" => $kode_pos];
         $action = $this->master->update("master_guru", $input, "id_guru", $id_guru);
         if ($action) {
             $this->output_json(["status" => true]);
-            goto q7U1W;
+            return;
         }
         $this->output_json(["status" => false]);
-        q7U1W:
-        oDyj3:
     }
     function strContains($string, $val)
     {

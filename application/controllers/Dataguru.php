@@ -104,17 +104,15 @@ class Dataguru extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $data = ["status" => false, "errors" => ["nip" => form_error("nip"), "nama_guru" => form_error("nama_guru"), "username" => form_error("username"), "password" => form_error("password")]];
             $this->output_json($data);
-            goto fQvoj;
+            return;
         }
         $input = ["nip" => trim($nip), "nama_guru" => trim($nama_guru), "username" => trim($username), "password" => trim($password), "foto" => "uploads/profiles/" . trim($nip) . ".jpg"];
         $action = $this->master->create("master_guru", $input);
         if ($action) {
             $this->output_json(["status" => true]);
-            goto W6Xme;
+            return;
         }
         $this->output_json(["status" => false]);
-        W6Xme:
-        fQvoj:
     }
     public function save()
     {
@@ -140,7 +138,7 @@ class Dataguru extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $data = ["status" => false, "errors" => ["nip" => form_error("nip"), "nama_guru" => form_error("nama_guru"), "email" => form_error("email"), "mapel" => form_error("mapel")]];
             $this->output_json($data);
-            goto vaByl;
+            return;
         }
         $input = ["nip" => $nip, "nama_guru" => $nama_guru, "email" => $email, "mapel_id" => $mapel];
         if ($method === "add") {
@@ -150,11 +148,9 @@ class Dataguru extends CI_Controller
         }
         if ($action) {
             $this->output_json(["status" => true]);
-            goto uIV3e;
+            return;
         }
         $this->output_json(["status" => false]);
-        uIV3e:
-        vaByl:
     }
     public function deleteGuru()
     {
