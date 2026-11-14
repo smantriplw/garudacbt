@@ -129,13 +129,14 @@ class Ion_auth_model extends CI_Model
             $user = $this->get_user_by_activation_code($code);
         }
         if (!($code === FALSE || $user && $user->id === $id)) {
-            goto C5Yk7;
+            $this->trigger_events(["post_activate", "post_activate_unsuccessful"]);
+            $this->set_error("activate_unsuccessful");
+            return false;
         }
         $data = ["activation_selector" => NULL, "activation_code" => NULL, "active" => 1];
         $this->trigger_events("extra_where");
         $this->db->update($this->tables["users"], $data, ["id" => $id]);
         if (!($this->db->affected_rows() === 1)) {
-            C5Yk7:
             $this->trigger_events(["post_activate", "post_activate_unsuccessful"]);
             $this->set_error("activate_unsuccessful");
             return false;
@@ -343,11 +344,14 @@ class Ion_auth_model extends CI_Model
             $query = $this->db->select($this->identity_column . ", email, id, password, active, last_login")->where($this->identity_column, $identity)->limit(1)->order_by("id", "desc")->get($this->tables["users"]);
             if (!$this->is_max_login_attempts_exceeded($identity)) {
                 if (!($query->num_rows() === 1)) {
-                    goto TtkT1;
+                    $this->hash_password($password);
+                    $this->increase_login_attempts($identity);
+                    $this->trigger_events("post_login_unsuccessful");
+                    $this->set_error("login_unsuccessful");
+                    return false;
                 }
                 $user = $query->row();
                 if (!$this->verify_password($password, $user->password, $identity)) {
-                    TtkT1:
                     $this->hash_password($password);
                     $this->increase_login_attempts($identity);
                     $this->trigger_events("post_login_unsuccessful");
@@ -762,16 +766,15 @@ class Ion_auth_model extends CI_Model
                 if (array_key_exists("password", $data)) {
                     if (!empty($data["password"])) {
                         $data["password"] = $this->hash_password($data["password"], $user->{$this->identity_column});
-                        if (!($data["password"] === FALSE)) {
-                            goto SUek7;
+                        if ($data["password"] === FALSE) {
+                            $this->db->trans_rollback();
+                            $this->trigger_events(["post_update_user", "post_update_user_unsuccessful"]);
+                            $this->set_error("update_unsuccessful");
+                            return false;
                         }
-                        $this->db->trans_rollback();
-                        $this->trigger_events(["post_update_user", "post_update_user_unsuccessful"]);
-                        $this->set_error("update_unsuccessful");
-                        return false;
+                    } else {
+                        unset($data["password"]);
                     }
-                    unset($data["password"]);
-                    SUek7:
                 }
             }
             $this->trigger_events("extra_where");
@@ -843,11 +846,11 @@ class Ion_auth_model extends CI_Model
         if ($identity) {
             $token = $this->_generate_selector_validator_couple();
             if (!$token->validator_hashed) {
-                goto Gbeyj;
+                $this->trigger_events(["post_remember_user", "remember_user_unsuccessful"]);
+                return false;
             }
             $this->db->update($this->tables["users"], ["remember_selector" => $token->selector, "remember_code" => $token->validator_hashed], [$this->identity_column => $identity]);
             if (!($this->db->affected_rows() > -1)) {
-                Gbeyj:
                 $this->trigger_events(["post_remember_user", "remember_user_unsuccessful"]);
                 return false;
             }
@@ -871,12 +874,13 @@ class Ion_auth_model extends CI_Model
             $this->trigger_events("extra_where");
             $query = $this->db->select($this->identity_column . ", id, email, remember_code, last_login")->where("remember_selector", $token->selector)->where("active", 1)->limit(1)->get($this->tables["users"]);
             if (!($query->num_rows() === 1)) {
-                goto pyQGe;
+                delete_cookie($this->config->item("remember_cookie_name", "ion_auth"));
+                $this->trigger_events(["post_login_remembered_user", "post_login_remembered_user_unsuccessful"]);
+                return false;
             }
             $user = $query->row();
             $identity = $user->{$this->identity_column};
             if (!$this->verify_password($token->validator, $user->remember_code, $identity)) {
-                pyQGe:
                 delete_cookie($this->config->item("remember_cookie_name", "ion_auth"));
                 $this->trigger_events(["post_login_remembered_user", "post_login_remembered_user_unsuccessful"]);
                 return false;
@@ -919,26 +923,24 @@ class Ion_auth_model extends CI_Model
     {
         if (!empty($group_id)) {
             $data = [];
-            if (empty($group_name)) {
-                goto iRrju;
-            }
-            $existing_group = $this->db->get_where($this->tables["groups"], ["name" => $group_name])->row();
-            if (!(isset($existing_group->id) && $existing_group->id != $group_id)) {
-                $data["name"] = $group_name;
-                iRrju:
-                $group = $this->db->get_where($this->tables["groups"], ["id" => $group_id])->row();
-                if (!($this->config->item("admin_group", "ion_auth") === $group->name && $group_name !== $group->name)) {
-                    if (!(empty($additional_data))) {
-                        $data = array_merge($this->_filter_data($this->tables["groups"], $additional_data), $data);
-                    }
-                    $this->db->update($this->tables["groups"], $data, ["id" => $group_id]);
-                    $this->set_message("group_update_successful");
-                    return true;
+            if (!empty($group_name)) {
+                $existing_group = $this->db->get_where($this->tables["groups"], ["name" => $group_name])->row();
+                if (isset($existing_group->id) && $existing_group->id != $group_id) {
+                    $this->set_error("group_already_exists");
+                    return false;
                 }
-                $this->set_error("group_name_admin_not_alter");
-                return false;
+                $data["name"] = $group_name;
             }
-            $this->set_error("group_already_exists");
+            $group = $this->db->get_where($this->tables["groups"], ["id" => $group_id])->row();
+            if (!($this->config->item("admin_group", "ion_auth") === $group->name && $group_name !== $group->name)) {
+                if (!(empty($additional_data))) {
+                    $data = array_merge($this->_filter_data($this->tables["groups"], $additional_data), $data);
+                }
+                $this->db->update($this->tables["groups"], $data, ["id" => $group_id]);
+                $this->set_message("group_update_successful");
+                return true;
+            }
+            $this->set_error("group_name_admin_not_alter");
             return false;
         }
         return false;
