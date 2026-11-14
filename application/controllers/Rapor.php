@@ -417,7 +417,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/nilai/nilaiguru");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function raporCekNilai($filter = null, $id_mapel = null)
@@ -522,7 +521,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/nilai/periksa");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function inputHarian($id_mapel, $id_kelas)
@@ -591,7 +589,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/nilai/harian");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function downloadTemplateHarian($id_mapel, $id_kelas)
@@ -690,7 +687,6 @@ class Rapor extends CI_Controller
         }
         $params = ["[no]" => $no, "[nisn]" => $nisn, "[nama]" => $nama, "[p1]" => $p1, "[p2]" => $p2, "[p3]" => $p3, "[p4]" => $p4, "[p5]" => $p5, "[p6]" => $p6, "[p7]" => $p7, "[p8]" => $p8, "[k1]" => $k1, "[k2]" => $k2, "[k3]" => $k3, "[k4]" => $k4, "[k5]" => $k5, "[k6]" => $k6, "[k7]" => $k7, "[k8]" => $k8, "[nop]" => $no_kip, "[kodep]" => $kode_kip, "[pengetahuan]" => $isi_kip, "[nok]" => $no_kik, "[kodek]" => $kode_kik, "[keterampilan]" => $isi_kik, "{mapel}" => $mapel->kode];
         PhpExcelTemplator::outputToFile($template, $fileName, $params);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function uploadHarian($id_mapel, $id_kelas)
@@ -839,7 +835,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/nilai/pts");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function downloadTemplatePts($id_mapel, $id_kelas)
@@ -878,7 +873,6 @@ class Rapor extends CI_Controller
         }
         $params = ["{mapel}" => $mapel->kode, "{kelas}" => $kelas[$id_kelas], "[no]" => $no, "[nisn]" => $nisn, "[nama]" => $nama, "[nilai]" => $p1];
         PhpExcelTemplator::outputToFile($template, $fileName, $params);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function uploadPts($id_mapel, $id_kelas)
@@ -1003,7 +997,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/nilai/pas");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function downloadTemplatePas($id_mapel, $id_kelas)
@@ -1042,7 +1035,6 @@ class Rapor extends CI_Controller
         }
         $params = ["{mapel}" => $mapel->kode, "{kelas}" => $kelas[$id_kelas], "[no]" => $no, "[nisn]" => $nisn, "[nama]" => $nama, "[nilai]" => $p1];
         PhpExcelTemplator::outputToFile($template, $fileName, $params);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function uploadPas($id_mapel, $id_kelas)
@@ -1164,7 +1156,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/nilai/ekstra");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function downloadTemplateEkstra($id_ekstra, $id_kelas)
@@ -1205,7 +1196,6 @@ class Rapor extends CI_Controller
         }
         $params = ["{mapel}" => $ekstra->nama_ekstra, "{kelas}" => $kelas[$id_kelas], "[no]" => $no, "[nisn]" => $nisn, "[nama]" => $nama, "[nilai]" => $p1];
         PhpExcelTemplator::outputToFile($template, $fileName, $params);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function uploadEkstra($id_ekstra, $id_kelas)
@@ -1331,7 +1321,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/sikap/data");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function saveSikap()
@@ -1386,7 +1375,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/sikap/spiritual");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function importSpiritual($id_kelas)
@@ -1450,7 +1438,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/sikap/sosial");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function importSosial($id_kelas)
@@ -1535,7 +1522,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/prestasi/data");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function savePrestasi()
@@ -1624,7 +1610,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/catatan/data");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function saveCatatan()
@@ -1710,7 +1695,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/fisik/data");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function saveFisik()
@@ -1855,7 +1839,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/cetak/pts");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function cetakAkhir()
@@ -1977,7 +1960,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/cetak/akhir");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function cetakLeger()
@@ -2067,7 +2049,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/leger/data");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function downloadLeger()
@@ -2199,7 +2180,6 @@ class Rapor extends CI_Controller
             $i++;
         }
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function dkn()
@@ -2293,7 +2273,6 @@ class Rapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("members/guru/rapor/dkn/data");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
 }

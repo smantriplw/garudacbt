@@ -214,7 +214,6 @@ class Datakelas extends CI_Controller
         $data["update"] = $updated;
         $data["status"] = $status;
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function update_kelas($id)

@@ -144,7 +144,6 @@ class Kelasmaterijadwal extends CI_Controller
         $this->logging->saveLog(3, "merubah jadwal pelajaran");
         $data["status"] = $update;
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function setMapel()

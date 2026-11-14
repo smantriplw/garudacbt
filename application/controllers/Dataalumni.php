@@ -349,7 +349,6 @@ class Dataalumni extends CI_Controller
         }
         unlink($file);
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function do_import()

@@ -434,7 +434,6 @@ class Kelasmateri extends CI_Controller
             }
         }
         $this->output_json($result);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function copyMateri($id_materi, $jenis)

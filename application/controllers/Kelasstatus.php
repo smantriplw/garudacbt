@@ -217,7 +217,6 @@ class Kelasstatus extends CI_Controller
             $log[$s->id_siswa] = ["nama" => $s->nama, "nis" => $s->nis, "kelas" => $s->nama_kelas, "login" => $this->kelas->getLoginSiswa($s->username), "mulai" => $mulai, "selesai" => $selesai, "text" => isset($logs[$s->id_siswa]) ? $logs[$s->id_siswa]->text : '', "nilai" => isset($logs[$s->id_siswa]) ? $logs[$s->id_siswa]->nilai : '', "catatan" => isset($logs[$s->id_siswa]) ? $logs[$s->id_siswa]->catatan : '', "jam_ke" => isset($logs[$s->id_siswa]) ? $logs[$s->id_siswa]->jam_ke : null, "jadwal_materi" => isset($logs[$s->id_siswa]) ? $logs[$s->id_siswa]->jadwal_materi : null, "file" => isset($logs[$s->id_siswa]) && $logs[$s->id_siswa]->file != null ? unserialize($logs[$s->id_siswa]->file) : [], "diff" => $diff, "j_materi" => $jam_materi["sampai"]];
         }
         $this->output_json(["log" => $log, "jadwal" => $info, "materi" => $materi, "detail" => $detail]);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function saveNilai()

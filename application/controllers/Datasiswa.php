@@ -282,7 +282,6 @@ class Datasiswa extends CI_Controller
         unlink($file);
         $data["exist"] = $this->master->getSiswaByArrNisn($arr_nisn, $arr_nis, $arr_username);
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function do_import()
@@ -526,7 +525,6 @@ class Datasiswa extends CI_Controller
         }
         unlink($file);
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function updateNisByNisn()

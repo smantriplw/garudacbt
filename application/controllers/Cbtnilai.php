@@ -70,7 +70,7 @@ class Cbtnilai extends CI_Controller {
             if ($jawaban_siswa->jenis_soal == '3') {
                 goto ASIva;
                 Y0LLx:
-                if (!($jawaban_siswa->jenis_soal == "\62")) {
+                if (!($jawaban_siswa->jenis_soal == '2')) {
                     goto kYAod;
                 }
                 goto K1lnE;
@@ -412,7 +412,7 @@ class Cbtnilai extends CI_Controller {
                         $sudahMulai = false;
                         goto XiriM;
                         z3bKk:
-                        if ($log->log_type == "\61") {
+                        if ($log->log_type == '1') {
                             goto paQH3;
                         }
                         goto WePWh;
@@ -550,7 +550,7 @@ class Cbtnilai extends CI_Controller {
                     }
                     goto NhpvV;
                     sowvz:
-                    $jawaban_jodoh = $ada_jawaban_jodoh ? $jawabans_siswa[$siswa->id_siswa]["\63"] : [];
+                    $jawaban_jodoh = $ada_jawaban_jodoh ? $jawabans_siswa[$siswa->id_siswa]['3'] : [];
                     goto w0ABQ;
                     e7W7V:
                     $siswa->skor_isian = round($skor_is, 2);
@@ -858,7 +858,7 @@ class Cbtnilai extends CI_Controller {
                                     U0s2R:
                                     goto Qy1iE;
                                     x02IQ:
-                                    if (!($kol == "\61")) {
+                                    if (!($kol == '1')) {
                                         goto U0s2R;
                                     }
                                     $sub = $headJawab[$po];
@@ -926,7 +926,7 @@ class Cbtnilai extends CI_Controller {
                             $point_item = $point_benar / count($arrSoal);
                             goto ao91u;
                             hFMyz:
-                            if ($jawab_jod->nilai_otomatis == "\60") {
+                            if ($jawab_jod->nilai_otomatis == '0') {
                                 goto WsA5P;
                             }
                             goto RZZAn;
@@ -1011,7 +1011,7 @@ class Cbtnilai extends CI_Controller {
                             $benar_es++;
                             goto iVvty;
                             WiPQ3:
-                            if ($jawab_es->nilai_otomatis == "\60") {
+                            if ($jawab_es->nilai_otomatis == '0') {
                                 goto IOCH8;
                             }
                             goto AJJd3;
@@ -1030,7 +1030,7 @@ class Cbtnilai extends CI_Controller {
                         }
                         goto cQtxt;
                         LpGlC:
-                        $ada_jawaban_jodoh = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]["\63"]);
+                        $ada_jawaban_jodoh = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]['3']);
                         goto HmoCl;
                         cL_vu:
                         goto nDAH8;
@@ -1065,7 +1065,7 @@ class Cbtnilai extends CI_Controller {
                             $soal[2][$ks]->point = $point;
                             goto VHnUU;
                             y33UO:
-                            if (!($jawab_pg2->nilai_otomatis == "\60")) {
+                            if (!($jawab_pg2->nilai_otomatis == '0')) {
                                 goto blyhe;
                                 ydWTD:
                                 j81j2:
@@ -1202,7 +1202,7 @@ class Cbtnilai extends CI_Controller {
                         goto sX9nn;
                         goto qpvPi;
                         KuqEO:
-                        $jawaban_pg2 = $ada_jawaban_pg2 ? $jawabans_siswa[$siswa->id_siswa]["\62"] : [];
+                        $jawaban_pg2 = $ada_jawaban_pg2 ? $jawabans_siswa[$siswa->id_siswa]['2'] : [];
                         goto E0Zzu;
                         YMoVl:
                         $siswa->skor_katrol = '';
@@ -1213,7 +1213,7 @@ class Cbtnilai extends CI_Controller {
                         }
                         goto H1F1T;
                         J0fyG:
-                        $jawaban_pg = $ada_jawaban_pg ? $jawabans_siswa[$siswa->id_siswa]["\61"] : [];
+                        $jawaban_pg = $ada_jawaban_pg ? $jawabans_siswa[$siswa->id_siswa]['1'] : [];
                         goto Ty98W;
                         CTHLE:
                         $siswa->selesai_ujian = $selesai;
@@ -1278,7 +1278,7 @@ class Cbtnilai extends CI_Controller {
                         }
                         goto momq2;
                         Ym2k8:
-                        $ada_jawaban_pg2 = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]["\62"]);
+                        $ada_jawaban_pg2 = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]['2']);
                         goto LpGlC;
                         BcPeY:
                         if (!($info->tampil_kompleks > 0)) {
@@ -1313,7 +1313,7 @@ class Cbtnilai extends CI_Controller {
                         $skor_pg = 0;
                         goto YIIc9;
                         HmoCl:
-                        $ada_jawaban_isian = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]["\64"]);
+                        $ada_jawaban_isian = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]['4']);
                         goto m6iKW;
                         UDeR0:
                         $jawaban_es = $ada_jawaban_essai ? $jawabans_siswa[$siswa->id_siswa]['5'] : [];
@@ -1402,7 +1402,7 @@ class Cbtnilai extends CI_Controller {
                             }
                             goto dzGuc;
                             vhM1k:
-                            $ej = $elap[0] == "\60\60" ? '' : intval($elap[0]) . 'j ';
+                            $ej = $elap[0] == '00' ? '' : intval($elap[0]) . 'j ';
                             goto hA04H;
                             RgInN:
                             $ed = $elap[2] == '00' ? 0 : 1;
@@ -1426,12 +1426,12 @@ class Cbtnilai extends CI_Controller {
                         }
                         goto diPn9;
                         uuTwY:
-                        if (strpos($lamanya, "\72") !== false) {
+                        if (strpos($lamanya, ':') !== false) {
                             goto jgq2R;
                         }
                         goto P6uqs;
                         enkcC:
-                        $elap = explode("\72", $lamanya);
+                        $elap = explode(':', $lamanya);
                         goto RgInN;
                         c8dlT:
                         kHfWx:
@@ -1584,10 +1584,10 @@ class Cbtnilai extends CI_Controller {
         $skor->skor_isian = $skor_is;
         goto ZrSEP;
         I9oW3:
-        $jawaban_jodoh = $ada_jawaban_jodoh ? $jawabans_siswa[$siswa->id_siswa]["\63"] : [];
+        $jawaban_jodoh = $ada_jawaban_jodoh ? $jawabans_siswa[$siswa->id_siswa]['3'] : [];
         goto YJ5Qw;
         Nmj74:
-        $jawaban_pg2 = $ada_jawaban_pg2 ? $jawabans_siswa[$siswa->id_siswa]["\62"] : [];
+        $jawaban_pg2 = $ada_jawaban_pg2 ? $jawabans_siswa[$siswa->id_siswa]['2'] : [];
         goto b3l92;
         Qy1g8:
         $s_jod = $bagi_jodoh == 0 ? 0 : $benar_jod / $bagi_jodoh * $bobot_jodoh;
@@ -1680,7 +1680,7 @@ class Cbtnilai extends CI_Controller {
             $jawaban_siswa->jawaban_siswa = @unserialize($jawaban_siswa->jawaban_siswa);
             goto C9HzU;
             EehpV:
-            if ($jawaban_siswa->jenis_soal == "\63") {
+            if ($jawaban_siswa->jenis_soal == '3') {
                 goto pZiFX;
                 GHcwt:
                 $jawaban_siswa->jawaban = array_filter($jawaban_siswa->jawaban, 'strlen');
@@ -1689,7 +1689,7 @@ class Cbtnilai extends CI_Controller {
                 $jawaban_siswa->jawaban_benar = array_filter($jawaban_siswa->jawaban_benar, 'strlen');
                 goto tEfXZ;
                 Gmdp1:
-                if (!($jawaban_siswa->jenis_soal == "\62")) {
+                if (!($jawaban_siswa->jenis_soal == '2')) {
                     goto n2x2h;
                 }
                 goto naOZt;
@@ -1740,7 +1740,7 @@ class Cbtnilai extends CI_Controller {
             $bobot_jodoh = $info->bobot_jodohkan / 100;
             goto PgFiP;
             n7ceq:
-            $ada_jawaban_essai = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]["\65"]);
+            $ada_jawaban_essai = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]['5']);
             goto E2hJb;
             Lv1In:
             $data['tp_active'] = $tp;
@@ -1755,7 +1755,7 @@ class Cbtnilai extends CI_Controller {
             $this->load->view('cbt/nilai/detail');
             goto mNFTr;
             ZrSEP:
-            $jawaban_es = $ada_jawaban_essai ? $jawabans_siswa[$siswa->id_siswa]["\65"] : [];
+            $jawaban_es = $ada_jawaban_essai ? $jawabans_siswa[$siswa->id_siswa]['5'] : [];
             goto vpbtM;
             ZNApE:
             u0_fE:
@@ -1795,7 +1795,7 @@ class Cbtnilai extends CI_Controller {
                 SQLbZ:
                 goto Nd1aF;
                 srxEh:
-                $ada_jawaban_pg2 = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]["\62"]);
+                $ada_jawaban_pg2 = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]['2']);
                 goto TbsNm;
                 N2IOw:
                 foreach ($jawaban_jodoh as $num=>$jawab_jod) {
@@ -2401,7 +2401,7 @@ class Cbtnilai extends CI_Controller {
                         }
                         goto vB2k0;
                         Ko7as:
-                        if ($jawab_es->nilai_otomatis == "\60") {
+                        if ($jawab_es->nilai_otomatis == '0') {
                             goto d5IrZ;
                         }
                         $soal[5][$ks]->point = $jawab_es->nilai_koreksi;
@@ -2461,7 +2461,7 @@ class Cbtnilai extends CI_Controller {
                     $input_es = 0;
                     goto vpV8N;
                     Nd1aF:
-                    $jawaban_pg = $ada_jawaban_pg ? $jawabans_siswa[$siswa->id_siswa]["\61"] : [];
+                    $jawaban_pg = $ada_jawaban_pg ? $jawabans_siswa[$siswa->id_siswa]['1'] : [];
                     goto a8XFk;
                     nE7Ud:
                 }
@@ -2669,7 +2669,7 @@ class Cbtnilai extends CI_Controller {
         $data['smt_active'] = $smt;
         goto pA4Iu;
         EwvMH:
-        $ada_jawaban_pg = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]["\61"]);
+        $ada_jawaban_pg = $ada_jawaban && isset($jawabans_siswa[$siswa->id_siswa]['1']);
         goto srxEh;
         s2tIr:
         $this->load->view('cbt/nilai/detail');
@@ -2711,7 +2711,7 @@ class Cbtnilai extends CI_Controller {
                 $benar = $jawab_is != null && strtolower($jawab_is->jawaban_siswa) == strtolower($jawab_is->jawaban);
                 goto B2o3R;
                 i8CvK:
-                if ($jawab_is->nilai_otomatis == "\60") {
+                if ($jawab_is->nilai_otomatis == '0') {
                     goto p90lL;
                 }
                 goto appAE;

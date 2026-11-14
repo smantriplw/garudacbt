@@ -91,7 +91,6 @@ class Dashboard extends CI_Controller
         $siswa = $this->dashboard->getDataSiswa($user->username, $tp->id_tp, $smt->id_smt);
         if ($this->ion_auth->in_group('siswa') && !$siswa) {
             $this->load->view("disable_login", $data);
-            // [PHPDeobfuscator] Implied return
             return;
         }
         if ($siswa) {
@@ -134,7 +133,6 @@ class Dashboard extends CI_Controller
         $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
         if ($this->ion_auth->in_group('guru') && !$guru) {
             $this->load->view("disable_login", $data);
-            // [PHPDeobfuscator] Implied return
             return;
         }
         if ($guru) {
@@ -199,7 +197,6 @@ class Dashboard extends CI_Controller
         $data["status"] = true;
         $this->logging->saveLog(4, "mengganti tahun ajaran aktif");
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function gantiSemester()
@@ -223,7 +220,6 @@ class Dashboard extends CI_Controller
         $data["status"] = true;
         $this->logging->saveLog(4, "mengganti semester aktif");
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function getLog($limit)

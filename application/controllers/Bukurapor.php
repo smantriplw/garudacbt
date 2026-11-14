@@ -192,7 +192,6 @@ class Bukurapor extends CI_Controller
         $this->load->view("members/guru/templates/header", $data);
         $this->load->view("rapor/arsiprapor");
         $this->load->view("members/guru/templates/footer");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function editNilaiRapor()

@@ -421,7 +421,6 @@ class Auth extends CI_Controller
         $viewdata = empty($data) ? $this->data : $data;
         $view_html = $this->load->view($view, $viewdata, $returnhtml);
         if (!$returnhtml) {
-            // [PHPDeobfuscator] Implied return
             return;
         }
         return $view_html;

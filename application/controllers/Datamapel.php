@@ -241,7 +241,6 @@ class Datamapel extends CI_Controller
         }
         unlink($file);
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function previewWord()
@@ -278,7 +277,6 @@ class Datamapel extends CI_Controller
             $i++;
         }
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function do_import()

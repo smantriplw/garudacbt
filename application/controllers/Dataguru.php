@@ -286,7 +286,6 @@ class Dataguru extends CI_Controller
         }
         unlink($file);
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function previewWord()
@@ -323,7 +322,6 @@ class Dataguru extends CI_Controller
             $i++;
         }
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function import($import_data = null)
@@ -382,7 +380,6 @@ class Dataguru extends CI_Controller
         }
         unlink($file);
         $this->import($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function do_import()
@@ -525,7 +522,6 @@ class Dataguru extends CI_Controller
             $res["msg"] = "Error post data";
         }
         $this->output_json($res);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function getDataKelas()

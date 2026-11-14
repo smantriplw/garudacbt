@@ -1047,7 +1047,6 @@ class Siswa extends CI_Controller
         $data["soal_terjawab"] = count($arrJawaban);
         $data["soal_akhir"] = $modal;
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function saveSoalSiswa()

@@ -70,7 +70,6 @@ class Datajurusan extends CI_Controller
         $this->master->create("master_jurusan", $insert, false);
         $data["status"] = $insert;
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function data()
@@ -112,7 +111,6 @@ class Datajurusan extends CI_Controller
         }
         $data["status"] = $status;
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function update()
@@ -220,7 +218,6 @@ class Datajurusan extends CI_Controller
         }
         unlink($file);
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function previewWord()
@@ -257,7 +254,6 @@ class Datajurusan extends CI_Controller
             $i++;
         }
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function do_import()

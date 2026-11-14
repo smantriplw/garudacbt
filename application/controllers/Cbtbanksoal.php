@@ -473,7 +473,6 @@ class Cbtbanksoal extends CI_Controller
         $this->db->update("cbt_bank_soal");
         $data["check"] = $updated;
         $this->output_json($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function copyBankSoal($id_bank)
@@ -676,7 +675,6 @@ class Cbtbanksoal extends CI_Controller
         }
         unlink($file);
         echo json_encode($data);
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function previewWord($id_bank)
@@ -850,7 +848,6 @@ class Cbtbanksoal extends CI_Controller
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, "Word2007");
         header("Content-Disposition: attachment; filename=Soal " . $bank->nama_mapel . ".docx");
         $objWriter->save("php://output");
-        // [PHPDeobfuscator] Implied return
         return;
     }
     public function getSoalSiswa($id_bank)
