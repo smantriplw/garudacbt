@@ -103,19 +103,17 @@ class Auth extends CI_Controller
             $this->data["new_password_confirm"] = ["name" => "new_confirm", "id" => "new_confirm", "type" => "password", "pattern" => "^.{" . $this->data["min_password_length"] . "}.*\$"];
             $this->data["user_id"] = ["name" => "user_id", "id" => "user_id", "type" => "hidden", "value" => $user->id];
             $this->_render_page("authDIRECTORY_SEPARATORchange_password", $this->data);
-            goto l5rAk;
+            return;
         }
         $identity = $this->session->userdata("identity");
         $change = $this->ion_auth->change_password($identity, $this->input->post("old"), $this->input->post("new"));
         if ($change) {
             $this->session->set_flashdata("message", $this->ion_auth->messages());
             redirect("auth/login", "refresh");
-            goto ODxnX;
+            return;
         }
         $this->session->set_flashdata("message", $this->ion_auth->errors());
         redirect("auth/change_password", "refresh");
-        ODxnX:
-        l5rAk:
     }
     public function forgot_password()
     {
@@ -137,7 +135,7 @@ class Auth extends CI_Controller
             $this->load->view("_templates/auth/_header", $this->data);
             $this->load->view("auth/forgot_password");
             $this->load->view("_templates/auth/_footer");
-            goto o7QCw;
+            return;
         }
         $identity_column = $this->config->item("identity", "ion_auth");
         $identity = $this->ion_auth->where($identity_column, $this->input->post("identity"))->users()->row();
@@ -154,12 +152,10 @@ class Auth extends CI_Controller
         if ($forgotten) {
             $this->session->set_flashdata("success", $this->ion_auth->messages());
             redirect("auth/forgot_password", "refresh");
-            goto eXrp2;
+            return;
         }
         $this->session->set_flashdata("message", $this->ion_auth->errors());
         redirect("auth/forgot_password", "refresh");
-        eXrp2:
-        o7QCw:
     }
     public function reset_password($code = NULL)
     {
@@ -182,25 +178,22 @@ class Auth extends CI_Controller
                 $this->load->view("_templates/auth/_header");
                 $this->load->view("auth/reset_password", $this->data);
                 $this->load->view("_templates/auth/_footer");
-                goto Se_vZ;
+                return;
             }
             $identity = $user->{$this->config->item("identity", "ion_auth")};
             if ($this->_valid_csrf_nonce() === FALSE || $user->id != $this->input->post("user_id")) {
                 $this->ion_auth->clear_forgotten_password_code($identity);
                 show_error($this->lang->line("error_csrf"));
-                goto DWT0T;
+                return;
             }
             $change = $this->ion_auth->reset_password($identity, $this->input->post("new"));
             if ($change) {
                 $this->session->set_flashdata("message", $this->ion_auth->messages());
                 redirect("auth/login", "refresh");
-                goto AqBub;
+                return;
             }
             $this->session->set_flashdata("message", $this->ion_auth->errors());
             redirect("auth/reset_password/" . $code, "refresh");
-            AqBub:
-            DWT0T:
-            Se_vZ:
         } else {
             $this->session->set_flashdata("message", $this->ion_auth->errors());
             redirect("auth/forgot_password", "refresh");
