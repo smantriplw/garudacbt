@@ -523,7 +523,9 @@ $config['proxy_ips'] = '';
 $config['min_password_length'] = 6;
 $config['max_password_length'] = 20;
 
-// Dapodik webservice credentials
+// Dapodik webservice credentials.
+// These are only fallbacks: empty values can be left blank and filled in from
+// the Dapodik page (Settings -> Dapodik), which stores them in the database.
 $config['DAPODIK_WEBSERVICE_URL'] = 'https://dapodik.sman3palu.sch.id';
 $config['DAPODIK_WEBSERVICE_TOKEN'] = 'YOUR DAPODIK TOKEN';
 
