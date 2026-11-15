@@ -25,15 +25,33 @@
     <script src="<?= base_url() ?>/assets/plugins/jquery/jquery.min.js"></script>
 </head>
 <?php
-$login_bg = isset($setting->login_bg) ? trim((string) $setting->login_bg) : "";
-$login_bg_style = "background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);";
-if ($login_bg !== "") {
-    $login_bg_path = FCPATH . ltrim($login_bg, "/");
-    $login_bg_url = base_url() . ltrim($login_bg, "/");
-    if (is_file($login_bg_path)) {
-        $login_bg_url .= "?v=" . filemtime($login_bg_path);
-    }
-    $login_bg_style = "background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url(" . $login_bg_url . ") center center / cover no-repeat fixed;";
+$login_bgs = isset($login_bgs) && is_array($login_bgs) ? $login_bgs : [];
+if (count($login_bgs) === 0 && isset($setting->login_bg) && trim((string) $setting->login_bg) !== "") {
+    $login_bgs[] = trim((string) $setting->login_bg);
 }
 ?>
-<body class="hold-transition" style="<?= html_escape($login_bg_style) ?>">
+<style>
+    html { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100%; }
+    .login-bg-layer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; overflow: hidden; background: #111; }
+    .login-bg-slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-position: center; background-size: cover; background-repeat: no-repeat; opacity: 0; transition: opacity 1.5s ease-in-out; }
+    .login-bg-slide.active { opacity: 1; }
+    .login-bg-shade { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, .45); }
+</style>
+</head>
+<body class="hold-transition">
+<?php if (count($login_bgs) > 0): ?>
+    <div class="login-bg-layer" aria-hidden="true">
+        <?php foreach ($login_bgs as $i => $bg): ?>
+            <?php
+            $bg_path = FCPATH . ltrim($bg, "/");
+            $bg_url = base_url() . ltrim($bg, "/");
+            if (is_file($bg_path)) {
+                $bg_url .= "?v=" . filemtime($bg_path);
+            }
+            ?>
+            <div class="login-bg-slide<?= $i === 0 ? " active" : "" ?>"
+                 style="background-image:url(<?= html_escape($bg_url) ?>)"></div>
+        <?php endforeach; ?>
+        <div class="login-bg-shade"></div>
+    </div>
+<?php endif; ?>

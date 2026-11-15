@@ -40,19 +40,55 @@ class Settings_model extends CI_Model
         return $cached = $this->db->get("setting")->row();
     }
     /**
-     * Background image for the login screen is stored on the setting row. The
-     * column is added on demand so existing databases keep working.
+     * Background images for the login screen live in their own table: the
+     * setting table uses ROW_FORMAT=COMPACT and is already at the row size
+     * limit, so another TEXT column is rejected with "row size too large".
      */
     public function ensureSchema()
     {
-        if (schema_has_column("setting", "login_bg")) {
+        if ($this->db->table_exists("setting_login_bg")) {
             return;
         }
-        $this->load->dbforge();
-        $this->dbforge->add_column("setting", [
-            "login_bg" => ["type" => "VARCHAR", "constraint" => 255, "null" => TRUE, "default" => NULL],
-        ]);
+        $this->db->query("CREATE TABLE IF NOT EXISTS `setting_login_bg` (
+            `id` INT(11) NOT NULL AUTO_INCREMENT,
+            `path` VARCHAR(255) NOT NULL,
+            `created_at` DATETIME NULL,
+            PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     }
+
+    public function loginBackgrounds($setting = null)
+    {
+        $list = [];
+        if ($this->db->table_exists("setting_login_bg")) {
+            $rows = $this->db->select("path")->from("setting_login_bg")->order_by("id", "ASC")->get()->result();
+            foreach ($rows as $row) {
+                if (trim((string) $row->path) !== "") {
+                    $list[] = $row->path;
+                }
+            }
+        }
+        if (count($list) === 0 && $setting != null && !empty($setting->login_bg)) {
+            $list[] = (string) $setting->login_bg;
+        }
+        return $list;
+    }
+
+    public function addLoginBackground($path)
+    {
+        $this->ensureSchema();
+        return $this->db->insert("setting_login_bg", ["path" => $path, "created_at" => date("Y-m-d H:i:s")]);
+    }
+
+    public function removeLoginBackground($path)
+    {
+        if (!$this->db->table_exists("setting_login_bg")) {
+            return false;
+        }
+        $this->db->where("path", $path)->delete("setting_login_bg");
+        return true;
+    }
+
     function toJSON($table)
     {
         $query = $this->db->get($table);

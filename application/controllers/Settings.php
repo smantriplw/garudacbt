@@ -33,6 +33,7 @@ class Settings extends CI_Controller
     {
         $user = $this->ion_auth->user()->row();
         $data = ["user" => $user, "judul" => "Profile Sekolah", "subjudul" => '', "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
+        $data["login_bgs"] = $this->settings->loginBackgrounds($data["setting"]);
         $data["tp"] = $this->dashboard->getTahun();
         $data["tp_active"] = $this->dashboard->getTahunActive();
         $data["smt"] = $this->dashboard->getSemester();
@@ -86,6 +87,64 @@ class Settings extends CI_Controller
             echo "File Delete Successfully";
         }
     }
+    public function uploadLoginBg()
+    {
+        $this->settings->ensureSchema();
+        if (empty($_FILES["files"]["name"][0])) {
+            return $this->output_json(["status" => false, "message" => "Tidak ada file yang diunggah."]);
+        }
+        $config = [
+            "upload_path" => "./uploads/settings/",
+            "allowed_types" => "gif|jpg|jpeg|png|webp",
+            "max_size" => 4096,
+            "encrypt_name" => true,
+        ];
+        $this->load->library("upload");
+        $added = 0;
+        $errors = [];
+        $total = count($_FILES["files"]["name"]);
+        for ($i = 0; $i < $total; $i++) {
+            if (empty($_FILES["files"]["name"][$i])) {
+                continue;
+            }
+            $_FILES["login_bg_file"] = [
+                "name" => $_FILES["files"]["name"][$i],
+                "type" => $_FILES["files"]["type"][$i],
+                "tmp_name" => $_FILES["files"]["tmp_name"][$i],
+                "error" => $_FILES["files"]["error"][$i],
+                "size" => $_FILES["files"]["size"][$i],
+            ];
+            $this->upload->initialize($config, true);
+            if ($this->upload->do_upload("login_bg_file")) {
+                $file = $this->upload->data();
+                $this->settings->addLoginBackground("uploads/settings/" . $file["file_name"]);
+                $added++;
+            } else {
+                $errors[] = $_FILES["files"]["name"][$i] . ": " . trim(strip_tags($this->upload->display_errors("", "")));
+            }
+        }
+        $message = $added . " background ditambahkan.";
+        if (count($errors) > 0) {
+            $message .= " Gagal: " . implode("; ", $errors);
+        }
+        return $this->output_json(["status" => $added > 0, "message" => $message]);
+    }
+
+    public function deleteLoginBg()
+    {
+        $src = trim((string) $this->input->post("src", true));
+        if (!in_array($src, $this->settings->loginBackgrounds(), true)) {
+            return $this->output_json(["status" => false, "message" => "Background tidak ditemukan."]);
+        }
+        $path = realpath(FCPATH . $src);
+        $root = realpath(FCPATH . "uploads/settings");
+        if ($path !== false && $root !== false && strpos($path, $root) === 0 && is_file($path)) {
+            @unlink($path);
+        }
+        $this->settings->removeLoginBackground($src);
+        return $this->output_json(["status" => true, "message" => "Background dihapus."]);
+    }
+
     public function saveSetting()
     {
         $sekolah = $this->input->post("nama_sekolah", true);
@@ -109,7 +168,7 @@ class Settings extends CI_Controller
         $nama_aplikasi = $this->input->post("nama_aplikasi", true);
         $logo_kanan = $this->input->post("logo_kanan", true);
         $logo_kiri = $this->input->post("logo_kiri", true);
-        $insert = ["sekolah" => $sekolah, "nss" => $nss, "npsn" => $npsn, "jenjang" => $jenjang, "satuan_pendidikan" => $satuan_pendidikan, "alamat" => $alamat, "desa" => $desa, "kota" => $kota, "kecamatan" => $kec, "kode_pos" => $kodepos, "provinsi" => $prov, "web" => $web, "fax" => $fax, "email" => $email, "telp" => $tlp, "kepsek" => $kepsek, "nip" => $nip, "tanda_tangan" => str_replace(base_url(), '', $tanda_tangan), "nama_aplikasi" => $nama_aplikasi, "logo_kanan" => str_replace(base_url(), '', $logo_kanan), "logo_kiri" => str_replace(base_url(), '', $logo_kiri), "login_bg" => str_replace(base_url(), '', $this->input->post("login_bg", true))];
+        $insert = ["sekolah" => $sekolah, "nss" => $nss, "npsn" => $npsn, "jenjang" => $jenjang, "satuan_pendidikan" => $satuan_pendidikan, "alamat" => $alamat, "desa" => $desa, "kota" => $kota, "kecamatan" => $kec, "kode_pos" => $kodepos, "provinsi" => $prov, "web" => $web, "fax" => $fax, "email" => $email, "telp" => $tlp, "kepsek" => $kepsek, "nip" => $nip, "tanda_tangan" => str_replace(base_url(), '', $tanda_tangan), "nama_aplikasi" => $nama_aplikasi, "logo_kanan" => str_replace(base_url(), '', $logo_kanan), "logo_kiri" => str_replace(base_url(), '', $logo_kiri)];
         $this->db->where("id_setting", 1);
         $update = $this->db->update("setting", $insert);
         $this->output_json($update);

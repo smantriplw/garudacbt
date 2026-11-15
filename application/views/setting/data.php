@@ -181,23 +181,41 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <?= form_open_multipart('', array('id' => 'set-login-bg')) ?>
+                        <div class="col-md-8">
                             <div class="form-group pb-2">
-                                <label for="login-bg">Background Halaman Login</label>
-                                <input type="file" id="login-bg" name="logo" class="dropify"
-                                       data-max-file-size-preview="4M"
-                                       data-allowed-file-extensions="jpg jpeg png webp"
-                                       data-default-file="<?= !empty($setting->login_bg) ? base_url() . $setting->login_bg : '' ?>"/>
+                                <label>Background Halaman Login</label>
+                                <div class="d-flex flex-wrap mb-2">
+                                    <?php foreach ($login_bgs as $bg): ?>
+                                        <div class="mr-2 mb-2" style="position:relative">
+                                            <img src="<?= base_url($bg) ?>" alt=""
+                                                 style="height:70px;width:110px;object-fit:cover;border-radius:6px;border:1px solid #ddd">
+                                            <button type="button"
+                                                    class="btn btn-xs btn-danger"
+                                                    style="position:absolute;top:-6px;right:-6px;border-radius:50%;line-height:1;padding:2px 6px"
+                                                    title="Hapus background"
+                                                    onclick="hapusLoginBg('<?= html_escape($bg) ?>')">&times;</button>
+                                        </div>
+                                    <?php endforeach; ?>
+                                    <?php if (count($login_bgs) === 0): ?>
+                                        <span class="text-muted">Belum ada background, halaman login memakai latar bawaan.</span>
+                                    <?php endif; ?>
+                                </div>
+                                <?= form_open_multipart('', array('id' => 'form-login-bg')) ?>
+                                <div class="input-group">
+                                    <input type="file" id="login-bg-files" name="files[]" class="form-control"
+                                           accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="btn-upload-login-bg">
+                                            Unggah
+                                        </button>
+                                    </div>
+                                </div>
+                                <?= form_close() ?>
                                 <small class="text-muted">
-                                    Gambar landscape, disarankan minimal 1600x900 px. Kosongkan untuk memakai
-                                    latar bawaan.
+                                    Bisa beberapa gambar; halaman login menampilkannya bergantian (mulai dari
+                                    gambar acak). jpg/jpeg/png/webp, maksimal 4 MB per gambar.
                                 </small>
                             </div>
-                            <?= form_close() ?>
-                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="hapusLoginBg()">
-                                Hapus background
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -210,7 +228,6 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
     var logoKanan = '<?=base_url() . $setting->logo_kanan?>';
     var logoKiri = '<?=base_url() . $setting->logo_kiri?>';
     var tandatangan = '<?=base_url() . $setting->tanda_tangan?>';
-    var loginBg = '<?= !empty($setting->login_bg) ? base_url() . $setting->login_bg : '' ?>';
     var satuanPend = JSON.parse(JSON.stringify(<?= json_encode($satuan)?>));
 
     function submitSetting() {
@@ -318,7 +335,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                 $.ajax({
                     url: base_url + 'settings/savesetting',
                     type: 'POST',
-                    data: $(this).serialize() + '&logo_kanan=' + logoKanan + '&logo_kiri=' + logoKiri + '&tanda_tangan=' + tandatangan + '&login_bg=' + encodeURIComponent(loginBg),
+                    data: $(this).serialize() + '&logo_kanan=' + logoKanan + '&logo_kiri=' + logoKiri + '&tanda_tangan=' + tandatangan,
                     success: function (response) {
                         console.log(response);
                         swal.fire({
@@ -390,18 +407,76 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
             }
         });
 
-        $("#login-bg").change(function () {
-            var input = $(this)[0];
-            if (input.files && input.files[0]) {
-                var form = new FormData($('#set-login-bg')[0]);
-                uploadAttach(base_url + 'settings/uploadfile/login_bg', form);
+        $("#login-bg-files").on('change', function () {
+            var files = this.files || [];
+            if (files.length) {
+                $('#btn-upload-login-bg').html('Unggah (' + files.length + ')');
+            } else {
+                $('#btn-upload-login-bg').html('Unggah');
             }
         });
 
-        function hapusLoginBg() {
+        $('#btn-upload-login-bg').on('click', function () {
+            var input = $('#login-bg-files')[0];
+            if (!input.files || input.files.length === 0) {
+                swal.fire({
+                    title: "Belum ada file",
+                    text: "Pilih satu atau beberapa gambar terlebih dahulu.",
+                    icon: "warning"
+                });
+                return;
+            }
+            var formData = new FormData($('#form-login-bg')[0]);
             swal.fire({
-                title: "Hapus background login?",
-                text: "Halaman login akan kembali memakai latar bawaan.",
+                title: "Mengunggah background",
+                text: "Silahkan tunggu....",
+                button: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                onOpen: () => {
+                    swal.showLoading();
+                }
+            });
+            $.ajax({
+                url: base_url + 'settings/uploadloginbg',
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.status) {
+                        swal.fire({
+                            title: "Berhasil",
+                            text: response.message,
+                            icon: "success"
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        swal.fire({
+                            title: "Gagal",
+                            text: response.message,
+                            icon: "error"
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    swal.fire({
+                        title: "Gagal",
+                        text: "Upload gagal (" + xhr.status + "). Periksa ukuran/format gambar.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+
+        function hapusLoginBg(src) {
+            swal.fire({
+                title: "Hapus background ini?",
+                text: "Gambar akan dihapus dari daftar background login.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#d33",
@@ -410,9 +485,13 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                 if (!result.value) {
                     return;
                 }
-                loginBg = '';
-                $('#login-bg').val('');
-                $('#savesetting').trigger('submit');
+                $.post(base_url + 'settings/deleteloginbg', {src: src}, function (response) {
+                    if (response.status) {
+                        window.location.reload();
+                    } else {
+                        swal.fire({title: "Gagal", text: response.message, icon: "error"});
+                    }
+                }, 'json');
             });
         }
 
@@ -436,9 +515,6 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                     } else if (data.src.includes('tanda')) {
                         tandatangan = data.src;
                         //console.log('tandatangan', data.src);
-                    } else if (data.src.includes('login_bg')) {
-                        loginBg = data.src;
-                        //console.log('login_bg', data.src);
                     }
                 },
                 error: function (e) {
