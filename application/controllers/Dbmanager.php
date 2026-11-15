@@ -78,20 +78,135 @@ class Dbmanager extends CI_Controller
     }
     public function backupDb()
     {
-        $this->load->dbutil();
-        $this->dbutil->optimize_database();
-        $prefs = ["tables" => $this->db->list_tables(), "ignore" => array(), "format" => "zip", "filename" => "backup.sql", "add_drop" => TRUE, "add_insert" => TRUE, "newline" => "\n"];
-        $backup = $this->dbutil->backup($prefs);
-        $this->load->helper("file");
-        write_file("./backups/backup-db-" . date("Y-m-d-H-i-s") . ".sql.zip", $backup);
-        $this->output_json(["type" => "database", "message" => "Database berhasil dibackup"]);
+        $base = FCPATH . "backups/backup-db-" . date("Y-m-d-H-i-s");
+        $dump = $this->find_binary(["mariadb-dump", "mysqldump"]);
+        $file = $dump !== null ? $this->backup_database_with_cli($dump, $base) : null;
+        if ($file === null) {
+            $file = $this->backup_database_with_dbutil($base . ".sql");
+        }
+        if ($file === null) {
+            return $this->output_json([
+                "type" => "database",
+                "status" => false,
+                "message" => "Backup database gagal. Periksa ruang disk dan izin folder backups/.",
+            ]);
+        }
+        return $this->output_json([
+            "type" => "database",
+            "message" => "Database berhasil dibackup",
+            "file" => basename($file),
+        ]);
     }
+
+    /**
+     * Stream the dump through mariadb-dump/mysqldump. Loading the whole dump in
+     * PHP (CI's dbutil does that, plus zip compression) needs several hundred MB
+     * for this database and dies on the default memory limit.
+     */
+    private function backup_database_with_cli($binary, $base)
+    {
+        $tmp = $base . ".sql.part";
+        @unlink($tmp);
+        $cmd = sprintf(
+            "MYSQL_PWD=%s %s --single-transaction --quick --skip-lock-tables --default-character-set=utf8mb4 -h%s -P%s -u%s %s > %s 2>&1",
+            escapeshellarg((string) $this->db->password),
+            escapeshellarg($binary),
+            escapeshellarg((string) $this->db->hostname),
+            escapeshellarg((string) ($this->db->port ?: "3306")),
+            escapeshellarg((string) $this->db->username),
+            escapeshellarg((string) $this->db->database),
+            escapeshellarg($tmp)
+        );
+        $out = [];
+        $code = 1;
+        @exec($cmd, $out, $code);
+        if ($code !== 0 || !is_file($tmp) || filesize($tmp) < 1024) {
+            @unlink($tmp);
+            return null;
+        }
+
+        $gzip = $this->find_binary(["gzip"]);
+        if ($gzip === null) {
+            $plain = $base . ".sql";
+            return @rename($tmp, $plain) ? $plain : null;
+        }
+        $target = $base . ".sql.gz";
+        @unlink($target);
+        $code = 1;
+        @exec(escapeshellarg($gzip) . " -c " . escapeshellarg($tmp) . " > " . escapeshellarg($target), $gzOut, $code);
+        @unlink($tmp);
+        if ($code === 0 && is_file($target) && filesize($target) > 0) {
+            return $target;
+        }
+        @unlink($target);
+        return null;
+    }
+
+    /**
+     * Fallback for hosts without the client binaries: dump one table at a time
+     * and append, so peak memory is the largest table instead of the whole DB.
+     */
+    private function backup_database_with_dbutil($target)
+    {
+        $this->load->dbutil();
+        @unlink($target);
+        $ok = false;
+        foreach ($this->db->list_tables() as $table) {
+            $prefs = [
+                "tables" => [$table],
+                "ignore" => [],
+                "format" => "txt",
+                "filename" => "backup.sql",
+                "add_drop" => TRUE,
+                "add_insert" => TRUE,
+                "newline" => "\n",
+            ];
+            $sql = $this->dbutil->backup($prefs);
+            if (!is_string($sql) || $sql === "") {
+                continue;
+            }
+            if (file_put_contents($target, $sql, FILE_APPEND) !== false) {
+                $ok = true;
+            }
+        }
+        return $ok && is_file($target) && filesize($target) > 0 ? $target : null;
+    }
+
     public function backupData()
     {
+        $target = FCPATH . "backups/backup-file-" . date("Y-m-d-H-i-s") . ".zip";
+        $zip = $this->find_binary(["zip"]);
+        if ($zip !== null) {
+            $out = [];
+            $code = 1;
+            @exec(
+                "cd " . escapeshellarg(FCPATH) . " && " . escapeshellarg($zip) . " -r -q -9 " . escapeshellarg($target) . " uploads",
+                $out,
+                $code
+            );
+            if ($code === 0 && is_file($target)) {
+                return $this->output_json(["type" => "file", "message" => "File data berhasil dibackup"]);
+            }
+        }
         $this->load->library("zip");
         $this->zip->read_dir("uploads");
-        $this->zip->archive("./backups/backup-file-" . date("Y-m-d-H-i-s") . ".zip");
+        $this->zip->archive($target);
         $this->output_json(["type" => "file", "message" => "File data berhasil dibackup"]);
+    }
+
+    private function find_binary(array $names)
+    {
+        if (!function_exists("shell_exec") || !is_callable("exec")) {
+            return null;
+        }
+        foreach ($names as $name) {
+            $path = @shell_exec("command -v " . escapeshellarg($name) . " 2>/dev/null");
+            $path = is_string($path) ? trim($path) : "";
+            if ($path !== "") {
+                return $path;
+            }
+        }
+        return null;
     }
     public function hapusBackup($src)
     {

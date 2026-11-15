@@ -49,6 +49,10 @@ Yang perlu diketahui:
 
 - **Port** dapat diganti lewat env: `APP_PORT=8099`, `DB_PORT=3307`,
   `CI_ENV=production` (ubah ke `development` untuk menampilkan error).
+- **Backup** memakai binary `mariadb-dump`, `zip`, dan `gzip` yang sudah ada di
+  image. Di luar Docker, pasang paket `mariadb-client`/`mysql-client` agar
+  backup database besar tidak kehabisan memori (tanpa binary, aplikasi memakai
+  dbutil per tabel).
 
 ```bash
 APP_PORT=8090 DB_PORT=3308 docker compose up -d

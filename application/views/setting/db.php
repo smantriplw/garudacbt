@@ -150,8 +150,25 @@
             url: base_url + 'dbmanager/backupdb',
             success: function (response) {
                 console.log(response);
+                if (response.status === false) {
+                    updateProgress(0, '');
+                    swal.fire({
+                        title: "Gagal",
+                        text: response.message,
+                        icon: "error"
+                    });
+                    return;
+                }
                 updateProgress(50, response.message);
                 backupData();
+            },
+            error: function (xhr) {
+                updateProgress(0, '');
+                swal.fire({
+                    title: "Gagal",
+                    text: "Backup database gagal (" + xhr.status + "). Periksa log server.",
+                    icon: "error"
+                });
             }
         });
     }
@@ -172,6 +189,14 @@
                         window.location.href = base_url + 'dbmanager';
                     }
                 })
+            },
+            error: function (xhr) {
+                updateProgress(50, '');
+                swal.fire({
+                    title: "Gagal",
+                    text: "Backup file gagal (" + xhr.status + "). Periksa log server.",
+                    icon: "error"
+                });
             }
         });
     }

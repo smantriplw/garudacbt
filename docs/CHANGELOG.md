@@ -87,6 +87,14 @@ commit. Setiap poin menjelaskan perilaku yang berubah, bukan detail implementasi
 
 - Halaman **Bersihkan Data** (`dbclear`) menghitung jumlah baris per tabel
   dengan `SELECT COUNT(*)`, bukan dengan memuat seluruh isi tabel.
+- **Backup Semua Data** memakai `mariadb-dump`/`mysqldump` yang menulis langsung
+  ke file lalu digzip, bukan `dbutil->backup()` yang menyusun seluruh dump di
+  memori. `OPTIMIZE TABLE` yang dijalankan pada setiap backup dihapus. Pada
+  dump contoh: sebelumnya gagal (HTTP 500, kehabisan memori setelah ~9 detik),
+  sekarang selesai ~6 detik dengan file `.sql.gz` 25 MB. Bila binary tidak
+  tersedia, aplikasi memakai dbutil per tabel dan memberi pesan bila gagal.
+- Backup file upload memakai `zip -r` bila tersedia, sehingga isi `uploads/`
+  tidak dimuat seluruhnya ke memori.
 
 ## Performa & memori
 

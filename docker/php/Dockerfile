@@ -6,7 +6,7 @@ ARG GID=1000
 
 RUN apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS libpng-dev libjpeg-turbo-dev freetype-dev libzip-dev icu-dev \
-    && apk add --no-cache libpng libjpeg-turbo freetype libzip icu \
+    && apk add --no-cache libpng libjpeg-turbo freetype libzip icu mariadb-client zip gzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" mysqli pdo_mysql gd zip intl calendar exif bcmath opcache \
     && apk del .build-deps \
