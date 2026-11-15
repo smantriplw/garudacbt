@@ -24,4 +24,16 @@
     <![endif]-->
     <script src="<?= base_url() ?>/assets/plugins/jquery/jquery.min.js"></script>
 </head>
-<body class="hold-transition">
+<?php
+$login_bg = isset($setting->login_bg) ? trim((string) $setting->login_bg) : "";
+$login_bg_style = "background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);";
+if ($login_bg !== "") {
+    $login_bg_path = FCPATH . ltrim($login_bg, "/");
+    $login_bg_url = base_url() . ltrim($login_bg, "/");
+    if (is_file($login_bg_path)) {
+        $login_bg_url .= "?v=" . filemtime($login_bg_path);
+    }
+    $login_bg_style = "background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url(" . $login_bg_url . ") center center / cover no-repeat fixed;";
+}
+?>
+<body class="hold-transition" style="<?= html_escape($login_bg_style) ?>">

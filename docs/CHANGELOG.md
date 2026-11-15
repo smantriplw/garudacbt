@@ -83,6 +83,17 @@ commit. Setiap poin menjelaskan perilaku yang berubah, bukan detail implementasi
 - Endpoint `cbtbanksoal/data` mengembalikan JSON; sebelumnya mengembalikan teks
   `Array`.
 
+## Tampilan
+
+- Background halaman login dapat diatur dari **Profile Sekolah** →
+  *Background Halaman Login* (jpg/jpeg/png/webp, maksimal 4 MB). Gambar
+  disimpan di `uploads/settings/` dan kolom `setting.login_bg` dibuat otomatis
+  saat pertama dibutuhkan. Tersedia tombol **Hapus background** untuk kembali
+  ke latar bawaan.
+- Sebelumnya halaman login tidak punya latar sama sekali (teks putih di atas
+  latar putih). Sekarang gambar tersebut ditampilkan dengan lapisan gelap agar
+  teks terbaca, atau gradien biru bila belum diatur.
+
 ## Database
 
 - Halaman **Bersihkan Data** (`dbclear`) menghitung jumlah baris per tabel

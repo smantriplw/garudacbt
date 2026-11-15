@@ -20,6 +20,7 @@ class Settings extends CI_Controller
         $this->load->model("Settings_model", "settings");
         $this->load->model("Dashboard_model", "dashboard");
         $this->load->helper("directory");
+        $this->settings->ensureSchema();
     }
     public function output_json($data, $encode = true)
     {
@@ -57,7 +58,7 @@ class Settings extends CI_Controller
     {
         if (isset($_FILES["logo"]["name"])) {
             $config["upload_path"] = "./uploads/settings/";
-            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|webp|JPEG|JPG|PNG|GIF|WEBP";
             $config["overwrite"] = true;
             $config["file_name"] = $logo;
             $this->upload->initialize($config);
@@ -108,7 +109,7 @@ class Settings extends CI_Controller
         $nama_aplikasi = $this->input->post("nama_aplikasi", true);
         $logo_kanan = $this->input->post("logo_kanan", true);
         $logo_kiri = $this->input->post("logo_kiri", true);
-        $insert = ["sekolah" => $sekolah, "nss" => $nss, "npsn" => $npsn, "jenjang" => $jenjang, "satuan_pendidikan" => $satuan_pendidikan, "alamat" => $alamat, "desa" => $desa, "kota" => $kota, "kecamatan" => $kec, "kode_pos" => $kodepos, "provinsi" => $prov, "web" => $web, "fax" => $fax, "email" => $email, "telp" => $tlp, "kepsek" => $kepsek, "nip" => $nip, "tanda_tangan" => str_replace(base_url(), '', $tanda_tangan), "nama_aplikasi" => $nama_aplikasi, "logo_kanan" => str_replace(base_url(), '', $logo_kanan), "logo_kiri" => str_replace(base_url(), '', $logo_kiri)];
+        $insert = ["sekolah" => $sekolah, "nss" => $nss, "npsn" => $npsn, "jenjang" => $jenjang, "satuan_pendidikan" => $satuan_pendidikan, "alamat" => $alamat, "desa" => $desa, "kota" => $kota, "kecamatan" => $kec, "kode_pos" => $kodepos, "provinsi" => $prov, "web" => $web, "fax" => $fax, "email" => $email, "telp" => $tlp, "kepsek" => $kepsek, "nip" => $nip, "tanda_tangan" => str_replace(base_url(), '', $tanda_tangan), "nama_aplikasi" => $nama_aplikasi, "logo_kanan" => str_replace(base_url(), '', $logo_kanan), "logo_kiri" => str_replace(base_url(), '', $logo_kiri), "login_bg" => str_replace(base_url(), '', $this->input->post("login_bg", true))];
         $this->db->where("id_setting", 1);
         $update = $this->db->update("setting", $insert);
         $this->output_json($update);

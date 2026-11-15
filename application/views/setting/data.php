@@ -180,6 +180,26 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                             <?= form_close() ?>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= form_open_multipart('', array('id' => 'set-login-bg')) ?>
+                            <div class="form-group pb-2">
+                                <label for="login-bg">Background Halaman Login</label>
+                                <input type="file" id="login-bg" name="logo" class="dropify"
+                                       data-max-file-size-preview="4M"
+                                       data-allowed-file-extensions="jpg jpeg png webp"
+                                       data-default-file="<?= !empty($setting->login_bg) ? base_url() . $setting->login_bg : '' ?>"/>
+                                <small class="text-muted">
+                                    Gambar landscape, disarankan minimal 1600x900 px. Kosongkan untuk memakai
+                                    latar bawaan.
+                                </small>
+                            </div>
+                            <?= form_close() ?>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="hapusLoginBg()">
+                                Hapus background
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,6 +210,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
     var logoKanan = '<?=base_url() . $setting->logo_kanan?>';
     var logoKiri = '<?=base_url() . $setting->logo_kiri?>';
     var tandatangan = '<?=base_url() . $setting->tanda_tangan?>';
+    var loginBg = '<?= !empty($setting->login_bg) ? base_url() . $setting->login_bg : '' ?>';
     var satuanPend = JSON.parse(JSON.stringify(<?= json_encode($satuan)?>));
 
     function submitSetting() {
@@ -297,7 +318,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                 $.ajax({
                     url: base_url + 'settings/savesetting',
                     type: 'POST',
-                    data: $(this).serialize() + '&logo_kanan=' + logoKanan + '&logo_kiri=' + logoKiri + '&tanda_tangan=' + tandatangan,
+                    data: $(this).serialize() + '&logo_kanan=' + logoKanan + '&logo_kiri=' + logoKiri + '&tanda_tangan=' + tandatangan + '&login_bg=' + encodeURIComponent(loginBg),
                     success: function (response) {
                         console.log(response);
                         swal.fire({
@@ -369,6 +390,32 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
             }
         });
 
+        $("#login-bg").change(function () {
+            var input = $(this)[0];
+            if (input.files && input.files[0]) {
+                var form = new FormData($('#set-login-bg')[0]);
+                uploadAttach(base_url + 'settings/uploadfile/login_bg', form);
+            }
+        });
+
+        function hapusLoginBg() {
+            swal.fire({
+                title: "Hapus background login?",
+                text: "Halaman login akan kembali memakai latar bawaan.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                confirmButtonText: "Hapus"
+            }).then(function (result) {
+                if (!result.value) {
+                    return;
+                }
+                loginBg = '';
+                $('#login-bg').val('');
+                $('#savesetting').trigger('submit');
+            });
+        }
+
         function uploadAttach(action, data) {
             $.ajax({
                 type: "POST",
@@ -389,6 +436,9 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                     } else if (data.src.includes('tanda')) {
                         tandatangan = data.src;
                         //console.log('tandatangan', data.src);
+                    } else if (data.src.includes('login_bg')) {
+                        loginBg = data.src;
+                        //console.log('login_bg', data.src);
                     }
                 },
                 error: function (e) {

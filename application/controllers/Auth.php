@@ -28,6 +28,7 @@ class Auth extends CI_Controller
         if (schema_table_count() == 0) {
             redirect("install");
         }
+        $this->settings->ensureSchema();
         $setting = $this->settings->getSetting();
         if ($setting == null) {
             redirect("install");

@@ -39,6 +39,20 @@ class Settings_model extends CI_Model
         }
         return $cached = $this->db->get("setting")->row();
     }
+    /**
+     * Background image for the login screen is stored on the setting row. The
+     * column is added on demand so existing databases keep working.
+     */
+    public function ensureSchema()
+    {
+        if (schema_has_column("setting", "login_bg")) {
+            return;
+        }
+        $this->load->dbforge();
+        $this->dbforge->add_column("setting", [
+            "login_bg" => ["type" => "VARCHAR", "constraint" => 255, "null" => TRUE, "default" => NULL],
+        ]);
+    }
     function toJSON($table)
     {
         $query = $this->db->get($table);
