@@ -153,11 +153,34 @@ class Dapodik extends CI_Controller
         } catch (\Throwable $e) {
             return ["error" => "Gagal terhubung ke webservice: " . $e->getMessage()];
         }
-        $json = json_decode((string) $response->getBody());
+        $raw = (string) $response->getBody();
+        $json = json_decode($raw);
         if (!isset($json->rows) || !is_array($json->rows)) {
-            return ["error" => "Respons webservice tidak dikenali (field rows tidak ada)."];
+            return ["error" => "Respons webservice tidak dikenali (field rows tidak ada)"
+                . $this->response_hint($response->getHeaderLine("Content-Type"), $raw)
+                . " Periksa URL dan token Dapodik."];
+        }
+        if (count($json->rows) === 0) {
+            return ["error" => "Webservice tidak mengembalikan data untuk NPSN " . $this->dapodik["npsn"] . ". Periksa NPSN dan token."];
         }
         return ["rows" => $json->rows];
+    }
+
+    /**
+     * Short description of a response that is not the expected JSON payload,
+     * so the admin can tell a wrong URL from a wrong token.
+     */
+    private function response_hint($contentType, $raw)
+    {
+        $hint = "";
+        if ($contentType !== "") {
+            $hint .= " (Content-Type: " . $contentType . ")";
+        }
+        $snippet = trim(preg_replace("/\s+/", " ", strip_tags(substr($raw, 0, 120))));
+        if ($snippet !== "") {
+            $hint .= ': "' . $snippet . '"';
+        }
+        return $hint . ".";
     }
 
     /**
@@ -378,17 +401,34 @@ class Dapodik extends CI_Controller
         try {
             $response = $this->get_dapodik_httpclient()->get("/WebService/getGtk", ["timeout" => 15, "http_errors" => false]);
             $code = $response->getStatusCode();
-            if ($code >= 200 && $code < 300) {
-                $body = json_decode((string) $response->getBody());
-                $rows = isset($body->rows) && is_array($body->rows) ? count($body->rows) : 0;
+            $contentType = $response->getHeaderLine("Content-Type");
+            $raw = (string) $response->getBody();
+            if ($code < 200 || $code >= 300) {
                 return $this->output_json([
-                    "status" => true,
-                    "message" => "Koneksi berhasil (HTTP " . $code . "), " . $rows . " data GTK terbaca.",
+                    "status" => false,
+                    "message" => "Webservice membalas HTTP " . $code . ". Periksa URL, token, dan NPSN.",
+                ]);
+            }
+            $body = json_decode($raw);
+            if (!isset($body->rows) || !is_array($body->rows)) {
+                return $this->output_json([
+                    "status" => false,
+                    "message" => "Koneksi berhasil (HTTP " . $code . "), tetapi respons bukan data webservice Dapodik"
+                        . $this->response_hint($contentType, $raw)
+                        . " Periksa URL webservice dan pastikan alamat /WebService dapat diakses.",
+                ]);
+            }
+            $jumlah = count($body->rows);
+            if ($jumlah === 0) {
+                return $this->output_json([
+                    "status" => false,
+                    "message" => "Koneksi berhasil (HTTP " . $code . "), tetapi tidak ada data GTK untuk NPSN "
+                        . $this->dapodik["npsn"] . ". Periksa NPSN dan token.",
                 ]);
             }
             return $this->output_json([
-                "status" => false,
-                "message" => "Webservice membalas HTTP " . $code . ". Periksa URL, token, dan NPSN.",
+                "status" => true,
+                "message" => "Koneksi berhasil (HTTP " . $code . "), " . $jumlah . " data GTK terbaca.",
             ]);
         } catch (\Throwable $e) {
             return $this->output_json(["status" => false, "message" => "Gagal terhubung: " . $e->getMessage()]);
