@@ -141,6 +141,7 @@ class Datakelas extends CI_Controller
         $id_tp = $this->master->getTahunActive()->id_tp;
         $id_smt = $this->master->getSemesterActive()->id_smt;
         $siswas = $this->input->post("siswa", true);
+        $siswas = is_array($siswas) ? $siswas : [];
         $config = array(array("field" => "nama_kelas", "label" => "Nama Kelas", "rules" => "trim"), array("field" => "kode_kelas", "label" => "Kode Kelas", "rules" => "trim"), array("field" => "jurusan_id", "label" => "Jurusan", "rules" => "trim"), array("field" => "level_id", "label" => "Level", "rules" => "trim"), array("field" => "guru_id", "label" => "Guru", "rules" => "trim"), array("field" => "siswa_id", "label" => "Siswa", "rules" => "trim"));
         $siswakelas = [];
         $i = 0;
@@ -227,7 +228,8 @@ class Datakelas extends CI_Controller
                 $this->db->replace("kelas_siswa", $insert);
             }
         }
-        $rowsSelect = count($this->input->post("siswa", true));
+        $siswaPost = $this->input->post("siswa", true);
+        $rowsSelect = is_array($siswaPost) ? count($siswaPost) : 0;
         $i = 0;
         while ($i <= $rowsSelect) {
             $id_siswa = $this->input->post("siswa[" . $i . "]", true);
