@@ -143,7 +143,7 @@ class Cbtbanksoal extends CI_Controller
     public function data($guru = null)
     {
         $this->load->model("Cbt_model", "cbt");
-        $this->output_json($this->cbt->getDataBank($guru), false);
+        $this->output_json($this->cbt->getDataBank($guru));
     }
     public function dataTable($guru = null)
     {
