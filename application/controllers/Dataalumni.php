@@ -54,9 +54,9 @@ class Dataalumni extends CI_Controller
         $level = $setting->jenjang == "1" ? "6" : ($setting->jenjang == "2" ? "9" : ($setting->jenjang == "1" ? "3" : "12"));
         $jumlah_lulus = $this->rapor->getJumlahLulus($tp->id_tp - 1, "2", $level);
         $idSearch = array_search($tp->id_tp - 1, array_column($allTp, "id_tp"));
-        $tpBefore = $allTp[$idSearch]->tahun;
-        $splitTahun = explode("/", $t, $tpBefore);
-        $alumnis = $this->master->getAlumniByTahun($splitTahun[1]);
+        $tpBefore = $idSearch !== false && isset($allTp[$idSearch]) ? $allTp[$idSearch]->tahun : "";
+        $splitTahun = explode("/", (string) $tpBefore);
+        $alumnis = $this->master->getAlumniByTahun(isset($splitTahun[1]) ? $splitTahun[1] : "");
         if ($jumlah_lulus > count($alumnis)) {
             $data["jumlah_lulus"] = $jumlah_lulus;
         } else {
