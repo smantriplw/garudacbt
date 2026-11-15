@@ -45,6 +45,21 @@ https://github.com/origrata/garudacbt-vdi
 * jalankan menu **update** di menu DATABASE => UPDATE
 * setelah import database, disarankan menjalankan `docs/sql/performance-indexes.sql` (lihat [Dokumentasi](#dokumentasi))
 ______
+## Menjalankan dengan Docker
+
+Stack ringan sudah tersedia di repository (nginx Alpine + php-fpm Alpine +
+MariaDB), tidak perlu install PHP/MySQL di komputer:
+
+```bash
+docker compose up -d --build
+docker compose exec -T db mariadb -ugaruda -pgaruda garuda_cbt < data.sql
+```
+
+Buka <http://127.0.0.1:8099>. `application/config/config.php` dibuat otomatis
+saat container pertama kali start, dan kode di-bind mount sehingga perubahan
+langsung terpakai. Detail (port, kepemilikan file, index, pengujian) ada di
+[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+______
 ## Dokumentasi
 * [Changelog](docs/CHANGELOG.md) - ringkasan perubahan dan perbaikan terbaru
 * [Pengembangan lokal](docs/DEVELOPMENT.md) - menjalankan aplikasi dengan Docker, import database, upload file, dan index performa

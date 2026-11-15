@@ -15,68 +15,47 @@ repository kecuali disebutkan lain.
 
 ## Menjalankan dengan Docker
 
-Buat folder kerja di luar repository, misalnya `~/garudacbt-docker`, berisi:
+Stack sudah disertakan di repository: `docker-compose.yml` plus konfigurasi di
+`docker/`. Isinya tiga service:
 
-`Dockerfile`
-
-```dockerfile
-FROM php:8.2-apache
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        libpng-dev libjpeg62-turbo-dev libfreetype6-dev libzip-dev libicu-dev \
-        libxml2-dev unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j"$(nproc)" mysqli pdo_mysql gd zip intl calendar exif bcmath \
-    && a2enmod rewrite headers \
-    && rm -rf /var/lib/apt/lists/*
-```
-
-`docker-compose.yml` (ganti path repository sesuai lokasi Anda)
-
-```yaml
-services:
-  db:
-    image: mariadb:11.4
-    environment:
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: garuda_cbt
-      MARIADB_USER: garuda
-      MARIADB_PASSWORD: garuda
-    command: ["--sql-mode=NO_AUTO_VALUE_ON_ZERO", "--max_allowed_packet=256M"]
-    volumes:
-      - db-data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      interval: 5s
-      timeout: 5s
-      retries: 30
-    ports:
-      - "127.0.0.1:3307:3306"
-
-  web:
-    build: .
-    depends_on:
-      db:
-        condition: service_healthy
-    volumes:
-      - /path/ke/garudacbt:/var/www/html
-      - ./uploads:/var/www/html/uploads
-    ports:
-      - "127.0.0.1:8099:80"
-
-volumes:
-  db-data:
-```
-
-Jalankan:
+| service | image | keterangan |
+|---|---|---|
+| `web` | `nginx:1.27-alpine` (~48 MB) | port `8099`, menyajikan aset statis dan meneruskan PHP ke `app` |
+| `app` | build dari `docker/php/Dockerfile` (~98 MB) | php-fpm 8.2 Alpine, ekstensi mysqli/gd/zip/intl/opcache |
+| `db` | `mariadb:11.4` | port `3307`, database `garuda_cbt` |
 
 ```bash
-cd ~/garudacbt-docker
-docker compose up -d db          # tunggu sampai healthy
-docker compose up -d --build web
+docker compose up -d --build
 ```
 
 Aplikasi tersedia di <http://127.0.0.1:8099>.
+
+Yang perlu diketahui:
+
+- **Kode di-bind mount**, jadi perubahan file langsung terpakai tanpa rebuild.
+  Yang perlu `--build` hanya bila `docker/` berubah.
+- **`application/config/config.php` dibuat otomatis** dari
+  `config.example.php` saat container pertama kali start (skema `http`, session
+  di `/tmp`). File itu di-gitignore; hapus dan restart bila ingin dibuat ulang.
+- **`application/config/database.php` di-mount dari `docker/php/database.php`**,
+  sehingga file di repository (yang berisi kredensial lokal) tidak tersentuh.
+  Nilai diambil dari env `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`.
+- **Kepemilikan file** mengikuti `HOST_UID`/`HOST_GID` (default `1000`). Bila
+  `id -u` Anda bukan 1000:
+
+  ```bash
+  HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose up -d --build
+  ```
+
+- **Port** dapat diganti lewat env: `APP_PORT=8099`, `DB_PORT=3307`,
+  `CI_ENV=production` (ubah ke `development` untuk menampilkan error).
+
+```bash
+APP_PORT=8090 DB_PORT=3308 docker compose up -d
+```
+
+Menghentikan stack: `docker compose down` (tambahkan `-v` untuk menghapus
+volume database).
 
 ## Import database
 
@@ -96,32 +75,32 @@ mysql -u <user> -p garuda_cbt < data.sql
 ## Upload file
 
 File upload (foto siswa, logo, materi, bank soal) berada di `uploads/`.
-Saat memakai Docker, mount folder tersebut agar tidak menimpa isi repository:
-
-```yaml
-- ./uploads:/var/www/html/uploads
-```
+Compose me-mount seluruh repository (`.:/var/www/html`), termasuk `uploads/`,
+jadi file yang diunggah lewat aplikasi langsung terlihat di repository dan
+sebaliknya. Service `web` hanya membaca, service `app` menulis.
 
 Struktur minimal yang harus ada: `uploads/foto_siswa`, `uploads/profiles`,
 `uploads/settings`, `uploads/bank_soal`, `uploads/materi`, `uploads/import`,
-`uploads/temp`.
+`uploads/temp` (entrypoint membuatnya bila hilang).
 
 ## Konfigurasi
 
-1. **`application/config/config.php`** tidak disertakan. Salin dari contoh:
+1. **`application/config/config.php`** tidak disertakan di repository.
+   - Dengan Docker: dibuat otomatis oleh `docker/entrypoint.sh` saat container
+     pertama kali start (skema `http`, session di `/tmp`).
+   - Tanpa Docker: salin manual, lalu ubah `$scheme = 'https';` menjadi `'http'`
+     bila tidak memakai TLS dan isi `$config['sess_save_path']` dengan direktori
+     yang bisa ditulis (contoh `/tmp`); nilai `NULL` gagal pada image PHP resmi
+     karena `/var/lib/php/sessions` tidak ada.
 
    ```bash
    cp application/config/config.example.php application/config/config.php
    ```
 
-   Di lingkungan lokal:
-   - ubah `$scheme = 'https';` menjadi `'http'` bila tidak memakai TLS;
-   - `$config['sess_save_path']` diisi direktori yang bisa ditulis (contoh
-     `/tmp`); nilai `NULL` akan gagal pada image PHP resmi karena
-     `/var/lib/php/sessions` tidak ada.
-
 2. **`application/config/database.php`** — sesuaikan `hostname`, `username`,
-   `password`, dan `database`. Untuk Docker, host adalah nama service (`db`).
+   `password`, dan `database`. Dengan Docker file ini **diganti** oleh
+   `docker/php/database.php` (host `db`, kredensial dari env compose), sehingga
+   nilai lokal Anda tidak berubah.
 
 3. **Dapodik** — URL dan token tidak wajib di `config.php`. Isi dari halaman
    **DAPODIK → Pengaturan Koneksi Dapodik**, lalu tekan **Tes Koneksi**. Nilai

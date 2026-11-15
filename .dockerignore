@@ -1,0 +1,3 @@
+# The build only needs the docker/ folder; the application is bind-mounted.
+*
+!docker
