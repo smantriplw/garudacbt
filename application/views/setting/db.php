@@ -77,11 +77,41 @@
                                     <button onclick="hapus('<?= $value['src'] ?>')" type="button"
                                             class="btn btn-xs btn-danger btn-hapus">Hapus
                                     </button>
+                                    <button onclick="restoreHistory('<?= $value['src'] ?>')" type="button"
+                                            class="btn btn-xs btn-info btn-restore">Restore
+                                    </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?= form_close() ?>
+                </div>
+            </div>
+
+            <div class="card my-shadow">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h6>RESTORE DATA</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        Pulihkan database dari file <b>.sql</b>, <b>.sql.gz</b>, atau <b>.zip</b> (berisi .sql),
+                        atau pulihkan folder <b>uploads</b> dari file <b>backup-file-*.zip</b>.
+                        Data yang ada sekarang akan <b>ditimpa</b>. Sebelum restore database, aplikasi membuat
+                        backup otomatis bila tool database tersedia.
+                    </p>
+                    <?= form_open_multipart('dbmanager/restore', array('id' => 'formRestore')) ?>
+                    <input type="hidden" name="src" id="restore-src" value="">
+                    <div class="form-group">
+                        <input type="file" name="restore_file" id="restore-file" class="form-control"
+                               accept=".sql,.gz,.zip">
+                    </div>
+                    <button type="submit" class="btn btn-danger">RESTORE</button>
+                    <button type="button" class="btn btn-outline-secondary" id="restore-cancel"
+                            style="display:none">Batalkan pilihan riwayat</button>
+                    <span id="restore-src-label" class="ml-2 text-muted"></span>
                     <?= form_close() ?>
                 </div>
             </div>
@@ -200,6 +230,106 @@
             }
         });
     }
+
+    function restoreHistory(src) {
+        $('#restore-file').val('');
+        $('#restore-src').val(src);
+        $('#restore-src-label').text('Dipilih: ' + src);
+        $('#restore-cancel').show();
+        if ($('#formRestore').length) {
+            $('html, body').animate({scrollTop: $('#formRestore').offset().top - 100}, 300);
+        }
+        confirmRestore();
+    }
+
+    function confirmRestore() {
+        var hasFile = $('#restore-file').length && $('#restore-file')[0].files.length > 0;
+        var src = $('#restore-src').val();
+        if (!hasFile && !src) {
+            swal.fire({
+                title: "Belum ada file",
+                text: "Unggah file restore atau pilih backup dari riwayat.",
+                icon: "warning"
+            });
+            return;
+        }
+        swal.fire({
+            title: "Restore data?",
+            html: "Data yang ada sekarang akan <b>ditimpa</b> oleh isi backup.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Restore"
+        }).then(function (result) {
+            if (!result.value) {
+                return;
+            }
+            swal.fire({
+                title: "Restore berjalan",
+                text: "Jangan tutup atau refresh halaman ini...",
+                button: false,
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                onOpen: () => {
+                    swal.showLoading();
+                }
+            });
+            var formData = new FormData($('#formRestore')[0]);
+            $.ajax({
+                url: base_url + 'dbmanager/restore',
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+                success: function (response) {
+                    if (response.status) {
+                        swal.fire({
+                            title: "Berhasil",
+                            text: response.message,
+                            icon: "success"
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        swal.fire({
+                            title: "Gagal",
+                            text: response.message,
+                            icon: "error"
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    swal.fire({
+                        title: "Gagal",
+                        text: "Restore gagal (" + xhr.status + "). Periksa log server.",
+                        icon: "error"
+                    });
+                }
+            });
+        });
+    }
+
+    $('#formRestore').on('submit', function (e) {
+        e.preventDefault();
+        confirmRestore();
+    });
+
+    $('#restore-file').on('change', function () {
+        if (this.files.length) {
+            $('#restore-src').val('');
+            $('#restore-src-label').text('');
+            $('#restore-cancel').hide();
+        }
+    });
+
+    $('#restore-cancel').on('click', function () {
+        $('#restore-src').val('');
+        $('#restore-src-label').text('');
+        $(this).hide();
+    });
 
     function hapus(src) {
         swal.fire({

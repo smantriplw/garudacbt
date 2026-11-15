@@ -106,24 +106,31 @@ class Dbmanager extends CI_Controller
     private function backup_database_with_cli($binary, $base)
     {
         $tmp = $base . ".sql.part";
+        $err = $base . ".err";
         @unlink($tmp);
+        @unlink($err);
+        // stderr goes to its own file: the client prints its warnings on stderr
+        // and merging them into the dump corrupts the first line.
         $cmd = sprintf(
-            "MYSQL_PWD=%s %s --single-transaction --quick --skip-lock-tables --default-character-set=utf8mb4 -h%s -P%s -u%s %s > %s 2>&1",
+            "MYSQL_PWD=%s %s --single-transaction --quick --skip-lock-tables --default-character-set=utf8mb4 -h%s -P%s -u%s %s > %s 2> %s",
             escapeshellarg((string) $this->db->password),
             escapeshellarg($binary),
             escapeshellarg((string) $this->db->hostname),
             escapeshellarg((string) ($this->db->port ?: "3306")),
             escapeshellarg((string) $this->db->username),
             escapeshellarg((string) $this->db->database),
-            escapeshellarg($tmp)
+            escapeshellarg($tmp),
+            escapeshellarg($err)
         );
         $out = [];
         $code = 1;
         @exec($cmd, $out, $code);
         if ($code !== 0 || !is_file($tmp) || filesize($tmp) < 1024) {
             @unlink($tmp);
+            @unlink($err);
             return null;
         }
+        @unlink($err);
 
         $gzip = $this->find_binary(["gzip"]);
         if ($gzip === null) {
@@ -192,6 +199,248 @@ class Dbmanager extends CI_Controller
         $this->zip->read_dir("uploads");
         $this->zip->archive($target);
         $this->output_json(["type" => "file", "message" => "File data berhasil dibackup"]);
+    }
+
+    public function restore()
+    {
+        $src = trim((string) $this->input->post("src", true));
+        $file = null;
+        $label = "";
+        if (isset($_FILES["restore_file"]) && is_uploaded_file($_FILES["restore_file"]["tmp_name"])) {
+            $label = (string) $_FILES["restore_file"]["name"];
+            $ext = strtolower(pathinfo($label, PATHINFO_EXTENSION));
+            if (!in_array($ext, ["sql", "gz", "zip"], true)) {
+                return $this->output_json(["status" => false, "message" => "Format file harus .sql, .sql.gz, atau .zip."]);
+            }
+            $file = $_FILES["restore_file"]["tmp_name"];
+        } else if ($src !== "") {
+            $file = $this->backup_path($src);
+            $label = $src;
+        }
+        if ($file === null) {
+            return $this->output_json(["status" => false, "message" => "Pilih backup dari riwayat atau unggah file restore."]);
+        }
+
+        $prepared = $this->prepare_restore($file, $label);
+        if (isset($prepared["error"])) {
+            return $this->output_json(["status" => false, "message" => $prepared["error"]]);
+        }
+
+        if ($prepared["type"] === "uploads") {
+            $result = $this->restore_uploads($prepared["path"]);
+        } else {
+            $result = $this->restore_database($prepared["path"]);
+        }
+        if (!empty($prepared["temp"])) {
+            @unlink($prepared["path"]);
+        }
+        return $this->output_json(["status" => $result[0], "message" => $result[1]]);
+    }
+
+    private function backup_path($src)
+    {
+        $src = basename(trim((string) $src));
+        if ($src === "" || $src === "." || $src === "..") {
+            return null;
+        }
+        $path = FCPATH . "backups/" . $src;
+        return is_file($path) ? $path : null;
+    }
+
+    /**
+     * Work out what a restore file contains: a SQL dump (plain, gzip, or inside
+     * a zip) or a zip of the uploads folder. Returns a temp path for archives.
+     */
+    private function prepare_restore($file, $label)
+    {
+        $ext = strtolower(pathinfo($label, PATHINFO_EXTENSION));
+        if ($ext === "zip") {
+            $zip = new ZipArchive();
+            if ($zip->open($file) !== true) {
+                return ["error" => "File zip tidak dapat dibuka."];
+            }
+            $sqlEntry = null;
+            $hasUploads = false;
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $name = str_replace("\\", "/", (string) $zip->getNameIndex($i));
+                if (substr($name, -1) === "/") {
+                    continue;
+                }
+                if ($sqlEntry === null && preg_match('/\.sql$/i', $name)) {
+                    $sqlEntry = $name;
+                }
+                if (strpos($name, "uploads/") === 0) {
+                    $hasUploads = true;
+                }
+            }
+            if ($sqlEntry !== null) {
+                $tmp = tempnam(sys_get_temp_dir(), "gcb_restore_");
+                $in = $zip->getStream($sqlEntry);
+                $out = $in ? fopen($tmp, "wb") : false;
+                if ($in && $out) {
+                    while (!feof($in)) {
+                        fwrite($out, fread($in, 1048576));
+                    }
+                    fclose($in);
+                    fclose($out);
+                    $zip->close();
+                    return ["type" => "sql", "path" => $tmp, "temp" => true];
+                }
+                $zip->close();
+                @unlink($tmp);
+                return ["error" => "Gagal mengekstrak file .sql dari zip."];
+            }
+            $zip->close();
+            if ($hasUploads) {
+                return ["type" => "uploads", "path" => $file, "temp" => false];
+            }
+            return ["error" => "Zip tidak berisi file .sql atau folder uploads/."];
+        }
+        if ($ext === "gz") {
+            $tmp = tempnam(sys_get_temp_dir(), "gcb_restore_");
+            $in = @gzopen($file, "rb");
+            $out = $in ? fopen($tmp, "wb") : false;
+            if (!$in || !$out) {
+                @unlink($tmp);
+                return ["error" => "File .gz tidak dapat dibuka."];
+            }
+            while (!gzeof($in)) {
+                fwrite($out, gzread($in, 1048576));
+            }
+            gzclose($in);
+            fclose($out);
+            return ["type" => "sql", "path" => $tmp, "temp" => true];
+        }
+        return ["type" => "sql", "path" => $file, "temp" => false];
+    }
+
+    private function restore_database($sqlPath)
+    {
+        $mysql = $this->find_binary(["mariadb", "mysql"]);
+        if ($mysql === null) {
+            return [false, "Binary mariadb/mysql tidak tersedia di server, restore tidak dapat dijalankan."];
+        }
+        $clean = tempnam(sys_get_temp_dir(), "gcb_restore_");
+        $copyError = $this->copy_sql_skipping_noise($sqlPath, $clean);
+        if ($copyError !== null) {
+            @unlink($clean);
+            return [false, $copyError];
+        }
+        $safety = null;
+        $dump = $this->find_binary(["mariadb-dump", "mysqldump"]);
+        if ($dump !== null) {
+            $safety = $this->backup_database_with_cli($dump, FCPATH . "backups/backup-sebelum-restore-" . date("Y-m-d-H-i-s"));
+        }
+        $err = $clean . ".err";
+        $cmd = sprintf(
+            "MYSQL_PWD=%s %s -h%s -P%s -u%s %s < %s 2> %s",
+            escapeshellarg((string) $this->db->password),
+            escapeshellarg($mysql),
+            escapeshellarg((string) $this->db->hostname),
+            escapeshellarg((string) ($this->db->port ?: "3306")),
+            escapeshellarg((string) $this->db->username),
+            escapeshellarg((string) $this->db->database),
+            escapeshellarg($clean),
+            escapeshellarg($err)
+        );
+        $out = [];
+        $code = 1;
+        @exec($cmd, $out, $code);
+        $detail = "";
+        if (is_file($err)) {
+            $lines = file($err, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+            foreach ($lines as $line) {
+                if (stripos($line, "WARNING:") === 0) {
+                    continue;
+                }
+                $detail = trim($line);
+                if ($detail !== "") {
+                    break;
+                }
+            }
+            @unlink($err);
+        }
+        @unlink($clean);
+        if ($code !== 0) {
+            return [false, "Restore database gagal (kode " . $code . ")." . ($detail !== "" ? " " . $detail : "")];
+        }
+        $message = "Database berhasil direstore.";
+        if ($safety !== null) {
+            $message .= " Backup otomatis sebelum restore: " . basename($safety);
+        }
+        return [true, $message];
+    }
+
+    /**
+     * Copy the dump for the client, skipping leading non-SQL lines. Backups
+     * made by older versions can start with a client warning such as
+     * "WARNING: option --ssl-verify-server-cert ...", which makes the server
+     * reject the very first statement.
+     */
+    private function copy_sql_skipping_noise($source, $target)
+    {
+        $in = @fopen($source, "rb");
+        if (!$in) {
+            return "File SQL tidak dapat dibaca.";
+        }
+        $out = @fopen($target, "wb");
+        if (!$out) {
+            fclose($in);
+            return "Tidak dapat menulis file sementara untuk restore.";
+        }
+        $first = true;
+        while (($line = fgets($in)) !== false) {
+            if ($first) {
+                $trim = ltrim($line);
+                if (stripos($trim, "WARNING:") === 0 || preg_match('/^-{3,}\s*$/', $trim)) {
+                    continue;
+                }
+                $first = false;
+            }
+            fwrite($out, $line);
+        }
+        fclose($in);
+        fclose($out);
+        return null;
+    }
+
+    private function restore_uploads($zipPath)
+    {
+        $zip = new ZipArchive();
+        if ($zip->open($zipPath) !== true) {
+            return [false, "File zip tidak dapat dibuka."];
+        }
+        $root = rtrim(FCPATH, "/") . "/uploads/";
+        $restored = 0;
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $name = str_replace("\\", "/", (string) $zip->getNameIndex($i));
+            if (substr($name, -1) === "/" || strpos($name, "uploads/") !== 0) {
+                continue;
+            }
+            $relative = substr($name, strlen("uploads/"));
+            if ($relative === "" || strpos($relative, "..") !== false) {
+                continue;
+            }
+            $target = $root . $relative;
+            if (!is_dir(dirname($target))) {
+                @mkdir(dirname($target), 0775, true);
+            }
+            $in = $zip->getStream($name);
+            if (!$in) {
+                continue;
+            }
+            $out = @fopen($target, "wb");
+            if ($out) {
+                while (!feof($in)) {
+                    fwrite($out, fread($in, 1048576));
+                }
+                fclose($out);
+                $restored++;
+            }
+            fclose($in);
+        }
+        $zip->close();
+        return [true, "Restore file selesai, " . $restored . " file dipulihkan ke folder uploads."];
     }
 
     private function find_binary(array $names)

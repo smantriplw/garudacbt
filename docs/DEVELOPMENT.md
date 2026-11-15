@@ -53,6 +53,9 @@ Yang perlu diketahui:
   image. Di luar Docker, pasang paket `mariadb-client`/`mysql-client` agar
   backup database besar tidak kehabisan memori (tanpa binary, aplikasi memakai
   dbutil per tabel).
+- **Restore** memakai binary `mariadb`/`mysql`. Batas unggah 64 MB
+  (`upload_max_filesize`) dan 80 MB (`client_max_body_size`), cukup untuk file
+  `.sql.gz` dari database ini; naikkan keduanya bila backup Anda lebih besar.
 
 ```bash
 APP_PORT=8090 DB_PORT=3308 docker compose up -d

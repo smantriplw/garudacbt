@@ -95,6 +95,17 @@ commit. Setiap poin menjelaskan perilaku yang berubah, bukan detail implementasi
   tersedia, aplikasi memakai dbutil per tabel dan memberi pesan bila gagal.
 - Backup file upload memakai `zip -r` bila tersedia, sehingga isi `uploads/`
   tidak dimuat seluruhnya ke memori.
+- **Restore** tersedia di halaman yang sama:
+  - dari riwayat backup (tombol *Restore*) atau unggahan file `.sql`,
+    `.sql.gz`, atau `.zip` berisi `.sql`;
+  - `backup-file-*.zip` memulihkan isi folder `uploads/` (entri di luar
+    `uploads/` dan path traversal diabaikan);
+  - sebelum restore database, aplikasi membuat backup otomatis
+    `backup-sebelum-restore-*.sql.gz`;
+  - dump lama yang baris pertamanya berupa peringatan client tetap bisa
+    dipulihkan (baris non-SQL di awal dilewati).
+- Batas unggah dinaikkan menjadi 64 MB (PHP) / 80 MB (nginx) agar file backup
+  database bisa diunggah kembali.
 
 ## Performa & memori
 
