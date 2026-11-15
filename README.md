@@ -31,7 +31,8 @@ https://github.com/origrata/garudacbt-vdi
 * Lengkapnya sialhkan ke [TUTORIAL INSTALL](https://github.com/garudacbt/cbt/wiki)
 
 [GarudaCBT Fork Note]
-* Untuk GarudaCBT-Fork, konfigurasi Dapodik pada file `application/config/config.php` di line paling bawah. Silahkan ganti value dari `DAPODIK_WEBSERVICE_URL` dengan base url server Dapodik sekolah Anda, dan ganti `DAPODIK_WEBSERVICE_TOKEN` dengan token webservice yang telah teregistrasi di server Dapodik Anda.
+* Untuk GarudaCBT-Fork, koneksi Dapodik diatur dari aplikasi, bukan dari file. Buka menu **DAPODIK**, isi **URL webservice** dan **Token** pada kartu *Pengaturan Koneksi Dapodik*, lalu tekan **Tes Koneksi**. NPSN diambil dari menu **Profile Sekolah**. Nilai `DAPODIK_WEBSERVICE_URL` dan `DAPODIK_WEBSERVICE_TOKEN` di `application/config/config.php` hanya dipakai sebagai cadangan bila pengaturan di aplikasi masih kosong.
+* Sebelum menarik data, gunakan tombol **Pratinjau GTK** / **Pratinjau Siswa** untuk melihat jumlah data baru, data yang akan diperbarui, dan pemeriksaan setiap kelas (level, jurusan, status kelas) tanpa menulis apa pun ke database.
 * Untuk GarudaCBT-Fork, beberapa fitur dari Base-GarudaCBT telah difix, dan mengalami beberapa perubahan kode untuk memperbaiki bug.
 * Kode dalam GarudaCBT-Fork sudah tidak diobfuscated seperti kode yang berasal dari sumber aslinya.
 
@@ -42,6 +43,12 @@ https://github.com/origrata/garudacbt-vdi
 * sesuaikan nama database yang digunakan
 * backup database untuk berjaga-jaga
 * jalankan menu **update** di menu DATABASE => UPDATE
+* setelah import database, disarankan menjalankan `docs/sql/performance-indexes.sql` (lihat [Dokumentasi](#dokumentasi))
+______
+## Dokumentasi
+* [Changelog](docs/CHANGELOG.md) - ringkasan perubahan dan perbaikan terbaru
+* [Pengembangan lokal](docs/DEVELOPMENT.md) - menjalankan aplikasi dengan Docker, import database, upload file, dan index performa
+* [Index performa](docs/sql/performance-indexes.sql) - index MySQL/MariaDB opsional untuk tabel rapor dan CBT (tidak dijalankan otomatis)
 ______
 ### MENU FITUR
 1. DATA MASTER
@@ -96,7 +103,9 @@ ______
         * Administrator
         * Guru
         * Siswa
-    * TARIK DAPODIK - feature by [@hansputera (Hanif Dwy Putra S)](https://github.com/hansputera)
+    * DAPODIK - feature by [@hansputera (Hanif Dwy Putra S)](https://github.com/hansputera)
+        * Pengaturan koneksi (URL, token, NPSN) + Tes Koneksi
+        * Pratinjau GTK dan siswa, termasuk pemeriksaan per kelas
         * TARIK SISWA
         * TARIK GTK
     * Database
