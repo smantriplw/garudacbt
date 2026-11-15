@@ -53,12 +53,7 @@ class Cbtjadwal extends CI_Controller
         $data["jmlMapel"] = [];
         $data["level"] = $level;
         if ($mode) {
-            $terpakai = $this->cbt->getJadwalTerpakai();
-            $jadwal_terpakai = [];
-            foreach ($terpakai as $idj => $rows) {
-                $jadwal_terpakai[$idj] = count($rows);
-            }
-            $data["total_siswa"] = $jadwal_terpakai;
+            $data["total_siswa"] = $this->cbt->getJumlahSiswaJadwal();
         }
         $data["ada_ujian"] = $this->cbt->getDataJadwalByTgl(date("Y-m-d"));
         $data["levels"] = $this->dropdown->getAllLevel($setting->jenjang);
@@ -244,8 +239,8 @@ class Cbtjadwal extends CI_Controller
         $this->load->model("Cbt_model", "cbt");
         $this->load->model("Log_model", "logging");
         $id = $this->input->get("id_jadwal", true);
-        $jadwal_dikerjakan = $this->cbt->getJadwalTerpakai();
-        $terpakai = isset($jadwal_dikerjakan[$id]) && count($jadwal_dikerjakan[$id]) > 0;
+        $jadwal_dikerjakan = $this->cbt->getJumlahSiswaJadwal();
+        $terpakai = isset($jadwal_dikerjakan[$id]) && $jadwal_dikerjakan[$id] > 0;
         $data["status"] = false;
         $jadwal = $this->cbt->getJadwalById($id);
         if ($terpakai && $jadwal->rekap == 0) {
@@ -271,11 +266,11 @@ class Cbtjadwal extends CI_Controller
         $arrId = json_decode($this->input->post("checked", true));
         ob_start();
         $jadwals = $this->cbt->getJadwalByArrId($arrId);
-        $jadwal_dikerjakan = $this->cbt->getJadwalTerpakai();
+        $jadwal_dikerjakan = $this->cbt->getJumlahSiswaJadwal();
         $backuped = [];
         $digunakan = [];
         foreach ($jadwals as $jadwal) {
-            $terpakai = isset($jadwal_dikerjakan[$jadwal->id_jadwal]) && count($jadwal_dikerjakan[$jadwal->id_jadwal]) > 0 ? 1 : 0;
+            $terpakai = isset($jadwal_dikerjakan[$jadwal->id_jadwal]) && $jadwal_dikerjakan[$jadwal->id_jadwal] > 0 ? 1 : 0;
             array_push($backuped, $jadwal->rekap);
             array_push($digunakan, $terpakai);
         }

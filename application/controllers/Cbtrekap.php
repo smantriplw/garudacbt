@@ -50,13 +50,13 @@ class Cbtrekap extends CI_Controller
         $data["banks"] = $this->cbt->getAllBankSoal();
         $koreksi = $this->cbt->getTotalKoreksi();
         $data["koreksi"] = $koreksi;
-        $jadwal_dikerjakan = $this->cbt->getJadwalTerpakai();
+        $jadwal_dikerjakan = $this->cbt->getJumlahSiswaJadwal();
         if ($this->ion_auth->is_admin()) {
             $data["profile"] = $this->dashboard->getProfileAdmin($user->id);
             $data_jadwal = $this->cbt->getDataJadwal($tp->id_tp, $smt->id_smt);
             $rekapNilai = $this->cbt->getRekapJadwal();
             foreach ($data_jadwal as $rekap) {
-                $terpakai = isset($jadwal_dikerjakan[$rekap->id_jadwal]) ? count($jadwal_dikerjakan[$rekap->id_jadwal]) : 0;
+                $terpakai = isset($jadwal_dikerjakan[$rekap->id_jadwal]) ? $jadwal_dikerjakan[$rekap->id_jadwal] : 0;
                 $rekap->mengerjakan = $terpakai;
                 $hanya_pg = $rekap->tampil_pg > 0 && $rekap->tampil_kompleks == 0 && $rekap->tampil_jodohkan == 0 && $rekap->tampil_isian == 0 && $rekap->tampil_esai == 0;
                 $rekap->hanya_pg = $hanya_pg;
@@ -78,7 +78,7 @@ class Cbtrekap extends CI_Controller
             $data_jadwal = $this->cbt->getDataJadwal($tp->id_tp, $smt->id_smt, $guru->id_guru);
             $rekapNilai = $this->cbt->getRekapJadwal($guru->id_guru);
             foreach ($data_jadwal as $rekap) {
-                $terpakai = isset($jadwal_dikerjakan[$rekap->id_jadwal]) ? count($jadwal_dikerjakan[$rekap->id_jadwal]) : 0;
+                $terpakai = isset($jadwal_dikerjakan[$rekap->id_jadwal]) ? $jadwal_dikerjakan[$rekap->id_jadwal] : 0;
                 $rekap->mengerjakan = $terpakai;
                 $hanya_pg = $rekap->tampil_pg > 0 && $rekap->tampil_kompleks == 0 && $rekap->tampil_jodohkan == 0 && $rekap->tampil_isian == 0 && $rekap->tampil_esai == 0;
                 $rekap->hanya_pg = $hanya_pg;
@@ -134,8 +134,8 @@ class Cbtrekap extends CI_Controller
         $this->load->model("Cbt_model", "cbt");
         $this->load->model("Dropdown_model", "dropdown");
         $result = false;
-        $jadwal_dikerjakan = $this->cbt->getJadwalTerpakai();
-        $terpakai = isset($jadwal_dikerjakan[$id_jadwal]) && count($jadwal_dikerjakan[$id_jadwal]) > 0;
+        $jadwal_dikerjakan = $this->cbt->getJumlahSiswaJadwal();
+        $terpakai = isset($jadwal_dikerjakan[$id_jadwal]) && $jadwal_dikerjakan[$id_jadwal] > 0;
         $generated = $this->generateNilaiUjian($id_jadwal);
         if ($terpakai && $generated) {
             $this->db->trans_start();
@@ -244,7 +244,7 @@ class Cbtrekap extends CI_Controller
             $this->db->trans_complete();
         } else {
             $result = false;
-            $save = isset($jadwal_dikerjakan[$id_jadwal]) ? count($jadwal_dikerjakan[$id_jadwal]) : 0;
+            $save = isset($jadwal_dikerjakan[$id_jadwal]) ? $jadwal_dikerjakan[$id_jadwal] : 0;
         }
         if ($generated && $result) {
             $this->session->set_flashdata("rekapnilai", "<div id=\"flashdata\" class=\"alert alert-default-success align-content-center w-100\" role=\"alert\"> Berhasil merekap nilai " . $save . " siswa</div>");
@@ -263,14 +263,14 @@ class Cbtrekap extends CI_Controller
         sleep(1);
         $data["total"] = count($ids);
         $this->db->trans_start();
-        $jadwal_dikerjakan = $this->cbt->getJadwalTerpakai();
+        $jadwal_dikerjakan = $this->cbt->getJumlahSiswaJadwal();
         $jadwals = $this->cbt->getJadwalByArrId($ids);
         $data["jadwal"] = $jadwals;
         $result = false;
         $save = false;
         $generated = 0;
         foreach ($jadwals as $jadwal) {
-            $terpakai = isset($jadwal_dikerjakan[$jadwal->id_jadwal]) && count($jadwal_dikerjakan[$jadwal->id_jadwal]) > 0;
+            $terpakai = isset($jadwal_dikerjakan[$jadwal->id_jadwal]) && $jadwal_dikerjakan[$jadwal->id_jadwal] > 0;
             if ($terpakai) {
                 $gen = $this->generateNilaiUjian($jadwal->id_jadwal);
                 if ($gen) {

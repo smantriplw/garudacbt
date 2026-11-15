@@ -981,17 +981,17 @@ class Cbt_model extends CI_Model
         }
         return $ret;
     }
-    public function getJadwalTerpakai($id_jadwal = null)
+    public function getJumlahSiswaJadwal($id_jadwal = null)
     {
-        $this->db->select("id_bank,id_jadwal,id_siswa");
+        $this->db->select("id_jadwal, COUNT(DISTINCT id_siswa) AS jumlah", false);
         $this->db->from("cbt_soal_siswa");
         if ($id_jadwal != null) {
             $this->db->where("id_jadwal", $id_jadwal);
         }
-        $result = $this->db->get()->result();
+        $this->db->group_by("id_jadwal");
         $ret = [];
-        foreach ($result as $key => $row) {
-            $ret[$row->id_jadwal][$row->id_siswa] = $row;
+        foreach ($this->db->get()->result() as $row) {
+            $ret[$row->id_jadwal] = (int) $row->jumlah;
         }
         return $ret;
     }
