@@ -44,6 +44,17 @@
 
                     <div class="table-responsive">
                         <?php
+                        $jenisKeys = array_keys($jenis);
+                        if (count($jenisKeys) === 1 && $jenisKeys[0] === '') : ?>
+                            <div class="alert alert-warning">
+                                Belum ada jadwal ujian untuk tahun pelajaran
+                                <b><?= html_escape($tp_active->tahun) ?></b> semester
+                                <b><?= html_escape($smt_active->smt) ?></b>.
+                                Buat jadwal di menu <b>CBT &rarr; Jadwal</b>, atau ganti tahun pelajaran/semester
+                                aktif pada dashboard bila jadwalnya ada di periode lain.
+                            </div>
+                        <?php endif; ?>
+                        <?php
                         //echo '<pre>';
                         //var_dump($tgl_jadwals);
                         //echo '</pre>';
