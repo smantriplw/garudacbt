@@ -46,7 +46,6 @@ class Settings_model extends CI_Model
     }
     function rowSize($table)
     {
-        $query = $this->db->get($table);
-        return $query->num_rows();
+        return $this->db->count_all($table);
     }
 }
