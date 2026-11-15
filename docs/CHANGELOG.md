@@ -95,6 +95,10 @@ commit. Setiap poin menjelaskan perilaku yang berubah, bukan detail implementasi
   tersedia, aplikasi memakai dbutil per tabel dan memberi pesan bila gagal.
 - Backup file upload memakai `zip -r` bila tersedia, sehingga isi `uploads/`
   tidak dimuat seluruhnya ke memori.
+- Tombol **BACKUP FOLDER UPLOADS** membuat zip folder `uploads` saja (foto,
+  materi, logo, lampiran bank soal) tanpa menyentuh database, terpisah dari
+  **BACKUP SEMUA DATA**. Riwayat backup punya kolom *Jenis* yang menandai
+  setiap baris sebagai *Database* atau *Folder uploads*.
 - **Restore** tersedia di halaman yang sama:
   - dari riwayat backup (tombol *Restore*) atau unggahan file `.sql`,
     `.sql.gz`, atau `.zip` berisi `.sql`;

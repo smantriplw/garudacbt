@@ -28,13 +28,19 @@
                 </div>
                 <div class="card-body">
                     <button class="btn btn-primary mb-2" onclick="processBackup()">BACKUP SEMUA DATA</button>
+                    <button class="btn btn-outline-primary mb-2" onclick="backupFilesOnly()">BACKUP FOLDER UPLOADS</button>
                     <div class="progress" style="height: 30px">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
                              aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height: 30px">
                         </div>
                     </div>
-                    <p>Jangan merefresh/menutup halaman ini atau ke halaman lain selama proses backup berlangsung
-                        <br>Jika backup gagal, gunakan cpanel untuk membackup file dan database</p>
+                    <p>
+                        <b>BACKUP SEMUA DATA</b> membuat backup database lalu folder <code>uploads</code>.
+                        <b>BACKUP FOLDER UPLOADS</b> hanya membuat zip folder <code>uploads</code>
+                        (foto, materi, logo, lampiran bank soal).
+                        <br>Jangan merefresh/menutup halaman ini atau ke halaman lain selama proses backup berlangsung.
+                        <br>Jika backup gagal, gunakan cpanel untuk membackup file dan database.
+                    </p>
                     <hr>
                     <br>
 
@@ -45,6 +51,7 @@
                         <tr>
                             <th width="50" height="50" class="text-center p-0 align-middle">No.</th>
                             <th class="text-center p-0 align-middle">Database/File</th>
+                            <th class="text-center p-0 align-middle">Jenis</th>
                             <th class="text-center p-0 align-middle">Size</th>
                             <th class="text-center p-0 align-middle p-0">Tanggal Backup</th>
                             <th class="text-center p-0 align-middle">Aksi</th>
@@ -63,6 +70,13 @@
                                 </td>
                                 <td class="text-center">
                                     <?= $value['nama'] . '.' . $value['type'] ?>
+                                </td>
+                                <td class="text-center">
+                                    <?php if (strpos($value['src'], 'backup-file-') === 0): ?>
+                                        <span class="badge badge-info">Folder uploads</span>
+                                    <?php else: ?>
+                                        <span class="badge badge-secondary">Database</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="text-center">
                                     <?= $value['size'] ?>
@@ -98,7 +112,10 @@
                 <div class="card-body">
                     <p class="mb-2">
                         Pulihkan database dari file <b>.sql</b>, <b>.sql.gz</b>, atau <b>.zip</b> (berisi .sql),
-                        atau pulihkan folder <b>uploads</b> dari file <b>backup-file-*.zip</b>.
+                        atau pulihkan folder <b>uploads</b> dari file <b>backup-file-*.zip</b>
+                        (buat dulu dengan tombol <b>BACKUP FOLDER UPLOADS</b>).
+                        Caranya: tekan tombol <b>Restore</b> pada baris riwayat yang berlabel
+                        <span class="badge badge-info">Folder uploads</span>, atau unggah file zip tersebut di bawah.
                         Data yang ada sekarang akan <b>ditimpa</b>. Sebelum restore database, aplikasi membuat
                         backup otomatis bila tool database tersedia.
                     </p>
@@ -225,6 +242,44 @@
                 swal.fire({
                     title: "Gagal",
                     text: "Backup file gagal (" + xhr.status + "). Periksa log server.",
+                    icon: "error"
+                });
+            }
+        });
+    }
+
+    function backupFilesOnly() {
+        swal.fire({
+            title: "Backup folder uploads",
+            text: "Silahkan tunggu....",
+            button: false,
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+            allowEscapeKey: false,
+            allowOutsideClick: false,
+            onOpen: () => {
+                swal.showLoading();
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: base_url + 'dbmanager/backupdata',
+            success: function (response) {
+                console.log(response);
+                swal.fire({
+                    title: "Berhasil",
+                    text: response.message + (response.file ? ' (' + response.file + ')' : ''),
+                    icon: "success"
+                }).then(result => {
+                    if (result.value) {
+                        window.location.reload();
+                    }
+                });
+            },
+            error: function (xhr) {
+                swal.fire({
+                    title: "Gagal",
+                    text: "Backup folder uploads gagal (" + xhr.status + "). Periksa log server.",
                     icon: "error"
                 });
             }

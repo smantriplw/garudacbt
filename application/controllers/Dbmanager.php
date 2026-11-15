@@ -192,13 +192,13 @@ class Dbmanager extends CI_Controller
                 $code
             );
             if ($code === 0 && is_file($target)) {
-                return $this->output_json(["type" => "file", "message" => "File data berhasil dibackup"]);
+                return $this->output_json(["type" => "file", "message" => "Folder uploads berhasil dibackup", "file" => basename($target)]);
             }
         }
         $this->load->library("zip");
         $this->zip->read_dir("uploads");
         $this->zip->archive($target);
-        $this->output_json(["type" => "file", "message" => "File data berhasil dibackup"]);
+        $this->output_json(["type" => "file", "message" => "Folder uploads berhasil dibackup", "file" => basename($target)]);
     }
 
     public function restore()
