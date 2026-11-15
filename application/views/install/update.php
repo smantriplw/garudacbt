@@ -21,7 +21,7 @@
     <div class="container">
         <div class="align-content-center">
             <img class="mt-3 mb-3" width="30" height="30" src="<?= base_url('assets/img/garuda_circle.png') ?>">
-            <span class="text-lg"><b>arudaCBT</b></span>
+            <span class="text-lg"><b>GarudaCBT</b></span>
         </div>
         <hr>
         <div class="row mb-3">

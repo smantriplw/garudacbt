@@ -40,7 +40,7 @@ echo base_url();
                 <img class="mt-3 mb-3" width="30" height="30" src="<?php 
 echo base_url('assets/img/garuda_circle.png');
 ?>">
-                <span class="text-lg"><b>arudaCBT</b></span>
+                <span class="text-lg"><b>GarudaCBT</b></span>
             </div>
             <div class="col-6 pt-3">
                 <button class="btn btn-danger float-right" onclick="logout()">Keluar</button>
@@ -48,11 +48,27 @@ echo base_url('assets/img/garuda_circle.png');
         </div>
         <hr class="m-0">
         <div class="alert alert-default-danger align-content-center" role="alert">
-            <h4>Akun Suspend</h4>
-            <ol>
-                <li>Pastikan username dan password telah sesuai</li>
-                <li>Anda mungkin telah mengganti username atau password, hubungi admin</li>
-            </ol>
+            <h4>Akun Belum Terhubung ke Data</h4>
+            <?php if (isset($suspend_peran) && $suspend_peran === "siswa") : ?>
+                <p class="mb-1">
+                    Anda masuk sebagai <b>siswa</b> (<?= html_escape($user->username) ?>), tetapi belum terdaftar
+                    di kelas mana pun pada tahun pelajaran <b><?= html_escape($tp_active->tahun) ?></b>
+                    semester <b><?= html_escape($smt_active->smt) ?></b>.
+                </p>
+                <p class="mb-0">Hubungi administrator atau wali kelas agar didaftarkan ke kelas.</p>
+            <?php elseif (isset($suspend_peran) && $suspend_peran === "guru") : ?>
+                <p class="mb-1">
+                    Anda masuk sebagai <b>guru</b> (<?= html_escape($user->username) ?>), tetapi belum memiliki
+                    jabatan atau penugasan pada tahun pelajaran <b><?= html_escape($tp_active->tahun) ?></b>
+                    semester <b><?= html_escape($smt_active->smt) ?></b>.
+                </p>
+                <p class="mb-0">Hubungi administrator untuk mengatur jabatan Anda di menu Data Guru.</p>
+            <?php else : ?>
+                <ol>
+                    <li>Pastikan username dan password telah sesuai</li>
+                    <li>Anda mungkin telah mengganti username atau password, hubungi admin</li>
+                </ol>
+            <?php endif; ?>
         </div>
     </div>
 </section>

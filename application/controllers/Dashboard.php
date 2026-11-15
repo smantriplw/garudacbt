@@ -89,11 +89,13 @@ class Dashboard extends CI_Controller
 
 
         $siswa = $this->dashboard->getDataSiswa($user->username, $tp->id_tp, $smt->id_smt);
-        if ($this->ion_auth->in_group('siswa') && !$siswa) {
+        $isAdmin = $this->ion_auth->is_admin();
+        if (!$isAdmin && $this->ion_auth->in_group('siswa') && !$siswa) {
+            $data["suspend_peran"] = "siswa";
             $this->load->view("disable_login", $data);
             return;
         }
-        if ($siswa) {
+        if (!$isAdmin && $siswa) {
             $data["siswa"] = $siswa;
             $data["menu"] = $this->menu_siswa_box();
             $data["kbms"] = $arrKbm[$siswa->id_kelas] ?? null;
@@ -131,11 +133,12 @@ class Dashboard extends CI_Controller
         
         // $guru = $this->db->select('nama_guru')->from('master_guru')->where('id_user', $user->id)->get()->row();
         $guru = $this->dashboard->getDataGuruByUserId($user->id, $tp->id_tp, $smt->id_smt);
-        if ($this->ion_auth->in_group('guru') && !$guru) {
+        if (!$isAdmin && $this->ion_auth->in_group('guru') && !$guru) {
+            $data["suspend_peran"] = "guru";
             $this->load->view("disable_login", $data);
             return;
         }
-        if ($guru) {
+        if (!$isAdmin && $guru) {
             $data["info_box"] = $this->admin_box($setting, $tp->id_tp, $smt->id_smt);
             $data["ujian_box"] = $this->ujian_box();
             $data["guru"] = $guru;

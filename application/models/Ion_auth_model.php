@@ -669,9 +669,9 @@ class Ion_auth_model extends CI_Model
         }
         foreach ($check_group as $key => $value) {
             $groups = is_numeric($value) ? array_keys($groups_array) : $groups_array;
-            if (!(in_array($value, $groups) xor $check_all)) {
+            if (in_array($value, $groups) xor $check_all) {
+                return !$check_all;
             }
-            return !$check_all;
         }
         return $check_all;
     }
