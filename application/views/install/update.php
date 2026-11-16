@@ -110,10 +110,16 @@
 
                 if (response.counts === 0) {
                     console.log('updated');
-                    $('#info-db').html('Database sudah versi terbaru');
+                    let html = 'Database sudah versi terbaru: tidak ada tabel atau kolom yang hilang.';
+                    if (response.modify_count > 0) {
+                        html += '<br><small>Ada ' + response.modify_count + ' kolom yang tipe/panjangnya '
+                            + 'berbeda dari file referensi. Perbedaan ini tidak diubah otomatis; '
+                            + 'backup dulu dan sesuaikan manual lewat SQL bila memang diperlukan.</small>';
+                    }
+                    $('#info-db').html(html);
                 } else {
                     console.log('need update');
-                    $('#info-db').html('Database perlu update, silahkan lakukan update ke versi terbaru');
+                    $('#info-db').html('Database perlu update: ada tabel atau kolom baru, silahkan lakukan update ke versi terbaru');
                     $('#update').removeClass('d-none');
                 }
             },

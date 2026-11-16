@@ -50,6 +50,64 @@ class Update extends CI_Controller
         }
         return $result;
     }
+    /**
+     * Compare the reference schema with the live column, ignoring the
+     * representation differences MariaDB introduces on its own:
+     * "CURRENT_TIMESTAMP" vs "current_timestamp()", integer display widths,
+     * type name aliases and letter case.
+     */
+    private function normalize_column_type($type)
+    {
+        $type = strtolower(trim((string) $type));
+        $aliases = [
+            "integer" => "int",
+            "boolean" => "tinyint",
+            "bool" => "tinyint",
+            "numeric" => "decimal",
+            "double precision" => "double",
+            "real" => "double",
+        ];
+        return isset($aliases[$type]) ? $aliases[$type] : $type;
+    }
+
+    private function normalize_column_default($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+        $value = strtolower(trim((string) $value));
+        if ($value === "") {
+            return "";
+        }
+        if (strlen($value) >= 2 && $value[0] === "'" && substr($value, -1) === "'") {
+            $value = substr($value, 1, -1);
+        }
+        $value = preg_replace('/\(\)$/', '', $value);
+        if (is_numeric($value)) {
+            return (string) (0 + $value);
+        }
+        return $value;
+    }
+
+    private function column_differs($expected, $actual)
+    {
+        if ($this->normalize_column_type($expected->type) !== $this->normalize_column_type($actual->type)) {
+            return true;
+        }
+        $expectedDefault = isset($expected->default) ? $expected->default : null;
+        $actualDefault = isset($actual->default) ? $actual->default : null;
+        if ($this->normalize_column_default($expectedDefault) !== $this->normalize_column_default($actualDefault)) {
+            return true;
+        }
+        $type = $this->normalize_column_type($expected->type);
+        if (in_array($type, ["varchar", "char", "varbinary", "binary"], true)) {
+            if ((int) $expected->max_length !== (int) $actual->max_length) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function checkDatabase()
     {
         $db_debug = $this->db->db_debug;
@@ -103,7 +161,7 @@ class Update extends CI_Controller
                         if ($this->db->field_exists($jtbl->name, $table)) {
                             foreach ($fields[$table] as $ftbl) {
                                 if ($jtbl->name == $ftbl->name) {
-                                    if ($jtbl->default != $ftbl->default || $jtbl->max_length != $ftbl->max_length || $jtbl->type != $ftbl->type) {
+                                    if ($this->column_differs($jtbl, $ftbl)) {
                                         $edit_columns[$table][] = $jtbl;
                                     }
                                 }
@@ -117,8 +175,15 @@ class Update extends CI_Controller
                 $create_tables[$table] = $json[$table];
             }
         }
-        $counts = count($create_tables) + count($add_columns) + count($edit_columns);
-        $data = ["db" => $fields, "create" => $create_tables, "modify" => $edit_columns, "add" => $add_columns, "counts" => $counts, "json" => $json, "current" => $currentDb];
+        // Only missing tables/columns require an update. Type/default drift is
+        // reported separately: rewriting existing columns on a live database
+        // is destructive, and the reference file is not always newer.
+        $column_drift = 0;
+        foreach ($edit_columns as $columns) {
+            $column_drift += count($columns);
+        }
+        $counts = count($create_tables) + count($add_columns);
+        $data = ["db" => $fields, "create" => $create_tables, "modify" => $edit_columns, "add" => $add_columns, "counts" => $counts, "modify_count" => $column_drift, "json" => $json, "current" => $currentDb];
         $this->output_json($data);
     }
     public function updateDatabase()
@@ -140,37 +205,15 @@ class Update extends CI_Controller
             if ($this->db->table_exists($table)) {
                 if (isset($json[$table])) {
                     foreach ($json[$table] as $jtbl) {
-                        if ($this->db->field_exists($jtbl->name, $table)) {
-                            foreach ($fields[$table] as $ftbl) {
-                                if ($jtbl->name == $ftbl->name) {
-                                    if ($jtbl->default != $ftbl->default || $jtbl->max_length != $ftbl->max_length || $jtbl->type != $ftbl->type) {
-                                        if ($jtbl->primary_key == 0) {
-                                            if ($jtbl->default == "CURRENT_TIMESTAMP") {
-                                                $onUpdate = isset($jtbl->extra) ? " " . strtolower($jtbl->extra) : '';
-                                                $field = array($jtbl->name . " datetime default current_timestamp" . $onUpdate);
-                                            } else {
-                                                $field = array($jtbl->name => array("type" => $jtbl->type, "constraint" => $jtbl->max_length, "default" => $jtbl->default));
-                                            }
-                                            $this->dbforge->modify_column($table, $field);
-                                        } else {
-                                            if ($jtbl->auto_increment == true) {
-                                                $field = array($jtbl->name => array("type" => $jtbl->type, "constraint" => $jtbl->max_length, "null" => false, "auto_increment" => true));
-                                            } else {
-                                                $field = array($jtbl->name => array("type" => $jtbl->type, "constraint" => $jtbl->max_length, "null" => false));
-                                            }
-                                            $this->dbforge->add_key($jtbl->name, true);
-                                            $this->dbforge->modify_column($table, $field);
-                                        }
-                                    }
-                                }
+                        if (!$this->db->field_exists($jtbl->name, $table)) {
+                            if ($jtbl->primary_key == 0) {
+                                $field = array($jtbl->name => array("type" => $jtbl->type, "constraint" => $jtbl->max_length, "default" => $jtbl->default));
+                                $this->dbforge->add_column($table, $field);
+                            } else {
+                                $field = array($jtbl->name => array("type" => $jtbl->type, "constraint" => $jtbl->max_length, "null" => false));
+                                $this->dbforge->add_key($jtbl->name, true);
+                                $this->dbforge->add_column($table, $field);
                             }
-                        } else if ($jtbl->primary_key == 0) {
-                            $field = array($jtbl->name => array("type" => $jtbl->type, "constraint" => $jtbl->max_length, "default" => $jtbl->default));
-                            $this->dbforge->add_column($table, $field);
-                        } else {
-                            $field = array($jtbl->name => array("type" => $jtbl->type, "constraint" => $jtbl->max_length, "null" => false));
-                            $this->dbforge->add_key($jtbl->name, true);
-                            $this->dbforge->add_column($table, $field);
                         }
                     }
                 }

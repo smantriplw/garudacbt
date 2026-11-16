@@ -123,6 +123,15 @@ commit. Setiap poin menjelaskan perilaku yang berubah, bukan detail implementasi
     dipulihkan (baris non-SQL di awal dilewati).
 - Batas unggah dinaikkan menjadi 64 MB (PHP) / 80 MB (nginx) agar file backup
   database bisa diunggah kembali.
+- Halaman **Update Database** sekarang hanya membuat tabel/kolom yang belum ada;
+  tombol *Update* muncul hanya bila ada yang hilang. Perbedaan tipe/panjang
+  kolom dilaporkan terpisah dan **tidak** diubah otomatis, karena file referensi
+  `assets/app/db/database.json` tidak selalu lebih baru daripada database
+  (contoh: `cbt_bank_soal.bank_kelas` di database `longtext` untuk menyimpan
+  daftar kelas terserialisasi, sedangkan referensi menulis `varchar(255)`).
+- Perbandingan skema mengabaikan perbedaan penulisan yang tidak berpengaruh:
+  `CURRENT_TIMESTAMP` vs `current_timestamp()`, lebar tampilan `int`, dan
+  perbedaan huruf besar/kecil pada nama tipe.
 
 ## Performa & memori
 
