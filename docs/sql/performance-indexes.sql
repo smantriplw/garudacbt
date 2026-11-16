@@ -29,6 +29,10 @@ ALTER TABLE rapor_admin_setting ADD INDEX idx_setting (id_tp, id_smt);
 ALTER TABLE cbt_nilai ADD INDEX idx_nilai_jadwal_siswa (id_jadwal, id_siswa);
 ALTER TABLE cbt_nilai ADD INDEX idx_nilai_id_siswa (id_siswa);
 
+-- Dashboard traffic: login/logout/force-logout and exam activity per day
+ALTER TABLE log ADD INDEX idx_log_time (log_time);
+ALTER TABLE log_ujian ADD INDEX idx_log_ujian_time (log_time);
+
 -- Bank soal: list per bank, "is it used" counters, and the question editor
 ALTER TABLE cbt_soal ADD INDEX idx_soal_bank_jenis (bank_id, jenis, nomor_soal);
 ALTER TABLE cbt_soal ADD INDEX idx_soal_bank_tampil (bank_id, tampilkan);

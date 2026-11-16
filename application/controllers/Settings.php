@@ -34,6 +34,7 @@ class Settings extends CI_Controller
         $user = $this->ion_auth->user()->row();
         $data = ["user" => $user, "judul" => "Profile Sekolah", "subjudul" => '', "profile" => $this->dashboard->getProfileAdmin($user->id), "setting" => $this->dashboard->getSetting()];
         $data["login_bgs"] = $this->settings->loginBackgrounds($data["setting"]);
+        $data["footer"] = $this->settings->footerSetting();
         $data["tp"] = $this->dashboard->getTahun();
         $data["tp_active"] = $this->dashboard->getTahunActive();
         $data["smt"] = $this->dashboard->getSemester();
@@ -143,6 +144,25 @@ class Settings extends CI_Controller
         }
         $this->settings->removeLoginBackground($src);
         return $this->output_json(["status" => true, "message" => "Background dihapus."]);
+    }
+
+    public function saveFooter()
+    {
+        $brand = trim((string) $this->input->post("footer_brand", true));
+        $copyright = trim((string) $this->input->post("footer_copyright", true));
+        $login = trim((string) $this->input->post("login_text", true));
+        if (mb_strlen($brand) > 191 || mb_strlen($copyright) > 191 || mb_strlen($login) > 191) {
+            return $this->output_json(["status" => false, "message" => "Teks footer maksimal 191 karakter."]);
+        }
+        $saved = $this->settings->saveFooter([
+            "brand" => $brand,
+            "copyright" => $copyright,
+            "login_text" => $login,
+        ]);
+        return $this->output_json([
+            "status" => (bool) $saved,
+            "message" => $saved ? "Footer dan teks login disimpan." : "Gagal menyimpan footer.",
+        ]);
     }
 
     public function saveSetting()

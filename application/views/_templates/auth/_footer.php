@@ -14,7 +14,7 @@
             slides[current].classList.remove('active');
             current = (current + 1) % slides.length;
             slides[current].classList.add('active');
-        }, 8000);
+        }, 10000);
     })();
 </script>
 </body>

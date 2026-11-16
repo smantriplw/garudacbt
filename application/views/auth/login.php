@@ -68,31 +68,18 @@
 				-->
                     </div>
                 </div>
-                <div class="text-center text-white">
-                    <small>
-                        &copy; Copyright 2023-<?= date('Y'); ?> <strong><a href="https://github.com/garudacbt/cbt">GarudaCBT</a> (Modified)</strong> by hansputera
-                    </small>
-                </div>
+                <?php $footer = footer_setting(); ?>
+                <?php if ($footer["login_text"] !== ""): ?>
+                    <div class="text-center text-white">
+                        <small><?= html_escape($footer["login_text"]) ?></small>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
 
-<script src="<?= base_url() ?>/assets/app/js/jquery.backstretch.js"></script>
 <script type="text/javascript">
-    let base_url = '<?=base_url();?>';
-    // var img = ["wall1.jpg", "wall2.png", "wall3.jpg"];
-
-    $.backstretch([
-        // base_url + 'assets/img/' + img[0],
-        // 'https://dokumentasi.sman3palu.sch.id/owncloud/index.php/apps/files_sharing/ajax/publicpreview.php?x=1912&y=1908&a=true&file=DSC_0187.JPG&t=7HgtNVZWUhkrbrw&scalingup=0',
-        'https://dokumentasi.sman3palu.sch.id/owncloud/index.php/apps/files_sharing/ajax/publicpreview.php?x=1912&y=1908&a=true&file=DSC_0375.JPG&t=h55dxbQPdvOZd9d&scalingup=0',
-        // base_url + 'assets/img/' + img[1],
-        // base_url + 'assets/img/' + img[2]
-        'https://dokumentasi.sman3palu.sch.id/owncloud/index.php/apps/files_sharing/ajax/publicpreview.php?x=1912&y=1908&a=true&file=DSC_0751.JPG&t=UcObDSVQtq6FgWx&scalingup=0',
-    ], {
-        fade: 1000,
-        duration: 10000
-    });
+    var base_url = '<?= base_url(); ?>';
 </script>
 <script src="<?= base_url() ?>/assets/app/js/auth/login.js"></script>

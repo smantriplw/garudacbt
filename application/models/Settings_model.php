@@ -46,18 +46,64 @@ class Settings_model extends CI_Model
      */
     public function ensureSchema()
     {
-        if ($this->db->table_exists("setting_login_bg")) {
-            return;
+        if (!$this->db->table_exists("setting_login_bg")) {
+            $this->db->query("CREATE TABLE IF NOT EXISTS `setting_login_bg` (
+                `id` INT(11) NOT NULL AUTO_INCREMENT,
+                `path` VARCHAR(255) NOT NULL,
+                `created_at` DATETIME NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
         }
-        $this->db->query("CREATE TABLE IF NOT EXISTS `setting_login_bg` (
-            `id` INT(11) NOT NULL AUTO_INCREMENT,
-            `path` VARCHAR(255) NOT NULL,
-            `created_at` DATETIME NULL,
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        if (!$this->db->table_exists("setting_footer")) {
+            $this->db->query("CREATE TABLE IF NOT EXISTS `setting_footer` (
+                `id` TINYINT(4) NOT NULL,
+                `brand` VARCHAR(191) NULL,
+                `copyright` VARCHAR(191) NULL,
+                `login_text` VARCHAR(191) NULL,
+                `updated_at` DATETIME NULL,
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        }
     }
 
-    public function loginBackgrounds($setting = null)
+    public function footerSetting()
+    {
+        static $cached = null;
+        if ($cached !== null) {
+            return $cached;
+        }
+        $setting = $this->getSetting();
+        $brand = $setting != null && isset($setting->sekolah) ? trim((string) $setting->sekolah) : "";
+        $copyright = "Copyright © 2014-2019 AdminLTE.io.";
+        $login = "";
+        if ($this->db->table_exists("setting_footer")) {
+            $row = $this->db->where("id", 1)->get("setting_footer")->row();
+            if ($row !== null) {
+                $brand = isset($row->brand) ? trim((string) $row->brand) : $brand;
+                $copyright = isset($row->copyright) ? trim((string) $row->copyright) : $copyright;
+                $login = isset($row->login_text) ? trim((string) $row->login_text) : "";
+            }
+        }
+        return $cached = ["brand" => $brand, "copyright" => $copyright, "login_text" => $login];
+    }
+
+    public function saveFooter(array $footer)
+    {
+        $this->ensureSchema();
+        $payload = [
+            "brand" => (string) $footer["brand"],
+            "copyright" => (string) $footer["copyright"],
+            "login_text" => (string) $footer["login_text"],
+            "updated_at" => date("Y-m-d H:i:s"),
+        ];
+        if ($this->db->where("id", 1)->get("setting_footer")->row() !== null) {
+            return $this->db->where("id", 1)->update("setting_footer", $payload);
+        }
+        $payload["id"] = 1;
+        return $this->db->insert("setting_footer", $payload);
+    }
+
+    public function loginBackgrounds($setting = null, $fallback = false)
     {
         $list = [];
         if ($this->db->table_exists("setting_login_bg")) {
@@ -70,6 +116,13 @@ class Settings_model extends CI_Model
         }
         if (count($list) === 0 && $setting != null && !empty($setting->login_bg)) {
             $list[] = (string) $setting->login_bg;
+        }
+        if (count($list) === 0 && $fallback) {
+            foreach (["assets/img/smanti.png", "assets/img/smanti2.png", "assets/img/smanti3.png"] as $candidate) {
+                if (is_file(FCPATH . $candidate)) {
+                    $list[] = $candidate;
+                }
+            }
         }
         return $list;
     }

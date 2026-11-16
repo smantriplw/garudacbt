@@ -15,7 +15,10 @@
 </div>
 
 <footer class="main-footer d-none">
-    <strong>Copyright &copy; 2014-<?= date('Y'); ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <?php $footer = footer_setting(); ?>
+    <?php if ($footer["copyright"] !== ""): ?>
+        <strong><?= html_escape($footer["copyright"]) ?></strong>
+    <?php endif; ?>
     All rights reserved.
     <div class="d-none float-right d-none d-sm-inline-block">
         <b>Version</b> 3.0.5

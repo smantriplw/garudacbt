@@ -18,6 +18,7 @@ class Usersiswa extends CI_Controller
         $this->load->model("Users_model", "users");
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Log_model", "logging");
         $this->form_validation->set_error_delimiters('', '');
     }
     public function is_has_access()
@@ -150,6 +151,9 @@ class Usersiswa extends CI_Controller
         } else {
             $user = $this->users->getUsers($username);
             $data = $this->nonaktifkan($user, $nama);
+            if (!empty($data["status"])) {
+                $this->logging->saveLog(9, "Keluar paksa");
+            }
         }
         $this->output_json($data, true);
     }
@@ -180,6 +184,9 @@ class Usersiswa extends CI_Controller
                     $this->output_json($del);
                 }
             }
+        }
+        if ($jum > 0) {
+            $this->logging->saveLog(9, "Keluar paksa (" . $jum . " siswa)");
         }
         $data = ["status" => true, "jumlah" => $jum, "msg" => $jum . " siswa dinonaktifkan."];
         $this->output_json($data);

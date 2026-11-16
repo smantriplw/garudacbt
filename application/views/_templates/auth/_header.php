@@ -31,9 +31,9 @@ if (count($login_bgs) === 0 && isset($setting->login_bg) && trim((string) $setti
 }
 ?>
 <style>
-    html { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100%; }
+    html { background: #343a40; min-height: 100%; }
     .login-bg-layer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; overflow: hidden; background: #111; }
-    .login-bg-slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-position: center; background-size: cover; background-repeat: no-repeat; opacity: 0; transition: opacity 1.5s ease-in-out; }
+    .login-bg-slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-position: center; background-size: cover; background-repeat: no-repeat; opacity: 0; transition: opacity 1s ease-in-out; }
     .login-bg-slide.active { opacity: 1; }
     .login-bg-shade { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, .45); }
 </style>

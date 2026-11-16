@@ -39,7 +39,7 @@ class Auth extends CI_Controller
             redirect("dashboard");
         }
         $this->data["setting"] = $setting;
-        $this->data["login_bgs"] = $this->settings->loginBackgrounds($setting);
+        $this->data["login_bgs"] = $this->settings->loginBackgrounds($setting, true);
         $this->data["identity"] = ["name" => "identity", "id" => "identity", "type" => "text", "placeholder" => "Username", "autofocus" => "autofocus", "class" => "form-control", "autocomplete" => "off"];
         $this->data["password"] = ["name" => "password", "id" => "password", "type" => "password", "placeholder" => "Password", "class" => "form-control"];
         $this->data["message"] = validation_errors() ? validation_errors() : $this->session->flashdata("message");
@@ -85,6 +85,10 @@ class Auth extends CI_Controller
     }
     public function logout()
     {
+        if ($this->ion_auth->logged_in()) {
+            $this->load->model("Log_model", "logging");
+            $this->logging->saveLog(2, "Logout");
+        }
         $this->ion_auth->logout();
         redirect("login", "refresh");
     }

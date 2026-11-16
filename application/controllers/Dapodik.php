@@ -91,11 +91,15 @@ class Dapodik extends CI_Controller
         $plan = $this->build_gtk_plan($fetched["rows"]);
         $insert = 0;
         $update = 0;
+        $accounts = 0;
         foreach ($plan["items"] as $item) {
             if ($item["action"] === "insert") {
                 $insert++;
             } else {
                 $update++;
+            }
+            if ($item["user"] === "baru") {
+                $accounts++;
             }
         }
         return $this->output_json([
@@ -105,8 +109,11 @@ class Dapodik extends CI_Controller
                 "insert" => $insert,
                 "update" => $update,
                 "invalid" => count($plan["invalid"]),
+                "accounts" => $accounts,
             ],
             "rows" => array_slice($plan["items"], 0, 500),
+            "shown" => min(500, count($plan["items"])),
+            "truncated" => count($plan["items"]) > 500,
             "invalid" => $plan["invalid"],
         ]);
     }
@@ -138,6 +145,8 @@ class Dapodik extends CI_Controller
             ],
             "classes" => $plan["classes"],
             "rows" => array_slice($plan["items"], 0, 500),
+            "shown" => min(500, count($plan["items"])),
+            "truncated" => count($plan["items"]) > 500,
             "invalid" => $plan["invalid"],
         ]);
     }
@@ -252,7 +261,13 @@ class Dapodik extends CI_Controller
             $nis = isset($value->nipd) ? trim((string) $value->nipd) : "";
             $nama = isset($value->nama) ? $value->nama : "-";
             if ($nis === "" || $nisn === "") {
-                $invalid[] = ["nama" => $nama, "nisn" => $nisn, "nis" => $nis, "reason" => "NIS atau NISN kosong"];
+                $invalid[] = [
+                    "nama" => $nama,
+                    "nisn" => $nisn,
+                    "nis" => $nis,
+                    "rombel" => $rombel,
+                    "reason" => "NIS atau NISN kosong",
+                ];
                 continue;
             }
             $kode = strtolower(preg_replace("/\s+/", "_", $rombel));
@@ -311,6 +326,7 @@ class Dapodik extends CI_Controller
                 $classes[$kode] = [
                     "nama_rombel" => $item["rombel"],
                     "kode" => $kode,
+                    "id_kelas" => $kelas !== null ? (int) $kelas->id_kelas : null,
                     "level" => $item["level"],
                     "jurusan_kode" => $item["jurusan_kode"],
                     "jurusan_nama" => $item["jurusan_nama"],
@@ -437,19 +453,25 @@ class Dapodik extends CI_Controller
 
     public function tarikDataGtk()
     {
+        @set_time_limit(0);
         $fetched = $this->fetch_rows("/WebService/getGtk", 120);
         if (isset($fetched["error"])) {
-            return $this->output_json(["error" => $fetched["error"]]);
+            return $this->output_json(["status" => false, "error" => $fetched["error"], "message" => $fetched["error"]]);
         }
-        $json = (object) ["rows" => $fetched["rows"]];
+        $rows = $fetched["rows"];
 
-        $nama_fails = [];
-        $berhasil = 0;
+        $fails = [];
+        $warnings = [];
+        $summary = ["total" => count($rows), "success" => 0, "failed" => 0, "insert" => 0, "update" => 0];
         $this->db->trans_start();
-        foreach ($json->rows as $value) {
+        foreach ($rows as $value) {
             $nama = isset($value->nama) ? $value->nama : "-";
-            if (!isset($value->nip) || strlen($value->nip) < 5) {
-                array_push($nama_fails, "MERR: " . $nama);
+            if (!isset($value->nip) || strlen(trim((string) $value->nip)) < 5) {
+                $fails[] = [
+                    "nama" => $nama,
+                    "nip" => isset($value->nip) ? trim((string) $value->nip) : "",
+                    "reason" => "NIP kosong atau kurang dari 5 digit",
+                ];
                 continue;
             }
             $data = [
@@ -466,7 +488,8 @@ class Dapodik extends CI_Controller
                 $data["id_user"] = $userGuruRow->id;
             }
             $rowGuru = $this->db->select("nip, username, password")->from("master_guru")->where("nip", $value->nip)->get()->row();
-            if ($rowGuru !== null) {
+            $isUpdate = $rowGuru !== null;
+            if ($isUpdate) {
                 $update = $data;
                 if (trim((string) $rowGuru->username) !== "") {
                     unset($update["username"]);
@@ -478,45 +501,70 @@ class Dapodik extends CI_Controller
             } else {
                 $act = $this->master->create("master_guru", $data);
             }
+            if (!$act) {
+                $fails[] = [
+                    "nama" => $nama,
+                    "nip" => (string) $value->nip,
+                    "reason" => "Gagal menyimpan data guru",
+                ];
+                continue;
+            }
+            $summary["success"]++;
+            $summary[$isUpdate ? "update" : "insert"]++;
+
             if (!$this->ion_auth->username_check($data["username"])) {
                 $namaParts = explode(" ", $nama);
                 if (!$this->ion_auth->register($data["username"], $data["password"], $value->nip . "@guru.com", [
                     "first_name" => $namaParts[0],
                     "last_name" => end($namaParts),
                 ], ["2"])) {
-                    array_push($nama_fails, "UERR: " . $nama);
+                    $warnings[] = [
+                        "nama" => $nama,
+                        "nip" => (string) $value->nip,
+                        "reason" => "Data guru tersimpan, tetapi akun login gagal dibuat",
+                    ];
                 }
-            }
-            if ($act) {
-                $berhasil++;
-            } else {
-                array_push($nama_fails, $nama);
             }
         }
         $this->db->trans_complete();
         $this->touch_last_sync();
 
+        $summary["failed"] = count($fails);
         return $this->output_json([
-            "message" => "Sukses menarik " . $berhasil . " data GTK",
-            "fails" => $nama_fails,
+            "status" => true,
+            "message" => "Berhasil menarik " . $summary["success"] . " dari " . $summary["total"] . " data GTK.",
+            "summary" => $summary,
+            "fails" => $fails,
+            "warnings" => $warnings,
         ]);
     }
 
     public function tarikDataSiswa()
     {
+        @set_time_limit(0);
         $fetched = $this->fetch_rows("/WebService/getPesertaDidik", 180);
         if (isset($fetched["error"])) {
-            return $this->output_json(["error" => $fetched["error"]]);
+            return $this->output_json(["status" => false, "error" => $fetched["error"], "message" => $fetched["error"]]);
         }
-        $json = (object) ["rows" => $fetched["rows"]];
+        $rows = $fetched["rows"];
 
         $id_tp = $this->master->getTahunActive()->id_tp;
         $id_smt = $this->master->getSemesterActive()->id_smt;
-        $nama_fails = [];
-        $terdaftar = 0;
+        $fails = [];
+        $summary = [
+            "total" => count($rows),
+            "success" => 0,
+            "failed" => 0,
+            "insert" => 0,
+            "update" => 0,
+            "kelas_dibuat" => 0,
+            "kelas_diupdate" => 0,
+        ];
+        $kelasBaru = [];
+        $kelasDiupdate = [];
 
         $this->db->trans_start();
-        foreach ($json->rows as $value) {
+        foreach ($rows as $value) {
             $rombel = isset($value->nama_rombel) ? $value->nama_rombel : "";
             $kode_kelas = strtolower(preg_replace("/\s+/", "_", $rombel));
             $kelas = explode(" ", $rombel);
@@ -563,12 +611,19 @@ class Dapodik extends CI_Controller
             ];
 
             if (!$data["nis"] || !$data["nisn"]) {
-                array_push($nama_fails, "[N]: " . $data["nama"]);
+                $fails[] = [
+                    "nama" => $data["nama"],
+                    "nisn" => $data["nisn"],
+                    "nis" => $data["nis"],
+                    "rombel" => $rombel,
+                    "reason" => "NIS atau NISN kosong",
+                ];
                 continue;
             }
 
             $row = $this->db->select("nama, id_siswa, username, password")->from("master_siswa")->where("nisn", $data["nisn"])->get()->row();
-            if (isset($row)) {
+            $isUpdate = isset($row);
+            if ($isUpdate) {
                 $update = $data;
                 if (trim((string) $row->username) !== "") {
                     unset($update["username"]);
@@ -584,10 +639,17 @@ class Dapodik extends CI_Controller
                 $id_siswa = $this->db->insert_id();
             }
             if (!$tersimpan || !$id_siswa) {
-                array_push($nama_fails, "[C]: " . $data["nama"]);
+                $fails[] = [
+                    "nama" => $data["nama"],
+                    "nisn" => $data["nisn"],
+                    "nis" => $data["nis"],
+                    "rombel" => $rombel,
+                    "reason" => "Gagal menyimpan data siswa",
+                ];
                 continue;
             }
-            $terdaftar++;
+            $summary["success"]++;
+            $summary[$isUpdate ? "update" : "insert"]++;
 
             $rowKelas = $this->db->select("id_kelas, siswa_id")->from("master_kelas")->where("kode_kelas", $kode_kelas)->get()->row();
             $anggota = [];
@@ -614,23 +676,30 @@ class Dapodik extends CI_Controller
             if ($rowKelas) {
                 $this->master->update("master_kelas", $insertDataKelas, "id_kelas", $rowKelas->id_kelas);
                 $id_kelas = $rowKelas->id_kelas;
+                $kelasDiupdate[$kode_kelas] = true;
             } else {
                 $this->master->create("master_kelas", $insertDataKelas);
                 $id_kelas = $this->db->insert_id();
+                $kelasBaru[$kode_kelas] = true;
             }
 
-            $kelasSiswa = $this->db->select("id_siswa")->from("kelas_siswa")->where("id_siswa", $id_siswa)->get()->num_rows();
-            $kelasSiswaData = [
-                "id_kelas_siswa" => $id_tp . $id_smt . $id_siswa,
-                "id_tp" => $id_tp,
-                "id_smt" => $id_smt,
-                "id_siswa" => $id_siswa,
-                "id_kelas" => $id_kelas,
-            ];
-            if ($kelasSiswa > 0) {
-                $this->master->update("kelas_siswa", $kelasSiswaData, "id_siswa", $id_siswa);
+            $kelasSiswa = $this->db->select("id_kelas_siswa")
+                ->from("kelas_siswa")
+                ->where("id_tp", $id_tp)
+                ->where("id_smt", $id_smt)
+                ->where("id_siswa", $id_siswa)
+                ->get()->row();
+            if ($kelasSiswa !== null) {
+                $this->db->where("id_kelas_siswa", $kelasSiswa->id_kelas_siswa)
+                    ->update("kelas_siswa", ["id_kelas" => $id_kelas]);
             } else {
-                $this->master->create("kelas_siswa", $kelasSiswaData);
+                $this->master->create("kelas_siswa", [
+                    "id_kelas_siswa" => $id_tp . $id_smt . $id_siswa,
+                    "id_tp" => $id_tp,
+                    "id_smt" => $id_smt,
+                    "id_siswa" => $id_siswa,
+                    "id_kelas" => $id_kelas,
+                ]);
             }
 
             $bukuInduk = $this->db->select("id_siswa")->from("buku_induk")->where("id_siswa", $id_siswa)->get()->num_rows();
@@ -641,9 +710,14 @@ class Dapodik extends CI_Controller
         $this->db->trans_complete();
         $this->touch_last_sync();
 
+        $summary["failed"] = count($fails);
+        $summary["kelas_dibuat"] = count($kelasBaru);
+        $summary["kelas_diupdate"] = count(array_diff_key($kelasDiupdate, $kelasBaru));
         return $this->output_json([
-            "message" => "Telah terdaftar " . $terdaftar . " siswa dari " . count($json->rows) . " data Dapodik",
-            "fails" => $nama_fails,
+            "status" => true,
+            "message" => "Berhasil mendaftarkan " . $summary["success"] . " dari " . $summary["total"] . " data siswa Dapodik.",
+            "summary" => $summary,
+            "fails" => $fails,
         ]);
     }
 

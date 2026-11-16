@@ -29,7 +29,7 @@ class Log_model extends CI_Model
     }
     private function insertLog($id_user, $group_id, $group_name, $type, $desc, $agent, $os, $ip)
     {
-        $data = array("id_user" => $id_user, "id_group" => $group_id, "name_group" => $group_name, "log_desc" => $desc, "address" => $ip, "agent" => $agent, "device" => $os);
+        $data = array("id_user" => $id_user, "id_group" => $group_id, "name_group" => $group_name, "log_type" => $type, "log_desc" => $desc, "address" => $ip, "agent" => $agent, "device" => $os);
         $this->db->insert("log", $data);
     }
     public function loadAktifitas($limit = null)

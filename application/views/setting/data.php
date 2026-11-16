@@ -220,6 +220,50 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                     </div>
                 </div>
             </div>
+
+            <div class="card my-shadow">
+                <div class="card-header">
+                    <div class="card-title"><h6>Footer &amp; Halaman Login</h6></div>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-primary btn-sm" id="btnSaveFooter">
+                            <i class="fa fa-save mr-1"></i>Simpan Footer
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="formFooter">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="footer_brand">Teks kiri footer</label>
+                                <input type="text" class="form-control" id="footer_brand" name="footer_brand"
+                                       maxlength="191" value="<?= html_escape($footer['brand']) ?>"
+                                       placeholder="Contoh: SMAN 3 Palu">
+                                <small class="text-muted">
+                                    Tampil di footer admin dan guru, sebelum versi aplikasi.
+                                </small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="footer_copyright">Teks copyright</label>
+                                <input type="text" class="form-control" id="footer_copyright" name="footer_copyright"
+                                       maxlength="191" value="<?= html_escape($footer['copyright']) ?>"
+                                       placeholder="Copyright &copy; 2014-2019">
+                                <small class="text-muted">
+                                    Bagian kanan footer. Kosongkan bila tidak ingin menampilkannya.
+                                </small>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="login_text">Teks bawah form login</label>
+                                <input type="text" class="form-control" id="login_text" name="login_text"
+                                       maxlength="191" value="<?= html_escape($footer['login_text']) ?>"
+                                       placeholder="Kosongkan untuk tidak menampilkan">
+                                <small class="text-muted">
+                                    Tampil di bawah tombol login. Kosongkan bila tidak perlu.
+                                </small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 </div>
@@ -236,6 +280,22 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
 
     $(document).ready(function () {
         ajaxcsrf();
+
+        $('#btnSaveFooter').on('click', function () {
+            $.post(base_url + 'settings/savefooter', $('#formFooter').serialize(), function (response) {
+                swal.fire({
+                    title: response.status ? "Sukses" : "Gagal",
+                    text: response.message,
+                    icon: response.status ? "success" : "error"
+                });
+            }, 'json').fail(function (xhr) {
+                swal.fire({
+                    title: "Gagal",
+                    text: "Permintaan gagal (" + xhr.status + ").",
+                    icon: "error"
+                });
+            });
+        });
 
         var drEvent = $('.dropify').dropify({
             messages: {

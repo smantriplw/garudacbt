@@ -117,10 +117,15 @@ class Dashboard extends CI_Controller
         $data["kbms"] = $arrKbm;
         $data["mapels"] = $this->master->getAllMapel();
         $tglJadwals = $this->cbt->getAllJadwalByJenis(null, $tp->id_tp, $smt->id_smt);
+        $hariIni = date("Y-m-d");
         foreach ($tglJadwals as $tgl => $jadwalss) {
+            if ((string) $tgl !== $hariIni) {
+                continue;
+            }
             foreach ($jadwalss as $mpl => $jadwals) {
                 foreach ($jadwals as $jadwal) {
                     $jadwal->bank_kelas = unserialize($jadwal->bank_kelas);
+                    $jadwal->peserta = [];
                     foreach ($jadwal->bank_kelas as $kb) {
                         if ($kb["kelas_id"] != '') {
                             $p = $this->cbt->getKelasUjian($kb["kelas_id"]);
@@ -149,6 +154,40 @@ class Dashboard extends CI_Controller
         }
 
         if ($this->ion_auth->is_admin()) {
+            $hariIniJadwal = $tglJadwals[$hariIni] ?? [];
+            $idsHariIni = [];
+            $pesertaJadwal = [];
+            $pesertaTotal = 0;
+            foreach ($hariIniJadwal as $byMapel) {
+                foreach ($byMapel as $jdw) {
+                    $idJadwal = (int) $jdw->id_jadwal;
+                    $idsHariIni[] = $idJadwal;
+                    $jumlah = 0;
+                    if (isset($jdw->peserta)) {
+                        foreach ($jdw->peserta as $perRuang) {
+                            foreach ($perRuang as $perSesi) {
+                                $jumlah += count($perSesi);
+                            }
+                        }
+                    }
+                    $pesertaJadwal[$idJadwal] = $jumlah;
+                    $pesertaTotal += $jumlah;
+                }
+            }
+            $data["cbt_hari_ini"] = $hariIniJadwal;
+            $data["cbt_total_jadwal"] = 0;
+            foreach ($tglJadwals as $jadwalss) {
+                foreach ($jadwalss as $jadwals) {
+                    $data["cbt_total_jadwal"] += count($jadwals);
+                }
+            }
+            $data["cbt_peserta"] = $pesertaJadwal;
+            $data["cbt_peserta_total"] = $pesertaTotal;
+            $data["cbt_progress"] = $this->dashboard->progressJadwal($idsHariIni);
+            $data["cbt_dikerjakan"] = array_sum($data["cbt_progress"]);
+            $data["cbt_soal_jenis"] = $this->dashboard->soalPerJenis();
+            $data["cbt_bank_mapel"] = $this->dashboard->bankPerMapel(8);
+            $data["traffic"] = $this->dashboard->trafficHarian(7);
             $data["jadwals_ujian"] = $tglJadwals;
             $data["pengawas"] = $this->cbt->getAllPengawas($tp->id_tp, $smt->id_smt, null, null);
             $data["ruangs"] = $this->cbt->getDistinctRuang($tp->id_tp, $smt->id_smt, []);

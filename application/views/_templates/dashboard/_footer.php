@@ -2,10 +2,17 @@
 <!-- /.content-wrapper -->
 
 <!-- Main Footer -->
+<?php $footer = footer_setting(); ?>
 <footer class="main-footer">
-    <strong><a href="https://github.com/garudacbt/cbt">GarudaCBT</a> (Modified) by <a href="https://github.com/hansputera">Hanif Dwy Putra S</a></strong> v.<?= APP_VERSION ?>
+    <?php if ($footer["brand"] !== ""): ?>
+        <strong><?= html_escape($footer["brand"]) ?></strong> v.<?= APP_VERSION ?>
+    <?php else: ?>
+        v.<?= APP_VERSION ?>
+    <?php endif; ?>
     <div class="float-right d-none d-sm-inline-block">
-        <strong>Copyright &copy; 2014-<?= date('Y'); ?> <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+        <?php if ($footer["copyright"] !== ""): ?>
+            <strong><?= html_escape($footer["copyright"]) ?></strong>
+        <?php endif; ?>
         <b>Version</b> 3.0.5
     </div>
 </footer>

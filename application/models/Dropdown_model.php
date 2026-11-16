@@ -240,6 +240,7 @@ class Dropdown_model extends CI_Model
     public function getAllEkskul()
     {
         $result = $this->db->get("master_ekstra")->result();
+        $ret = [];
         if ($result) {
             foreach ($result as $key => $row) {
                 $ret[$row->id_ekstra] = $row->nama_ekstra;
@@ -250,6 +251,7 @@ class Dropdown_model extends CI_Model
     public function getAllKodeEkskul()
     {
         $result = $this->db->get("master_ekstra")->result();
+        $ret = [];
         if ($result) {
             foreach ($result as $key => $row) {
                 $ret[$row->id_ekstra] = $row->kode_ekstra;
@@ -260,6 +262,7 @@ class Dropdown_model extends CI_Model
     public function getAllJurusan()
     {
         $result = $this->db->get("master_jurusan")->result();
+        $ret = [];
         if ($result) {
             foreach ($result as $key => $row) {
                 $ret[$row->id_jurusan] = $row->kode_jurusan;
@@ -295,6 +298,7 @@ class Dropdown_model extends CI_Model
     public function getAllJenisUjian()
     {
         $result = $this->db->get("cbt_jenis")->result();
+        $ret = [];
         if ($result) {
             foreach ($result as $key => $row) {
                 $ret[$row->id_jenis] = $row->nama_jenis . " (" . $row->kode_jenis . ")";

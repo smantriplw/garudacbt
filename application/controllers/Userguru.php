@@ -20,6 +20,7 @@ class Userguru extends CI_Controller
         $this->load->model("Users_model", "users");
         $this->load->model("Master_model", "master");
         $this->load->model("Dashboard_model", "dashboard");
+        $this->load->model("Log_model", "logging");
         $this->form_validation->set_error_delimiters('', '');
     }
     public function output_json($data, $encode = true)
@@ -87,6 +88,9 @@ class Userguru extends CI_Controller
             if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin()) {
                 $deleted = $this->ion_auth->delete_user($id);
                 $data = ["status" => $deleted, "msg" => "telah dinonaktifkan."];
+                if ($deleted) {
+                    $this->logging->saveLog(9, "Keluar paksa");
+                }
             } else {
                 $data = ["status" => false, "msg" => "Anda bukan admin."];
             }

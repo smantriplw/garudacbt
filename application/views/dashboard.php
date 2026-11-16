@@ -1,357 +1,386 @@
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper bg-white">
-    <section class="content-header p-0 d-flex align-items-end"
-             style="height: 400px; background: url('<?php 
-echo base_url('assets/img/wall2.png');
-?>')">
-        <div class="container-fluid pl-0 pr-0 pb-0 pt-4" style="background-color: rgba(255,255,255,0.7)">
-            <div class="row m-0">
-                <?php 
-foreach ($info_box as $info) {
-    ?>
-                    <div class="col-md-2 col-3">
-                        <div class="shadow small-box bg-<?php 
-    echo $info->box;
-    ?>">
-                            <div class="inner">
-                                <h5 class="mb-0"><b><?php 
-    echo $info->total;
-    ?></b></h5>
-                                <span><?php 
-    echo $info->title;
-    ?></span>
-                            </div>
-                            <div class="icon">
-                                <i class="fa fa-<?php 
-    echo $info->icon;
-    ?>" style="top: 5px"></i>
-                            </div>
-                            <a href="<?php 
-    echo base_url() . $info->url;
-    ?>" class="small-box-footer">
-                                Detail <i class="fa fa-arrow-circle-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                <?php 
+<?php
+$jenisSoal = [
+    1 => ["label" => "Pilihan Ganda", "short" => "Ganda", "color" => "#3b82f6"],
+    2 => ["label" => "PG Kompleks", "short" => "Kompleks", "color" => "#8b5cf6"],
+    3 => ["label" => "Menjodohkan", "short" => "Jodohkan", "color" => "#14b8a6"],
+    4 => ["label" => "Isian Singkat", "short" => "Isian", "color" => "#f59e0b"],
+    5 => ["label" => "Uraian", "short" => "Uraian", "color" => "#ef4444"],
+];
+$totalSoal = array_sum($cbt_soal_jenis);
+$totalPeserta = max(0, (int) $cbt_peserta_total);
+$dikerjakan = (int) $cbt_dikerjakan;
+$persenKerja = $totalPeserta > 0 ? min(100, (int) round($dikerjakan / $totalPeserta * 100)) : 0;
+$jumlahUjian = 0;
+foreach ($cbt_hari_ini as $byMapel) {
+    $jumlahUjian += count($byMapel);
 }
+$ruangTotal = isset($ujian_box[0]) ? (int) $ujian_box[0]->total : 0;
+$sesiTotal = isset($ujian_box[1]) ? (int) $ujian_box[1]->total : 0;
+$bankTotal = isset($ujian_box[2]) ? (int) $ujian_box[2]->total : 0;
+$bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+$hariNama = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+$tanggalTeks = $hariNama[(int) date("w")] . ", " . date("j") . " " . $bulan[(int) date("n") - 1] . " " . date("Y");
+$chartMapel = [];
+foreach ($cbt_bank_mapel as $row) {
+    $chartMapel[] = [
+        "label" => $row->nama_mapel !== null && trim((string) $row->nama_mapel) !== "" ? $row->nama_mapel : "Tanpa mapel",
+        "value" => (int) $row->jumlah,
+    ];
+}
+$kpi = [
+    ["label" => "Ujian Hari Ini", "value" => number_format($jumlahUjian), "sub" => "jadwal CBT", "icon" => "desktop", "color" => "primary", "url" => "cbtjadwal"],
+    ["label" => "Peserta Hari Ini", "value" => number_format($totalPeserta), "sub" => "siswa terdaftar", "icon" => "users", "color" => "info", "url" => "cbtruang"],
+    ["label" => "Sudah Mengerjakan", "value" => number_format($dikerjakan), "sub" => $persenKerja . "% dari peserta", "icon" => "check-circle", "color" => "success", "url" => "cbtnilai"],
+    ["label" => "Bank Soal", "value" => number_format($bankTotal), "sub" => "paket ujian", "icon" => "folder", "color" => "warning", "url" => "cbtbanksoal"],
+    ["label" => "Butir Soal", "value" => number_format($totalSoal), "sub" => "5 jenis soal", "icon" => "file-alt", "color" => "purple", "url" => "cbtbanksoal"],
+    ["label" => "Ruang / Sesi", "value" => number_format($ruangTotal) . " / " . number_format($sesiTotal), "sub" => "ruang ujian", "icon" => "building", "color" => "pink", "url" => "cbtruang"],
+];
 ?>
+<style>
+    .exec-card { border: 0; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, .06); }
+    .exec-card .card-header { background: #fff; border-bottom: 1px solid #f1f3f5; }
+    .exec-card .card-title { font-size: .95rem; font-weight: 600; }
+    .kpi-card { border: 0; border-radius: 12px; box-shadow: 0 1px 3px rgba(0, 0, 0, .06); }
+    .kpi-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex: 0 0 auto; }
+    .kpi-value { font-size: 1.45rem; font-weight: 700; line-height: 1.1; }
+    .kpi-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: #6c757d; }
+    .kpi-link { display: block; padding: .45rem 1.1rem; border-top: 1px solid #f1f3f5; font-size: .78rem; color: #6c757d; }
+    .kpi-link:hover { color: #1a73e8; text-decoration: none; background: #f8f9fa; }
+    .bg-soft-primary { background: #e8f0fe; color: #1a73e8; }
+    .bg-soft-info { background: #e0f4f9; color: #0c8599; }
+    .bg-soft-success { background: #e6f4ea; color: #1e8e3e; }
+    .bg-soft-warning { background: #fef3e2; color: #b06000; }
+    .bg-soft-purple { background: #f1eafe; color: #6f42c1; }
+    .bg-soft-pink { background: #fde8ef; color: #c2185b; }
+    .bg-soft-danger { background: #fde8e8; color: #c81e1e; }
+    .mini-stat { border: 1px solid #eef1f5; border-radius: 10px; padding: .5rem .6rem; }
+    .progress-thin { height: 6px; border-radius: 4px; background: #eef1f5; }
+    .scroll-y { max-height: 360px; overflow-y: auto; }
+</style>
+
+<div class="content-wrapper bg-light pt-3">
+    <section class="content-header pb-1">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <div>
+                    <h1 class="h4 mb-0">Beranda</h1>
+                    <small class="text-muted">Monitoring CBT</small>
+                </div>
+                <div class="mt-2 mt-md-0">
+                    <span class="badge badge-light border mr-1">
+                        <i class="fa fa-calendar mr-1"></i><?= html_escape($tanggalTeks) ?>
+                    </span>
+                    <span class="badge badge-primary">
+                        <i class="fa fa-graduation-cap mr-1"></i>TA <?= html_escape($tp_active->tahun) ?>
+                        &middot; <?= html_escape($smt_active->nama_smt) ?>
+                    </span>
+                    <a href="<?= base_url('kelasjadwal') ?>" class="btn btn-sm btn-outline-secondary ml-1">
+                        <i class="fa fa-calendar-alt mr-1"></i>Jadwal Pelajaran
+                    </a>
+                </div>
             </div>
         </div>
     </section>
-    <!-- Main content -->
-    <section class="content mt-4">
+
+    <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card card-primary my-shadow">
-                        <div class="card-header">
-                            <div class="card-title">
-                                JADWAL HARI INI
+                <?php foreach ($kpi as $item): ?>
+                    <div class="col-xl-2 col-md-4 col-6 mb-3 d-flex">
+                        <div class="card kpi-card w-100">
+                            <div class="card-body py-3">
+                                <div class="d-flex align-items-center">
+                                    <span class="kpi-icon bg-soft-<?= $item["color"] ?>">
+                                        <i class="fa fa-<?= $item["icon"] ?>"></i>
+                                    </span>
+                                    <div class="ml-3">
+                                        <div class="kpi-value"><?= $item["value"] ?></div>
+                                        <div class="kpi-label"><?= html_escape($item["label"]) ?></div>
+                                    </div>
+                                </div>
+                                <div class="small text-muted mt-2"><?= html_escape($item["sub"]) ?></div>
                             </div>
-                            <div class="card-tools">
-                                <a href="<?php 
-echo base_url('kelasjadwal');
-?>" type="button" onclick="" class="btn btn-sm">
-                                    <i class="fa fa-arrow-circle-right"></i>
+                            <a class="kpi-link" href="<?= base_url($item["url"]) ?>">
+                                Lihat detail <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 mb-3 d-flex">
+                    <div class="card exec-card w-100">
+                        <div class="card-header d-flex align-items-center">
+                            <h3 class="card-title mb-0">
+                                <i class="fa fa-desktop text-primary mr-2"></i>Monitoring Ujian Hari Ini
+                            </h3>
+                            <div class="card-tools ml-auto">
+                                <a href="<?= base_url('cbtjadwal') ?>" class="btn btn-sm btn-outline-secondary">
+                                    Jadwal CBT
                                 </a>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="card border-0 shadow-none m-0">
-                                <div class="card-header d-flex p-0">
-                                    <ul class="nav nav-pills p-2">
-                                        <?php 
-$no = 1;
-foreach ($kelases as $ky => $kelas) {
-    $active = $no == 1 ? 'active' : '';
-    ?>
-                                            <li class="nav-item"><a class="nav-link <?php 
-    echo $active;
-    ?>"
-                                                                    href="#tab_<?php 
-    echo $ky;
-    ?>"
-                                                                    data-toggle="tab"><?php 
-    echo $kelas;
-    ?></a></li>
-                                            <?php 
-    $no++;
-}
-?>
-                                    </ul>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-center border rounded p-2 mb-3">
+                                <span class="kpi-icon bg-soft-warning mr-2"><i class="fa fa-key"></i></span>
+                                <div>
+                                    <div class="kpi-label">Token Ujian</div>
+                                    <div class="h5 mb-0" id="token-view">
+                                        <?= $token->token != null ? html_escape($token->token) : "- - - - - -" ?>
+                                    </div>
                                 </div>
-                                <?php 
-if (count($jadwals) > 0 && count($kbms) > 0) {
-    ?>
-                                    <div class="card-body p-0">
-                                        <div class="tab-content">
-                                            <?php 
-    $no = 1;
-    foreach ($kelases as $ky => $kelas) {
-        $arrIst = [];
-        if (isset($kbms[$ky]->istirahat)) {
-            foreach ($kbms[$ky]->istirahat as $istirahat) {
-                array_push($arrIst, $istirahat['ist']);
-                $arrDur[$istirahat['ist']] = $istirahat['dur'];
-            }
-        }
-        $active = $no == 1 ? 'active' : '';
-        ?>
-                                                <div class="tab-pane <?php 
-        echo $active;
-        ?>" id="tab_<?php 
-        echo $ky;
-        ?>">
-                                                    <?php 
-        if (isset($kbms[$ky])) {
-            ?>
-                                                        <div class="table-responsive">
-                                                            <table class="w-100 table">
-                                                                <tbody>
-                                                                <?php 
-            $jamMulai = new DateTime($kbms[$ky]->kbm_jam_mulai);
-            $jamSampai = new DateTime($kbms[$ky]->kbm_jam_mulai);
-            for ($i = 0; $i < $kbms[$ky]->kbm_jml_mapel_hari; $i++) {
-                $jamke = $i + 1;
-                if (in_array($jamke, $arrIst)) {
-                    $jamSampai->add(new DateInterval('PT' . $arrDur[$jamke] . 'M'));
-                    ?>
-                                                                        <tr class="jam" data-jamke="<?php 
-                    echo $jamke;
-                    ?>">
-                                                                            <td class="align-middle" width="150">
-                                                                                <?php 
-                    echo $jamMulai->format('H:i');
-                    ?>
-                                                                                - <?php 
-                    echo $jamSampai->format('H:i');
-                    ?>
-                                                                            </td>
-                                                                            <td class="align-middle">ISTIRAHAT</td>
-                                                                        </tr>
-                                                                        <?php 
-                    $jamMulai->add(new DateInterval('PT' . $arrDur[$jamke] . 'M'));
-                } else {
-                    $jamSampai->add(new DateInterval('PT' . $kbms[$ky]->kbm_jam_pel . 'M'));
-                    ?>
-                                                                        <tr class="jam" data-jamke="<?php 
-                    echo $jamke;
-                    ?>">
-                                                                            <td class="align-middle">
-                                                                                <?php 
-                    echo $jamMulai->format('H:i');
-                    ?>
-                                                                                - <?php 
-                    echo $jamSampai->format('H:i');
-                    ?>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <?php 
-                    echo $jadwals[$ky] && $jadwals[$ky][$jamke] && $jadwals[$ky][$jamke]->kode != null ? $jadwals[$ky][$jamke]->kode : '--';
-                    ?>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                        <?php 
-                    $jamMulai->add(new DateInterval('PT' . $kbms[$ky]->kbm_jam_pel . 'M'));
-                }
-            }
-            ?>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    <?php 
-        } else {
-            ?>
-                                                        <div class="m-4">
-                                                            Jadwal untuk kelas <?php 
-            echo $kelas;
-            ?> belum dibuat
-                                                        </div>
-                                                    <?php 
-        }
-        ?>
-                                                </div>
-                                                <?php 
-        $no++;
-    }
-    ?>
-                                        </div>
-                                    </div>
-                                <?php 
-} else {
-    ?>
-                                    <div class="card-body">
-                                        Tidak ada jadwal hari ini
-                                    </div>
-                                <?php 
-}
-?>
+                                <small class="text-muted ml-3 d-none" id="interval">-- : -- : --</small>
+                                <a href="<?= base_url('cbttoken') ?>" class="btn btn-sm btn-outline-primary ml-auto">
+                                    Kelola Token
+                                </a>
                             </div>
+
+                            <?php if (count($cbt_hari_ini) === 0): ?>
+                                <div class="text-center text-muted py-4">
+                                    <i class="fa fa-calendar-times fa-2x mb-2"></i>
+                                    <?php if ((int) $cbt_total_jadwal === 0): ?>
+                                        <div>Belum ada jadwal CBT untuk tahun ajaran ini.</div>
+                                        <a href="<?= base_url('cbtjadwal') ?>" class="small">Buat jadwal CBT</a>
+                                    <?php else: ?>
+                                        <div>Tidak ada ujian hari ini.</div>
+                                        <a href="<?= base_url('cbtjadwal') ?>" class="small">Lihat jadwal CBT</a>
+                                    <?php endif; ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="table-responsive">
+                                    <table id="tbl-penilaian" class="table table-sm table-hover mb-0">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Mapel</th>
+                                            <th>Jenis</th>
+                                            <th>Level</th>
+                                            <th>Pengawas</th>
+                                            <th class="text-right">Peserta</th>
+                                            <th style="min-width:150px">Pengerjaan</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($cbt_hari_ini as $byMapel): ?>
+                                            <?php foreach ($byMapel as $jdw): ?>
+                                                <?php
+                                                $idJadwal = (int) $jdw->id_jadwal;
+                                                $kerja = (int) ($cbt_progress[$idJadwal] ?? 0);
+                                                $peserta = max((int) ($cbt_peserta[$idJadwal] ?? 0), $kerja);
+                                                $pct = $peserta > 0 ? min(100, (int) round($kerja / $peserta * 100)) : 0;
+                                                $namaPengawas = [];
+                                                if (isset($pengawas[$idJadwal])) {
+                                                    foreach ($pengawas[$idJadwal] as $perRuang) {
+                                                        foreach ($perRuang as $pengawasSesi) {
+                                                            foreach (explode(",", (string) $pengawasSesi->id_guru) as $idGuru) {
+                                                                $idGuru = trim($idGuru);
+                                                                if ($idGuru !== "" && isset($gurus[$idGuru])) {
+                                                                    $namaPengawas[$idGuru] = $gurus[$idGuru];
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        <b><?= html_escape($jdw->kode) ?></b>
+                                                        <div class="small text-muted"><?= html_escape($jdw->nama_mapel) ?></div>
+                                                    </td>
+                                                    <td><?= html_escape($jdw->kode_jenis) ?></td>
+                                                    <td><?= html_escape($jdw->bank_level) ?></td>
+                                                    <td class="small">
+                                                        <?= count($namaPengawas) > 0
+                                                            ? html_escape(implode(", ", $namaPengawas))
+                                                            : '<span class="text-muted">-</span>' ?>
+                                                    </td>
+                                                    <td class="text-right"><?= number_format($peserta) ?></td>
+                                                    <td>
+                                                        <div class="progress progress-thin">
+                                                            <div class="progress-bar bg-success" style="width:<?= $pct ?>%"></div>
+                                                        </div>
+                                                        <small class="text-muted">
+                                                            <?= number_format($kerja) ?>/<?= number_format($peserta) ?> (<?= $pct ?>%)
+                                                        </small>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    <div class="card card-success my-shadow">
+                </div>
+
+                <div class="col-lg-4 mb-3 d-flex">
+                    <div class="card exec-card w-100">
                         <div class="card-header">
-                            <div class="card-title">Aktifitas</div>
-                            <div class="card-tools">
-                                <button type="button" onclick="hapusLogAktivitas()" class="btn btn-sm">
-                                    <i class="fa fa-trash text-white"></i>
-                                </button>
-                            </div>
+                            <h3 class="card-title mb-0">
+                                <i class="fa fa-folder-open text-success mr-2"></i>Komposisi Butir Soal
+                            </h3>
                         </div>
                         <div class="card-body">
-                            <div id="log-list">
+                            <?php foreach ($jenisSoal as $key => $meta): ?>
+                                <?php
+                                $jumlah = (int) ($cbt_soal_jenis[$key] ?? 0);
+                                $persen = $totalSoal > 0 ? (int) round($jumlah / $totalSoal * 100) : 0;
+                                $lebar = $totalSoal > 0 ? max($jumlah > 0 ? 2 : 0, (int) round($jumlah / $totalSoal * 100)) : 0;
+                                ?>
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between small mb-1">
+                                        <span>
+                                            <i class="fa fa-circle mr-1"
+                                               style="color:<?= $meta["color"] ?>;font-size:9px"></i>
+                                            <?= html_escape($meta["label"]) ?>
+                                        </span>
+                                        <span>
+                                            <b><?= number_format($jumlah) ?></b>
+                                            <span class="text-muted">(<?= $persen ?>%)</span>
+                                        </span>
+                                    </div>
+                                    <div class="progress progress-thin">
+                                        <div class="progress-bar" style="width:<?= $lebar ?>%;background-color:<?= $meta["color"] ?>"></div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="d-flex justify-content-between small border-top pt-2 mt-2">
+                                <span>Total butir soal</span>
+                                <b><?= number_format($totalSoal) ?></b>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="card card-danger my-shadow">
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 mb-3 d-flex">
+                    <div class="card exec-card w-100">
+                        <div class="card-header d-flex align-items-center">
+                            <h3 class="card-title mb-0">
+                                <i class="fa fa-chart-line text-primary mr-2"></i>Traffic 7 Hari Terakhir
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <?php
+                            $trafficHariIni = $traffic["hari_ini"] ?? [];
+                            $trafficKpi = [
+                                ["Login", $trafficHariIni["login"] ?? 0, "primary", "sign-in-alt"],
+                                ["Logout", $trafficHariIni["logout"] ?? 0, "warning", "sign-out-alt"],
+                                ["Keluar paksa", $trafficHariIni["paksa"] ?? 0, "danger", "user-slash"],
+                                ["Mulai ujian", $trafficHariIni["mulai"] ?? 0, "purple", "play-circle"],
+                                ["Selesai ujian", $trafficHariIni["selesai"] ?? 0, "success", "check-circle"],
+                            ];
+                            ?>
+                            <div class="row mb-3">
+                                <?php foreach ($trafficKpi as $tk): ?>
+                                    <div class="col-6 col-md-4 col-xl mb-2">
+                                        <div class="mini-stat">
+                                            <div class="d-flex align-items-center">
+                                                <span class="kpi-icon bg-soft-<?= $tk[2] ?>"
+                                                      style="width:34px;height:34px;font-size:14px">
+                                                    <i class="fa fa-<?= $tk[3] ?>"></i>
+                                                </span>
+                                                <div class="ml-2">
+                                                    <div class="font-weight-bold"><?= number_format($tk[1]) ?></div>
+                                                    <div class="kpi-label" style="font-size:.65rem"><?= html_escape($tk[0]) ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <div style="position:relative;height:260px">
+                                <canvas id="chartTraffic"></canvas>
+                            </div>
+                            <small class="text-muted d-block mt-2">
+                                Angka di atas adalah hari ini; grafik menjumlahkan event per hari selama 7 hari terakhir.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-3 d-flex">
+                    <div class="card exec-card w-100">
+                        <div class="card-header d-flex align-items-center">
+                            <h3 class="card-title mb-0">
+                                <i class="fa fa-history text-info mr-2"></i>Aktivitas Terbaru
+                            </h3>
+                            <div class="card-tools ml-auto">
+                                <button type="button" onclick="hapusLogAktivitas()"
+                                        class="btn btn-sm btn-outline-danger" title="Hapus log">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-2 scroll-y" id="log-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 mb-3 d-flex">
+                    <div class="card exec-card w-100">
+                        <div class="card-header d-flex align-items-center">
+                            <h3 class="card-title mb-0">
+                                <i class="fa fa-chart-bar text-primary mr-2"></i>Bank Soal per Mapel
+                            </h3>
+                            <div class="card-tools ml-auto">
+                                <a href="<?= base_url('cbtbanksoal') ?>" class="btn btn-sm btn-outline-secondary">
+                                    Semua bank soal
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <?php if (count($chartMapel) === 0): ?>
+                                <div class="text-muted small">Belum ada bank soal.</div>
+                            <?php else: ?>
+                                <div style="position:relative;height:320px">
+                                    <canvas id="chartBankMapel"></canvas>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-3">
+                    <div class="card exec-card">
                         <div class="card-header">
-                            <h4 class="card-title">Penilaian</h4>
+                            <h3 class="card-title mb-0">
+                                <i class="fa fa-school text-secondary mr-2"></i>Data Sekolah
+                            </h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <?php 
-foreach ($ujian_box as $info) {
-    ?>
-                                    <div class="col-md-4 col-6" style="min-height: 60px">
-                                        <a href="<?php 
-    echo base_url() . $info->url;
-    ?>">
-                                            <div class="info-box border p-1" style="min-height: 60px">
-                                                <div class="info-box-content p-1 text-danger">
-                                                    <span class="info-box-text"><?php 
-    echo $info->title;
-    ?></span>
-                                                    <h5 class="info-box-number m-0"><?php 
-    echo $info->total;
-    ?></h5>
-                                                </div>
-                                            </div>
-                                        </a>
+                                <?php foreach (array_slice($info_box, 0, 4) as $info): ?>
+                                    <div class="col-6 mb-3">
+                                        <div class="kpi-label"><?= html_escape($info->title) ?></div>
+                                        <div class="h5 mb-0"><?= number_format($info->total) ?></div>
+                                        <a href="<?= base_url($info->url) ?>" class="small">Detail</a>
                                     </div>
-                                <?php 
-}
-?>
-                                <div class="col-md-4 col-6" style="min-height: 60px">
-                                    <a href="<?php 
-echo base_url('cbttoken');
-?>">
-                                        <div class="info-box border p-1" style="min-height: 60px">
-                                            <div class="info-box-content p-1 text-danger">
-                                                <span class="info-box-text">Token
-                                                    <small class="float-right d-none" id="interval">-- : -- : --</small></span>
-                                                <h5 class="info-box-number m-0"
-                                                    id="token-view"><?php 
-echo $token->token != null ? $token->token : '- - - - - -';
-?></h5>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-12">
-                                    <h6 class="text-center"><b>PENILAIAN HARI INI</b></h6>
-                                </div>
-                                <div class="col-12 table-responsive">
-                                    <?php 
-//echo '<pre>';
-//var_dump($kelas_ujian);
-//echo '</pre>';
-$no = 1;
-$jadwal_ujian = $jadwals_ujian[date('Y-m-d')] ?? [];
-if (count($jadwal_ujian) > 0) {
-    ?>
-                                        <table id="tbl-penilaian" class="table table-bordered table-sm">
-                                            <tr>
-                                                <th class="text-center align-middle">NO</th>
-                                                <th class="text-center align-middle">RUANG</th>
-                                                <th class="text-center align-middle">SESI</th>
-                                                <th class="text-center align-middle">MATA PELAJARAN</th>
-                                                <th class="text-center align-middle">PENGAWAS</th>
-                                            </tr>
-                                            <?php 
-    foreach ($ruangs as $ruang => $sesis) {
-        foreach ($sesis as $sesi) {
-            foreach ($jadwal_ujian as $jadwal) {
-                $id_guru = isset($pengawas[$jadwal[0]->id_jadwal]) && isset($pengawas[$jadwal[0]->id_jadwal][$ruang]) && isset($pengawas[$jadwal[0]->id_jadwal][$ruang][$sesi->sesi_id]) ? explode(',', $pengawas[$jadwal[0]->id_jadwal][$ruang][$sesi->sesi_id]->id_guru) : [];
-                $badge_kelas = '';
-                $total_peserta = 0;
-                foreach ($jadwal as $jdw) {
-                    $bank_kelass = $jdw->bank_kelas;
-                    foreach ($bank_kelass as $bank_kelas) {
-                        foreach ($jdw->peserta as $peserta) {
-                            $cnt = isset($peserta[$ruang]) && isset($peserta[$ruang][$sesi->sesi_id]) ? count($peserta[$ruang][$sesi->sesi_id]) : 0;
-                            if ($bank_kelas['kelas_id'] != null && $cnt > 0) {
-                                $total_peserta += $cnt;
-                                //$badge_kelas .= ' <span class="badge badge-info">' . $kelases[$bank_kelas['kelas_id']] . ' ' . $cnt . ' siswa</span>';
-                                $nama_kls = isset($kelases[$bank_kelas['kelas_id']]) ? $kelases[$bank_kelas['kelas_id']] : '- -';
-                                $badge_kelas .= ' <span class="badge badge-info">' . $nama_kls . ' ' . $cnt . ' siswa</span>';
-                            }
-                        }
-                    }
-                }
-                if ($total_peserta > 0) {
-                    ?>
-                                                            <tr>
-                                                                <td class="text-center align-middle"><?php 
-                    echo $no;
-                    ?></td>
-                                                                <td class="text-center align-middle"><?php 
-                    echo $sesi->nama_ruang;
-                    ?></td>
-                                                                <td class="text-center align-middle"><?php 
-                    echo $sesi->nama_sesi;
-                    ?></td>
-                                                                <td class="text-center align-middle"><?php 
-                    echo $jadwal[0]->kode;
-                    ?></td>
-                                                                <td class="align-middle crop-text-table">
-                                                                    <?php 
-                    foreach ($id_guru as $ig) {
-                        echo isset($gurus[$ig]) ? '<p class="p-0 m-0">' . $gurus[$ig] . '</p>' : '';
-                    }
-                    ?>
-                                                                </td>
-                                                            </tr>
-                                                        <?php 
-                }
-            }
-        }
-        $no++;
-    }
-    ?>
-                                        </table>
-                                    <?php 
-} else {
-    ?>
-                                        <table class="w-100 table-bordered">
-                                            <tr>
-                                                <td class="text-center">Tidak ada jadwal penilaian</td>
-                                            </tr>
-                                        </table>
-                                    <?php 
-}
-?>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-light my-shadow mb-3">
-                        <div class="card-header"><b>INFO/PENGUMUMAN</b></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="card exec-card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">
+                                <i class="fa fa-bullhorn text-warning mr-2"></i>Pengumuman
+                            </h3>
+                        </div>
                         <div class="card-body">
                             <div class="konten-pengumuman">
-                                <div id="pengumuman">
-                                </div>
+                                <div id="pengumuman"></div>
                                 <p id="loading-post" class="text-center d-none">
-                                    <br/><i class="fa fa-spin fa-circle-o-notch"></i> Loading....
+                                    <br/><i class="fa fa-spinner fa-spin"></i> Loading....
                                 </p>
-                                <div id="loadmore-post"
-                                     onclick="getPosts()"
+                                <div id="loadmore-post" onclick="getPosts()"
                                      class="text-center mt-4 loadmore d-none">
                                     <div class="btn btn-default">Muat Pengumuman lainnya ...</div>
                                 </div>
@@ -360,6 +389,7 @@ if (count($jadwal_ujian) > 0) {
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 </div>
 
@@ -373,24 +403,18 @@ if (count($jadwal_ujian) > 0) {
                 </button>
             </div>
             <div class="modal-body">
-                <img class="img-fluid img-circle img-sm" src="<?php 
-echo base_url('assets/img/siswa.png');
-?>" alt="Alt Text">
+                <img class="img-fluid img-circle img-sm" src="<?= base_url('assets/img/siswa.png') ?>" alt="Alt Text">
                 <div class="img-push">
-                    <?php 
-echo form_open('create', array('id' => 'komentar'));
-?>
+                    <?= form_open('create', array('id' => 'komentar')) ?>
                     <input type="hidden" id="id-post" name="id_post" value="">
                     <div class="input-group">
                         <input type="text" name="text" placeholder="Tulis komentar ..."
                                class="form-control form-control-sm" required>
                         <span class="input-group-append">
-                                <button type="submit" class="btn btn-success btn-sm">Komentari</button>
-                            </span>
+                            <button type="submit" class="btn btn-success btn-sm">Komentari</button>
+                        </span>
                     </div>
-                    <?php 
-echo form_close();
-?>
+                    <?= form_close() ?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -410,24 +434,18 @@ echo form_close();
                 </button>
             </div>
             <div class="modal-body">
-                <img class="img-fluid img-circle img-sm" src="<?php 
-echo base_url('assets/img/siswa.png');
-?>" alt="Alt Text">
+                <img class="img-fluid img-circle img-sm" src="<?= base_url('assets/img/siswa.png') ?>" alt="Alt Text">
                 <div class="img-push">
-                    <?php 
-echo form_open('create', array('id' => 'balasan'));
-?>
+                    <?= form_open('create', array('id' => 'balasan')) ?>
                     <input type="hidden" id="id-comment" name="id_comment" value="">
                     <div class="input-group">
                         <input type="text" name="text" placeholder="Tulis balasan ...."
                                class="form-control form-control-sm" required>
                         <span class="input-group-append">
-                                <button type="submit" class="btn btn-success btn-sm">Balas</button>
-                            </span>
+                            <button type="submit" class="btn btn-success btn-sm">Balas</button>
+                        </span>
                     </div>
-                    <?php 
-echo form_close();
-?>
+                    <?= form_close() ?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -438,16 +456,86 @@ echo form_close();
 </div>
 
 <script>
-    adaJadwalUjian = '<?php 
-echo count($ada_ujian);
-?>';
+    adaJadwalUjian = '<?= count($ada_ujian) ?>';
     localStorage.setItem('ada_jadwal_ujian', adaJadwalUjian);
 </script>
-<script src="<?php 
-echo base_url();
-?>/assets/app/js/jquery.rowspanizer.js"></script>
-<script src="<?php 
-echo base_url();
-?>/assets/app/js/dashboard.js"></script>
+<script src="<?= base_url() ?>/assets/app/js/jquery.rowspanizer.js"></script>
+<script src="<?= base_url() ?>/assets/app/js/dashboard.js"></script>
+<script>
+    $(function () {
+        var mapelData = <?= json_encode($chartMapel) ?>;
 
+        var elMapel = document.getElementById('chartBankMapel');
+        if (elMapel && mapelData.length) {
+            new Chart(elMapel, {
+                type: 'horizontalBar',
+                data: {
+                    labels: mapelData.map(function (item) { return item.label; }),
+                    datasets: [{
+                        data: mapelData.map(function (item) { return item.value; }),
+                        backgroundColor: '#3b82f6',
+                        barThickness: 14
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    maintainAspectRatio: false,
+                    scales: {
+                        xAxes: [{
+                            ticks: { beginAtZero: true, precision: 0 },
+                            gridLines: { color: '#eef1f5' }
+                        }],
+                        yAxes: [{
+                            gridLines: { display: false },
+                            ticks: { fontSize: 11 }
+                        }]
+                    }
+                }
+            });
+        }
 
+        var trafficData = <?= json_encode($traffic) ?>;
+        var trafficMeta = [
+            { key: 'login', label: 'Login', color: '#3b82f6' },
+            { key: 'logout', label: 'Logout', color: '#f59e0b' },
+            { key: 'paksa', label: 'Keluar paksa', color: '#ef4444' },
+            { key: 'mulai', label: 'Mulai ujian', color: '#8b5cf6' },
+            { key: 'selesai', label: 'Selesai ujian', color: '#10b981' }
+        ];
+
+        var elTraffic = document.getElementById('chartTraffic');
+        if (elTraffic && trafficData && trafficData.labels) {
+            new Chart(elTraffic, {
+                type: 'line',
+                data: {
+                    labels: trafficData.labels,
+                    datasets: trafficMeta.map(function (meta) {
+                        return {
+                            label: meta.label,
+                            data: trafficData[meta.key] || [],
+                            borderColor: meta.color,
+                            backgroundColor: meta.color,
+                            borderWidth: 2,
+                            pointRadius: 2,
+                            pointHoverRadius: 4,
+                            fill: false,
+                            tension: 0.3
+                        };
+                    })
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    legend: { position: 'bottom', labels: { boxWidth: 10, fontSize: 11 } },
+                    tooltips: { mode: 'index', intersect: false },
+                    scales: {
+                        yAxes: [{
+                            ticks: { beginAtZero: true, precision: 0 },
+                            gridLines: { color: '#eef1f5' }
+                        }],
+                        xAxes: [{ gridLines: { display: false } }]
+                    }
+                }
+            });
+        }
+    });
+</script>

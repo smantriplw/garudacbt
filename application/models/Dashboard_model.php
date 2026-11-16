@@ -59,6 +59,116 @@ class Dashboard_model extends CI_Model
         $query = $this->db->get()->num_rows();
         return $query;
     }
+
+    public function progressJadwal(array $ids)
+    {
+        $ret = [];
+        if (count($ids) === 0) {
+            return $ret;
+        }
+        $rows = $this->db->select("id_jadwal, COUNT(DISTINCT id_siswa) AS siswa", false)
+            ->from("cbt_soal_siswa")
+            ->where_in("id_jadwal", $ids)
+            ->group_by("id_jadwal")
+            ->get()->result();
+        foreach ($rows as $row) {
+            $ret[(int) $row->id_jadwal] = (int) $row->siswa;
+        }
+        return $ret;
+    }
+
+    public function soalPerJenis()
+    {
+        $rows = $this->db->select("jenis, COUNT(*) AS jumlah", false)
+            ->from("cbt_soal")
+            ->group_by("jenis")
+            ->order_by("jenis", "ASC")
+            ->get()->result();
+        $ret = [];
+        foreach ($rows as $row) {
+            $ret[(int) $row->jenis] = (int) $row->jumlah;
+        }
+        return $ret;
+    }
+
+    public function bankPerMapel($limit = 8)
+    {
+        return $this->db->select("m.nama_mapel, COUNT(b.id_bank) AS jumlah", false)
+            ->from("cbt_bank_soal b")
+            ->join("master_mapel m", "m.id_mapel=b.bank_mapel_id", "left")
+            ->group_by("b.bank_mapel_id, m.nama_mapel")
+            ->order_by("jumlah", "DESC")
+            ->limit($limit)
+            ->get()->result();
+    }
+
+    public function trafficHarian($days = 7)
+    {
+        $days = max(1, (int) $days);
+        $peta = [];
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $peta[date("Y-m-d", strtotime("-" . $i . " days"))] = [
+                "login" => 0, "logout" => 0, "paksa" => 0, "mulai" => 0, "selesai" => 0,
+            ];
+        }
+        $mulai = array_key_first($peta) . " 00:00:00";
+
+        $akses = $this->db->query(
+            "SELECT DATE(log_time) AS tgl, log_desc, COUNT(*) AS jumlah
+             FROM log
+             WHERE log_time >= ?
+               AND (log_desc = 'Login' OR log_desc = 'Logout' OR log_desc LIKE 'Keluar paksa%')
+             GROUP BY DATE(log_time), log_desc",
+            [$mulai]
+        )->result();
+        foreach ($akses as $row) {
+            $tgl = (string) $row->tgl;
+            if (!isset($peta[$tgl])) {
+                continue;
+            }
+            $desc = strtolower(trim((string) $row->log_desc));
+            if ($desc === "login") {
+                $peta[$tgl]["login"] += (int) $row->jumlah;
+            } elseif ($desc === "logout") {
+                $peta[$tgl]["logout"] += (int) $row->jumlah;
+            } elseif (strpos($desc, "keluar paksa") === 0) {
+                $peta[$tgl]["paksa"] += (int) $row->jumlah;
+            }
+        }
+
+        $ujian = $this->db->query(
+            "SELECT DATE(log_time) AS tgl, log_type, COUNT(*) AS jumlah
+             FROM log_ujian
+             WHERE log_time >= ? AND log_type IN (1, 2)
+             GROUP BY DATE(log_time), log_type",
+            [$mulai]
+        )->result();
+        foreach ($ujian as $row) {
+            $tgl = (string) $row->tgl;
+            if (!isset($peta[$tgl])) {
+                continue;
+            }
+            if ((int) $row->log_type === 1) {
+                $peta[$tgl]["mulai"] += (int) $row->jumlah;
+            } elseif ((int) $row->log_type === 2) {
+                $peta[$tgl]["selesai"] += (int) $row->jumlah;
+            }
+        }
+
+        $ret = [
+            "labels" => [], "login" => [], "logout" => [], "paksa" => [], "mulai" => [], "selesai" => [],
+        ];
+        foreach ($peta as $tgl => $data) {
+            $ret["labels"][] = date("d/m", strtotime($tgl));
+            foreach (["login", "logout", "paksa", "mulai", "selesai"] as $key) {
+                $ret[$key][] = $data[$key];
+            }
+        }
+        $ret["hari_ini"] = end($peta) ?: [
+            "login" => 0, "logout" => 0, "paksa" => 0, "mulai" => 0, "selesai" => 0,
+        ];
+        return $ret;
+    }
     public function totalPengawas()
     {
         $this->db->select("*");

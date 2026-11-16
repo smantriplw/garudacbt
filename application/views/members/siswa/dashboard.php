@@ -138,10 +138,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="text-center">
-            <small>&copy; Copyright 2023-<?= date('Y'); ?> <strong>GarudaCBT Modified</strong> by <strong>Hanif Dwy Putra S</strong></small>
-        </div>
     </section>
 </div>
 
