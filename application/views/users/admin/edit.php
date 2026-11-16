@@ -73,7 +73,7 @@
                                             <label for="logo-kanan">Foto</label>
                                             <input type="file" id="foto" name="foto" class="dropify"
                                                    data-max-file-size-preview="2M"
-                                                   data-allowed-file-extensions="jpg jpeg png"
+                                                   data-allowed-file-extensions="jpg jpeg png jfif"
                                                    data-default-file="<?= base_url() . $profile->foto ?>"/>
                                         </div>
                                         <?= form_close() ?>

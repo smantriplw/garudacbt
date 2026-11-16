@@ -270,7 +270,7 @@ class Dataalumni extends CI_Controller
         $alumni = $this->master->getAlumniById($id_siswa);
         if (isset($_FILES["foto"]["name"])) {
             $config["upload_path"] = "./uploads/foto_siswa/";
-            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|jfif|JPEG|JPG|PNG|GIF|JFIF";
             $config["overwrite"] = true;
             $config["file_name"] = $alumni->nis;
             $this->upload->initialize($config);

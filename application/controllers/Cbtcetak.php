@@ -96,7 +96,7 @@ class Cbtcetak extends CI_Controller
     {
         if (isset($_FILES["logo"]["name"])) {
             $config["upload_path"] = "./uploads/settings/";
-            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|jfif|JPEG|JPG|PNG|GIF|JFIF";
             $config["overwrite"] = true;
             $config["file_name"] = $logo;
             $this->upload->initialize($config);

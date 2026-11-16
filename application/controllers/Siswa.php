@@ -432,7 +432,7 @@ class Siswa extends CI_Controller
         $max_size = $this->input->post("max-size", true);
         if (isset($_FILES["file_uploads"]["name"])) {
             $config["upload_path"] = "./uploads/file_siswa/";
-            $config["allowed_types"] = "jpg|jpeg|png|gif|mpeg|mpg|mpeg3|mp3|wav|wave|mp4|avi|doc|docx|xls|xlsx|ppt|pptx|csv|pdf|rtf|txt";
+            $config["allowed_types"] = "jpg|jpeg|png|gif|jfif|mpeg|mpg|mpeg3|mp3|wav|wave|mp4|avi|doc|docx|xls|xlsx|ppt|pptx|csv|pdf|rtf|txt";
             $config["max_size"] = $max_size;
             $config["overwrite"] = FALSE;
             $this->upload->initialize($config);

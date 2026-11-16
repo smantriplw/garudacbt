@@ -118,7 +118,7 @@ class Walisiswa extends CI_Controller
         $siswa = $this->master->getSiswaById($id_siswa);
         if (isset($_FILES["foto"]["name"])) {
             $config["upload_path"] = "./uploads/foto_siswa/";
-            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|jfif|JPEG|JPG|PNG|GIF|JFIF";
             $config["overwrite"] = true;
             $config["file_name"] = $siswa->nis;
             $this->upload->initialize($config);

@@ -172,7 +172,7 @@ class Useradmin extends CI_Controller
     {
         if (isset($_FILES["foto"]["name"])) {
             $config["upload_path"] = "./uploads/profiles/";
-            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|jfif|JPEG|JPG|PNG|GIF|JFIF";
             $config["overwrite"] = true;
             $config["file_name"] = "foto_" . $id_user;
             $this->upload->initialize($config);

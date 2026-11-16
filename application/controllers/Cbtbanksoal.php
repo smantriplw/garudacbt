@@ -870,7 +870,7 @@ class Cbtbanksoal extends CI_Controller
     {
         $allowed_type = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp", "image/svg+xml", "audio/mpeg", "audio/mpg", "audio/mpeg3", "audio/mp3", "audio/x-wav", "audio/wave", "audio/wav", "video/mp4", "application/octet-stream"];
         $config["upload_path"] = FCPATH . "uploads/bank_soal/";
-        $config["allowed_types"] = "jpeg|jpg|png|gif|webp|svg|mpeg|mpg|mpeg3|mp3|wav|wave|mp4";
+        $config["allowed_types"] = "jpeg|jpg|png|gif|webp|jfif|svg|mpeg|mpg|mpeg3|mp3|wav|wave|mp4";
         $config["encrypt_name"] = TRUE;
         return $this->load->library("upload", $config);
     }
@@ -1043,7 +1043,7 @@ class Cbtbanksoal extends CI_Controller
             return $this->output_json($data);
         }
         $config["upload_path"] = "./uploads/bank_soal/";
-        $config["allowed_types"] = "jpg|jpeg|png|gif|webp|svg|mp3|ogg|wav|mp4|mpeg|webm";
+        $config["allowed_types"] = "jpg|jpeg|png|gif|webp|jfif|svg|mp3|ogg|wav|mp4|mpeg|webm";
         $config["encrypt_name"] = TRUE;
         $this->upload->initialize($config);
         if (!$this->upload->do_upload("file")) {

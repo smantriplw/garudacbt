@@ -60,7 +60,7 @@ class Settings extends CI_Controller
     {
         if (isset($_FILES["logo"]["name"])) {
             $config["upload_path"] = "./uploads/settings/";
-            $config["allowed_types"] = "gif|jpg|png|jpeg|webp|JPEG|JPG|PNG|GIF|WEBP";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|webp|jfif|JPEG|JPG|PNG|GIF|WEBP|JFIF";
             $config["overwrite"] = true;
             $config["file_name"] = $logo;
             $this->upload->initialize($config);
@@ -96,7 +96,7 @@ class Settings extends CI_Controller
         }
         $config = [
             "upload_path" => "./uploads/settings/",
-            "allowed_types" => "gif|jpg|jpeg|png|webp",
+            "allowed_types" => "gif|jpg|jpeg|png|webp|jfif",
             "max_size" => 4096,
             "encrypt_name" => true,
         ];

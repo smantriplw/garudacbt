@@ -152,7 +152,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                             <div class="form-group pb-2">
                                 <label for="logo-kiri">Tandatangan</label>
                                 <input type="file" id="tanda-tangan" name="logo" class="dropify"
-                                       data-max-file-size-preview="2M" data-allowed-file-extensions="jpg jpeg png"
+                                       data-max-file-size-preview="2M" data-allowed-file-extensions="jpg jpeg png jfif"
                                        data-default-file="<?= base_url() . $setting->tanda_tangan ?>"/>
                             </div>
                             <?= form_close() ?>
@@ -163,7 +163,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                                 <label for="logo-kiri">Logo Kiri / Logo Aplikasi</label>
                                 <input type="file" id="logo-kiri" name="logo" class="dropify"
                                        data-max-file-size-preview="2M"
-                                       data-allowed-file-extensions="jpg jpeg png"
+                                       data-allowed-file-extensions="jpg jpeg png jfif"
                                        data-default-file="<?= base_url() . $setting->logo_kiri ?>"/>
                             </div>
                             <?= form_close() ?>
@@ -174,7 +174,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                                 <label for="logo-kanan">Logo Kanan</label>
                                 <input type="file" id="logo-kanan" name="logo" class="dropify"
                                        data-max-file-size-preview="2M"
-                                       data-allowed-file-extensions="jpg jpeg png"
+                                       data-allowed-file-extensions="jpg jpeg png jfif"
                                        data-default-file="<?= base_url() . $setting->logo_kanan ?>"/>
                             </div>
                             <?= form_close() ?>
@@ -203,7 +203,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                                 <?= form_open_multipart('', array('id' => 'form-login-bg')) ?>
                                 <div class="input-group">
                                     <input type="file" id="login-bg-files" name="files[]" class="form-control"
-                                           accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+                                           accept="image/jpeg,image/png,image/webp,image/gif,.jfif" multiple>
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="button" id="btn-upload-login-bg">
                                             Unggah

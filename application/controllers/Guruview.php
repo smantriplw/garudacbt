@@ -95,7 +95,7 @@ class Guruview extends CI_Controller
         $guru = $this->master->getGuruById($id_guru);
         if (isset($_FILES["foto"]["name"])) {
             $config["upload_path"] = "./uploads/profiles/";
-            $config["allowed_types"] = "gif|jpg|png|jpeg|JPEG|JPG|PNG|GIF";
+            $config["allowed_types"] = "gif|jpg|png|jpeg|jfif|JPEG|JPG|PNG|GIF|JFIF";
             $config["overwrite"] = true;
             $config["file_name"] = $guru->nip;
             $this->upload->initialize($config);

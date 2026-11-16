@@ -336,7 +336,7 @@ if (!file_exists(FCPATH . $siswa->foto)) {
                     <label for="foto-profile">Foto Profil</label>
                     <input type="file" id="foto-profile" name="foto" class="dropify"
                            data-max-file-size-preview="2M"
-                           data-allowed-file-extensions="jpg jpeg png"
+                           data-allowed-file-extensions="jpg jpeg png jfif"
                            data-default-file="<?= base_url() . $fotoSiswa ?>"/>
                 </div>
                 <?= form_close() ?>

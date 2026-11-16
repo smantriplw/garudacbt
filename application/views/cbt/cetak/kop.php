@@ -34,7 +34,7 @@
                                         <label for="logo-kanan">Logo Kanan</label>
                                         <input type="file" id="logo-kanan" name="logo" class="dropify"
                                                data-max-file-size-preview="2M"
-                                               data-allowed-file-extensions="jpg jpeg png"
+                                               data-allowed-file-extensions="jpg jpeg png jfif"
                                                data-default-file="<?= base_url() . $kop->logo_kanan ?>"/>
                                     </div>
                                     <?= form_close() ?>
@@ -45,7 +45,7 @@
                                         <label for="logo-kiri">Logo Kiri</label>
                                         <input type="file" id="logo-kiri" name="logo" class="dropify"
                                                data-max-file-size-preview="2M"
-                                               data-allowed-file-extensions="jpg jpeg png"
+                                               data-allowed-file-extensions="jpg jpeg png jfif"
                                                data-default-file="<?= base_url() . $kop->logo_kiri ?>"/>
                                     </div>
                                     <?= form_close() ?>
@@ -56,7 +56,7 @@
                                         <label for="logo-kiri">Tandatangan Kepala Sekolah</label>
                                         <input type="file" id="tanda-tangan" name="logo" class="dropify"
                                                data-max-file-size-preview="2M"
-                                               data-allowed-file-extensions="jpg jpeg png"
+                                               data-allowed-file-extensions="jpg jpeg png jfif"
                                                data-default-file="<?= base_url() . $kop->tanda_tangan ?>"/>
                                     </div>
                                     <?= form_close() ?>
