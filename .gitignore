@@ -31,3 +31,6 @@ application/config/config.php
 # graphify analyzer output
 graphify-out/
 application/graphify-out/
+
+# local docker overrides
+.env

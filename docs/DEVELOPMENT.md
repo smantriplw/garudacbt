@@ -56,6 +56,18 @@ Yang perlu diketahui:
 - **Restore** memakai binary `mariadb`/`mysql`. Batas unggah 64 MB
   (`upload_max_filesize`) dan 80 MB (`client_max_body_size`), cukup untuk file
   `.sql.gz` dari database ini; naikkan keduanya bila backup Anda lebih besar.
+- **Folder uploads** bisa diarahkan ke luar repository lewat `UPLOADS_PATH`
+  (default `./uploads`). Berguna bila gambar siswa/logo/bank soal disimpan di
+  folder data tersendiri:
+
+  ```bash
+  echo 'UPLOADS_PATH=/path/ke/uploads' > .env
+  docker compose up -d
+  ```
+
+  `.env` sudah masuk `.gitignore`. Catatan: kalau database mereferensikan file
+  yang tidak ada di folder itu (mis. `uploads/foto_siswa/123.jpg`), gambar
+  tersebut tetap 404 — path hanya disimpan di database, bukan file-nya.
 
 ```bash
 APP_PORT=8090 DB_PORT=3308 docker compose up -d

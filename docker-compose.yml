@@ -17,6 +17,7 @@ services:
         GID: ${HOST_GID:-1000}
     volumes:
       - .:/var/www/html
+      - ${UPLOADS_PATH:-./uploads}:/var/www/html/uploads
       - ./docker/php/database.php:/var/www/html/application/config/database.php:ro
     environment:
       APP_UID: ${HOST_UID:-1000}
@@ -36,6 +37,7 @@ services:
       - "127.0.0.1:${APP_PORT:-8099}:80"
     volumes:
       - .:/var/www/html:ro
+      - ${UPLOADS_PATH:-./uploads}:/var/www/html/uploads:ro
       - ./docker/nginx/default.conf:/etc/nginx/templates/default.conf.template:ro
     environment:
       CI_ENV: ${CI_ENV:-production}
