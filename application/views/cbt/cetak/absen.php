@@ -204,6 +204,10 @@
 
     function createPrintPreview(data) {
         console.log(data);
+        cekDataCetak(data.info);
+        if (!data.siswa || data.siswa.length === 0) {
+            return;
+        }
         var bagi = 25;
         var pages = Math.ceil(data.siswa.length / bagi);
         console.log('page', pages);

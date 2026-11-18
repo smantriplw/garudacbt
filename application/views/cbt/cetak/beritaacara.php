@@ -400,6 +400,7 @@
                     url: base_url + "cbtcetak/getsiswaruang?ruang=" + ruang + '&sesi=' + sesi + '&jadwal=' + jadwal,
                     success: function (response) {
                         console.log('respon', response);
+                        cekDataCetak(response.info);
                         handleTanggal(response.info.jadwal.tgl_mulai);
                         $('#edit-hari').html('<b>' + HARI + '</b>');
                         $('#edit-tanggal').html('<b>' + TANGGAL + '</b>');
@@ -434,6 +435,7 @@
                     url: base_url + "cbtcetak/getsiswakelas?kelas=" + kelas + '&sesi=' + sesi + '&jadwal=' + jadwal,
                     success: function (response) {
                         console.log('respon', response);
+                        cekDataCetak(response.info);
                         handleTanggal(response.info.jadwal.tgl_mulai);
                         $('#edit-hari').html('<b>' + HARI + '</b>');
                         $('#edit-tanggal').html('<b>' + TANGGAL + '</b>');

@@ -517,7 +517,7 @@ class Cbt_model extends CI_Model
         $this->db->join("cbt_sesi_siswa e", "a.id_siswa=e.siswa_id", "left");
         $this->db->join("cbt_ruang rk", "e.ruang_id=rk.id_ruang", "left");
         $this->db->join("cbt_sesi sk", "e.sesi_id=sk.id_sesi", "left");
-        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND i.status=1");
         $this->db->where("a.id_kelas", $id_kelas);
         $this->db->where("a.id_tp", $id_tp);
         $this->db->where("a.id_smt", $id_smt);
@@ -534,7 +534,7 @@ class Cbt_model extends CI_Model
         $this->db->join("cbt_sesi e", "e.id_sesi=c.sesi_id", "left");
         $this->db->join("master_kelas f", "f.id_kelas=a.id_kelas", "left");
         $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.id_siswa AND g.id_tp=" . $id_tp, "left");
-        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND i.status=1");
         $this->db->where("a.id_tp", $id_tp);
         $this->db->where("a.id_smt", $id_smt);
         $this->db->where("a.id_siswa is NOT NULL", NULL, FALSE);
@@ -578,7 +578,7 @@ class Cbt_model extends CI_Model
         $this->db->join("cbt_sesi e", "e.id_sesi=a.sesi_id", "left");
         $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
         $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
-        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND i.status=1");
         $this->db->order_by("d.kode_ruang");
         $this->db->order_by("e.kode_sesi");
         $this->db->order_by("f.level_id");
@@ -601,7 +601,7 @@ class Cbt_model extends CI_Model
         $this->db->join("cbt_sesi e", "e.id_sesi=a.sesi_id", "left");
         $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
         $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
-        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND i.status=1");
         $this->db->order_by("f.level_id");
         $this->db->order_by("f.kode_kelas");
         $this->db->order_by("b.nama");
@@ -626,7 +626,7 @@ class Cbt_model extends CI_Model
         } else {
             $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas AND f.level_id=" . $level . '');
         }
-        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND i.status=1");
         $this->db->where("a.ruang_id", $id_ruang);
         $this->db->where("a.sesi_id", $sesi);
         $this->db->order_by("b.nama");
@@ -642,7 +642,7 @@ class Cbt_model extends CI_Model
         $this->db->join("cbt_sesi e", "e.id_sesi=a.sesi_id", "left");
         $this->db->join("kelas_siswa c", "c.id_siswa=b.id_siswa AND c.id_tp=" . $id_tp . " AND c.id_smt=" . $id_smt . '');
         $this->db->join("master_kelas f", "f.id_kelas=c.id_kelas");
-        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=b.id_siswa AND i.status=1");
         $this->db->where_in("a.kelas_id", is_array($kelas) ? $kelas : [$kelas]);
         if ($sesi != null) {
             $this->db->where("a.sesi_id", $sesi);
@@ -658,7 +658,7 @@ class Cbt_model extends CI_Model
         $this->db->join("master_kelas f", "f.id_kelas=a.id_kelas");
         $this->db->join("level_kelas l", "l.id_level=f.level_id");
         $this->db->join("cbt_nomor_peserta g", "g.id_siswa=a.id_siswa AND g.id_tp=" . $id_tp, "left");
-        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND i.status=1");
         if (!(in_array("Semua", $arr_kelas))) {
             $this->db->where_in("a.id_kelas", $arr_kelas);
         }
@@ -1056,7 +1056,7 @@ class Cbt_model extends CI_Model
         $this->db->from("cbt_rekap_nilai a");
         $this->db->join("cbt_nomor_peserta b", "b.id_siswa=a.id_siswa AND b.id_tp=a.id_tp", "left");
         $this->db->join("master_siswa c", "c.id_siswa=a.id_siswa", "left");
-        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND =i.status=1");
+        $this->db->join("buku_induk i", "i.id_siswa=a.id_siswa AND i.status=1");
         if ($id_mapel != "0") {
             $this->db->where("a.id_mapel", $id_mapel);
         }

@@ -137,6 +137,23 @@
         table.ajax.reload();
     }
 
+    function cekDataCetak(info) {
+        var list = info && info.warning ? info.warning : [];
+        if (!Array.isArray(list)) {
+            list = [list];
+        }
+        if (list.length === 0) {
+            return;
+        }
+        swal.fire({
+            icon: 'warning',
+            title: 'Data belum lengkap',
+            html: list.join('<br>'),
+            confirmButtonText: 'Mengerti',
+            confirmButtonColor: '#f39c12'
+        });
+    }
+
     var initDestroyTimeOutPace = function () {
         var counter = 0;
 

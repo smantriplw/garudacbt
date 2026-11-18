@@ -312,6 +312,10 @@
                         type: "GET",
                         url: base_url + "cbtcetak/getsiswaruang?ruang=" + ruang + '&sesi=' + sesi + '&jadwal=null',
                         success: function (response) {
+                            cekDataCetak(response.info);
+                            if (!response.siswa || response.siswa.length === 0) {
+                                return;
+                            }
                             createPreview(response.siswa)
                         }
                     });
@@ -329,6 +333,10 @@
                         type: "GET",
                         url: base_url + "cbtcetak/getsiswakelas?kelas=" + kelas + '&sesi=' + sesi + '&jadwal=null',
                         success: function (response) {
+                            cekDataCetak(response.info);
+                            if (!response.siswa || response.siswa.length === 0) {
+                                return;
+                            }
                             createPreview(response.siswa)
                         }
                     });

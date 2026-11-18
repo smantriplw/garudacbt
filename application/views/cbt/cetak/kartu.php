@@ -749,6 +749,10 @@
                 type: "GET",
                 url: base_url + "cbtcetak/getsiswakelas?kelas=" + kelas,
                 success: function (response) {
+                    cekDataCetak(response.info);
+                    if (!response.siswa || response.siswa.length === 0) {
+                        return;
+                    }
                     createPrintPreview(response.siswa);
                 }
             });
@@ -759,6 +763,10 @@
                 type: "GET",
                 url: base_url + "cbtcetak/getsiswaruang?ruang=" + ruang,
                 success: function (response) {
+                    cekDataCetak(response.info);
+                    if (!response.siswa || response.siswa.length === 0) {
+                        return;
+                    }
                     createPrintPreview(response.siswa);
                 }
             });

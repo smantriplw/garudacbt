@@ -176,7 +176,34 @@ class Cbtcetak extends CI_Controller
         foreach ($siswas as $siswa) {
             array_push($data["siswa"], $siswa);
         }
-        $data["info"] = ["kelas" => $ikelas, "sesi" => $isesi, "jadwal" => $ijadwal, "pengawas" => $pengawas];
+        $warning = [];
+        $namaKelas = is_array($ikelas) ? "kelas terpilih" : (isset($ikelas->nama_kelas) ? $ikelas->nama_kelas : "kelas");
+        $namaTa = $tp->tahun . " " . $smt->nama_smt;
+        $roster = $this->db->where("id_tp", $tp->id_tp)->where("id_smt", $smt->id_smt);
+        if (is_array($kelas)) {
+            $roster->where_in("id_kelas", $kelas);
+        } else {
+            $roster->where("id_kelas", $kelas);
+        }
+        $roster = $roster->count_all_results("kelas_siswa");
+        if (count($siswas) === 0) {
+            if ($roster > 0) {
+                $warning[] = $roster . " siswa " . html_escape($namaKelas) . " belum ditempatkan ke ruang/sesi pada TA " . html_escape($namaTa) . ". Buka menu <b>Atur Ruang dan Sesi</b>.";
+            } else {
+                $warning[] = "Belum ada siswa di " . html_escape($namaKelas) . " pada TA " . html_escape($namaTa) . ".";
+            }
+        } else {
+            $tanpaNomor = 0;
+            foreach ($siswas as $siswa) {
+                if (empty($siswa->nomor_peserta)) {
+                    $tanpaNomor++;
+                }
+            }
+            if ($tanpaNomor > 0) {
+                $warning[] = $tanpaNomor . " siswa belum memiliki nomor peserta. Buka menu <b>Atur Nomor Peserta</b>.";
+            }
+        }
+        $data["info"] = ["kelas" => $ikelas, "sesi" => $isesi, "jadwal" => $ijadwal, "pengawas" => $pengawas, "warning" => $warning];
         $this->output_json($data);
     }
     public function getSiswaRuang()
@@ -205,7 +232,22 @@ class Cbtcetak extends CI_Controller
             $pengawas = $this->master->getGuruByArrId(explode(",", $pengawass->id_guru));
         }
         $data["siswa"] = $this->cbt->getSiswaByRuang($tp->id_tp, $smt->id_smt, $ruang, $s);
-        $data["info"] = ["ruang" => $iruang, "sesi" => $isesi, "jadwal" => $ijadwal, "pengawas" => $pengawas];
+        $warning = [];
+        $namaRuang = isset($iruang->nama_ruang) ? $iruang->nama_ruang : "ini";
+        if (count($data["siswa"]) === 0) {
+            $warning[] = "Belum ada siswa di ruang " . html_escape($namaRuang) . " untuk TA " . html_escape($tp->tahun . " " . $smt->nama_smt) . ". Atur penempatan di menu <b>Atur Ruang dan Sesi</b>.";
+        } else {
+            $tanpaNomor = 0;
+            foreach ($data["siswa"] as $siswa) {
+                if (empty($siswa->nomor_peserta)) {
+                    $tanpaNomor++;
+                }
+            }
+            if ($tanpaNomor > 0) {
+                $warning[] = $tanpaNomor . " siswa belum memiliki nomor peserta. Buka menu <b>Atur Nomor Peserta</b>.";
+            }
+        }
+        $data["info"] = ["ruang" => $iruang, "sesi" => $isesi, "jadwal" => $ijadwal, "pengawas" => $pengawas, "warning" => $warning];
         $this->output_json($data);
     }
     public function saveKop()
