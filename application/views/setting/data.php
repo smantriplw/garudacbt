@@ -231,7 +231,7 @@ $satuan = ["1" => ["SD", "MI"], "2" => ["SMP", "MTS"], "3" => ["SMA", "MA", "SMK
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="formFooter">
+                    <?= form_open('', array('id' => 'formFooter')) ?>
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <label for="footer_brand">Teks kiri footer</label>
